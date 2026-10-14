@@ -13,6 +13,11 @@ const MIME = {
 };
 http.createServer((req, res) => {
   let p = decodeURIComponent(req.url.split('?')[0]);
+  // El sitio se construye con base '/magicatienda' (GitHub Pages); quitar ese prefijo
+  // para poder previsualizar dist/ también en la raíz.
+  const BASE = '/magicatienda';
+  if (p === BASE) p = '/';
+  else if (p.startsWith(BASE + '/')) p = p.slice(BASE.length);
   if (p.endsWith('/')) p += 'index.html';
   let f = path.join(ROOT, p);
   if (!f.startsWith(ROOT)) { res.writeHead(403); return res.end('403'); }
