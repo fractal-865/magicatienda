@@ -1496,9 +1496,19 @@ $('#halloCTA')?.addEventListener('click', () => applyFilter({ tem: 'halloween' }
     });
     links.forEach((a) => a.classList.toggle('on', a.dataset.navsec === cur));
   };
+  // throttle con rAF: el scroll no debe forzar reflow en cada evento
+  let spyQueued = false;
+  const spyRaf = () => {
+    if (spyQueued) return;
+    spyQueued = true;
+    requestAnimationFrame(() => {
+      spy();
+      spyQueued = false;
+    });
+  };
   spy();
-  addEventListener('scroll', spy, { passive: true });
-  addEventListener('resize', spy);
+  addEventListener('scroll', spyRaf, { passive: true });
+  addEventListener('resize', spyRaf);
 })();
 
 /* ═══ ARRANQUE ═══ */

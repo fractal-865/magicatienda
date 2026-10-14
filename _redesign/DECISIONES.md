@@ -35,3 +35,24 @@ Criterio de resolución (en orden): 1) conversión a WhatsApp, 2) conservador y 
 | 2b.2 | **Drawer "Tu arriendo" se auto-abre solo en el primer agregado**; después avisan badge + barra pegajosa + toast. Nunca se abre detrás del modal de solicitud. | P0-2: armar 4 disfraces = 4 interrupciones full-screen con scroll bloqueado. Fix acordado en CRITICA (quieter). | NO |
 | 2b.3 | **El banner de la promesa ("Tu transformación empieza aquí") pasó a la slide 1 y su título ahora es el `<h1>` de la página**; el banner de Halloween quedó segundo. Imagen del hero con `loading="eager"` + `fetchpriority="high"`. | P0-1 + auditoría P1 (LCP con lazy): el sitio no tenía H1 y el primer frame era una campaña de temporada. La temporada sigue presente en la barra de urgencia (ya es date-aware) y en la slide 2. | **SÍ** (primer frame de la marca) |
 | 2b.4 | **Nueva sección "💜 Ya arrendaron con nosotros"** con los 4 testimonios reales (TESTIS) entre catálogo y tarifas. | P2-5: para un arriendo con garantía de $20.000, la prueba de que la tienda devuelve la plata es el argumento más barato disponible. Resuelve también la decisión 0.6. | **SÍ** (prueba social nueva en la home) |
+
+## 2026-10-14 · Fase 3 — Craft
+
+| # | Decisión | Por qué | Revisión |
+|---|---|---|---|
+| 3.1 | **Jerarquía de títulos**: nuevo `h2.sec-sm` (más pequeño, subrayado corto) para secciones de soporte (Cómo funciona, Pagos, Cómo llegar, Contacto, FAQ, Testimonios); `h2.sec` completo queda para Catálogo, Tarifas y Fechas. | Los 10 títulos idénticos hacían que "Preguntas frecuentes" pesara igual que el catálogo (heurística 8). Ahora el ojo jerarquiza sin cambiar la identidad. | NO |
+| 3.2 | **Fuera el placeholder rotativo del buscador** (cada 2,8s) y el glow infinito del aviso Halloween: el aviso ahora tiene una sola animación de entrada. | Animaciones continuas sin propósito de conversión (DECISIÓN quieter, CRITICA minor). | NO |
+| 3.3 | **Código muerto eliminado**: `#fxFecha`, `#chipsPop`, `#nlForm`, `.searchpop`, `TOPMSGS`, `MARQUEE`, `SEARCH_PH` + burbuja `#wspBubble` (markup+CSS+JS, nunca visible). | Auditoría P3-12: 8 features abandonadas verificadas por grep; la burbuja era UI fantasma que jamás se veía. | NO |
+
+## 2026-10-14 · Fase 4 — Cierre (harden/optimize)
+
+| # | Decisión | Por qué | Revisión |
+|---|---|---|---|
+| 4.1 | **Domingo cerrado en el día de retiro**: `min` = primer día hábil y si eligen domingo el sistema lo mueve al lunes con nota "Los domingos la tienda cierra". | P1-4 de CRITICA: se podía "reservar" un domingo y la primera experiencia era un viaje a una tienda cerrada. Reutiliza el horario real del negocio. | **SÍ** (cambia una regla del negocio visible) |
+| 4.2 | **`inert` + retorno de foco en drawer, minicart y panel de filtros móvil**; foco al abrir, vuelta al disparador al cerrar. | Auditoría P1-2: el Tab entraba a menús invisibles fuera de pantalla (WCAG 2.1.2/2.4.3). | NO |
+| 4.3 | **Labels + `autocomplete` en los 7 campos de la solicitud** (aria-label + name/email/tel/street-address). | Auditoría P1-3: lector de pantalla anunciaba "edición en blanco" en el formulario más importante. | NO |
+| 4.4 | **Un solo `aria-live`**: se quitó el de `#grid`; queda el de `#countLabel`. | Auditoría P1-4: cada tecla re-anunciaba el catálogo completo + el conteo. | NO |
+| 4.5 | **Contraste**: grises de modales (`#555/#666/#777/#888`) y copyright del footer (`#8a7bb0` = 3,17:1) reemplazados por el token `ink2` (5,77:1 sobre mist). | Auditoría P1-5 + regla propia de DESIGN.md "Don't introduce gray". | NO |
+| 4.6 | **h5 del mega menú → párrafo**: los títulos del mega menú declaraban h5 antes que ningún h1/h2 de la página. | Orden de encabezados (auditoría P2-10); el H1 del hero recién agregado no debía venir "después" en el árbol. | NO |
+| 4.7 | **Scrollspy con throttle rAF**. | Auditoría P2-7: forced reflow en cada evento scroll. | NO |
+| 4.8 | **`impeccable detect` final: 210 hallazgos, 0 error/critical** (158 font-size + 28 color + 16 radio advisory; 8 warnings = bounce-easing del botón (declarado intencional en DESIGN.md), transiciones de acordeón/buscador y subrayados decorativos). Snapshot en `_redesign/detect-final.json`. | El drift de escalas (44 tamaños únicos) es deuda preexistente del sistema; normalizarlo entero excede el presupuesto de conservador y se registra como pendiente para el dueño. | NO |

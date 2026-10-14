@@ -1,0 +1,2842 @@
+﻿[
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Catalogo.astro",
+    "line": 4,
+    "snippet": "text-[ÔÇª] class: .85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".85rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Catalogo.astro",
+    "line": 18,
+    "snippet": "text-[ÔÇª] class: .85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".85rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Catalogo.astro",
+    "line": 31,
+    "snippet": "text-[ÔÇª] class: .85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".85rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Catalogo.astro",
+    "line": 41,
+    "snippet": "text-[ÔÇª] class: .88rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".88rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Catalogo.astro",
+    "line": 44,
+    "snippet": "text-[ÔÇª] class: .68rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".68rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Catalogo.astro",
+    "line": 100,
+    "snippet": "text-[ÔÇª] class: .8rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".8rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Contacto.astro",
+    "line": 30,
+    "snippet": "text-[ÔÇª] class: 2rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "2rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Contacto.astro",
+    "line": 39,
+    "snippet": "text-[ÔÇª] class: 2rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "2rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Contacto.astro",
+    "line": 51,
+    "snippet": "text-[ÔÇª] class: .85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".85rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Contacto.astro",
+    "line": 56,
+    "snippet": "text-[ÔÇª] class: .85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".85rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Contacto.astro",
+    "line": 62,
+    "snippet": "text-[ÔÇª] class: 1.1rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.1rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Contacto.astro",
+    "line": 63,
+    "snippet": "text-[ÔÇª] class: .8rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".8rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Contacto.astro",
+    "line": 67,
+    "snippet": "text-[ÔÇª] class: .8rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".8rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Drawer.astro",
+    "line": 35,
+    "snippet": "text-[ÔÇª] class: 1.1rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.1rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Drawer.astro",
+    "line": 40,
+    "snippet": "text-[ÔÇª] class: 1.1rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.1rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Drawer.astro",
+    "line": 48,
+    "snippet": "text-[ÔÇª] class: 1.1rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.1rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Drawer.astro",
+    "line": 56,
+    "snippet": "text-[ÔÇª] class: 1.1rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.1rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Drawer.astro",
+    "line": 66,
+    "snippet": "text-[ÔÇª] class: 1.1rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.1rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Drawer.astro",
+    "line": 69,
+    "snippet": "text-[ÔÇª] class: 1.1rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.1rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Drawer.astro",
+    "line": 72,
+    "snippet": "text-[ÔÇª] class: 1.1rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.1rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Drawer.astro",
+    "line": 88,
+    "snippet": "text-[ÔÇª] class: 1.3rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.3rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Drawer.astro",
+    "line": 91,
+    "snippet": "text-[ÔÇª] class: 1.15rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.15rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Faq.astro",
+    "line": 13,
+    "snippet": "text-[ÔÇª] class: 1.2rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.2rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Fechas.astro",
+    "line": 30,
+    "snippet": "text-[ÔÇª] class: 2.4rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "2.4rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Fechas.astro",
+    "line": 32,
+    "snippet": "text-[ÔÇª] class: .85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".85rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Fechas.astro",
+    "line": 33,
+    "snippet": "text-[ÔÇª] class: .8rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".8rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Floaters.astro",
+    "line": 13,
+    "snippet": "text-[ÔÇª] class: .62rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".62rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Floaters.astro",
+    "line": 14,
+    "snippet": "text-[ÔÇª] class: 1.25rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.25rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Floaters.astro",
+    "line": 16,
+    "snippet": "text-[ÔÇª] class: .62rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".62rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Floaters.astro",
+    "line": 17,
+    "snippet": "text-[ÔÇª] class: 1.25rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.25rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Floaters.astro",
+    "line": 19,
+    "snippet": "text-[ÔÇª] class: .62rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".62rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Floaters.astro",
+    "line": 20,
+    "snippet": "text-[ÔÇª] class: 1.25rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.25rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Floaters.astro",
+    "line": 22,
+    "snippet": "text-[ÔÇª] class: .62rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".62rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Floaters.astro",
+    "line": 23,
+    "snippet": "text-[ÔÇª] class: 1.25rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.25rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Floaters.astro",
+    "line": 25,
+    "snippet": "text-[ÔÇª] class: .62rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".62rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Floaters.astro",
+    "line": 26,
+    "snippet": "text-[ÔÇª] class: 1.25rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.25rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Floaters.astro",
+    "line": 33,
+    "snippet": "text-[ÔÇª] class: .85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".85rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Floaters.astro",
+    "line": 36,
+    "snippet": "text-[ÔÇª] class: .8rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".8rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Floaters.astro",
+    "line": 43,
+    "snippet": "text-[ÔÇª] class: 1.1rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.1rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Floaters.astro",
+    "line": 47,
+    "snippet": "text-[ÔÇª] class: 1.1rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.1rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Floaters.astro",
+    "line": 54,
+    "snippet": "text-[ÔÇª] class: 1.4rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.4rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Floaters.astro",
+    "line": 68,
+    "snippet": "text-[ÔÇª] class: 1.3rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.3rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Floaters.astro",
+    "line": 73,
+    "snippet": "text-[ÔÇª] class: 1.1rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.1rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Floaters.astro",
+    "line": 76,
+    "snippet": "text-[ÔÇª] class: .85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".85rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Floaters.astro",
+    "line": 80,
+    "snippet": "text-[ÔÇª] class: .83rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".83rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Footer.astro",
+    "line": 4,
+    "snippet": "text-[ÔÇª] class: .9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".9rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Footer.astro",
+    "line": 11,
+    "snippet": "text-[ÔÇª] class: 1.1rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.1rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Footer.astro",
+    "line": 12,
+    "snippet": "text-[ÔÇª] class: .88rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".88rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Footer.astro",
+    "line": 36,
+    "snippet": "text-[ÔÇª] class: .9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".9rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Footer.astro",
+    "line": 45,
+    "snippet": "text-[ÔÇª] class: .9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".9rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Footer.astro",
+    "line": 54,
+    "snippet": "text-[ÔÇª] class: .8rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".8rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Header.astro",
+    "line": 40,
+    "snippet": "text-[ÔÇª] class: .58rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".58rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Header.astro",
+    "line": 85,
+    "snippet": "text-[ÔÇª] class: 1.2rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.2rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Header.astro",
+    "line": 91,
+    "snippet": "text-[ÔÇª] class: .66rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".66rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Header.astro",
+    "line": 113,
+    "snippet": "text-[ÔÇª] class: .9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".9rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Header.astro",
+    "line": 115,
+    "snippet": "text-[ÔÇª] class: .68rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".68rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Header.astro",
+    "line": 129,
+    "snippet": "text-[ÔÇª] class: .9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".9rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Header.astro",
+    "line": 144,
+    "snippet": "text-[ÔÇª] class: .9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".9rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Header.astro",
+    "line": 152,
+    "snippet": "text-[ÔÇª] class: .88rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".88rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Header.astro",
+    "line": 157,
+    "snippet": "text-[ÔÇª] class: 2rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "2rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Header.astro",
+    "line": 158,
+    "snippet": "text-[ÔÇª] class: 1.25rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.25rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Header.astro",
+    "line": 164,
+    "snippet": "text-[ÔÇª] class: .85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".85rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Header.astro",
+    "line": 170,
+    "snippet": "text-[ÔÇª] class: .8rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".8rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Mapa.astro",
+    "line": 28,
+    "snippet": "text-[ÔÇª] class: .82rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".82rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Mapa.astro",
+    "line": 31,
+    "snippet": "text-[ÔÇª] class: .9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".9rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Mapa.astro",
+    "line": 34,
+    "snippet": "text-[ÔÇª] class: .9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".9rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Mapa.astro",
+    "line": 37,
+    "snippet": "text-[ÔÇª] class: .9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".9rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Modals.astro",
+    "line": 8,
+    "snippet": "text-[ÔÇª] class: .9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".9rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Modals.astro",
+    "line": 16,
+    "snippet": "text-[ÔÇª] class: .9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".9rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Modals.astro",
+    "line": 55,
+    "snippet": "text-[ÔÇª] class: 1.1rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.1rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Modals.astro",
+    "line": 64,
+    "snippet": "text-[ÔÇª] class: 1.1rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.1rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Modals.astro",
+    "line": 73,
+    "snippet": "text-[ÔÇª] class: 1.1rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.1rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Modals.astro",
+    "line": 75,
+    "snippet": "text-[ÔÇª] class: 1.4rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.4rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Modals.astro",
+    "line": 80,
+    "snippet": "text-[ÔÇª] class: .9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".9rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Pagos.astro",
+    "line": 39,
+    "snippet": "text-[ÔÇª] class: .9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".9rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Pagos.astro",
+    "line": 42,
+    "snippet": "text-[ÔÇª] class: .9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".9rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Pagos.astro",
+    "line": 52,
+    "snippet": "text-[ÔÇª] class: .9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".9rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Promos.astro",
+    "line": 29,
+    "snippet": "text-[ÔÇª] class: 5rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "5rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Promos.astro",
+    "line": 61,
+    "snippet": "text-[ÔÇª] class: 2rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "2rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Promos.astro",
+    "line": 74,
+    "snippet": "text-[ÔÇª] class: 2rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "2rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Promos.astro",
+    "line": 77,
+    "snippet": "text-[ÔÇª] class: 3.1rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "3.1rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Promos.astro",
+    "line": 92,
+    "snippet": "text-[ÔÇª] class: 1.7rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.7rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Promos.astro",
+    "line": 95,
+    "snippet": "text-[ÔÇª] class: .78rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".78rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Tarifas.astro",
+    "line": 80,
+    "snippet": "text-[ÔÇª] class: .68rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".68rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Tarifas.astro",
+    "line": 90,
+    "snippet": "text-[ÔÇª] class: 2.8rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "2.8rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Tarifas.astro",
+    "line": 91,
+    "snippet": "text-[ÔÇª] class: .82rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".82rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Tarifas.astro",
+    "line": 94,
+    "snippet": "text-[ÔÇª] class: .9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".9rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Tarifas.astro",
+    "line": 124,
+    "snippet": "text-[ÔÇª] class: .9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".9rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Testimonios.astro",
+    "line": 18,
+    "snippet": "text-[ÔÇª] class: .9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".9rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Testimonios.astro",
+    "line": 20,
+    "snippet": "text-[ÔÇª] class: 1.2rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.2rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\components\\Testimonios.astro",
+    "line": 24,
+    "snippet": "text-[ÔÇª] class: .85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".85rem",
+    "importedBy": [
+      "index.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\scripts\\site.ts",
+    "line": 100,
+    "snippet": "text-[ÔÇª] class: .88rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".88rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\scripts\\site.ts",
+    "line": 356,
+    "snippet": "text-[ÔÇª] class: .85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".85rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\scripts\\site.ts",
+    "line": 362,
+    "snippet": "text-[ÔÇª] class: .82rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".82rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\scripts\\site.ts",
+    "line": 376,
+    "snippet": "text-[ÔÇª] class: .64rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".64rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\scripts\\site.ts",
+    "line": 379,
+    "snippet": "text-[ÔÇª] class: 1.3rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.3rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\scripts\\site.ts",
+    "line": 380,
+    "snippet": "text-[ÔÇª] class: .68rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".68rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\scripts\\site.ts",
+    "line": 382,
+    "snippet": "text-[ÔÇª] class: .84rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".84rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\scripts\\site.ts",
+    "line": 396,
+    "snippet": "text-[ÔÇª] class: 3rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "3rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\scripts\\site.ts",
+    "line": 843,
+    "snippet": "text-[ÔÇª] class: .85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".85rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\scripts\\site.ts",
+    "line": 847,
+    "snippet": "text-[ÔÇª] class: 1.3rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.3rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\scripts\\site.ts",
+    "line": 924,
+    "snippet": "text-[ÔÇª] class: 2.8rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "2.8rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\scripts\\site.ts",
+    "line": 924,
+    "snippet": "text-[ÔÇª] class: .85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".85rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\scripts\\site.ts",
+    "line": 1119,
+    "snippet": "text-[ÔÇª] class: .8rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".8rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\scripts\\site.ts",
+    "line": 1120,
+    "snippet": "text-[ÔÇª] class: 1.45rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.45rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\scripts\\site.ts",
+    "line": 1124,
+    "snippet": "text-[ÔÇª] class: .78rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".78rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\scripts\\site.ts",
+    "line": 1135,
+    "snippet": "text-[ÔÇª] class: .76rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".76rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\scripts\\site.ts",
+    "line": 1214,
+    "snippet": "text-[ÔÇª] class: .85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".85rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\scripts\\site.ts",
+    "line": 1228,
+    "snippet": "text-[ÔÇª] class: .9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".9rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\scripts\\site.ts",
+    "line": 1229,
+    "snippet": "text-[ÔÇª] class: 1.1rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.1rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\scripts\\site.ts",
+    "line": 1232,
+    "snippet": "text-[ÔÇª] class: 3rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "3rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\scripts\\site.ts",
+    "line": 1254,
+    "snippet": "text-[ÔÇª] class: .82rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".82rem",
+    "importedBy": [
+      "Layout.astro"
+    ]
+  },
+  {
+    "antipattern": "border-accent-on-rounded",
+    "name": "Border accent on rounded element",
+    "description": "Thick accent border on a rounded card ÔÇö the border clashes with the rounded corners. Remove the border or the border-radius.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 780,
+    "snippet": "border-top: 3px solid"
+  },
+  {
+    "antipattern": "border-accent-on-rounded",
+    "name": "Border accent on rounded element",
+    "description": "Thick accent border on a rounded card ÔÇö the border clashes with the rounded corners. Remove the border or the border-radius.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 964,
+    "snippet": "border-bottom: 3px solid"
+  },
+  {
+    "antipattern": "bounce-easing",
+    "name": "Bounce or elastic easing",
+    "description": "Bounce and elastic easing feel dated and tacky. Real objects decelerate smoothly ÔÇö use exponential easing (ease-out-quart/quint/expo) instead.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 338,
+    "snippet": "cubic-bezier(0.2, 0.9, 0.3, 1.3)"
+  },
+  {
+    "antipattern": "bounce-easing",
+    "name": "Bounce or elastic easing",
+    "description": "Bounce and elastic easing feel dated and tacky. Real objects decelerate smoothly ÔÇö use exponential easing (ease-out-quart/quint/expo) instead.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 986,
+    "snippet": "cubic-bezier(0.34, 1.56, 0.64, 1)"
+  },
+  {
+    "antipattern": "bounce-easing",
+    "name": "Bounce or elastic easing",
+    "description": "Bounce and elastic easing feel dated and tacky. Real objects decelerate smoothly ÔÇö use exponential easing (ease-out-quart/quint/expo) instead.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1602,
+    "snippet": "cubic-bezier(0.2, 0.9, 0.3, 1.3)"
+  },
+  {
+    "antipattern": "bounce-easing",
+    "name": "Bounce or elastic easing",
+    "description": "Bounce and elastic easing feel dated and tacky. Real objects decelerate smoothly ÔÇö use exponential easing (ease-out-quart/quint/expo) instead.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1625,
+    "snippet": "cubic-bezier(0.3, -0.2, 0.6, 1)"
+  },
+  {
+    "antipattern": "layout-transition",
+    "name": "Layout property animation",
+    "description": "Animating width, height, padding, or margin causes layout thrash and janky performance. Use transform and opacity instead, or grid-template-rows for height animations.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1530,
+    "snippet": "transition: max-height"
+  },
+  {
+    "antipattern": "layout-transition",
+    "name": "Layout property animation",
+    "description": "Animating width, height, padding, or margin causes layout thrash and janky performance. Use transform and opacity instead, or grid-template-rows for height animations.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1660,
+    "snippet": "transition: width, max-width"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 70,
+    "snippet": "border-radius: 8px is outside the DESIGN.md rounded scale",
+    "advisory": true,
+    "ignoreValue": "8px"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 78,
+    "snippet": "border-radius: 14px is outside the DESIGN.md rounded scale",
+    "advisory": true,
+    "ignoreValue": "14px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 85,
+    "snippet": "font-size: 1.35rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.35rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 90,
+    "snippet": "font-size: 0.6rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.6rem"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 243,
+    "snippet": "Undocumented color #e0245e is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#e0245e"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 252,
+    "snippet": "Undocumented color #ff4b93 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#ff4b93"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 259,
+    "snippet": "border-radius: 8px is outside the DESIGN.md rounded scale",
+    "advisory": true,
+    "ignoreValue": "8px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 282,
+    "snippet": "font-size: 1.3rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.3rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 293,
+    "snippet": "font-size: 0.9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.9rem"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 297,
+    "snippet": "border-radius: 8px is outside the DESIGN.md rounded scale",
+    "advisory": true,
+    "ignoreValue": "8px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 320,
+    "snippet": "font-size: 1.3rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.3rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 330,
+    "snippet": "font-size: 0.85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.85rem"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 339,
+    "snippet": "Undocumented color #fdf6d9 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#fdf6d9"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 349,
+    "snippet": "font-size: 0.62rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.62rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 366,
+    "snippet": "font-size: 0.68rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.68rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 406,
+    "snippet": "font-size: 0.68rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.68rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 426,
+    "snippet": "font-size: 0.78rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.78rem"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 441,
+    "snippet": "border-radius: 11px is outside the DESIGN.md rounded scale",
+    "advisory": true,
+    "ignoreValue": "11px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 444,
+    "snippet": "font-size: 0.76rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.76rem"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 468,
+    "snippet": "Undocumented color #fff0f7 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#fff0f7"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 510,
+    "snippet": "Undocumented color #0c9455 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#0c9455"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 520,
+    "snippet": "Undocumented color #ff7a1a is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#ff7a1a"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 522,
+    "snippet": "font-size: 0.85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.85rem"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 558,
+    "snippet": "border-radius: 22px is outside the DESIGN.md rounded scale",
+    "advisory": true,
+    "ignoreValue": "22px"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 568,
+    "snippet": "Undocumented color #b89af0 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#b89af0"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 595,
+    "snippet": "font-size: 2rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "2rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 606,
+    "snippet": "font-size: 0.85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.85rem"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 626,
+    "snippet": "border-radius: 3px is outside the DESIGN.md rounded scale",
+    "advisory": true,
+    "ignoreValue": "3px"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 627,
+    "snippet": "Undocumented color #b89af0 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#b89af0"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 640,
+    "snippet": "font-size: 0.62rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.62rem"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 682,
+    "snippet": "Undocumented color #b89af0 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#b89af0"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 690,
+    "snippet": "font-size: 1.3rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.3rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 708,
+    "snippet": "font-size: 0.84rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.84rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 744,
+    "snippet": "font-size: 0.78rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.78rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 801,
+    "snippet": "font-size: 0.88rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.88rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 822,
+    "snippet": "font-size: 0.6rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.6rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 829,
+    "snippet": "font-size: 0.76rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.76rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 835,
+    "snippet": "font-size: 0.76rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.76rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 860,
+    "snippet": "font-size: 0.85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.85rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 876,
+    "snippet": "font-size: 0.8rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.8rem"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 891,
+    "snippet": "Undocumented color rgb(0 0 0 / 0.2) is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "rgb(0 0 0 / 0.2)"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 893,
+    "snippet": "font-size: 0.78rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.78rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 898,
+    "snippet": "font-size: 0.55rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.55rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 922,
+    "snippet": "font-size: clamp(1.2rem, 2.5vw, 1.6rem) has fluid endpoint 1.2rem off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.2rem"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 945,
+    "snippet": "border-radius: 4px is outside the DESIGN.md rounded scale",
+    "advisory": true,
+    "ignoreValue": "4px"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1003,
+    "snippet": "Undocumented color #2ecb6e is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#2ecb6e"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1003,
+    "snippet": "Undocumented color #128f4a is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#128f4a"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1036,
+    "snippet": "font-size: 0.9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.9rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1040,
+    "snippet": "font-size: 1.12rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.12rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1051,
+    "snippet": "font-size: 0.85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.85rem"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1093,
+    "snippet": "Undocumented color #9a88c9 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#9a88c9"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1152,
+    "snippet": "border-radius: 3px is outside the DESIGN.md rounded scale",
+    "advisory": true,
+    "ignoreValue": "3px"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1162,
+    "snippet": "border-radius: 14px is outside the DESIGN.md rounded scale",
+    "advisory": true,
+    "ignoreValue": "14px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1164,
+    "snippet": "font-size: 1.15rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.15rem"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1169,
+    "snippet": "Undocumented color #e6d9ff is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#e6d9ff"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1170,
+    "snippet": "Undocumented color #b89af0 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#b89af0"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1193,
+    "snippet": "border-radius: 18px is outside the DESIGN.md rounded scale",
+    "advisory": true,
+    "ignoreValue": "18px"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1217,
+    "snippet": "Undocumented color #b89af0 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#b89af0"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1231,
+    "snippet": "Undocumented color #9a88c9 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#9a88c9"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1245,
+    "snippet": "font-size: 0.66rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.66rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1260,
+    "snippet": "font-size: 0.76rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.76rem"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1289,
+    "snippet": "Undocumented color rgba(60, 20, 120, 0.25) is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "rgba(60, 20, 120, 0.25)"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1312,
+    "snippet": "font-size: 0.78rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.78rem"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1322,
+    "snippet": "border-radius: 11px is outside the DESIGN.md rounded scale",
+    "advisory": true,
+    "ignoreValue": "11px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1452,
+    "snippet": "font-size: 1.2rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.2rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1470,
+    "snippet": "font-size: 0.9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.9rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1478,
+    "snippet": "font-size: 0.8rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.8rem"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1493,
+    "snippet": "border-radius: 2px is outside the DESIGN.md rounded scale",
+    "advisory": true,
+    "ignoreValue": "2px"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1560,
+    "snippet": "border-radius: 2px is outside the DESIGN.md rounded scale",
+    "advisory": true,
+    "ignoreValue": "2px"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1705,
+    "snippet": "Undocumented color #b89af0 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#b89af0"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1724,
+    "snippet": "border-radius: 22px is outside the DESIGN.md rounded scale",
+    "advisory": true,
+    "ignoreValue": "22px"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1733,
+    "snippet": "Undocumented color #b89af0 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#b89af0"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1748,
+    "snippet": "font-size: 1.1rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.1rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1753,
+    "snippet": "font-size: 0.85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.85rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1763,
+    "snippet": "font-size: 0.87rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.87rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1789,
+    "snippet": "font-size: 0.84rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.84rem"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1792,
+    "snippet": "border-radius: 9px is outside the DESIGN.md rounded scale",
+    "advisory": true,
+    "ignoreValue": "9px"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1805,
+    "snippet": "Undocumented color #f2c94c is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#f2c94c"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1806,
+    "snippet": "Undocumented color #fff8e2 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#fff8e2"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1807,
+    "snippet": "Undocumented color #5f4700 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#5f4700"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1812,
+    "snippet": "font-size: 0.68rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.68rem"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1822,
+    "snippet": "font-size: 1.85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.85rem"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1825,
+    "snippet": "Undocumented color #3f2f00 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#3f2f00"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1838,
+    "snippet": "Undocumented color #b89af0 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#b89af0"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1845,
+    "snippet": "font-size: 0.85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.85rem"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1854,
+    "snippet": "Undocumented color #b89af0 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#b89af0"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1856,
+    "snippet": "font-size: 0.9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.9rem"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1865,
+    "snippet": "Undocumented color #e2f7ec is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#e2f7ec"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1866,
+    "snippet": "Undocumented color #0c7a56 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#0c7a56"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "C:\\Users\\Ariel\\Mi unidad\\Fractal Host\\Proyectos\\magicatienda\\src\\styles\\global.css",
+    "line": 1878,
+    "snippet": "font-size: 0.8rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "0.8rem"
+  }
+]
