@@ -78,21 +78,3 @@ export const ACC = [
   { id: 'a5', n: 'Peluca de color', e: '💇' },
   { id: 'a6', n: 'Maquillaje fantasy', e: '🎨' },
 ];
-
-export const TOPMSGS = [
-  '🛡️ Garantía de $13.000 a $20.000 según el disfraz: se paga al retirar y se devuelve.',
-  '💬 Cotiza tu arriendo por WhatsApp en 1 minuto',
-  '📅 Arriendo por 3 días: retiro, uso y entrega',
-  '📍 Hermann Wiegartt 01194 · Punta Arenas',
-];
-
-export const MARQUEE = [
-  '✨ #lamagicatienda',
-  '🎭 Disfraces solo para adultos',
-  '💬 Cotiza por WhatsApp',
-  '🛡️ Garantía $13.000–$20.000',
-  '🪄 Arriendo por 3 días',
-  '📍 Punta Arenas, Magallanes',
-];
-
-export const SEARCH_PH = ["Busca 'vampiro'…", "Busca 'bruja'…", "Busca 'Halloween'…", "Busca 'años 80'…", "Busca 'payaso'…"];

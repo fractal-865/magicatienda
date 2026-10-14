@@ -3,7 +3,7 @@
    Filtros + buscador + "Tu arriendo" (cotización) + modales
    ═══════════════════════════════════════════════════════════════ */
 import { PRODUCTS, CATS, PUBLICOS, OCASIONES, TALLAS, TALLA_GUIA, catById, clp, type Product } from '../data/products';
-import { GAR_SHORT, waLink, ACC, SEARCH_PH, esTemporadaHalloween } from '../data/site';
+import { GAR_SHORT, waLink, ACC, esTemporadaHalloween } from '../data/site';
 
 type Acc = { id: string; n: string; e: string };
 type Item = Product | Acc;
@@ -180,15 +180,6 @@ addEventListener(
   () => $('#header')?.classList.toggle('scrolled', scrollY > 40),
   { passive: true },
 );
-
-let phi = 0;
-setInterval(() => {
-  const i = $<HTMLInputElement>('#catSearch');
-  if (i && document.activeElement !== i && !i.value) {
-    phi = (phi + 1) % SEARCH_PH.length;
-    i.placeholder = SEARCH_PH[phi];
-  }
-}, 2800);
 
 /* doodles de fondo */
 (() => {
@@ -440,11 +431,7 @@ $('#activeChips')?.addEventListener('click', (e) => {
   if (!b) return;
   const { k, v } = b.dataset;
   if (k === 'q') state.q = '';
-  else if (k === 'exFecha') {
-    state.exFecha = '';
-    const f = $<HTMLInputElement>('#fxFecha');
-    if (f) f.value = '';
-  } else if (k && v && ['tem', 'oca', 'pub', 'tal'].includes(k)) state[k as 'tem'].delete(v);
+  else if (k === 'exFecha') state.exFecha = ''; else if (k && v && ['tem', 'oca', 'pub', 'tal'].includes(k)) state[k as 'tem'].delete(v);
   syncFilterUI();
   renderGrid();
 });
@@ -460,8 +447,7 @@ $('#loadMore')?.addEventListener('click', () => {
 /* grupos de filtros (marcado estático) */
 $<HTMLElement>('#catalogo')?.addEventListener('change', (e) => {
   const el = e.target as HTMLInputElement;
-  if (el.id === 'fxFecha') state.exFecha = el.value;
-  else if (el.dataset.g) {
+  if (el.dataset.g) {
     const s = state[el.dataset.g as 'tem'];
     el.checked ? s.add(el.value) : s.delete(el.value);
   }
@@ -493,12 +479,10 @@ function syncFilterUI() {
     if (el.tagName === 'INPUT') inp.checked = state[inp.dataset.g as 'tem'].has(inp.value);
     else el.classList.toggle('on', state[(el as HTMLButtonElement).dataset.g as 'pub'].has((el as HTMLButtonElement).dataset.v!));
   });
-  const ff = $<HTMLInputElement>('#fxFecha');
-  if (ff) ff.value = state.exFecha;
   const cs = $<HTMLInputElement>('#catSearch');
   if (cs && document.activeElement !== cs) cs.value = state.q;
   const cc = $('#catClear');
-  const hayFiltro = state.tem.size + state.oca.size + state.pub.size + state.tal.size > 0 || !!state.q || !!state.exFecha;
+  const hayFiltro = state.tem.size + state.oca.size + state.pub.size + state.tal.size > 0 || !!state.q;
   cc?.classList.toggle('hidden', !hayFiltro);
 }
 
@@ -616,15 +600,6 @@ $('#searchToggle')?.addEventListener('click', () => {
     if (e.key === 'Escape') setOpen(false);
   });
 })();
-
-$<HTMLElement>('#chipsPop')?.addEventListener('click', (e) => {
-  const b = (e.target as HTMLElement).closest('[data-q]') as HTMLElement | null;
-  if (!b) return;
-  state.q = b.dataset.q || '';
-  syncFilterUI();
-  renderGrid();
-  scrollToCat();
-});
 
 function scrollToCat() {
   const el = $('#catalogo');
@@ -1423,15 +1398,6 @@ document.addEventListener('click', (e) => {
   b.setAttribute('aria-expanded', String(open));
 });
 
-$('#nlForm')?.addEventListener('submit', (e) => {
-  e.preventDefault();
-  Confetti.rain(120);
-  const ok = $('#nlOk');
-  if (ok) ok.classList.remove('hidden');
-  const f = $('#nlForm');
-  if (f) f.style.display = 'none';
-});
-
 /* ═══ FLOTANTES DE CONTACTO ═══ */
 (() => {
   const dial = $('#speedDial');
@@ -1446,7 +1412,6 @@ $('#nlForm')?.addEventListener('submit', (e) => {
   const chat = $('#wspChat');
   $('#wspFloat')?.addEventListener('click', () => chat?.classList.toggle('open'));
   $('#waChatClose')?.addEventListener('click', () => chat?.classList.remove('open'));
-  $('#bubbleX')?.addEventListener('click', () => $('#wspBubble')?.classList.remove('show'));
 })();
 
 $('#halloCTA')?.addEventListener('click', () => applyFilter({ tem: 'halloween' }));

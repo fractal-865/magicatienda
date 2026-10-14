@@ -522,16 +522,11 @@ footer {
   font-size: 0.85rem;
   font-weight: 800;
   box-shadow: 0 8px 18px rgba(255, 95, 162, 0.35);
-  animation: glow 1.8s ease-in-out infinite;
+  animation: mup 0.4s ease;
 }
 .hallo-hours[hidden] {
   display: none;
 }
-@keyframes glow {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.04); }
-}
-
 /* ── Slide de banners de promos ── */
 .promo-track {
   display: flex;
@@ -923,6 +918,21 @@ h2.sec::after {
   border-radius: 99px;
   background: linear-gradient(90deg, var(--color-ama), var(--color-rosa), var(--color-m400));
 }
+h2.sec-sm {
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  font-weight: 700;
+  text-align: center;
+  color: var(--color-ink);
+}
+h2.sec-sm::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 4px;
+  margin: 9px auto 0;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--color-ama), var(--color-rosa), var(--color-m400));
+}
 .sec-sub {
   text-align: center;
   margin: 12px 0 28px;
@@ -1159,45 +1169,6 @@ mark {
   background: #e6d9ff;
   border-color: var(--color-m400, #b89af0);
 }
-.searchpop {
-  position: absolute;
-  top: calc(100% + 10px);
-  right: 0;
-  z-index: 82;
-  width: min(400px, 78vw);
-  padding: 12px;
-  border: 2px solid var(--color-line);
-  border-radius: 20px;
-  background: #fff;
-  box-shadow: 0 20px 44px rgba(90, 42, 156, 0.22);
-  animation: mup 0.22s ease;
-}
-.searchpop[hidden] {
-  display: none;
-}
-.searchpop .searchbox {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: #fff;
-  border: 2px solid var(--color-line);
-  border-radius: 999px;
-  padding: 10px 16px;
-}
-.searchpop .searchbox:focus-within {
-  border-color: var(--color-m400, #b89af0);
-  box-shadow: 0 0 0 4px rgb(122 79 208 / 0.14);
-}
-.searchpop .searchbox input {
-  flex: 1;
-  min-width: 0;
-  background: none;
-  border: 0;
-  outline: 0;
-  color: var(--color-ink);
-  font-family: var(--font-fb);
-  font-size: 0.95rem;
-}
 /* Estado activo del nav según la sección visible (scrollspy) */
 nav [data-navsec].on {
   color: var(--color-m600);
@@ -1404,13 +1375,6 @@ body.drawer-lock {
 #speedDial.open {
   display: flex;
   animation: mup 0.25s;
-}
-#wspBubble {
-  display: none;
-}
-#wspBubble.show {
-  display: block;
-  animation: mup 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.3);
 }
 #wspChat {
   display: none;
@@ -1633,7 +1597,6 @@ body.drawer-lock {
 #speedDial.open {
   animation: mup 0.25s;
 }
-#wspBubble.show,
 #wspChat.open,
 #stickyBar.show {
   animation: mup 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.3);
