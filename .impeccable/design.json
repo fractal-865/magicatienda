@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-14T00:00:00-03:00",
+  "title": "Design System: La Mágica Tienda de Disfraces",
+  "extensions": {
+    "colorMeta": {
+      "violeta-noche": {
+        "role": "primary",
+        "displayName": "Violeta Noche",
+        "canonical": "#2b0d5e",
+        "tonalRamp": ["#1a0738", "#2b0d5e", "#3c1481", "#4a1b96", "#5a2a9c", "#7a4fd0", "#a37fe6", "#d7c4f5"]
+      },
+      "morado-real": {
+        "role": "primary",
+        "displayName": "Morado Real",
+        "canonical": "#4a1b96",
+        "tonalRamp": ["#2b0d5e", "#3c1481", "#4a1b96", "#5a2a9c", "#6c3cb4", "#7a4fd0", "#9b7ade", "#c7b1ec"]
+      },
+      "ámbar-fiesta": {
+        "role": "secondary",
+        "displayName": "Ámbar Fiesta",
+        "canonical": "#ffd23f",
+        "tonalRamp": ["#8a6a00", "#b18800", "#d4a700", "#eabb12", "#ffd23f", "#ffdc6b", "#ffe698", "#fff2cd"]
+      },
+      "rosa-chicle": {
+        "role": "secondary",
+        "displayName": "Rosa Chicle",
+        "canonical": "#ff5fa2",
+        "tonalRamp": ["#8f1346", "#c22568", "#ff3d85", "#ff5fa2", "#ff7fb5", "#ffa3c9", "#ffc7dd", "#ffe6f0"]
+      },
+      "lavanda-niebla": {
+        "role": "neutral",
+        "displayName": "Lavanda Niebla",
+        "canonical": "#efe7ff",
+        "tonalRamp": ["#66539c", "#8a7bb0", "#b3a3d4", "#d6cbec", "#e8dff8", "#efe7ff", "#f6f1ff", "#fbf9ff"]
+      },
+      "tinta-berenjena": {
+        "role": "neutral",
+        "displayName": "Tinta Berenjena",
+        "canonical": "#2a1155",
+        "tonalRamp": ["#150730", "#2a1155", "#3d2270", "#4d3585", "#66539c", "#8a7bb0", "#b3a3d4", "#d6cbec"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Títulos de sección (h2.sec) y titulares de banner." },
+      "title": { "displayName": "Title", "purpose": "Títulos de tarjetas de producto, pasos y acordeones." },
+      "body": { "displayName": "Body", "purpose": "Descripciones, FAQ, texto corrido." },
+      "body-strong": { "displayName": "Body Strong", "purpose": "Énfasis dentro de cuerpo, labels de dato." },
+      "label": { "displayName": "Label", "purpose": "Categorías, tags uppercase con tracking." },
+      "script": { "displayName": "Script", "purpose": "Gritos decorativos manuscritos; nunca informativos." }
+    },
+    "shadows": [
+      { "name": "sh", "value": "0 10px 26px rgb(90 42 156 / 0.12)", "purpose": "Reposo elevado: banners, chips flotantes." },
+      { "name": "sh2", "value": "0 16px 40px rgb(90 42 156 / 0.18)", "purpose": "Flotante: sticky bar, burbuja WhatsApp, popovers." },
+      { "name": "card-rest", "value": "0 8px 20px rgba(90,42,156,.08)", "purpose": "Tarjetas de producto en reposo." },
+      { "name": "hover-lift", "value": "0 16px 30px rgba(90,42,156,.16)", "purpose": "Hover de tarjetas y pasos (con translateY(-5px))." },
+      { "name": "header-scrolled", "value": "0 6px 24px rgb(90 42 156 / 0.12)", "purpose": "Header tras 40px de scroll." }
+    ],
+    "motion": [
+      { "name": "ease-spring", "value": "cubic-bezier(0.34, 1.56, 0.64, 1)", "purpose": "Botones: hover lift + active scale(0.92)." },
+      { "name": "ease-drawer", "value": "cubic-bezier(0.2, 0.8, 0.25, 1)", "purpose": "Cajones, mega menú, buscador plegable." },
+      { "name": "ease-panel", "value": "cubic-bezier(0.22, 0.85, 0.3, 1)", "purpose": "Apertura del minicart lateral." },
+      { "name": "dur-mup", "value": "0.22s", "purpose": "Entradas cortas (mup): mega menú, popovers, modales." },
+      { "name": "floaty-loop", "value": "floaty 7s ease-in-out infinite", "purpose": "Doodles de fondo; se desactiva con reduced-motion." }
+    ],
+    "breakpoints": [
+      { "name": "desktop-main", "value": "900px" },
+      { "name": "contacto-mapa", "value": "960px" },
+      { "name": "beneficios", "value": "820px" },
+      { "name": "wsp-label", "value": "760px" },
+      { "name": "grid-2col", "value": "600px" },
+      { "name": "stack-small", "value": "560px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "CTA primario ámbar: acción de conversión principal.",
+      "html": "<button class=\"ds-btn-ama\">Ver disfraces 🎭</button>",
+      "css": ".ds-btn-ama { display:inline-flex; align-items:center; justify-content:center; gap:8px; border:0; cursor:pointer; font-family:Fredoka, system-ui, sans-serif; font-weight:600; font-size:1rem; border-radius:999px; padding:12px 22px; background:var(--color-ama,#ffd23f); color:var(--color-m800,#2b0d5e); text-decoration:none; box-shadow:0 6px 16px rgb(90 42 156 / .18); transition:transform .25s cubic-bezier(0.34,1.56,0.64,1), box-shadow .25s, filter .2s; } .ds-btn-ama:hover { filter:brightness(1.04); transform:translateY(-2px); } .ds-btn-ama:active { transform:scale(.92); } .ds-btn-ama:focus-visible { outline:3px solid var(--color-m500,#5a2a9c); outline-offset:2px; }"
+    },
+    {
+      "name": "WhatsApp Button",
+      "kind": "button",
+      "refersTo": "button-whatsapp",
+      "description": "Exclusivo de acciones que abren wa.me. Verde = WhatsApp.",
+      "html": "<a class=\"ds-btn-wsp\" href=\"#\">Cotizar por WhatsApp 💬</a>",
+      "css": ".ds-btn-wsp { display:inline-flex; align-items:center; justify-content:center; gap:8px; border:0; cursor:pointer; font-family:Fredoka, system-ui, sans-serif; font-weight:700; font-size:1rem; border-radius:999px; padding:12px 22px; background:linear-gradient(135deg,#2ecb6e,#128f4a); color:#fff; text-decoration:none; box-shadow:0 6px 16px rgb(90 42 156 / .18); transition:transform .25s cubic-bezier(0.34,1.56,0.64,1), filter .2s; } .ds-btn-wsp:hover { filter:brightness(1.06); transform:translateY(-2px); } .ds-btn-wsp:active { transform:scale(.92); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Acción secundaria: blanco con borde lila.",
+      "html": "<button class=\"ds-btn-ghost\">Categorías ⚙️</button>",
+      "css": ".ds-btn-ghost { display:inline-flex; align-items:center; gap:8px; cursor:pointer; font-family:Fredoka, system-ui, sans-serif; font-weight:600; font-size:1rem; border-radius:999px; padding:12px 22px; background:#fff; border:2px solid var(--color-m400,#7a4fd0); color:var(--color-m600,#4a1b96); transition:.25s; } .ds-btn-ghost:hover { background:#f0eaff; }"
+    },
+    {
+      "name": "Filter Chip",
+      "kind": "chip",
+      "refersTo": "chip-filter",
+      "description": "Chip de filtro público/talla. Activo = ámbar.",
+      "html": "<span class=\"ds-chip\">👩 Mujer</span> <span class=\"ds-chip ds-chip-on\">M</span>",
+      "css": ".ds-chip { display:inline-flex; align-items:center; gap:6px; background:#fff; border:1.5px solid var(--color-line,#e8dff8); border-radius:999px; padding:7px 13px; font-family:Nunito, system-ui, sans-serif; font-weight:700; font-size:.85rem; color:var(--color-ink,#2a1155); cursor:pointer; transition:.2s; } .ds-chip:hover { background:#f0eaff; border-color:var(--color-m400,#7a4fd0); } .ds-chip-on { background:var(--color-ama,#ffd23f); color:var(--color-m800,#2b0d5e); border-color:var(--color-ama,#ffd23f); }"
+    },
+    {
+      "name": "Product Card",
+      "kind": "card",
+      "refersTo": "card-product",
+      "description": "Tarjeta de disfraz: foto 2:3 sobre degradado de categoría, precio y CTA.",
+      "html": "<article class=\"ds-card-p\"><div class=\"ds-card-p-img\">🎭</div><span class=\"ds-card-p-cat\">🎃 HALLOWEEN</span><h3 class=\"ds-card-p-t\">Disfraz de vampira</h3><div class=\"ds-card-p-row\"><b class=\"ds-card-p-price\">$15.000</b><small>arriendo 3 días</small></div><button class=\"ds-card-p-cta\">🎭 Arrendar disfraz</button></article>",
+      "css": ".ds-card-p { display:flex; flex-direction:column; border-radius:20px; border:1.5px solid var(--color-line,#e8dff8); background:#fff; box-shadow:0 8px 20px rgba(90,42,156,.08); overflow:hidden; font-family:Nunito, system-ui, sans-serif; color:var(--color-ink,#2a1155); transition:.3s; } .ds-card-p:hover { transform:translateY(-5px); box-shadow:0 16px 40px rgb(90 42 156 / .18); } .ds-card-p-img { aspect-ratio:2/3; display:grid; place-items:center; font-size:3rem; background:linear-gradient(135deg,#1c0840,#7a3a10); } .ds-card-p-cat { padding:12px 14px 0; font-weight:800; font-size:.72rem; letter-spacing:.05em; text-transform:uppercase; color:var(--color-m500,#5a2a9c); } .ds-card-p-t { margin:2px 14px 8px; font-family:Fredoka, system-ui, sans-serif; font-weight:600; font-size:1.02rem; line-height:1.25; } .ds-card-p-row { display:flex; align-items:baseline; justify-content:space-between; gap:8px; padding:0 14px 10px; } .ds-card-p-price { font-family:Fredoka, system-ui, sans-serif; font-size:1.3rem; color:var(--color-m600,#4a1b96); } .ds-card-p-row small { font-size:.68rem; font-weight:700; color:var(--color-ink2,#66539c); } .ds-card-p-cta { margin:0 14px 14px; border:0; cursor:pointer; border-radius:12px; padding:10px 8px; font-family:Fredoka, system-ui, sans-serif; font-weight:700; font-size:.84rem; color:#fff; background:linear-gradient(135deg,var(--color-m600,#4a1b96),var(--color-m500,#5a2a9c)); box-shadow:0 4px 12px rgba(90,42,156,.3); }"
+    },
+    {
+      "name": "Input Field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Campo de formulario (contacto y solicitud): fondo lila claro, focus con halo.",
+      "html": "<input class=\"ds-input\" placeholder=\"Ej: Camila Rojas\" />",
+      "css": ".ds-input { width:100%; border:2px solid var(--color-line,#e8dff8); border-radius:12px; padding:12px 14px; font-family:Nunito, system-ui, sans-serif; font-size:.95rem; color:var(--color-ink,#2a1155); background:#f9f6ff; outline:none; transition:.2s; } .ds-input:focus { border-color:var(--color-m400,#7a4fd0); box-shadow:0 0 0 4px rgb(122 79 208 / .14); }"
+    },
+    {
+      "name": "Section Title",
+      "kind": "custom",
+      "refersTo": "display",
+      "description": "Título de sección Fredoka con subrayado arcoíris (h2.sec).",
+      "html": "<h2 class=\"ds-sec\">💰 Tarifas transparentes</h2>",
+      "css": ".ds-sec { font-family:Fredoka, system-ui, sans-serif; font-weight:700; font-size:clamp(1.5rem,3.4vw,2.3rem); line-height:1.15; text-align:center; color:var(--color-ink,#2a1155); } .ds-sec::after { content:''; display:block; width:92px; height:6px; margin:12px auto 0; border-radius:99px; background:linear-gradient(90deg,var(--color-ama,#ffd23f),var(--color-rosa,#ff5fa2),var(--color-m400,#7a4fd0)); }"
+    },
+    {
+      "name": "Script Accent",
+      "kind": "custom",
+      "refersTo": "typography.script",
+      "description": "Grito manuscrito con subrayado rosa; máximo uno por sección.",
+      "html": "<span class=\"ds-script\">¡Elige y brilla!</span>",
+      "css": ".ds-script { position:relative; display:inline-block; font-family:Caveat, cursive; font-weight:600; font-size:1.6rem; line-height:1; color:var(--color-ama,#ffd23f); transform:rotate(-3deg); } .ds-script::after { content:''; position:absolute; left:2%; right:10%; bottom:-5px; height:7px; border-bottom:3px solid var(--color-rosa,#ff5fa2); border-radius:0 0 100% 70% / 0 0 100% 70%; transform:rotate(-1deg); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "El Puesto Hechizado de Feria",
+    "overview": "El sistema se imagina como un puesto de carnaval nocturno: terciopelo morado bajo luces ámbar, letreros pintados a mano y globos que flotan. La noche morada (#2b0d5e→#5a2a9c) es el escenario; el ámbar #ffd23f es la bombilla que enciende la acción; el rosa chicle #ff5fa2 aporta la picardía de fiesta. La personalidad es 'mágica pero adulta': redondez generosa, sombras suñadas de morado, Fredoka redondeada para títulos y Nunito legible para cuerpo; Caveat solo como exclamación decorativa.",
+    "keyCharacteristics": [
+      "Escenario morado-noche + luz ámbar; base clara lavanda para el contenido.",
+      "Botones pill con bounce (cubic-bezier(0.34,1.56,0.64,1)) y sombras moradas.",
+      "Títulos Fredoka 700 con subrayado arcoíris; cuerpo Nunito 400/700/800.",
+      "Script Caveat como grito decorativo con subrayado rosa manuscrito.",
+      "Emojis como iconografía + doodles SVG flotantes de trazo fino.",
+      "Motion discreto y con propósito; todo bajo guardia prefers-reduced-motion."
+    ],
+    "rules": [
+      { "name": "The Amber Bulb Rule", "body": "El ámbar es la luz del puesto: CTA primario, precio o garantía. Si una pantalla tiene más de 3 elementos ámbar, quitar uno.", "section": "colors" },
+      { "name": "The Green Means WhatsApp Rule", "body": "Verde = 'esto abre WhatsApp'. No usar verde para éxito, links ni estados.", "section": "colors" },
+      { "name": "The Purple Shadow Rule", "body": "Toda sombra se tiñe de morado. Sombra gris pura está prohibida.", "section": "colors" },
+      { "name": "The One Script Rule", "body": "Máximo un .script visible por sección; nunca en botones, precios ni información legal.", "section": "typography" },
+      { "name": "The 1220 Rule", "body": "Ningún contenido excede 1220px; dentro, el texto corrido vive en bloques de ≤70ch.", "section": "layout" },
+      { "name": "The Flat-By-Default Rule", "body": "En reposo, tarjetas con borde #e8dff8 y sombra tenue; la sombra profunda es respuesta a interacción.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do usar el degradado morado #2b0d5e→#5a2a9c como fondo de los momentos oscuros: urgencia, banners, plan hero.",
+      "Do mantener CTA de conversión en ámbar (primario) o verde WhatsApp (contacto directo), con copy en verbos.",
+      "Do usar emojis como iconografía y respetar aria-hidden cuando son decorativos.",
+      "Do redondear todo lo que se toca: botones pill, tarjetas ≥18px, inputs 12px.",
+      "Do escribir precios en formato chileno ($13.000) vía clp() y garantía siempre como rango $13.000–$20.000.",
+      "Do usar sombras moradas y estado hover con lift para comunicar interactividad."
+    ],
+    "donts": [
+      "Don't introducir gris neutro en bordes, sombras o texto secundario: existe #e8dff8 y #66539c.",
+      "Don't usar Caveat para información que el usuario debe leer o actuar (precios, condiciones, errores).",
+      "Don't inventar precios, garantías o datos de contacto: salen de src/data/*.ts o disfraces.json.",
+      "Don't agregar animación continua nueva sin propósito de conversión; respetar prefers-reduced-motion.",
+      "Don't recortar fotos de producto sin object-position en móvil: las fotos 2:3 deben verse completas.",
+      "Don't superponer más de dos acentos saturados (ámbar + rosa) en un mismo bloque."
+    ]
+  }
+}
