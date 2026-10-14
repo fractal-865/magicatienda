@@ -43,9 +43,9 @@ const waFoot = waLink('¡Hola! 👋 Quiero cotizar el arriendo de disfraces para
     <div>
       <h4 class="mb-3 text-m600">Horarios y contacto</h4>
       <p class="text-[.9rem] leading-[1.8] text-[#4a3c78]">
-        Lun–Vie: 10:00–19:00<br />Sábado: 10:00–17:00<br />Domingo: cerrado 😴
+        <span data-horario>Lun–Sáb 15:00–20:30 · Dom cerrado</span> 😴
       </p>
-      <a class={fLink} href="tel:+56221234567">📞 +56 2 2123 4567</a>
+      <a class={fLink} href={CONFIG.telHref}>📞 {CONFIG.tel}</a>
       <a class={fLink} href="mailto:contacto@lamagicatienda.cl">✉️ contacto@lamagicatienda.cl</a>
       <a class={fLink} href={waFoot} target="_blank" rel="noopener">💬 {CONFIG.waDisplay}</a>
     </div>

@@ -3,32 +3,37 @@
    ═══════════════════════════════════════════════════════════════ */
 
 export const CONFIG = {
-  wa: '56912345678',
-  waDisplay: '+56 9 1234 5678',
-  tel: '+56 2 2123 4567',
-  telHref: 'tel:+56221234567',
+  wa: '56984330378',
+  waDisplay: '+56 9 8433 0378',
+  tel: '+56 9 8433 0378',
+  telHref: 'tel:+56984330378',
   email1: 'contacto@lamagicatienda.cl',
   email2: 'reservas@lamagicatienda.cl',
   dir: 'Hermann Wiegartt 01194, Punta Arenas, Región de Magallanes',
   horario: {
-    1: ['10:00', '19:00'],
-    2: ['10:00', '19:00'],
-    3: ['10:00', '19:00'],
-    4: ['10:00', '19:00'],
-    5: ['10:00', '19:00'],
-    6: ['10:00', '17:00'],
+    1: ['15:00', '20:30'],
+    2: ['15:00', '20:30'],
+    3: ['15:00', '20:30'],
+    4: ['15:00', '20:30'],
+    5: ['15:00', '20:30'],
+    6: ['15:00', '20:30'],
   } as Record<number, [string, string]>,
   redes: [
-    { n: 'Instagram', i: '📸', u: 'https://instagram.com/lamagicatienda' },
-    { n: 'TikTok', i: '🎵', u: 'https://tiktok.com/@lamagicatienda' },
-    { n: 'Facebook', i: '👍', u: 'https://facebook.com/lamagicatienda' },
-    { n: 'YouTube', i: '▶️', u: 'https://youtube.com/@lamagicatienda' },
-    { n: 'Pinterest', i: '📌', u: 'https://pinterest.com/lamagicatienda' },
-    { n: 'X', i: '✖️', u: 'https://x.com/lamagicatienda' },
-    { n: 'Threads', i: '➰', u: 'https://threads.net/@lamagicatienda' },
+    { n: 'Instagram', i: '📸', u: 'https://www.instagram.com/lamagicatiendadedisfraces/?hl=es-la' },
+    { n: 'Facebook', i: '👍', u: 'https://web.facebook.com/lamagicatiendadedisfraces/?locale=es_LA' },
   ],
-  handle: '@lamagicatienda',
+  handle: '@lamagicatiendadedisfraces',
 };
+
+/* Temporada Halloween: del 15 al 31 de octubre el horario cambia y se muestra destacado.
+   Pasado octubre vuelve al horario normal automáticamente. */
+export const HALLOWEEN_RANGO = { mesIni: 9, diaIni: 15, mesFin: 9, diaFin: 31 }; // mes 0-11
+export function esTemporadaHalloween(d = new Date()) {
+  const y = d.getFullYear();
+  const ini = new Date(y, HALLOWEEN_RANGO.mesIni, HALLOWEEN_RANGO.diaIni, 0, 0, 0);
+  const fin = new Date(y, HALLOWEEN_RANGO.mesFin, HALLOWEEN_RANGO.diaFin, 23, 59, 59);
+  return d >= ini && d <= fin;
+}
 
 export const GAR_SHORT = '$13.000–$20.000';
 export const GAR =

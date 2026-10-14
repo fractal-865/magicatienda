@@ -7,7 +7,7 @@ const cards = [
   { c: '#FF5FA2', i: '📞', t: 'Teléfono', s: CONFIG.tel, href: CONFIG.telHref },
   { c: '#e8a200', i: '✉️', t: 'Email', s: `${CONFIG.email1}<br>${CONFIG.email2}`, href: `mailto:${CONFIG.email1}` },
   { c: '#0fae9f', i: '📍', t: 'Dirección', s: CONFIG.dir, href: '#mapa' },
-  { c: '#7a4fd0', i: '🕐', t: 'Horarios', s: 'Lun–Vie 10–19 h<br>Sáb 10–17 h · Dom cerrado' },
+  { c: '#7a4fd0', i: '🕐', t: 'Horarios', s: '<span data-horario>Lun–Sáb 15:00–20:30 · Dom cerrado</span>' },
 ];
 ---
 
@@ -64,8 +64,6 @@ const cards = [
       <input id="cfNombre" class="w-full rounded-xl border-2 border-line bg-[#f9f6ff] px-3.5 py-3 font-fb text-[.95rem] text-ink outline-none focus:border-m400" placeholder="Ej: Camila Rojas" required />
       <label for="cfCel" class="text-[.8rem] font-extrabold text-ink2">Tu celular</label>
       <input id="cfCel" class="w-full rounded-xl border-2 border-line bg-[#f9f6ff] px-3.5 py-3 font-fb text-[.95rem] text-ink outline-none focus:border-m400" placeholder="Ej: +56 9 1234 5678" required />
-      <label for="cfFecha" class="text-[.8rem] font-extrabold text-ink2">Fecha del evento</label>
-      <input id="cfFecha" type="date" class="w-full rounded-xl border-2 border-line bg-[#f9f6ff] px-3.5 py-3 font-fb text-[.95rem] text-ink outline-none focus:border-m400" />
       <label for="cfMsg" class="text-[.8rem] font-extrabold text-ink2">Mensaje</label>
       <textarea id="cfMsg" rows="3" class="w-full rounded-xl border-2 border-line bg-[#f9f6ff] px-3.5 py-3 font-fb text-[.95rem] text-ink outline-none focus:border-m400" placeholder="Cuéntanos: ¿qué fiesta se viene? 🎉"></textarea>
       <button class="btn btn-wsp btn-lg" type="submit">Enviar por WhatsApp 💬</button>

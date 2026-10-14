@@ -3,7 +3,7 @@
    Filtros + buscador + "Tu arriendo" (cotización) + modales
    ═══════════════════════════════════════════════════════════════ */
 import { PRODUCTS, CATS, PUBLICOS, OCASIONES, TALLAS, catById, clp, type Product } from '../data/products';
-import { CONFIG, GAR_SHORT, waLink, ACC, TOPMSGS, SEARCH_PH } from '../data/site';
+import { GAR_SHORT, waLink, ACC, TOPMSGS, SEARCH_PH, esTemporadaHalloween } from '../data/site';
 
 type Acc = { id: string; n: string; e: string };
 type Item = Product | Acc;
@@ -1354,80 +1354,55 @@ $('#logoBtn')?.addEventListener('click', () => {
   }
 });
 
-/* ═══ TESTIMONIOS ═══ */
-(() => {
-  const track = $('#testiTrack');
-  const dots = $('#testiDots');
-  if (!track || !dots) return;
-  const n = track.children.length;
-  let i = 0;
-  const go = (k: number) => {
-    i = (k + n) % n;
-    track.style.transform = `translateX(-${i * 100}%)`;
-    [...dots.children].forEach((d, x) => ((d as HTMLElement).style.background = x === i ? '#FF5FA2' : '#d9c9f7'));
-  };
-  for (let k = 0; k < n; k++) {
-    const b = document.createElement('button');
-    b.setAttribute('aria-label', 'Testimonio ' + (k + 1));
-    b.style.cssText = 'width:10px;height:10px;border-radius:50%;border:0;background:#d9c9f7;cursor:pointer';
-    b.onclick = () => go(k);
-    dots.append(b);
-  }
-  $('#testiPrev')?.addEventListener('click', () => go(i - 1));
-  $('#testiNext')?.addEventListener('click', () => go(i + 1));
-  go(0);
-  if (!reduced()) setInterval(() => go(i + 1), 6500);
-})();
-
-/* ═══ GALERÍA ═══ */
-$('#instaGrid')?.addEventListener('click', (e) => {
-  const b = (e.target as HTMLElement).closest('.hbtn') as HTMLButtonElement | null;
-  if (!b) return;
-  e.stopPropagation();
-  const liked = b.classList.toggle('liked');
-  const s = b.querySelector('span');
-  if (s) s.textContent = String(Number(s.textContent) + (liked ? 1 : -1));
-  if (liked) Confetti.at(b);
-});
-
-/* ═══ MAPA · HORARIO ═══ */
+/* ═══ MAPA · HORARIO (con temporada Halloween dinámica) ═══ */
 (() => {
   const badge = $('#openBadge');
-  if (!badge) return;
-  const st = () => {
+  const to = (t: string) => {
+    const [a, b] = t.split(':');
+    return Number(a) * 60 + Number(b);
+  };
+  const pintar = () => {
     const n = new Date();
     const d = n.getDay();
-    const h = CONFIG.horario[d];
     const mins = n.getHours() * 60 + n.getMinutes();
-    const to = (t: string) => {
-      const [a, b] = t.split(':');
-      return Number(a) * 60 + Number(b);
+    const preview = new URLSearchParams(location.search).get('halloween') === '1';
+    const hallo = preview || esTemporadaHalloween(n);
+    const [o, c] = hallo ? ['12:00', '20:30'] : ['15:00', '20:30'];
+
+    // Textos que se actualizan solos (del 15 al 31 oct sale el de Halloween)
+    const etiqueta = hallo
+      ? '🎃 Del 15 al 31 oct: 12:00–20:30'
+      : 'Lun–Sáb 15:00–20:30 · Dom cerrado';
+    $$<HTMLElement>('[data-horario]').forEach((el) => {
+      el.textContent = etiqueta;
+    });
+    // Aviso destacado del horario Halloween (aparece solo en temporada)
+    const note = $('#halloHours');
+    if (note) note.hidden = !hallo;
+
+    if (!badge) return;
+    const set = (st: string, msg: string) => {
+      badge.classList.toggle('open', st === 'open');
+      badge.classList.toggle('closed', st === 'closed');
+      badge.innerHTML = `<span class="dot"></span> ${msg}`;
     };
-    const open = (extra: string) => {
-      badge.classList.add('open');
-      badge.classList.remove('closed');
-      badge.innerHTML = `<span class="dot"></span> ${extra}`;
-    };
-    const closed = (extra: string) => {
-      badge.classList.add('closed');
-      badge.classList.remove('open');
-      badge.innerHTML = `<span class="dot"></span> ${extra}`;
-    };
-    if (!h) return closed('Cerrado · abre el lunes 10:00');
-    const [o, c] = [to(h[0]), to(h[1])];
-    if (mins >= o && mins < c) open('Abierto ahora · hasta ' + h[1]);
-    else if (mins < o) open('Abre hoy a las ' + h[0]);
-    else closed('Cerrado · vuelve mañana');
-  }
-  st();
-  setInterval(st, 60000);
+    if (d === 0) return set('closed', 'Cerrado hoy domingo · volvemos el lunes 15:00');
+    const [oi, ci] = [to(o), to(c)];
+    const rango = hallo ? '12:00–20:30' : '15:00–20:30';
+    const tag = hallo ? ' · horario Halloween 🎃' : '';
+    if (mins >= oi && mins < ci) set('open', `Abierto ahora · hoy hasta las ${c}${tag}`);
+    else if (mins < oi) set('open', `Hoy abrimos a las ${o}${tag}`);
+    else set('closed', `Cerrado · volvemos mañana · ${rango}`);
+  };
+  pintar();
+  setInterval(pintar, 60000);
 })();
 
 /* ═══ CONTACTO / FAQ / NEWSLETTER ═══ */
 $('#cForm')?.addEventListener('submit', (e) => {
   e.preventDefault();
   const v = (id: string) => ($<HTMLInputElement>('#' + id)?.value ?? '');
-  const m = `¡Hola! Soy ${v('cfNombre')} 🙋\n📱 ${v('cfCel')}\n📅 Evento: ${v('cfFecha') || 'por definir'}\n💬 ${v('cfMsg')}`;
+  const m = `¡Hola! Soy ${v('cfNombre')} 🙋\n📱 ${v('cfCel')}\n💬 ${v('cfMsg')}`;
   window.open(waLink(m), '_blank');
   toast('💬 Abriendo WhatsApp con tu mensaje…');
 });
