@@ -19,6 +19,18 @@ const benefits = [
       <div
         class="promo-card rv relative flex min-h-[310px] flex-col justify-center gap-2.5 overflow-hidden rounded-3xl bg-[linear-gradient(130deg,#1c0840,#3c1481_70%,#7a3a10)] p-7 text-white shadow-sh2"
       >
+        <!-- Amigos disfrazados de Halloween celebrando -->
+        <img
+          class="absolute inset-0 h-full w-full object-cover object-[70%_center]"
+          src={`${import.meta.env.BASE_URL}/img/halloween-grupo.svg`.replace(/\/{2,}/g, '/')}
+          alt="Grupo de amigos disfrazados de Halloween celebrando"
+          loading="lazy"
+          onerror="this.style.display='none'"
+        />
+        <div
+          class="absolute inset-0 bg-[linear-gradient(115deg,rgba(20,6,48,.95)_18%,rgba(35,11,80,.72)_52%,rgba(60,20,129,.35))]"
+        >
+        </div>
         <span class="cb-bal absolute right-[10%] top-[10%] text-[2rem] opacity-85">🎃</span>
         <span class="script relative">Se viene el terror divertido…</span>
         <h3 class="relative text-[clamp(1.4rem,2.6vw,1.9rem)] leading-[1.15]">

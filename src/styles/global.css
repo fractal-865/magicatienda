@@ -1137,27 +1137,22 @@ mark {
   display: grid;
   animation: mup 0.22s ease;
 }
-.mega-arrow-btn {
-  display: grid;
-  place-items: center;
-  width: 26px;
-  height: 34px;
-  cursor: pointer;
-  border: 0;
-  background: transparent;
-  color: var(--color-ink);
-  font-size: 0.8em;
-  transition: 0.2s;
-  border-radius: 0 8px 8px 0;
+/* "Catálogo" es un único botón: al pasar el mouse (o tocarlo) se despliega el mega menú */
+.mega-trigger {
+  gap: 3px;
 }
-nav .relative > a[data-navsec='catalogo'] {
-  border-radius: 8px 0 0 8px;
-  padding-right: 3px;
+.mega-caret {
+  display: inline-block;
+  font-size: 0.7em;
+  transition: transform 0.22s ease, color 0.2s;
 }
-.mega-arrow-btn:hover,
-.mega-arrow-btn[aria-expanded='true'] {
+.mega-trigger:hover,
+.mega-trigger[aria-expanded='true'] {
   color: var(--color-m600);
   background: #f0eaff;
+}
+.mega-trigger[aria-expanded='true'] .mega-caret {
+  transform: rotate(180deg);
 }
 /* Flecha del mega menú que apunta al botón "Disfraces" */
 .mega-arrow {  position: absolute;
@@ -1830,16 +1825,8 @@ body.drawer-lock {
   line-height: 1.5;
 }
 .info-body {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.35s cubic-bezier(0.2, 0.8, 0.25, 1);
-}
-.info-body > * {
-  overflow: hidden;
-  min-height: 0;
-}
-.infocard.open .info-body {
-  grid-template-rows: 1fr;
+  display: block;
+  margin-top: 2px;
 }
 .info-body p {
   margin-top: 9px;
@@ -1878,25 +1865,6 @@ body.drawer-lock {
 }
 .info-list li b {
   color: var(--color-m600);
-}
-.info-more {
-  align-self: flex-start;
-  margin-top: 12px;
-  border: 0;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-  font-family: var(--font-ft);
-  font-size: 0.86rem;
-  font-weight: 800;
-  color: var(--color-m600);
-}
-.info-more .arr {
-  display: inline-block;
-  transition: transform 0.3s;
-}
-.infocard.open .info-more .arr {
-  transform: rotate(180deg);
 }
 
 /* ═══ Nota de pago del día del retiro ═══ */
@@ -2008,13 +1976,9 @@ body.drawer-lock {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 11px;
   }
-  /* En móvil las fotos se ven completas, de cabeza a pies */
-  .pcard .pimg {
-    height: 290px;
-  }
+  /* Las fotos mantienen su proporción 2:3: nunca se cortan cabeza ni pies */
   .pcard .pimg img {
-    object-fit: contain;
-    object-position: center;
+    object-position: center top;
   }
   .pcard .addbtn {
     font-size: 0.75rem;

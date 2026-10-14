@@ -4,6 +4,17 @@ import { CONFIG, waLink } from '../data/site';
 
 const waDrawer = waLink('¡Hola! 👋 Quiero cotizar el arriendo de disfraces para adultos en La Mágica Tienda ✨');
 const sublink = 'block rounded-[10px] px-3.5 py-[11px] text-[#4a3c78] no-underline hover:bg-[#f3edff]';
+
+/* Nombres abreviados: máximo 2 palabras */
+const CORTOS: Record<string, string> = {
+  'Películas y series': 'Películas',
+  'Anime y videojuegos': 'Anime',
+  'Princesas y cuentos': 'Princesas',
+  'Épocas e históricos': 'Épocas',
+  'Fiesta temática': 'Fiesta',
+  'Despedida de solter@': 'Despedida',
+};
+const corto = (s: string) => CORTOS[s] ?? s;
 ---
 
 <div
@@ -21,7 +32,7 @@ const sublink = 'block rounded-[10px] px-3.5 py-[11px] text-[#4a3c78] no-underli
   <div id="drawerNav">
     <details class="dacc">
       <summary class="flex cursor-pointer list-none items-center gap-2.5 border-b border-line px-1.5 py-3.5 font-ft text-[1.1rem] font-semibold text-ink [&::-webkit-details-marker]:hidden">
-        🎭 Disfraces <span class="arr ml-auto text-m500 transition">›</span>
+        🎭 Catálogo <span class="arr ml-auto text-m500 transition">›</span>
       </summary>
       <div class="sub">
         <details class="dacc">
@@ -29,12 +40,12 @@ const sublink = 'block rounded-[10px] px-3.5 py-[11px] text-[#4a3c78] no-underli
             Temática <span class="arr ml-auto text-m500 transition">›</span>
           </summary>
           <div class="sub">
-            {CATS_ACTIVE.map((c) => <a class={sublink} href="#catalogo" data-tem={c.id}>{c.i} {c.n}</a>)}
+            {CATS_ACTIVE.map((c) => <a class={sublink} href="#catalogo" data-tem={c.id}>{c.i} {corto(c.n)}</a>)}
           </div>
         </details>
         <details class="dacc">
           <summary class="flex cursor-pointer list-none items-center gap-2.5 border-b border-line px-1.5 py-3.5 font-ft text-[1.1rem] font-semibold text-ink [&::-webkit-details-marker]:hidden" style="font-size:.95rem">
-            Público (adultos) <span class="arr ml-auto text-m500 transition">›</span>
+            Público <span class="arr ml-auto text-m500 transition">›</span>
           </summary>
           <div class="sub">
             {PUBLICOS.map((p) => <a class={sublink} href="#catalogo" data-pub={p.id}>{p.i} {p.n}</a>)}
@@ -45,12 +56,13 @@ const sublink = 'block rounded-[10px] px-3.5 py-[11px] text-[#4a3c78] no-underli
             Celebración <span class="arr ml-auto text-m500 transition">›</span>
           </summary>
           <div class="sub">
-            {OCASIONES.slice(0, 6).map((o) => <a class={sublink} href="#catalogo" data-oca={o.id}>{o.i} {o.n}</a>)}
+            {OCASIONES.slice(0, 6).map((o) => <a class={sublink} href="#catalogo" data-oca={o.id}>{o.i} {corto(o.n)}</a>)}
           </div>
         </details>
       </div>
     </details>
 
+    <a class="big flex items-center gap-2.5 border-b border-line px-1.5 py-3.5 font-ft text-[1.1rem] font-semibold text-ink no-underline" href="#tarifas">💸 Tarifas</a>
     <a class="big flex items-center gap-2.5 border-b border-line px-1.5 py-3.5 font-ft text-[1.1rem] font-semibold text-ink no-underline" href="#promos">🎈 Promos</a>
     <a class="big flex items-center gap-2.5 border-b border-line px-1.5 py-3.5 font-ft text-[1.1rem] font-semibold text-ink no-underline" href="#fechas">📆 Fechas</a>
     <a class="big flex items-center gap-2.5 border-b border-line px-1.5 py-3.5 font-ft text-[1.1rem] font-semibold text-ink no-underline" href="#como">🪄 Cómo funciona</a>
@@ -60,10 +72,10 @@ const sublink = 'block rounded-[10px] px-3.5 py-[11px] text-[#4a3c78] no-underli
         ➕ Más <span class="arr ml-auto text-m500 transition">›</span>
       </summary>
       <div class="sub">
-        <a class={sublink} href="#pagos">💳 Medios de pago</a>
-        <a class={sublink} href="#" data-opencond>🛡️ Condiciones de arriendo</a>
+        <a class={sublink} href="#pagos">💳 Pagos</a>
+        <a class={sublink} href="#" data-opencond>🛡️ Condiciones</a>
         <a class={sublink} href="#mapa">📍 Cómo llegar</a>
-        <a class={sublink} href="#faq">❓ Preguntas frecuentes</a>
+        <a class={sublink} href="#faq">❓ Preguntas</a>
         <a class={sublink} href="#contacto">📞 Contacto</a>
       </div>
     </details>

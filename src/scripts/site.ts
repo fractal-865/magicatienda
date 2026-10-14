@@ -376,7 +376,7 @@ function cardHTML(c: Product, k: number) {
   const multiSize = c.tl.length > 1;
   const guia = (t: string) => TALLA_GUIA[t] ? `Estatura recomendada: ${TALLA_GUIA[t]}` : 'Sin referencia de estatura';
   return `<article class="pcard relative flex cursor-pointer flex-col rounded-[20px] border-[1.5px] border-line bg-white shadow-[0_8px_20px_rgba(90,42,156,.08)] transition duration-300 hover:-translate-y-[5px] hover:shadow-sh2" data-id="${c.id}" style="--d:${Math.min(k * 0.05, 0.4)}s" tabindex="0" aria-label="${esc(c.n)}, disfraz para adultos en arriendo">
-  <div class="pimg relative h-[380px] shrink-0 overflow-hidden" style="background:linear-gradient(135deg,${T.g[0]},${T.g[1]})">
+  <div class="pimg relative aspect-[2/3] shrink-0 overflow-hidden" style="background:linear-gradient(135deg,${T.g[0]},${T.g[1]})">
     <img src="${c.img}" alt="Disfraz ${esc(c.n)}" loading="lazy" class="absolute inset-0 h-full w-full object-cover object-center transition duration-500">
   </div>
   <div class="flex flex-1 flex-col p-3.5 pb-4">
@@ -681,17 +681,19 @@ function applyFilter(o: { q?: string; tem?: string; pub?: string; oca?: string }
   closeAll();
 }
 
-/* ═══ MEGA MENÚ ═══ */
+/* ═══ MEGA MENÚ (se abre al pasar el mouse sobre "Catálogo") ═══ */
 (() => {
-  const btn = $<HTMLButtonElement>('#megaBtn');
+  const btn = $<HTMLElement>('#megaBtn');
   const menu = $('#megaMenu');
   if (!btn || !menu) return;
+  // En escritorio con mouse se abre al pasar por encima; en táctil, al tocar
+  const conMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   let mt: ReturnType<typeof setTimeout>;
   const open = (v: boolean) => {
     menu.classList.toggle('open', v);
     btn.setAttribute('aria-expanded', String(v));
     if (v) {
-      // Coloca la flecha apuntando al botón "Disfraces"
+      // Coloca la flecha apuntando al botón "Catálogo"
       const mb = menu.getBoundingClientRect();
       const bb = btn.getBoundingClientRect();
       menu.style.setProperty('--mega-x', `${Math.round(bb.left + bb.width / 2 - mb.left)}px`);
@@ -708,7 +710,16 @@ function applyFilter(o: { q?: string; tem?: string; pub?: string; oca?: string }
   menu.addEventListener('mouseleave', () => {
     mt = setTimeout(() => open(false), 220);
   });
-  btn.addEventListener('click', () => open(!menu.classList.contains('open')));
+  btn.addEventListener('click', (e) => {
+    if (conMouse) {
+      // Con mouse: el clic lleva al catálogo (el menú ya se abrió al pasar)
+      open(false);
+      return;
+    }
+    // Sin mouse: el clic despliega el menú y no navega todavía
+    e.preventDefault();
+    open(!menu.classList.contains('open'));
+  });
   menu.addEventListener('click', (e) => {
     const t = e.target as HTMLElement;
     if (t.closest('[data-opencond]')) {
@@ -1435,17 +1446,6 @@ document.addEventListener('click', (e) => {
   b.setAttribute('aria-expanded', String(open));
 });
 
-/* Tarjetas informativas de "Cómo funciona": "Leer más" despliega el contenido */
-document.addEventListener('click', (e) => {
-  const b = (e.target as HTMLElement).closest('.info-more') as HTMLButtonElement | null;
-  if (!b) return;
-  const card = b.closest('.infocard');
-  if (!card) return;
-  const open = card.classList.toggle('open');
-  b.setAttribute('aria-expanded', String(open));
-  b.innerHTML = `${open ? 'Leer menos' : 'Leer más'} <span class="arr" aria-hidden="true">▾</span>`;
-});
-
 $('#nlForm')?.addEventListener('submit', (e) => {
   e.preventDefault();
   Confetti.rain(120);
@@ -1516,7 +1516,7 @@ $('#halloCTA')?.addEventListener('click', () => applyFilter({ tem: 'halloween' }
   );
 
   // Scrollspy: remarca con un puntito en qué sección del menú estás
-  const ids = ['catalogo', 'fechas', 'como', 'contacto'];
+  const ids = ['catalogo', 'tarifas', 'fechas', 'como', 'contacto'];
   const links = $$<HTMLAnchorElement>('nav a[data-navsec]');
   const spy = () => {
     const y = window.scrollY + (hdr?.offsetHeight ?? 64) + 150;

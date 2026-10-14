@@ -6,6 +6,17 @@ const destacados = [...PRODUCTS].sort((a, b) => a.pop - b.pop).slice(0, 3);
 
 const nlink =
   'inline-flex cursor-pointer items-center gap-1.5 rounded-xl px-3 py-2 font-ft text-[.92rem] font-semibold text-ink transition hover:bg-[#f0eaff] hover:text-m600';
+
+/* Nombres abreviados para el mega menú: máximo 2 palabras */
+const CORTOS: Record<string, string> = {
+  'Películas y series': 'Películas',
+  'Anime y videojuegos': 'Anime',
+  'Princesas y cuentos': 'Princesas',
+  'Épocas e históricos': 'Épocas',
+  'Fiesta temática': 'Fiesta',
+  'Despedida de solter@': 'Despedida',
+};
+const corto = (s: string) => CORTOS[s] ?? s;
 ---
 
 <header
@@ -35,17 +46,18 @@ const nlink =
       <!-- Navegación -->
       <nav class="hidden items-center gap-0.5 lg:flex" aria-label="Navegación principal">
         <button id="topHome" class={nlink} aria-label="Ir al inicio">🏠</button>
-        <div class="relative flex items-center">
-          <a class={nlink} href="#catalogo" data-navsec="catalogo">Disfraces</a>
-          <button
-            id="megaBtn"
-            class="mega-arrow-btn"
-            aria-expanded="false"
-            aria-controls="megaMenu"
-            aria-label="Ver categorías"
-            >▾</button
-          >
-        </div>
+        <!-- Un solo botón: "Catálogo" abre el mega menú al pasar el mouse -->
+        <a
+          id="megaBtn"
+          class={`${nlink} mega-trigger`}
+          href="#catalogo"
+          data-navsec="catalogo"
+          aria-expanded="false"
+          aria-controls="megaMenu"
+          aria-haspopup="true"
+          >Catálogo<span class="mega-caret" aria-hidden="true">▾</span></a
+        >
+        <a class={nlink} href="#tarifas" data-navsec="tarifas">Tarifas</a>
         <a class={nlink} href="#fechas" data-navsec="fechas">Fechas</a>
         <a class={nlink} href="#como" data-navsec="como">Cómo funciona</a>
         <a class={nlink} href="#contacto" data-navsec="contacto">Contacto</a>
@@ -99,7 +111,7 @@ const nlink =
           CATS_ACTIVE.map((c) => (
             <li>
               <a role="menuitem" data-tem={c.id} href="#catalogo" class="flex cursor-pointer items-center gap-2 rounded-[10px] px-2 py-[7px] text-[.9rem] text-[#4a3c78] no-underline transition hover:translate-x-1 hover:bg-[#f3edff] hover:text-m600">
-                {c.i} {c.n}
+                {c.i} {corto(c.n)}
                 <small class="ml-auto rounded-full bg-[#e2f7ec] px-[7px] py-[2px] text-[.68rem] font-extrabold text-[#0c7a56]">{count(c.id)}</small>
               </a>
             </li>
@@ -130,14 +142,14 @@ const nlink =
           OCASIONES.slice(0, 6).map((o) => (
             <li>
               <a role="menuitem" data-oca={o.id} href="#catalogo" class="flex cursor-pointer items-center gap-2 rounded-[10px] px-2 py-[7px] text-[.9rem] text-[#4a3c78] no-underline transition hover:translate-x-1 hover:bg-[#f3edff] hover:text-m600">
-                {o.i} {o.n}
+                {o.i} {corto(o.n)}
               </a>
             </li>
           ))
         }
       </ul>
       <div class="mt-3 border-t border-dashed border-line pt-2.5">
-        <a href="#" data-opencond class="flex items-center gap-2 rounded-[10px] px-2 py-1.5 text-[.88rem] font-extrabold text-m500 no-underline hover:bg-[#f3edff]">🛡️ Condiciones de arriendo y garantía →</a>
+        <a href="#" data-opencond class="flex items-center gap-2 rounded-[10px] px-2 py-1.5 text-[.88rem] font-extrabold text-m500 no-underline hover:bg-[#f3edff]">🛡️ Condiciones →</a>
       </div>
     </div>
 
