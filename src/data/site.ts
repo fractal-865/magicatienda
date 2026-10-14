@@ -53,8 +53,8 @@ export const FECHAS = [
 
 export const TESTIS = [
   { n: 'Carolina M.', r: 'Cumpleaños 30', t: 'Arrendé el disfraz de sirena para mis 30. Impecable, y la garantía me la devolvieron al tiro al devolverlo. 🙌', s: 5, e: '👩🏻' },
-  { n: 'Vale & Nico', r: 'Grupo de amigos', t: 'Pedimos 8 disfraces para una fiesta temática y el 25% grupal es real. Todo coordinado por WhatsApp en 2 minutos.', s: 5, e: '🧑‍🤝🧑' },
-  { n: 'Rodrigo P.', r: 'Fiesta de empresa', t: 'Usamos el cupón MAGIA15 y la oficina completa terminó disfrazada de los 80. Épico. 🕺', s: 4, e: '👨' },
+  { n: 'Vale & Nico', r: 'Grupo de amigos', t: 'Pedimos 8 disfraces para una fiesta temática y quedaron todos increíbles. Todo coordinado por WhatsApp en 2 minutos.', s: 5, e: '🧑‍🤝🧑' },
+  { n: 'Rodrigo P.', r: 'Fiesta de empresa', t: 'Arrendamos para la fiesta de la oficina y terminó todo el equipo disfrazado de los 80. Épico. 🕺', s: 4, e: '👨' },
   { n: 'Paulina S.', r: 'Graduación', t: 'Arrendamos 12 trajes para la fiesta de egreso. Cero complicaciones con la reserva y la garantía.', s: 5, e: '👩🏽‍' },
 ];
 
@@ -65,7 +65,7 @@ export const FAQS: [string, string][] = [
   ['¿Qué descuentos puede tener la garantía?', 'Si el disfraz vuelve con roturas, manchas, quemaduras, arreglos, accesorios perdidos o se entrega con retraso, se puede descontar parte o el total de la garantía, a criterio de la propietaria.'],
   ['¿Puedo reservar con anticipación?', '¡Ojalá! La reserva se hace pagando el valor del arriendo y no es reembolsable: con ella te aseguramos el disfraz para tu fecha.'],
   ['¿Hacen ajustes de talla?', 'Sí, ajustes simples gratis en la tienda: basta, cintura, dobladillos.'],
-  ['¿Hay descuentos por grupo?', '¡Claro! 7 o más disfraces en una misma cotización = 25% de descuento sobre el valor de arriendo. Y con el cupón MAGIA15 tienes 15% (siempre aplicamos el mayor).'],
+  ['¿Se puede arrendar en grupo?', '¡Sí! Si son varios disfraces en una misma cotización lo coordinamos todo junto por WhatsApp, para que el grupo retire el mismo día y con las tallas resueltas.'],
   ['¿Cómo pago la reserva o la garantía?', 'Reserva: valor del arriendo, coordinado al confirmar. Garantía: efectivo o transferencia/deposito (Cuenta RUT Banco Estado o Copec Pay, datos en "Condiciones de arriendo").'],
 ];
 
@@ -82,8 +82,8 @@ export const ACC = [
 export const TOPMSGS = [
   '🛡️ Garantía de $13.000 a $20.000 según el disfraz: se paga al retirar y se devuelve.',
   '💬 Cotiza tu arriendo por WhatsApp en 1 minuto',
-  '🎉 7 o más disfraces: 25% de descuento grupal',
-  '🎟️ Toca el cupón y se aplica a tu cotización',
+  '📅 Arriendo por 3 días: retiro, uso y entrega',
+  '📍 Hermann Wiegartt 01194 · Punta Arenas',
 ];
 
 export const MARQUEE = [
@@ -91,7 +91,7 @@ export const MARQUEE = [
   '🎭 Disfraces solo para adultos',
   '💬 Cotiza por WhatsApp',
   '🛡️ Garantía $13.000–$20.000',
-  '🎉 25% dcto. grupal',
+  '🪄 Arriendo por 3 días',
   '📍 Punta Arenas, Magallanes',
 ];
 

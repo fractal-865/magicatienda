@@ -190,16 +190,6 @@
     opacity: 1;
   }
 }
-@keyframes shk {
-  20%,
-  60% {
-    transform: translateX(-6px);
-  }
-  40%,
-  80% {
-    transform: translateX(6px);
-  }
-}
 @keyframes ckd {
   to {
     stroke-dashoffset: 0;
@@ -875,21 +865,6 @@ footer {
   font-size: 0.85rem;
   color: var(--color-ink2);
   margin: 6px 0;
-}
-.cpnbox {
-  display: flex;
-  gap: 8px;
-  margin: 12px 0;
-}
-.cpnbox input {
-  flex: 1;
-  border: 2px dashed var(--color-m400);
-  border-radius: 12px;
-  padding: 10px 12px;
-  font-family: var(--font-fb);
-  font-weight: 700;
-  text-transform: uppercase;
-  color: var(--color-ink);
 }
 .tsel {
   display: flex;
@@ -1677,14 +1652,6 @@ body.drawer-lock {
 }
 #cartCount.pop {
   animation: gum 0.45s;
-}
-.cpnbox input.shake {
-  animation: shk 0.4s;
-}
-.cpnbox input.okk {
-  border-style: solid;
-  border-color: #0c9455;
-  background: #eafff2;
 }
 .flydot {
   position: fixed;

@@ -73,10 +73,7 @@ const state = {
   sort: 'pop',
   page: 1,
   cart: [] as CartItem[],
-  coupon: null as null | { code: string; pct: number; label: string },
-  coupons: { MAGIA15: { pct: 15, label: 'Cupón MAGIA15' } },
   req: (() => { const h = todayISO(); return { nombre: '', rut: '', correo: '', tel: '', dir: '', retiro: h, uso: addDays(h, 1), entrega: addDays(h, 2), com: '' }; })(),
-  groupCelebrated: false,
   lastAdd: null as null | { id: string; tipo: 'd' | 'a'; talla: string },
 };
 
@@ -222,18 +219,6 @@ setInterval(() => {
     },
     { passive: true },
   );
-})();
-
-/* confeti del banner cumpleaños */
-(() => {
-  const c = $('#cbConf');
-  if (!c) return;
-  const cols = ['#FFD23F', '#fff', '#2EE6D6', '#ffe3f1'];
-  for (let i = 0; i < 14; i++) {
-    const s = document.createElement('i');
-    s.style.cssText = `left:${Math.random() * 100}%;background:${cols[i % 4]};--t:${4 + Math.random() * 4}s;--dl:${Math.random() * 5}s`;
-    c.append(s);
-  }
 })();
 
 /* ═══ CUENTA REGRESIVA ═══ */
@@ -747,7 +732,7 @@ function applyFilter(o: { q?: string; tem?: string; pub?: string; oca?: string }
     }
     if (t.closest('[data-mgo]')) {
       open(false);
-      $('#promos')?.scrollIntoView({ behavior: 'smooth' });
+      $('#mapa')?.scrollIntoView({ behavior: 'smooth' });
     }
   });
   document.addEventListener('keydown', (e) => {
@@ -818,29 +803,7 @@ $('#bottomNav')?.addEventListener('click', (e) => {
 const cartQty = () => state.cart.reduce((a, i) => a + i.qty, 0);
 const disfQty = () => state.cart.filter((i) => i.tipo === 'd').reduce((a, i) => a + i.qty, 0);
 
-function discountLabels(): string[] {
-  const L: string[] = [];
-  const dq = disfQty();
-  if (dq >= 7) L.push('👥 25% grupal (7+ disfraces)');
-  if (state.coupon) L.push(`🎟️ ${state.coupon.code} (${state.coupon.pct}% dto.)`);
-  return L;
-}
-function bestDiscount(): string | null {
-  const dq = disfQty();
-  if (state.coupon && dq >= 7) return state.coupon.pct >= 25 ? '25% grupal' : `${state.coupon.pct}% ${state.coupon.code}`;
-  if (dq >= 7) return '25% grupal';
-  if (state.coupon) return `${state.coupon.pct}% ${state.coupon.code}`;
-  return null;
-}
-
 /* ── Cálculo de precios (arriendo + garantía) ── */
-function discountPct(): number {
-  const dq = disfQty();
-  let pct = 0;
-  if (dq >= 7) pct = 25;
-  if (state.coupon && state.coupon.pct > pct) pct = state.coupon.pct;
-  return pct;
-}
 function rentalSubtotal(): number {
   return state.cart.reduce((a, i) => {
     const it = byId(i.id);
@@ -848,7 +811,7 @@ function rentalSubtotal(): number {
   }, 0);
 }
 function rentalTotal(): number {
-  return Math.round(rentalSubtotal() * (1 - discountPct() / 100));
+  return rentalSubtotal();
 }
 function guaranteeTotal(): number {
   return state.cart.reduce((a, i) => {
@@ -879,14 +842,11 @@ function refreshDateRow() {
 /* ── bloque de totales (arriendo + garantía), compartido ── */
 function totalsHTML(): string {
   const sub = rentalSubtotal();
-  const pct = discountPct();
   const tot = rentalTotal();
   const gar = guaranteeTotal();
-  const dto = sub - tot;
   const pagoDia = tot + gar;
   return `<div class="det mt-3 rounded-2xl border-2 border-line bg-[#f9f6ff] p-3 text-[.85rem]">
     <div class="flex justify-between"><span>Arriendo 3 días</span><b>${clp(sub)}</b></div>
-    ${pct ? `<div class="flex justify-between text-[#0c7a56]"><span>✨ Descuento ${pct}%</span><b>−${clp(dto)}</b></div>` : ''}
     <div class="mt-1.5 flex items-baseline justify-between gap-2 border-t border-line pt-1.5">
       <span class="font-ft text-[.95rem] font-bold text-m600">Total a pagar por el arriendo</span>
       <b class="font-ft text-[1.3rem] leading-none text-m600">${clp(tot)}</b>
@@ -930,12 +890,6 @@ function afterCart(srcEl?: Element | null) {
     void (srcEl as HTMLElement).offsetWidth;
     srcEl.classList.add('clicked');
   }
-  if (disfQty() >= 7 && !state.groupCelebrated) {
-    state.groupCelebrated = true;
-    Confetti.rain(140);
-    toast('🎉 ¡Descuento grupal 25% desbloqueado en tu cotización!');
-  }
-  if (disfQty() < 7) state.groupCelebrated = false;
   renderMini();
   renderSticky();
   if ($('#reqModal')?.classList.contains('open')) renderReq();
@@ -969,7 +923,6 @@ function renderMini() {
     mc.innerHTML = head + `<div class="cart-body"><div class="py-8 text-center text-ink2"><span class="mb-2 block text-[2.8rem]">🎭✨</span><b class="font-ft">Tu arriendo está esperando magia</b><p class="mt-1.5 text-[.85rem]">Agrega disfraces de adultos y te vamos apuntando todo aquí.</p></div></div><div class="cart-foot"><button class="btn btn-ghost w-full" data-act="gocat">← Seguir viendo disfraces</button></div>`;
     return;
   }
-  const dl = discountLabels();
   mc.innerHTML =
     head +
     `<div class="cart-body">` +
@@ -985,8 +938,6 @@ function renderMini() {
     <div class="mdates mdates-one"><label>Día de retiro<input type="date" id="mcRet" value="${state.req.retiro}" min="${todayISO()}" max="${maxISO(60)}"></label></div>
     <p class="entnota">↩️ La entrega es 2 días después del retiro: arriendo de 3 días.</p>
     <div class="daterow"><span>📦 Retiro: <b>${fmtDate(state.req.retiro)}</b></span><span>↩️ Entrega: <b>${fmtDate(state.req.entrega)}</b></span></div></div>` +
-    (dl.length ? `<div class="infoline">✨ Descuentos aplicables: ${dl.join(' · ')}. Se aplica el mayor.</div>` : '') +
-    (disfQty() < 7 && disfQty() > 0 ? `<div class="infoline">🎈 Agrega ${7 - disfQty()} disfraces más y desbloquea 25% grupal.</div>` : '') +
     `</div>` +
     `<div class="cart-foot">
       <button class="btn btn-wsp w-full" data-act="req">Continuar con mi cotización 💬</button>
@@ -1062,24 +1013,6 @@ function renderSticky() {
 }
 $('#stickySend')?.addEventListener('click', () => openReq());
 
-function applyCoupon(code?: string, inp?: HTMLInputElement | null) {
-  const c = (code || '').trim().toUpperCase();
-  const found = state.coupons[c as 'MAGIA15'];
-  if (found) {
-    state.coupon = { code: c, ...found };
-    if (inp) {
-      inp.classList.add('okk');
-      inp.classList.remove('shake');
-    }
-    toast(`🎟️ Cupón ${code} aplicado a tu cotización.`);
-    afterCart();
-  } else {
-    inp?.classList.add('shake');
-    setTimeout(() => inp?.classList.remove('shake'), 450);
-    toast('😅 Ese código no es válido. Prueba con MAGIA15 🎟️');
-  }
-}
-
 function waMsg() {
   const L = ['¡Hola! 🎭 Quiero cotizar el arriendo de disfraces en La Mágica Tienda ✨'];
   const r = state.req;
@@ -1095,9 +1028,7 @@ function waMsg() {
     const it = byId(i.id);
     if (it) L.push(`• ${i.qty}× ${it.n} (talla ${i.talla})`);
   });
-  const bd = bestDiscount();
-  if (bd) L.push(`✨ Descuento aplicable: ${bd} sobre el valor de arriendo`);
-  L.push(`💰 Arriendo 3 días: ${clp(rentalSubtotal())}${bd ? ` → total ${clp(rentalTotal())} (${bd})` : ''}`);
+  L.push(`💰 Arriendo 3 días: ${clp(rentalTotal())}`);
   L.push(`🛡️ Garantía total: ${clp(guaranteeTotal())} (${GAR_SHORT} por disfraz), se paga el día del retiro y se devuelve al entregar.`);
   L.push('💳 Reserva: valor de arriendo de cada disfraz (se confirma en la cotización).');
   if (r.com) L.push('💬 ' + r.com);
@@ -1233,7 +1164,6 @@ function openReq() {
 function renderReq() {
   const rb = $('#reqBody');
   if (!rb) return;
-  const dl = discountLabels();
   rb.innerHTML = `<h3 class="mb-1 text-[1.5rem]">🛒 Tu solicitud de arriendo</h3>
   <p class="text-[.9rem] text-[#666]">Completa tus datos, elige las fechas y envíala por WhatsApp. Te respondemos con la cotización (valor de arriendo y garantía de cada disfraz). 💜</p>
   ${
@@ -1270,7 +1200,6 @@ function renderReq() {
   </div>
   <input id="rqDir" placeholder="Dirección" value="${esc(state.req.dir)}" class="mt-2.5 w-full rounded-[10px] border-2 border-line p-2.5">
   <textarea id="rqCom" rows="2" placeholder="Comentarios (evento, dudas de talla, etc.)" class="mt-2.5 w-full rounded-[10px] border-2 border-line p-2.5">${esc(state.req.com)}</textarea>
-  <div class="cpnbox"><input id="cpnIn" placeholder="¿Tienes un cupón? (ej: MAGIA15)" value="${state.coupon?.code || ''}" aria-label="Código de cupón"><button class="btn btn-mora btn-sm" id="cpnApply">Aplicar</button></div>
   ${totalsHTML()}
   <div class="infoline">🧾 <b>Resumen:</b> ${cartQty()} prenda(s). La reserva corresponde al valor de arriendo; la garantía (${GAR_SHORT} por disfraz) se paga el día del retiro y se devuelve al entregar.</div>
   <button class="btn btn-wsp btn-lg mt-3 w-full" id="rqSend">Enviar solicitud de arriendo 💬</button>
@@ -1318,7 +1247,6 @@ function renderReq() {
       }
     });
   });
-  $('#cpnApply')?.addEventListener('click', () => applyCoupon($<HTMLInputElement>('#cpnIn')?.value, $<HTMLInputElement>('#cpnIn')));
   $('#rqSend')?.addEventListener('click', sendWA);
 }
 
