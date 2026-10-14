@@ -1,5 +1,5 @@
 ---
-import { MARQUEE, waLink } from '../data/site';
+import { waLink } from '../data/site';
 
 const waPromo = waLink('¡Hola! 👋 Quiero cotizar el arriendo de disfraces para adultos en La Mágica Tienda ✨');
 
@@ -84,13 +84,6 @@ const benefits = [
           </div>
         ))
       }
-    </div>
-
-    <!-- Marquesina -->
-    <div class="marquee rv mt-6 overflow-hidden rounded-[18px] bg-m700 py-3" aria-hidden="true">
-      <div class="mq-in">
-        {[...MARQUEE, ...MARQUEE].map((f) => <span>{f}</span>)}
-      </div>
     </div>
   </div>
 </section>

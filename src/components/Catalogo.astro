@@ -18,41 +18,6 @@ const catCount = (id: string) => PRODUCTS.filter((p) => p.cats.includes(id)).len
       <span id="countLabel" class="ml-auto text-[.85rem] font-bold text-ink2" aria-live="polite"></span>
     </div>
 
-    <!-- Barra fija: buscador + Público + Talla, siempre a la vista al recorrer el catálogo -->
-    <div id="catFilters" class="cat-filters">
-      <div class="cat-filters-main">
-        <div class="searchbox" role="search">
-          🔍<input
-            id="catSearch"
-            type="search"
-            placeholder="Busca 'bruja', 'vampiro', 'Halloween'…"
-            aria-label="Buscar en catálogo"
-            autocomplete="off"
-          />
-        </div>
-
-        <div class="quick-filters">
-          <div class="qf-group">
-            <span class="qf-title">Público</span>
-            <div class="qf-chips">
-              {PUBLICOS.map((p) => <button class="chip fchip" data-g="pub" data-v={p.id}>{p.i} {p.n}</button>)}
-            </div>
-          </div>
-          <div class="qf-group">
-            <span class="qf-title">Talla</span>
-            <div class="qf-chips">
-              {TALLAS.map((t) => <button class="chip fchip" data-g="tal" data-v={t}>{t}</button>)}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div
-        id="sugCat"
-        class="suggest absolute inset-x-0 top-[calc(100%+6px)] z-[70] max-h-[340px] overflow-y-auto rounded-2xl border-2 border-line bg-white shadow-sh2"
-        role="listbox"></div>
-    </div>
-
     <div id="activeChips" class="mb-3 flex flex-wrap gap-2"></div>
 
     <div class="grid gap-[22px] min-[900px]:grid-cols-[272px_1fr]">
@@ -87,7 +52,43 @@ const catCount = (id: string) => PRODUCTS.filter((p) => p.cats.includes(id)).len
         <button class="btn btn-mora sticky bottom-0 mt-3 hidden w-full max-[899px]:flex" id="resultsBtn">Ver resultados</button>
       </aside>
 
-      <div>
+      <div class="min-w-0">
+        <!-- Barra fija: buscador + Público + Talla, a la vista al recorrer el catálogo.
+             Vive dentro de esta columna para no tapar nunca el panel de categorías. -->
+        <div id="catFilters" class="cat-filters">
+          <div class="cat-filters-main">
+            <div class="searchbox" role="search">
+              🔍<input
+                id="catSearch"
+                type="search"
+                placeholder="Busca 'bruja', 'vampiro', 'Halloween'…"
+                aria-label="Buscar en catálogo"
+                autocomplete="off"
+              />
+            </div>
+
+            <div class="quick-filters">
+              <div class="qf-group">
+                <span class="qf-title">Público</span>
+                <div class="qf-chips">
+                  {PUBLICOS.map((p) => <button class="chip fchip" data-g="pub" data-v={p.id}>{p.i} {p.n}</button>)}
+                </div>
+              </div>
+              <div class="qf-group">
+                <span class="qf-title">Talla</span>
+                <div class="qf-chips">
+                  {TALLAS.map((t) => <button class="chip fchip" data-g="tal" data-v={t}>{t}</button>)}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            id="sugCat"
+            class="suggest absolute inset-x-0 top-[calc(100%+6px)] z-[70] max-h-[340px] overflow-y-auto rounded-2xl border-2 border-line bg-white shadow-sh2"
+            role="listbox"></div>
+        </div>
+
         <div id="grid" class="grid grid-cols-[repeat(auto-fill,minmax(215px,1fr))] gap-4" aria-live="polite"></div>
       </div>
     </div>

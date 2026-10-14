@@ -39,9 +39,9 @@ const waChat = waLink('¡Hola! 👋 Quiero cotizar el arriendo de disfraces para
 <!-- Flotante de contacto -->
 <div id="wspZone" class="fixed right-3.5 bottom-[76px] z-[88] flex flex-col items-end gap-2.5 min-[900px]:bottom-5">
   <div id="speedDial" class="flex-col items-center gap-2">
-    <a href={CONFIG.telHref} class="grid h-[46px] w-[46px] place-items-center rounded-full border-[1.5px] border-line bg-white text-[1.1rem] no-underline shadow-sh" aria-label="Llamar">📞</a>
-    <a href="https://instagram.com/lamagicatienda" target="_blank" rel="noopener" class="grid h-[46px] w-[46px] place-items-center rounded-full border-[1.5px] border-line bg-white text-[1.1rem] no-underline shadow-sh" aria-label="Instagram">📸</a>
-    <a href={`mailto:${CONFIG.email1}`} class="grid h-[46px] w-[46px] place-items-center rounded-full border-[1.5px] border-line bg-white text-[1.1rem] no-underline shadow-sh" aria-label="Email">✉️</a>
+    {CONFIG.redes.map((r) => (
+      <a href={r.u} target="_blank" rel="noopener" class="grid h-[46px] w-[46px] place-items-center rounded-full border-[1.5px] border-line bg-white text-[1.1rem] no-underline shadow-sh" aria-label={r.n}>{r.i}</a>
+    ))}
   </div>
 
   <button id="speedToggle" class="grid h-10 w-10 cursor-pointer place-items-center rounded-full border-[1.5px] border-line bg-white text-[1.1rem] text-m600 shadow-sh" aria-label="Más opciones de contacto" aria-expanded="false">＋</button>

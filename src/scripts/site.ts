@@ -2,7 +2,7 @@
    La Mágica Tienda — interactividad del sitio
    Filtros + buscador + "Tu arriendo" (cotización) + modales
    ═══════════════════════════════════════════════════════════════ */
-import { PRODUCTS, CATS, PUBLICOS, OCASIONES, TALLAS, catById, clp, type Product } from '../data/products';
+import { PRODUCTS, CATS, PUBLICOS, OCASIONES, TALLAS, TALLA_GUIA, catById, clp, type Product } from '../data/products';
 import { GAR_SHORT, waLink, ACC, SEARCH_PH, esTemporadaHalloween } from '../data/site';
 
 type Acc = { id: string; n: string; e: string };
@@ -49,6 +49,10 @@ function fmtDate(iso: string): string {
   if (isNaN(dt.getTime())) return '—';
   return `${DIAS[dt.getDay()]} ${dt.getDate()} de ${MESES[dt.getMonth()]}`;
 }
+/* Fecha de hoy en formato YYYY-MM-DD (para precargar y bloquear días pasados) */
+function todayISO(d = new Date()): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
 
 /* ── estado ── */
 const state = {
@@ -62,7 +66,7 @@ const state = {
   cart: [] as CartItem[],
   coupon: null as null | { code: string; pct: number; label: string },
   coupons: { MAGIA15: { pct: 15, label: 'Cupón MAGIA15' } },
-  req: { nombre: '', rut: '', correo: '', tel: '', dir: '', retiro: '', uso: '', entrega: '', com: '' },
+  req: (() => { const h = todayISO(); return { nombre: '', rut: '', correo: '', tel: '', dir: '', retiro: h, uso: addDays(h, 1), entrega: addDays(h, 2), com: '' }; })(),
   groupCelebrated: false,
   lastAdd: null as null | { id: string; tipo: 'd' | 'a'; talla: string },
 };
@@ -361,19 +365,22 @@ function gnoticeHTML() {
 function cardHTML(c: Product, k: number) {
   const T = catById(c.t);
   const multiSize = c.tl.length > 1;
-  return `<article class="pcard relative cursor-pointer rounded-[20px] border-[1.5px] border-line bg-white shadow-[0_8px_20px_rgba(90,42,156,.08)] transition duration-300 hover:-translate-y-[5px] hover:shadow-sh2" data-id="${c.id}" style="--d:${Math.min(k * 0.05, 0.4)}s" tabindex="0" aria-label="${esc(c.n)}, disfraz para adultos en arriendo">
-  <div class="relative h-[300px] overflow-hidden" style="background:linear-gradient(135deg,${T.g[0]},${T.g[1]})">
-    <img src="${c.img}" alt="Disfraz ${esc(c.n)}" loading="lazy" class="absolute inset-0 h-full w-full object-cover object-top transition duration-500">
+  const guia = (t: string) => TALLA_GUIA[t] ? `Estatura recomendada: ${TALLA_GUIA[t]}` : 'Sin referencia de estatura';
+  return `<article class="pcard relative flex cursor-pointer flex-col rounded-[20px] border-[1.5px] border-line bg-white shadow-[0_8px_20px_rgba(90,42,156,.08)] transition duration-300 hover:-translate-y-[5px] hover:shadow-sh2" data-id="${c.id}" style="--d:${Math.min(k * 0.05, 0.4)}s" tabindex="0" aria-label="${esc(c.n)}, disfraz para adultos en arriendo">
+  <div class="relative h-[380px] shrink-0 overflow-hidden" style="background:linear-gradient(135deg,${T.g[0]},${T.g[1]})">
+    <img src="${c.img}" alt="Disfraz ${esc(c.n)}" loading="lazy" class="absolute inset-0 h-full w-full object-cover object-center transition duration-500">
   </div>
-  <div class="p-3.5 pb-4">
-    <span class="block text-[.72rem] font-extrabold uppercase tracking-[.05em] text-m500">${T.i} ${T.n} · adultos</span>
-    <h3 class="mb-0.5 text-[1.02rem] font-semibold text-ink">${hl(c.n, state.q)}</h3>
-    <div class="my-2 flex flex-wrap gap-1">${c.tl.map((t) => `<span class="rounded-[7px] bg-[#f0eaff] px-[7px] py-[3px] text-[.64rem] font-extrabold text-m600">${esc(t)}</span>`).join('')}</div>
-    <div class="mb-2.5 flex items-baseline justify-between gap-2">
-      <span class="font-ft text-[1.3rem] font-bold leading-none text-m600">${clp(c.price)}</span>
-      <span class="text-[.68rem] font-bold text-ink2">arriendo 3 días</span>
+  <div class="flex flex-1 flex-col p-3.5 pb-4">
+    <span class="block text-[.72rem] font-extrabold uppercase tracking-[.05em] text-m500">${T.i} ${T.n}</span>
+    <h3 class="mb-1 min-h-[2.55rem] text-[1.02rem] font-semibold leading-[1.25] text-ink">${hl(c.n, state.q)}</h3>
+    <div class="mb-2.5 flex min-h-[1.6rem] flex-wrap gap-1">${c.tl.map((t) => `<span class="tip cursor-help rounded-[7px] bg-[#f0eaff] px-[7px] py-[3px] text-[.64rem] font-extrabold text-m600" data-tip="${esc(guia(t))}" tabindex="0">${esc(t)}</span>`).join('')}</div>
+    <div class="mt-auto">
+      <div class="mb-2.5 flex items-baseline justify-between gap-2">
+        <span class="font-ft text-[1.3rem] font-bold leading-none text-m600">${clp(c.price)}</span>
+        <span class="text-[.68rem] font-bold text-ink2">arriendo 3 días</span>
+      </div>
+      <button class="addbtn w-full cursor-pointer rounded-xl border-0 bg-[linear-gradient(135deg,var(--color-m600),var(--color-m500))] px-2 py-2.5 font-ft text-[.84rem] font-bold text-white shadow-[0_4px_12px_rgba(90,42,156,.3)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_18px_rgba(90,42,156,.45)] active:scale-[.9]" data-act="add">${multiSize ? '📏 Elegir talla y arrendar' : '🎭 Arrendar disfraz'}</button>
     </div>
-    <button class="addbtn w-full cursor-pointer rounded-xl border-0 bg-[linear-gradient(135deg,var(--color-m600),var(--color-m500))] px-2 py-2.5 font-ft text-[.84rem] font-bold text-white shadow-[0_4px_12px_rgba(90,42,156,.3)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_18px_rgba(90,42,156,.45)] active:scale-[.9]" data-act="add">${multiSize ? '📏 Elegir talla y arrendar' : '🎭 Arrendar disfraz'}</button>
   </div>
 </article>`;
 }
@@ -875,7 +882,8 @@ function renderMini() {
       })
       .join('') +
     totalsHTML() +
-    `<div class="mdates"><label>Día de retiro<input type="date" id="mcRet" value="${state.req.retiro}"></label><label>Día de entrega (auto)<input type="date" id="mcEnt" value="${state.req.entrega}" readonly class="bg-[#f4f1fb] text-ink2"></label></div>
+    `<div class="mdates mdates-one"><label>Día de retiro<input type="date" id="mcRet" value="${state.req.retiro}" min="${todayISO()}"></label></div>
+    <p class="entnota">↩️ La entrega es 2 días después del retiro: arriendo de 3 días.</p>
     <div class="daterow"><span>📦 Retiro: <b>${fmtDate(state.req.retiro)}</b></span><span>↩️ Entrega: <b>${fmtDate(state.req.entrega)}</b></span></div>` +
     (dl.length ? `<div class="infoline">✨ Descuentos aplicables: ${dl.join(' · ')}. Se aplica el mayor.</div>` : '') +
     (disfQty() < 7 && disfQty() > 0 ? `<div class="infoline">🎈 Agrega ${7 - disfQty()} disfraces más y desbloquea 25% grupal.</div>` : '') +
@@ -889,8 +897,6 @@ function renderMini() {
   const mret = $<HTMLInputElement>('#mcRet');
   mret?.addEventListener('change', (e) => {
     setRetiro((e.target as HTMLInputElement).value);
-    const ent = $<HTMLInputElement>('#mcEnt');
-    if (ent) ent.value = state.req.entrega;
     refreshDateRow();
   });
 }
@@ -1030,8 +1036,8 @@ function openQuick(id: number) {
   let talla = multi ? '' : c.tl[0]; // en multi-talla hay que elegir explícitamente
   const body = $('#qmBody');
   if (!body) return;
-  body.innerHTML = `<div class="qimg group relative h-[340px] cursor-zoom-in overflow-hidden rounded-2xl" style="background:linear-gradient(135deg,${T.g[0]},${T.g[1]})">
-    <img src="${c.img}" alt="Disfraz ${esc(c.n)}" class="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.8]">
+  body.innerHTML = `<div class="qimg group relative h-[420px] cursor-zoom-in overflow-hidden rounded-2xl" style="background:linear-gradient(135deg,${T.g[0]},${T.g[1]})">
+    <img src="${c.img}" alt="Disfraz ${esc(c.n)}" class="absolute inset-0 h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[2]">
   </div>
   <span class="mt-3 block text-[.8rem] font-extrabold text-m500">${T.i} ${T.n} · solo adultos · ${pubLabel(c.pub)}</span>
   <h3 class="my-1 text-[1.45rem]">${esc(c.n)}</h3>
@@ -1042,7 +1048,7 @@ function openQuick(id: number) {
   </div>
   <div id="qmSizeWrap" class="relative rounded-2xl">
     <b class="my-3 block">📏 Elige tu talla:</b>
-    <div class="tsel" id="qmTallas">${c.tl.map((t) => `<button class="${!multi && t === talla ? 'on' : ''}" data-t="${esc(t)}">${esc(t)}</button>`).join('')}</div>
+    <div class="tsel" id="qmTallas">${c.tl.map((t) => `<button class="tip ${!multi && t === talla ? 'on' : ''}" data-t="${esc(t)}" data-tip="${esc(TALLA_GUIA[t] ? 'Estatura recomendada: ' + TALLA_GUIA[t] : 'Sin referencia de estatura')}">${esc(t)}</button>`).join('')}</div>
     <span id="qmTtip" class="sizetip" role="status">👆 Selecciona una talla para continuar</span>
   </div>
   <div class="mt-4 flex items-start gap-2 rounded-2xl border-[1.5px] border-ama bg-[#fdf6d9] p-3 text-[.82rem] text-[#6b5200]">🛡️ <span>Garantía de <b>${clp(c.gar)}</b>, se paga el día del retiro y <b>se te devuelve</b> al entregar el disfraz en las mismas condiciones.</span></div>
@@ -1147,7 +1153,7 @@ function renderReq() {
       : `<div class="py-6 text-center text-[#777]"><div class="text-[3rem]">🎭</div>Tu arriendo está esperando magia…</div>`
   }
   <div class="mdates">
-    <label>Día de retiro<input type="date" id="rqRet" value="${state.req.retiro}"></label>
+    <label>Día de retiro<input type="date" id="rqRet" value="${state.req.retiro}" min="${todayISO()}"></label>
     <label>Día de entrega (auto)<input type="date" id="rqEnt" value="${state.req.entrega}" readonly class="bg-[#f4f1fb] text-ink2"></label>
   </div>
   <div class="daterow">

@@ -150,6 +150,18 @@ export const PRODUCTS: Product[] = (raw as Raw[]).map((r) => {
 /* Tallas del filtro, en orden y solo las que existen en el catálogo */
 export const TALLAS: string[] = orderTallas.filter((t) => PRODUCTS.some((p) => p.tl.includes(t)));
 
+/* Guía de tallas (adultos): estatura recomendada para cada talla */
+export const TALLA_GUIA: Record<string, string> = {
+  XS: '150 a 160 cm',
+  S: '160 a 168 cm',
+  M: '168 a 175 cm',
+  L: '175 a 182 cm',
+  'L-XL': '175 a 185 cm',
+  XL: '182 cm o más',
+  XXL: '185 cm o más',
+  'Sin especificar': 'Sin referencia de estatura',
+};
+
 /* Categorías que realmente tienen productos */
 export const CATS_ACTIVE: Cat[] = CATS.filter((c) => PRODUCTS.some((p) => p.cats.includes(c.id)));
 
