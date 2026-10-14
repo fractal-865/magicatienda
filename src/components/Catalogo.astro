@@ -1,0 +1,103 @@
+---
+import { CATS_ACTIVE, PUBLICOS, TALLAS, PRODUCTS } from '../data/products';
+
+const popular = ['Halloween', 'Payaso', 'Pirata', 'Terror', 'Princesa', 'Joker'];
+const fgroupTitle = 'mb-2 text-[.85rem] font-bold uppercase tracking-[.06em] text-m600';
+const catCount = (id: string) => PRODUCTS.filter((p) => p.cats.includes(id)).length;
+---
+
+<section id="catalogo" class="relative px-4 pb-[46px] pt-[30px]">
+  <div class="mx-auto max-w-[1220px]">
+    <div class="text-center"><span class="script rv">¡Elige y brilla!</span></div>
+    <h2 class="sec rv">🎭 Elige tu disfraz</h2>
+    <p class="sec-sub rv">
+      Arriendo solo para adultos · 3 días (retiro, uso y entrega) · Cotiza por WhatsApp en 1 minuto.
+    </p>
+
+    <div class="rv mb-4 flex flex-wrap items-center gap-2.5">
+      <div class="relative block max-w-[520px] flex-1" role="search">
+        <div class="searchbox">
+          🔍<input
+            id="catSearch"
+            type="search"
+            placeholder="Busca 'bruja', 'vampiro', 'Halloween'…"
+            aria-label="Buscar en catálogo"
+            autocomplete="off"
+          />
+        </div>
+        <div id="sugCat" class="suggest absolute inset-x-0 top-[calc(100%+8px)] z-[70] max-h-[340px] overflow-y-auto rounded-2xl border-2 border-line bg-white shadow-sh2"></div>
+      </div>
+      <button class="btn btn-ghost btn-sm inline-flex min-[900px]:hidden" id="filterOpen">⚙️ Filtrar</button>
+      <select
+        id="sortSel"
+        class="cursor-pointer rounded-xl border-2 border-line bg-white px-3 py-[9px] font-fb font-bold text-ink"
+        aria-label="Ordenar disfraces"
+      >
+        <option value="pop">Destacados</option>
+        <option value="new">Novedades</option>
+        <option value="az">A–Z</option>
+      </select>
+      <span id="countLabel" class="ml-auto text-[.85rem] font-bold text-ink2" aria-live="polite"></span>
+    </div>
+
+    <div id="chipsPop" class="mb-3.5 flex flex-wrap gap-2" aria-label="Búsquedas populares">
+      {popular.map((p) => <button class="chip" data-q={p}>🔥 {p}</button>)}
+    </div>
+
+    <div id="activeChips" class="mb-3 flex flex-wrap gap-2"></div>
+
+    <div class="grid gap-[22px] min-[900px]:grid-cols-[272px_1fr]">
+      <aside
+        id="filterPanel"
+        class="self-start rounded-[20px] border-[1.5px] border-line bg-white p-[18px] shadow-[0_6px_18px_rgba(90,42,156,.07)]"
+        aria-label="Filtros de disfraces"
+      >
+        <div class="mb-2 flex items-center justify-between">
+          <b class="font-ft">Filtros ✨</b>
+          <button id="clearFilters" class="cursor-pointer border-0 bg-transparent text-[.85rem] font-extrabold text-m500 underline">
+            Limpiar todo
+          </button>
+        </div>
+
+        <div id="filterGroups">
+          <div class="mb-4">
+            <h4 class={fgroupTitle}>Público</h4>
+            <div class="flex flex-wrap gap-[7px]">
+              {PUBLICOS.map((p) => <button class="chip fchip" data-g="pub" data-v={p.id}>{p.i} {p.n}</button>)}
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <h4 class={fgroupTitle}>Categoría</h4>
+            <div class="flex flex-wrap gap-[7px]">
+              {
+                CATS_ACTIVE.map((c) => (
+                  <label class="flex cursor-pointer items-center gap-2 px-1 py-1.5 text-[.88rem] font-bold text-ink">
+                    <input type="checkbox" data-g="tem" value={c.id} class="h-[17px] w-[17px] accent-m500" />
+                    {c.i} {c.n}
+                    <small class="rounded-full bg-[#f0eaff] px-[7px] py-[1px] text-[.68rem] font-extrabold text-m600">{catCount(c.id)}</small>
+                  </label>
+                ))
+              }
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <h4 class={fgroupTitle}>Talla</h4>
+            <div class="flex flex-wrap gap-[7px]">
+              {TALLAS.map((t) => <button class="chip fchip" data-g="tal" data-v={t}>{t}</button>)}
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-mora sticky bottom-0 mt-3 hidden w-full max-[899px]:flex" id="resultsBtn">Ver resultados</button>
+      </aside>
+
+      <div>
+        <div id="grid" class="grid grid-cols-[repeat(auto-fill,minmax(215px,1fr))] gap-4" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="fback" id="fback"></div>

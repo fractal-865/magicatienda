@@ -1,0 +1,94 @@
+/* ═══════════════════════════════════════════════════════════════
+   Contenido del sitio: configuración, fechas, testimonios, FAQ
+   ═══════════════════════════════════════════════════════════════ */
+
+export const CONFIG = {
+  wa: '56912345678',
+  waDisplay: '+56 9 1234 5678',
+  tel: '+56 2 2123 4567',
+  telHref: 'tel:+56221234567',
+  email1: 'contacto@lamagicatienda.cl',
+  email2: 'reservas@lamagicatienda.cl',
+  dir: 'Av. Ejemplo 1234, Local 5, Providencia, Santiago',
+  horario: {
+    1: ['10:00', '19:00'],
+    2: ['10:00', '19:00'],
+    3: ['10:00', '19:00'],
+    4: ['10:00', '19:00'],
+    5: ['10:00', '19:00'],
+    6: ['10:00', '17:00'],
+  } as Record<number, [string, string]>,
+  redes: [
+    { n: 'Instagram', i: '📸', u: 'https://instagram.com/lamagicatienda' },
+    { n: 'TikTok', i: '🎵', u: 'https://tiktok.com/@lamagicatienda' },
+    { n: 'Facebook', i: '👍', u: 'https://facebook.com/lamagicatienda' },
+    { n: 'YouTube', i: '▶️', u: 'https://youtube.com/@lamagicatienda' },
+    { n: 'Pinterest', i: '📌', u: 'https://pinterest.com/lamagicatienda' },
+    { n: 'X', i: '✖️', u: 'https://x.com/lamagicatienda' },
+    { n: 'Threads', i: '➰', u: 'https://threads.net/@lamagicatienda' },
+  ],
+  handle: '@lamagicatienda',
+};
+
+export const GAR_SHORT = '$13.000–$20.000';
+export const GAR =
+  'Garantía de $13.000 a $20.000 según el disfraz. Se paga el día del retiro, en efectivo o transferencia, y se devuelve al entregar el disfraz en las mismas condiciones.';
+
+export const waLink = (m: string) =>
+  `https://wa.me/${CONFIG.wa}?text=${encodeURIComponent(m)}`;
+
+/* Fechas clave del año → categoría del catálogo con productos disponibles */
+export const FECHAS = [
+  { n: 'Fiestas Patrias', f: '18 sep', i: '🇨🇱', m: 8, d: 18, fr: '¡A cuequiar se ha dicho!', tem: 'epocas-e-historicos', c: '#FF5FA2' },
+  { n: 'Halloween', f: '31 oct', i: '🎃', m: 9, d: 31, fr: 'Dulce o trato, versión adultos 👻', tem: 'halloween', c: '#FF7A1A' },
+  { n: 'Graduaciones', f: 'nov–dic', i: '🎓', m: 11, d: 10, fr: 'Licenciaturas y fiestas de egreso', tem: 'princesas-y-cuentos', c: '#7a4fd0' },
+  { n: 'Navidad', f: '25 dic', i: '🎅', m: 11, d: 25, fr: 'Cenas y fiestas de empresa', tem: 'princesas-y-cuentos', c: '#25D366' },
+  { n: 'Año Nuevo', f: '31 dic', i: '🎆', m: 11, d: 31, fr: 'Brilla más que la once 👀', tem: 'sexy', c: '#0fae9f' },
+  { n: 'Fiestas de empresa', f: 'dic', i: '🏢', m: 11, d: 15, fr: 'El corvo más esperado del año', tem: 'profesiones', c: '#e8a200' },
+];
+
+export const TESTIS = [
+  { n: 'Carolina M.', r: 'Cumpleaños 30', t: 'Arrendé el disfraz de sirena para mis 30. Impecable, y la garantía me la devolvieron al tiro al devolverlo. 🙌', s: 5, e: '👩🏻' },
+  { n: 'Vale & Nico', r: 'Grupo de amigos', t: 'Pedimos 8 disfraces para una fiesta temática y el 25% grupal es real. Todo coordinado por WhatsApp en 2 minutos.', s: 5, e: '🧑‍🤝🧑' },
+  { n: 'Rodrigo P.', r: 'Fiesta de empresa', t: 'Usamos el cupón MAGIA15 y la oficina completa terminó disfrazada de los 80. Épico. 🕺', s: 4, e: '👨' },
+  { n: 'Paulina S.', r: 'Graduación', t: 'Arrendamos 12 trajes para la fiesta de egreso. Cero complicaciones con la reserva y la garantía.', s: 5, e: '👩🏽‍' },
+];
+
+export const FAQS: [string, string][] = [
+  ['¿Cuánto cuesta arrendar un disfraz?', 'El valor de arriendo se confirma en tu cotización por WhatsApp. Además, al retirar dejas una garantía de $13.000 a $20.000 según el disfraz, que se te devuelve al retornarlo en las mismas condiciones.'],
+  ['¿Por cuántos días es el arriendo?', 'Por 3 días: día de retiro, día de uso (tu evento) y día de entrega.'],
+  ['¿Cómo y cuándo se paga la garantía?', 'El día del retiro, en efectivo o por transferencia (Cuenta RUT Banco Estado o Copec Pay). Se devuelve al entregar el disfraz en las mismas condiciones.'],
+  ['¿Qué descuentos puede tener la garantía?', 'Si el disfraz vuelve con roturas, manchas, quemaduras, arreglos, accesorios perdidos o se entrega con retraso, se puede descontar parte o el total de la garantía, a criterio de la propietaria.'],
+  ['¿Puedo reservar con anticipación?', '¡Ojalá! La reserva se hace pagando el valor del arriendo y no es reembolsable: con ella te aseguramos el disfraz para tu fecha.'],
+  ['¿Hacen ajustes de talla?', 'Sí, ajustes simples gratis en la tienda: basta, cintura, dobladillos.'],
+  ['¿Hay descuentos por grupo?', '¡Claro! 7 o más disfraces en una misma cotización = 25% de descuento sobre el valor de arriendo. Y con el cupón MAGIA15 tienes 15% (siempre aplicamos el mayor).'],
+  ['¿Cómo pago la reserva o la garantía?', 'Reserva: valor del arriendo, coordinado al confirmar. Garantía: efectivo o transferencia/deposito (Cuenta RUT Banco Estado o Copec Pay, datos en "Condiciones de arriendo").'],
+];
+
+/* Accesorios que se cotizan junto al arriendo */
+export const ACC = [
+  { id: 'a1', n: 'Varita mágica', e: '🪄' },
+  { id: 'a2', n: 'Antifaz brillante', e: '🎭' },
+  { id: 'a3', n: 'Sombrero de copa', e: '🎩' },
+  { id: 'a4', n: 'Capa de héroe', e: '🦸' },
+  { id: 'a5', n: 'Peluca de color', e: '💇' },
+  { id: 'a6', n: 'Maquillaje fantasy', e: '🎨' },
+];
+
+export const TOPMSGS = [
+  '🛡️ Garantía de $13.000 a $20.000 según el disfraz: se paga al retirar y se devuelve.',
+  '💬 Cotiza tu arriendo por WhatsApp en 1 minuto',
+  '🎉 7 o más disfraces: 25% de descuento grupal',
+  '🎟️ Toca el cupón y se aplica a tu cotización',
+];
+
+export const MARQUEE = [
+  '✨ #lamagicatienda',
+  '🎭 Disfraces solo para adultos',
+  '💬 Cotiza por WhatsApp',
+  '🛡️ Garantía $13.000–$20.000',
+  '🎉 25% dcto. grupal',
+  '📍 Providencia, Santiago',
+];
+
+export const SEARCH_PH = ["Busca 'vampiro'…", "Busca 'bruja'…", "Busca 'Halloween'…", "Busca 'años 80'…", "Busca 'payaso'…"];

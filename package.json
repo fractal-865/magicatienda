@@ -1,0 +1,23 @@
+{
+  "name": "magicatienda",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "La Mágica Tienda de Disfraces — arriendo de disfraces solo para adultos (Astro + Tailwind)",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@fontsource/caveat": "^5.3.0",
+    "@fontsource/fredoka": "^5.3.0",
+    "@fontsource/nunito": "^5.3.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.3.8",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
+}

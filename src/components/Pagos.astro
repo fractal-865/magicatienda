@@ -1,0 +1,55 @@
+---
+/* Medios de pago por depósito o transferencia */
+const opciones = [
+  {
+    t: 'OPCIÓN 1',
+    b: '🏦 Cuenta RUT · Banco Estado',
+    items: [
+      ['Titular:', 'Sandra Vera Galindo'],
+      ['RUT:', '10.086.234-4'],
+    ],
+  },
+  {
+    t: 'OPCIÓN 2',
+    b: '📲 Copec Pay · Chequera Electrónica',
+    items: [
+      ['Titular:', 'Sandra Vera Galindo'],
+      ['RUT:', '10.086.234-4'],
+      ['N° de chequera electrónica:', '11008623401'],
+    ],
+  },
+];
+---
+
+<section id="pagos" class="relative px-4 py-[46px]">
+  <div class="mx-auto max-w-[1220px]">
+    <h2 class="sec rv">💳 Medios de pago por depósito o transferencia</h2>
+    <p class="sec-sub rv">
+      Para la garantía (y para coordinar tu reserva). También aceptamos efectivo el día del retiro.
+    </p>
+
+    <div class="rv mx-auto grid max-w-[860px] gap-3.5 min-[560px]:grid-cols-2">
+      {
+        opciones.map((o) => (
+          <div class="rounded-2xl border-2 border-l-[6px] border-line border-l-m400 bg-white p-[18px] shadow-[0_6px_16px_rgba(90,42,156,.07)]">
+            <span class="mb-2 inline-block rounded-lg bg-m600 px-2.5 py-0.5 text-[.72rem] font-extrabold text-white">{o.t}</span>
+            <br />
+            <b class="font-ft text-[1.02rem] text-ink">{o.b}</b>
+            <ul class="mt-2 list-none text-[.9rem] leading-[1.8] text-ink2">
+              {o.items.map(([k, v]) => (
+                <li><b class="text-[.9rem] text-ink">{k}</b> {v}</li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="rv mt-[18px] text-center text-[.9rem] text-ink2">
+      Pagos por depósito o transferencia: estos son los únicos datos oficiales.
+      <button class="glink cursor-pointer border-0 bg-transparent p-0 font-extrabold text-m600 underline" data-opencond>
+        Ver condiciones de arriendo
+      </button>
+    </p>
+  </div>
+</section>

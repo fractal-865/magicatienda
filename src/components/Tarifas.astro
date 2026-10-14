@@ -1,0 +1,131 @@
+---
+/* Tarifas de arriendo + garantía reintegrable, con la info real del sitio */
+import { waLink } from '../data/site';
+
+const waTarifas = waLink('¡Hola! 👋 Quiero cotizar el arriendo de disfraces para adultos en La Mágica Tienda ✨');
+
+const planes = [
+  {
+    tag: 'FIESTAS & CUMPLEAÑOS',
+    n: 'Arriendo Estándar',
+    price: '$13.000',
+    unit: 'a $15.000 / 3 días',
+    d: 'Disfraces clásicos para fiestas de disfraces, Halloween, cumpleaños y temáticas de fin de semana.',
+    i: [
+      '🏹 Arriendo por 3 días (retiro, uso y entrega)',
+      '📏 Tallas S, M, L, XL y XXL',
+      '💬 Cotiza y reserva por WhatsApp en 1 minuto',
+      '🛡️ Garantía reintegrable de $13.000 a $16.000',
+    ],
+    cta: 'Ver disfraces estándar',
+    href: '#catalogo',
+    hero: false,
+  },
+  {
+    tag: 'PREMIUM & GALAS',
+    n: 'Arriendo Premium',
+    price: '$17.000',
+    unit: 'a $20.000 / 3 días',
+    d: 'Superhéroes, películas, anime y épocas: disfraces de alta confección, ideales para cosplay, teatro y eventos especiales.',
+    i: [
+      '⚔️ Diseños elaborados y acabados premium',
+      '✨ Categorías de películas, anime y superhéroes',
+      '💬 Asesoría personalizada por WhatsApp',
+      '🛡️ Garantía reintegrable hasta $20.000',
+    ],
+    cta: 'Ver disfraces premium',
+    href: '#catalogo',
+    hero: true,
+  },
+  {
+    tag: 'GRUPOS & EVENTOS',
+    n: 'Descuento Grupal',
+    price: '−25%',
+    unit: 'desde 7 disfraces',
+    d: 'Ideal para comparsas, eventos de empresas, kermeses y grupos de amigos que van disfrazados juntos.',
+    i: [
+      '🎉 25% de descuento con 7+ disfraces',
+      '🎟️ Suma el cupón MAGIA15 (15%) si es mayor',
+      '📅 Reserva con anticipación para tu fecha',
+      '🛡️ Garantía por prenda, se devuelve al entregar',
+    ],
+    cta: 'Cotizar para mi grupo',
+    href: waTarifas,
+    hero: false,
+  },
+];
+---
+
+<section id="tarifas" class="relative px-4 py-[46px]">
+  <div class="mx-auto max-w-[1220px]">
+    <div class="text-center"><span class="script rv">Sin letra chica</span></div>
+    <h2 class="sec rv">💰 Tarifas transparentes &amp; garantía reintegrable</h2>
+    <p class="sec-sub rv">
+      Conoce nuestros valores para arrendar disfraces de adultos. Todo claro desde el primer minuto.
+    </p>
+
+    <div class="grid gap-4 min-[900px]:grid-cols-3">
+      {
+        planes.map((p, k) => (
+          <div
+            class:list={[
+              'rv relative flex flex-col rounded-3xl border-[1.5px] p-6 shadow-sh',
+              p.hero
+                ? 'border-transparent bg-[linear-gradient(150deg,#2B0D5E,#5A2A9C)] text-white min-[900px]:-translate-y-3'
+                : 'border-line bg-white text-ink',
+            ]}
+            style={`--d:${(k * 0.1).toFixed(1)}s`}
+          >
+            {p.hero && (
+              <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-rosa px-3.5 py-1 text-[.68rem] font-extrabold uppercase tracking-[.06em] text-white shadow-sh">
+                Más popular
+              </span>
+            )}
+            <span class:list={['text-[.75rem] font-extrabold uppercase tracking-[.08em]', p.hero ? 'text-lav2' : 'text-m500']}>
+              {p.tag}
+            </span>
+            <h3 class:list={['mt-1 font-ft text-[1.5rem] leading-none', p.hero ? 'text-white' : 'text-ink']}>{p.n}</h3>
+
+            <div class="mt-3 flex items-baseline gap-2">
+              <span class:list={['font-ft text-[2.8rem] font-bold leading-none', p.hero ? 'text-ama' : 'text-m600']}>{p.price}</span>
+              <span class:list={['text-[.82rem] font-bold', p.hero ? 'text-lav2' : 'text-ink2']}>{p.unit}</span>
+            </div>
+
+            <p class:list={['mt-3 text-[.9rem] leading-[1.6]', p.hero ? 'text-lav2' : 'text-ink2']}>{p.d}</p>
+
+            <ul class:list={['mt-4 flex-1 list-none space-y-2 text-[.9rem]', p.hero ? 'text-lav2' : 'text-ink2']}>
+              {p.i.map((li) => (
+                <li class="flex items-start gap-2">
+                  <span class:list={['mt-[2px] grid h-[18px] w-[18px] shrink-0 place-items-center rounded-full text-[.7rem] font-bold', p.hero ? 'bg-ama text-m800' : 'bg-[#e2f7ec] text-[#0c7a56]']}>✓</span>
+                  <span>{li}</span>
+                </li>
+              ))}
+            </ul>
+
+            <a
+              class:list={[
+                'btn mt-5 w-full',
+                p.hero ? 'btn-ama' : 'btn-ghost',
+              ]}
+              href={p.href}
+              target={p.href.startsWith('http') ? '_blank' : undefined}
+              rel={p.href.startsWith('http') ? 'noopener' : undefined}
+            >
+              {p.cta}
+            </a>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Aclaración de garantía -->
+    <div class="rv mx-auto mt-5 max-w-[900px] rounded-3xl border-[1.5px] border-ama bg-[#fdf6d9] p-5 text-center">
+      <b class="block font-ft text-[1.05rem] text-[#6b5200]">🛡️ ¿Cómo funciona la garantía?</b>
+      <p class="mx-auto mt-1.5 max-w-[70ch] text-[.9rem] leading-[1.6] text-[#6b5200]">
+        Al retirar dejas una garantía de <b>$13.000 a $20.000 según el disfraz</b> (en efectivo o transferencia).
+        <b>Si lo devuelves en las mismas condiciones, te la devolvemos completa</b> el día de la entrega.
+        Solo se descuenta si el disfraz vuelve con roturas, manchas, accesorios faltantes o con retraso.
+      </p>
+    </div>
+  </div>
+</section>

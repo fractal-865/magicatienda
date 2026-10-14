@@ -1,0 +1,58 @@
+---
+import { CONFIG, waLink } from '../data/site';
+
+const enc = encodeURIComponent(CONFIG.dir);
+const maps = `https://www.google.com/maps/search/?api=1&query=${enc}`;
+const waze = `https://www.waze.com/ul?q=${enc}&navigate=yes`;
+const wa = waLink('¡Hola! ¿Me ayudan a llegar a la tienda? 📍');
+---
+
+<section id="mapa" class="relative px-4 py-[46px]">
+  <div class="mx-auto max-w-[1220px]">
+    <h2 class="sec rv">📍 Cómo llegar</h2>
+    <p class="sec-sub rv">Av. Ejemplo 1234, Local 5, Providencia, Santiago.</p>
+
+    <div class="grid gap-[22px] min-[960px]:grid-cols-[1.2fr_.8fr]">
+      <div class="rv rounded-[22px] border-2 border-line bg-white p-3.5 shadow-[0_8px_20px_rgba(90,42,156,.08)]">
+        <svg viewBox="0 0 600 380" class="h-auto w-full rounded-[14px]" role="img" aria-label="Mapa ilustrado de la tienda">
+          <rect width="600" height="380" fill="#241056"></rect>
+          <rect x="0" y="150" width="600" height="46" rx="10" fill="#3c1481"></rect>
+          <rect x="250" y="0" width="46" height="380" rx="10" fill="#3c1481"></rect>
+          <line x1="0" y1="173" x2="600" y2="173" stroke="#FFD23F" stroke-width="3" stroke-dasharray="14 12"></line>
+          <line x1="273" y1="0" x2="273" y2="380" stroke="#FFD23F" stroke-width="3" stroke-dasharray="14 12"></line>
+          <rect x="60" y="40" width="120" height="70" rx="12" fill="#4a1b96"></rect>
+          <text x="120" y="80" fill="#C9B6F0" font-size="16" text-anchor="middle" font-family="Nunito">Mall Ejemplo</text>
+          <rect x="360" y="240" width="150" height="90" rx="14" fill="#1d6b45"></rect>
+          <text x="435" y="290" fill="#baf5d8" font-size="16" text-anchor="middle" font-family="Nunito">Parque 🌳</text>
+          <rect x="360" y="40" width="120" height="70" rx="12" fill="#4a1b96"></rect>
+          <text x="420" y="80" fill="#C9B6F0" font-size="15" text-anchor="middle" font-family="Nunito">Ⓜ Metro</text>
+          <path d="M420 110 C 420 173, 300 173, 285 200" stroke="#2EE6D6" stroke-width="4" stroke-dasharray="8 8" fill="none"></path>
+          <circle cx="285" cy="215" r="26" fill="#FF5FA2" opacity=".25" class="pin-pulse"></circle>
+          <path d="M285 190c-14 0-24 10-24 23 0 17 24 37 24 37s24-20 24-37c0-13-10-23-24-23z" fill="#FF5FA2"></path>
+          <circle cx="285" cy="213" r="9" fill="#fff"></circle>
+          <text x="285" y="272" fill="#fff" font-size="15" text-anchor="middle" font-family="Fredoka" font-weight="600">¡Aquí estamos! ⭐</text>
+        </svg>
+      </div>
+
+      <div class="rv">
+        <span id="openBadge" class="inline-flex items-center gap-2 rounded-full px-3.5 py-[7px] text-[.82rem] font-extrabold">…</span>
+        <div class="my-3.5 flex flex-col gap-2.5">
+          <div class="flex items-center gap-2.5 rounded-xl border-[1.5px] border-line bg-white px-3.5 py-2.5 text-[.9rem]">
+            🚇 <span><b>Micro/Metro:</b> Metro Ejemplo (L1) a 2 cuadras. Paradas 102 y 506 en la puerta.</span>
+          </div>
+          <div class="flex items-center gap-2.5 rounded-xl border-[1.5px] border-line bg-white px-3.5 py-2.5 text-[.9rem]">
+            🚗 <span><b>Auto:</b> Estacionamiento gratis 30 min en Mall Ejemplo.</span>
+          </div>
+          <div class="flex items-center gap-2.5 rounded-xl border-[1.5px] border-line bg-white px-3.5 py-2.5 text-[.9rem]">
+            🚶 <span><b>A pie:</b> 5 min desde el Parque por el paseo techado.</span>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-2.5">
+          <a class="btn btn-ama btn-sm" href={maps} target="_blank" rel="noopener">🗺️ Google Maps</a>
+          <a class="btn btn-rosa btn-sm" href={waze} target="_blank" rel="noopener">🚘 Waze</a>
+          <a class="btn btn-wsp btn-sm" href={wa} target="_blank" rel="noopener">💬 WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

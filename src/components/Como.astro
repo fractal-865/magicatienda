@@ -1,0 +1,82 @@
+---
+const steps = [
+  { n: 1, i: '🎭', t: 'Elige tus disfraces', p: 'Busca, filtra y agrégalos a "Tu arriendo".' },
+  { n: 2, i: '💬', t: 'Cotiza y reserva por WhatsApp', p: 'Con la reserva (valor del arriendo) aseguramos tu disfraz para la fecha.' },
+  { n: 3, i: '🛡️', t: 'Retira y deja tu garantía', p: '$13.000 a $20.000 según el disfraz, en efectivo o transferencia, el día del retiro.' },
+  { n: 4, i: '🎉', t: 'Usa, devuelve y recupera tu garantía', p: 'Si vuelve en las mismas condiciones, te la devolvemos completa.' },
+];
+
+const days = [
+  { i: '📦', t: 'Día 1 · Retiro', s: 'Pagas la garantía ($13.000 a $20.000) en efectivo o transferencia' },
+  { i: '🎉', t: 'Día 2 · Uso', s: 'Tu fiesta, evento o celebración' },
+  { i: '↩️', t: 'Día 3 · Entrega', s: 'Devuelves el disfraz y recuperas tu garantía' },
+];
+
+const accs = [
+  { q: '📏 Guía de tallas (adultos)', a: '<b>Adultos:</b> XS (150–160 cm) · S (160–168) · M (168–175) · L (175–182) · XL (182+).<br>Arrendamos solo a personas adultas. ¿Dudas? Escríbenos por WhatsApp con tu estatura y te recomendamos la talla exacta. 💜' },
+  { q: '🧼 ¿Los disfraces vienen limpios?', a: 'Siempre. Cada disfraz se higieniza y revisa entre arriendo y arriendo.' },
+];
+---
+
+<section id="como" class="relative px-4 py-[46px]">
+  <div class="mx-auto max-w-[1220px]">
+    <h2 class="sec rv">🪄 ¿Cómo funciona el arriendo?</h2>
+    <p class="sec-sub rv">Cuatro pasos y listo para brillar.</p>
+
+    <div class="grid gap-4 grid-cols-[repeat(auto-fit,minmax(220px,1fr))]">
+      {
+        steps.map((s, k) => (
+          <div class="rv relative rounded-[20px] border-[1.5px] border-line bg-white p-[22px] text-center shadow-[0_6px_16px_rgba(90,42,156,.07)] transition hover:-translate-y-1.5 hover:border-m400 hover:shadow-sh" style={`--d:${(k * 0.12).toFixed(2)}s`}>
+            <span class="absolute -top-4 left-1/2 grid h-[34px] w-[34px] -translate-x-1/2 place-items-center rounded-full bg-ama font-ft font-bold text-m800">{s.n}</span>
+            <div class="my-2 text-[2.6rem]">{s.i}</div>
+            <b class="font-ft text-[1.05rem] text-ink">{s.t}</b>
+            <p class="mt-1.5 text-[.88rem] text-ink2">{s.p}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Los 3 días del arriendo -->
+    <div class="rv mx-auto mt-[26px] grid max-w-[820px] gap-2 max-[560px]:grid-cols-1 min-[561px]:grid-cols-3" aria-label="Los 3 días del arriendo">
+      {
+        days.map((d) => (
+          <div class="r3 relative rounded-[14px] border-[1.5px] border-dashed border-m400 bg-mist p-2.5 text-center">
+            <span class="r3i block text-[1.5rem]">{d.i}</span>
+            <b class="my-0.5 block font-ft text-[.85rem] text-m600">{d.t}</b>
+            <small class="block text-[.72rem] leading-[1.35] text-ink2">{d.s}</small>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Acordeones -->
+    <div class="acc mx-auto mt-[26px] max-w-[760px]">
+      {
+        accs.map((a) => (
+          <div class="acc-item mb-2.5 overflow-hidden rounded-[14px] border-[1.5px] border-line bg-white text-ink">
+            <button class="flex w-full items-center justify-between gap-2.5 bg-transparent px-[18px] py-4 text-left font-ft text-[1rem] font-semibold" aria-expanded="false">
+              {a.q} <span class="ic text-[1.2rem] text-m500 transition">＋</span>
+            </button>
+            <div class="ab">
+              <div class="ab-in px-[18px] pb-4 text-[.92rem] text-ink2" set:html={a.a} />
+            </div>
+          </div>
+        ))
+      }
+      <div class="acc-item mb-2.5 overflow-hidden rounded-[14px] border-[1.5px] border-line bg-white text-ink">
+        <button class="flex w-full items-center justify-between gap-2.5 bg-transparent px-[18px] py-4 text-left font-ft text-[1rem] font-semibold" aria-expanded="false" data-opencond>
+          🛡️ Condiciones de arriendo y reserva <span class="ic text-[1.2rem] text-m500 transition">＋</span>
+        </button>
+        <div class="ab">
+          <div class="ab-in px-[18px] pb-4 text-[.92rem] text-ink2">
+            Resumen: reserva = valor del arriendo (no reembolsable) · garantía de $13.000 a $20.000 se paga al
+            retiro y se devuelve al entregar en las mismas condiciones.
+            <button class="glink cursor-pointer border-0 bg-transparent p-0 text-[.82rem] font-extrabold text-m600 underline" data-opencond>
+              Ver condiciones completas
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

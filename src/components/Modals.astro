@@ -1,0 +1,88 @@
+---
+/* Modales: ficha rápida, solicitud de arriendo y condiciones */
+const paycards = `
+<div class="grid gap-3.5 min-[560px]:grid-cols-2 mt-2.5">
+  <div class="rounded-2xl border-2 border-l-[6px] border-line border-l-m400 bg-white p-[18px] shadow-[0_6px_16px_rgba(90,42,156,.07)]">
+    <span class="mb-2 inline-block rounded-lg bg-m600 px-2.5 py-0.5 text-[.72rem] font-extrabold text-white">OPCIÓN 1</span><br>
+    <b class="font-ft text-[1.02rem] text-ink">🏦 Cuenta RUT, Banco Estado</b>
+    <ul class="mt-2 list-none text-[.9rem] leading-[1.8] text-ink2">
+      <li><b class="text-ink">Titular:</b> Sandra Vera Galindo</li>
+      <li><b class="text-ink">RUT:</b> 10.086.234-4</li>
+    </ul>
+  </div>
+  <div class="rounded-2xl border-2 border-l-[6px] border-line border-l-m400 bg-white p-[18px] shadow-[0_6px_16px_rgba(90,42,156,.07)]">
+    <span class="mb-2 inline-block rounded-lg bg-m600 px-2.5 py-0.5 text-[.72rem] font-extrabold text-white">OPCIÓN 2</span><br>
+    <b class="font-ft text-[1.02rem] text-ink">📲 Copec Pay, Chequera Electrónica</b>
+    <ul class="mt-2 list-none text-[.9rem] leading-[1.8] text-ink2">
+      <li><b class="text-ink">Titular:</b> Sandra Vera Galindo</li>
+      <li><b class="text-ink">RUT:</b> 10.086.234-4</li>
+      <li><b class="text-ink">N° de chequera electrónica:</b> 11008623401</li>
+    </ul>
+  </div>
+</div>`;
+
+const condiciones: [string, string[]][] = [
+  ['1. Reserva', [
+    '1.1 Para reservar un disfraz se paga el valor de su arriendo.',
+    '1.2 Con la reserva, La Mágica Tienda de Disfraces te asegura que el disfraz estará disponible en la fecha acordada.',
+    '1.3 El dinero de la reserva no se reembolsa en ningún caso: se entiende como arrendado para la fecha indicada.',
+  ]],
+  ['2. Garantía', [
+    '2.1 Al retirar el disfraz se deja una garantía. Su monto va desde $13.000 hasta $20.000, según el disfraz.',
+    '2.2 La garantía se paga el día del retiro, en efectivo o por transferencia.',
+    '2.3 La garantía se devuelve al entregar el disfraz, siempre que vuelva en las mismas condiciones en que se arrendó.',
+  ]],
+  ['3. Descuentos a la garantía', [
+    'Se descontará una parte o el total de la garantía, a criterio de la propietaria, Sandra Vera Galindo, si el disfraz:',
+    '3.1 Presenta roturas, manchas, quemaduras o arreglos.',
+    '3.2 Pierde algún accesorio.',
+    '3.3 Se entrega después de la fecha acordada.',
+  ]],
+  ['4. Si el disfraz no se devuelve', [
+    '4.1 La garantía no se toma como pago del disfraz.',
+    '4.2 La tienda puede usar todos los medios legales para recuperarlo o cobrar su valor total, valorizándolo según su criterio, considerando lo difícil que suele ser reponerlo.',
+  ]],
+  ['5. Datos para tu cotización', [
+    'Nombre, RUT, correo, teléfono y dirección, además de los disfraces que quieres arrendar, con su abono, valor de arriendo y garantía.',
+  ]],
+];
+---
+
+<!-- Ficha rápida del disfraz -->
+<div class="modal" id="quickModal" role="dialog" aria-modal="true" aria-label="Ficha del disfraz">
+  <div class="mback absolute inset-0 bg-[rgb(40,15,80/.55)] backdrop-blur-[3px]" data-close="quickModal"></div>
+  <div class="mpanel relative mx-auto max-h-[90vh] w-[min(680px,94vw)] overflow-auto rounded-[22px] bg-white p-6 text-ink shadow-sh2">
+    <button class="mclose absolute right-3 top-3 z-[2] grid h-10 w-10 cursor-pointer place-items-center rounded-full border-0 bg-[#f0eaff] text-[1.1rem] font-extrabold text-m600" data-close="quickModal" aria-label="Cerrar">✕</button>
+    <div id="qmBody"></div>
+  </div>
+</div>
+
+<!-- Solicitud de arriendo -->
+<div class="modal" id="reqModal" role="dialog" aria-modal="true" aria-label="Tu solicitud de arriendo">
+  <div class="mback absolute inset-0 bg-[rgb(40,15,80/.55)] backdrop-blur-[3px]" data-close="reqModal"></div>
+  <div class="mpanel wide relative mx-auto max-h-[90vh] w-[min(820px,94vw)] overflow-auto rounded-[22px] bg-white p-6 text-ink shadow-sh2">
+    <button class="mclose absolute right-3 top-3 z-[2] grid h-10 w-10 cursor-pointer place-items-center rounded-full border-0 bg-[#f0eaff] text-[1.1rem] font-extrabold text-m600" data-close="reqModal" aria-label="Cerrar">✕</button>
+    <div id="reqBody"></div>
+  </div>
+</div>
+
+<!-- Condiciones de arriendo y reserva -->
+<div class="modal" id="condModal" role="dialog" aria-modal="true" aria-label="Condiciones de arriendo y reserva">
+  <div class="mback absolute inset-0 bg-[rgb(40,15,80/.55)] backdrop-blur-[3px]" data-close="condModal"></div>
+  <div class="mpanel relative mx-auto max-h-[90vh] w-[min(680px,94vw)] overflow-auto rounded-[22px] bg-white p-6 text-ink shadow-sh2">
+    <button class="mclose absolute right-3 top-3 z-[2] grid h-10 w-10 cursor-pointer place-items-center rounded-full border-0 bg-[#f0eaff] text-[1.1rem] font-extrabold text-m600" data-close="condModal" aria-label="Cerrar">✕</button>
+    <div class="cond">
+      <h3 class="mb-1.5 text-[1.4rem]">🛡️ Condiciones de arriendo y reserva</h3>
+      {
+        condiciones.map(([title, items]) => (
+          <>
+            <h4 class="my-4 mb-1.5 text-[1.02rem] text-m600">{title}</h4>
+            {items.map((p) => <p class="my-1 text-[.9rem] leading-[1.6] text-ink2">{p}</p>)}
+          </>
+        ))
+      }
+      <h4 class="my-4 mb-1.5 text-[1.02rem] text-m600">6. Medios de pago por depósito o transferencia</h4>
+      <Fragment set:html={paycards} />
+    </div>
+  </div>
+</div>

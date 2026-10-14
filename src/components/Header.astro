@@ -1,0 +1,184 @@
+---
+import { CATS_ACTIVE, PUBLICOS, OCASIONES, PRODUCTS } from '../data/products';
+
+const count = (id: string) => PRODUCTS.filter((p) => p.cats.includes(id)).length;
+const destacados = [...PRODUCTS].sort((a, b) => a.pop - b.pop).slice(0, 3);
+
+const nlink =
+  'inline-flex cursor-pointer items-center gap-1.5 rounded-xl px-3 py-2 font-ft text-[.92rem] font-semibold text-ink transition hover:bg-[#f0eaff] hover:text-m600';
+---
+
+<header
+  id="header"
+  class="sticky top-0 z-[60] border-b border-line/50 bg-white/80 backdrop-blur-xl transition-all duration-300"
+>
+  <div class="mx-auto max-w-[1220px] px-4">
+    <div class="hrow flex items-center gap-3 py-3 transition-all duration-300">
+      <!-- Logo -->
+      <button
+        id="logoBtn"
+        class="group flex shrink-0 cursor-pointer items-center gap-2.5 border-0 bg-transparent p-0 text-left"
+        aria-label="Inicio, La Mágica Tienda"
+      >
+        <span
+          class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-[linear-gradient(135deg,var(--color-m500),var(--color-rosa))] text-[1.5rem] shadow-[0_6px_16px_rgba(255,95,162,.35)] transition duration-300 group-hover:rotate-[10deg] group-hover:scale-105"
+          >🎭</span
+        >
+        <span class="hidden font-ft text-[1.05rem] font-bold leading-none text-ink min-[420px]:block">
+          La Mágica Tienda
+          <small class="mt-1 block text-[.58rem] font-extrabold uppercase tracking-[.16em] text-m500">
+            Arriendo de disfraces · solo adultos
+          </small>
+        </span>
+      </button>
+
+      <!-- Navegación -->
+      <nav class="hidden items-center gap-0.5 lg:flex" aria-label="Navegación principal">
+        <div>
+          <button id="megaBtn" class={nlink} aria-expanded="false" aria-controls="megaMenu"
+            >Disfraces <span class="text-[.7em] opacity-70">▾</span></button
+          >
+        </div>
+        <a class={nlink} href="#promos">Promos</a>
+        <a class={nlink} href="#fechas">Fechas</a>
+        <a class={nlink} href="#como">Cómo funciona</a>
+        <a class={nlink} href="#contacto">Contacto</a>
+      </nav>
+
+      <!-- Buscador -->
+      <div class="relative ml-auto hidden max-w-[360px] flex-1 min-[760px]:block" role="search">
+        <div class="searchbox">
+          🔍<input
+            id="hdrSearch"
+            type="search"
+            placeholder="Buscar disfraz…"
+            aria-label="Buscar disfraces"
+            autocomplete="off"
+          />
+        </div>
+        <div
+          id="sugHdr"
+          class="suggest absolute inset-x-0 top-[calc(100%+8px)] z-[70] max-h-[340px] overflow-y-auto rounded-2xl border-2 border-line bg-white shadow-sh2"
+          role="listbox"></div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <div id="cartWrap" class="relative">
+          <button
+            id="cartBtn"
+            class="relative grid h-11 w-11 cursor-pointer place-items-center rounded-2xl border-[1.5px] border-line bg-[#f4eeff] text-[1.2rem] transition hover:bg-[#e6d9ff]"
+            aria-label="Tu arriendo, ver cotización"
+          >
+            🛒<span
+              id="cartCount"
+              class="absolute -right-1.5 -top-1.5 grid h-5 min-w-5 place-items-center rounded-full bg-rosa px-1 text-[.66rem] font-extrabold text-white"
+              >0</span
+            >
+          </button>
+          <div
+            id="miniCart"
+            class="minicart absolute right-0 top-[calc(100%+12px)] z-[75] w-[350px] rounded-[18px] border-2 border-line bg-white p-4 text-ink shadow-sh2 max-[899px]:fixed max-[899px]:inset-x-0 max-[899px]:bottom-0 max-[899px]:top-auto max-[899px]:w-auto max-[899px]:max-h-[80vh] max-[899px]:overflow-auto max-[899px]:rounded-t-3xl"
+            aria-label="Tu arriendo"></div>
+        </div>
+
+        <button
+          id="burger"
+          class="grid h-11 w-11 cursor-pointer place-items-center rounded-2xl border-[1.5px] border-line bg-[#f4eeff]"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="flex gap-2.5 pb-2.5 min-[760px]:hidden">
+      <div class="msearch flex flex-1 items-center gap-2 rounded-full border-2 border-line bg-white px-3.5 py-2.5">
+        🔍<input
+          id="mobSearch"
+          type="search"
+          placeholder="Busca tu disfraz…"
+          aria-label="Buscar disfraces"
+          class="min-w-0 flex-1 border-0 bg-transparent font-fb text-[.95rem] text-ink outline-none"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Mega menú -->
+  <div
+    id="megaMenu"
+    class="mega absolute inset-x-0 top-full z-[80] grid-cols-[1.1fr_1fr_1fr_1.3fr] gap-6 rounded-b-3xl border-t border-line bg-white px-[4vw] pt-6 shadow-[0_24px_50px_rgba(90,42,156,.22)]"
+    role="menu"
+  >
+    <div>
+      <h5 class="mb-2.5 font-ft text-[.95rem] text-m600">🎭 Temática</h5>
+      <ul class="list-none">
+        {
+          CATS_ACTIVE.map((c) => (
+            <li>
+              <a role="menuitem" data-tem={c.id} href="#catalogo" class="flex cursor-pointer items-center gap-2 rounded-[10px] px-2 py-[7px] text-[.9rem] text-[#4a3c78] no-underline transition hover:translate-x-1 hover:bg-[#f3edff] hover:text-m600">
+                {c.i} {c.n}
+                <small class="ml-auto rounded-full bg-[#e2f7ec] px-[7px] py-[2px] text-[.68rem] font-extrabold text-[#0c7a56]">{count(c.id)}</small>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <h5 class="mb-2.5 font-ft text-[.95rem] text-m600">🧑 Público</h5>
+      <ul class="list-none">
+        {
+          PUBLICOS.map((p) => (
+            <li>
+              <a role="menuitem" data-pub={p.id} href="#catalogo" class="flex cursor-pointer items-center gap-2 rounded-[10px] px-2 py-[7px] text-[.9rem] text-[#4a3c78] no-underline transition hover:translate-x-1 hover:bg-[#f3edff] hover:text-m600">
+                {p.i} {p.n}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <h5 class="mb-2.5 font-ft text-[.95rem] text-m600">🎉 Celebración</h5>
+      <ul class="list-none">
+        {
+          OCASIONES.slice(0, 6).map((o) => (
+            <li>
+              <a role="menuitem" data-oca={o.id} href="#catalogo" class="flex cursor-pointer items-center gap-2 rounded-[10px] px-2 py-[7px] text-[.9rem] text-[#4a3c78] no-underline transition hover:translate-x-1 hover:bg-[#f3edff] hover:text-m600">
+                {o.i} {o.n}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="mt-3 border-t border-dashed border-line pt-2.5">
+        <a href="#" data-opencond class="flex items-center gap-2 rounded-[10px] px-2 py-1.5 text-[.88rem] font-extrabold text-m500 no-underline hover:bg-[#f3edff]">🛡️ Condiciones de arriendo y garantía →</a>
+      </div>
+    </div>
+
+    <div class="relative flex min-h-[220px] flex-col justify-center gap-2 overflow-hidden rounded-[18px] bg-[linear-gradient(140deg,var(--color-rosa),var(--color-m600))] p-[18px] text-white">
+      <span class="text-[2rem]">🎈</span>
+      <b class="font-ft text-[1.25rem] [text-shadow:0_2px_8px_rgba(0,0,0,.4)]">25% dcto. grupal</b>
+      <span class="text-[.95rem]">Con 7 o más disfraces en tu cotización. ¡Todo el grupo disfrazado!</span>
+      <button class="btn btn-ama btn-sm w-fit" data-mgo="vermas">Ver la promo ✨</button>
+    </div>
+
+    <div class="thin-scroll col-span-full flex items-center gap-3.5 overflow-x-auto border-t border-line pb-[18px] pt-3.5">
+      <span class="whitespace-nowrap font-ft text-[.85rem] text-m600">🔥 Destacados del catálogo:</span>
+      <span class="flex gap-2.5">
+        {
+          destacados.map((c) => (
+            <button data-qv={c.id} class="ms-card flex cursor-pointer items-center gap-2.5 whitespace-nowrap rounded-[14px] border-[1.5px] border-line bg-[#f7f2ff] px-3.5 py-2 pl-2 text-ink transition hover:-translate-y-0.5 hover:border-ama">
+              <img src={c.img} alt="" class="h-11 w-11 rounded-[10px] bg-[#efe8ff] object-cover" loading="lazy" />
+              <span class="text-left text-[.8rem]">{c.n}<br /><b class="text-[.75rem] text-m600">Tallas {c.tl.join(' · ')}</b></span>
+            </button>
+          ))
+        }
+      </span>
+    </div>
+  </div>
+</header>

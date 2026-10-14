@@ -1,0 +1,512 @@
+[
+  {
+    "numero": 1,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.12.59 PM.jpeg",
+    "titulo": "Disfraz de conejita negra",
+    "tallas": ["M"],
+    "descripcion": "Disfraz de conejita elegante y provocador en color negro. Incluye máscara con orejas altas de acabado brillante, top escotado con detalles de remaches y falda corta de acabado cuero. Es un clásico de las fiestas de disfraces y las noches de Halloween. Ideal para eventos con temática sexy.",
+    "categorias": ["sexy"],
+    "genero": "mujer",
+    "archivo": "01-disfraz-de-conejita-negra-m.avif"
+  },
+  {
+    "numero": 2,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.12.59 PM (1).jpeg",
+    "titulo": "Disfraz de animadora satánica",
+    "tallas": ["S"],
+    "descripcion": "Propuesta de animadora con una fuerte dosis de terror. La parte superior es naranja con ribetes en blanco y negro y escote con lazadas, mientras la falda plisada luce estampados de pentagramas. Un cinturón con el número 666 remata el conjunto. Perfecta para Halloween o fiestas de terror con actitud.",
+    "categorias": ["terror", "halloween"],
+    "genero": "mujer",
+    "archivo": "02-disfraz-de-animadora-satanica-s.avif"
+  },
+  {
+    "numero": 3,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.00 PM.jpeg",
+    "titulo": "Disfraz de Jigsaw",
+    "tallas": ["M"],
+    "descripcion": "El inconfundible disfraz de Jigsaw, el muñeco de la saga Saw. Lleva traje negro clásico con camisa blanca y pajarita roja, además del maquillaje de payaso con espirales en las mejillas. Un disfraz sencillo pero muy reconocible para los amantes del terror. Los toques rojos sobre el conjunto negro hacen juego con el personaje.",
+    "categorias": ["terror", "películas y series"],
+    "genero": "hombre",
+    "archivo": "03-disfraz-de-jigsaw-m.avif"
+  },
+  {
+    "numero": 4,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.01 PM.jpeg",
+    "titulo": "Disfraz de payaso Pennywise plateado",
+    "tallas": ["M", "L"],
+    "descripcion": "Versión plateada del payaso Pennywise de la película It. El conjunto gris incluye camisa con volantes, pantalones con pompones rojos y un antifaz con peluca naranja despeinada. Los detalles de encaje en cuello y puños le dan un toque antiguo. Un disfraz de terror ideal para fiestas de Halloween.",
+    "categorias": ["terror", "halloween", "películas y series"],
+    "genero": "unisex",
+    "archivo": "04-disfraz-de-payaso-pennywise-plateado-m-l.avif"
+  },
+  {
+    "numero": 5,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.01 PM (1).jpeg",
+    "titulo": "Disfraz de payaso terrorífico arcoíris",
+    "tallas": ["XL", "XXL"],
+    "descripcion": "Disfraz de payaso de terror con paneles de colores en rojo, azul, verde y amarillo. El antifaz es de látex con dientes afilados, ojos saltones y peluca roja desordenada. Las mangas y los pantalones de satén mantienen el mismo colorido intenso. En la foto se acompaña de un machete ensangrentado para rematar el look aterrador.",
+    "categorias": ["terror", "halloween"],
+    "genero": "hombre",
+    "archivo": "05-disfraz-de-payaso-terrorifico-arcoiris-xl-xxl.avif"
+  },
+  {
+    "numero": 6,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.02 PM.jpeg",
+    "titulo": "Disfraz de novia ensangrentada",
+    "tallas": ["M", "L"],
+    "descripcion": "Disfraz de novia muerta con vestido blanco largo de encaje y tul. El tejido transparente de las mangas y el vuelo del vestido están salpicados de manchas de sangre. Lleva velo de novia a juego y un lazo en la cintura. Un clásico de Halloween para quien busca algo macabro y elegante a la vez.",
+    "categorias": ["terror", "halloween"],
+    "genero": "mujer",
+    "archivo": "06-disfraz-de-novia-ensangrentada-m-l.avif"
+  },
+  {
+    "numero": 7,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.02 PM (1).jpeg",
+    "titulo": "Disfraz de Chucky el muñeco diabólico",
+    "tallas": ["S", "M", "XL"],
+    "descripcion": "El temido muñeco Chucky de la saga de películas de terror. Incluye monito azul con tirantes, camiseta de rayas arcoíris y peluca pelirroja con costuras en la cara. Los botones rojos característicos rematan el conjunto. En la foto se acompaña de un cuchillo ensangrentado para el toque final.",
+    "categorias": ["terror", "películas y series"],
+    "genero": "unisex",
+    "archivo": "07-disfraz-de-chucky-el-muneco-diabolico-s-m-xl.avif"
+  },
+  {
+    "numero": 8,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.03 PM.jpeg",
+    "titulo": "Disfraz de pirata clásico",
+    "tallas": ["M"],
+    "descripcion": "Disfraz de pirata con aire clásico de altamar. Lleva sombrero bicorne con cinta roja, chaleco marrón con cordones y camisa blanca de mangas abullonadas. La falda roja a rayas con volante y las medias de red completan el conjunto. En la imagen se ven además la espada y el parche de calavera.",
+    "categorias": ["épocas e históricos"],
+    "genero": "mujer",
+    "archivo": "08-disfraz-de-pirata-clasico-m.avif"
+  },
+  {
+    "numero": 9,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.03 PM (1).jpeg",
+    "titulo": "Disfraz de Freddie Mercury amarillo",
+    "tallas": ["M", "L", "XL"],
+    "descripcion": "Homenaje al inolvidable Freddie Mercury con su chaqueta amarilla icónica. La chaqueta de acabado brillante lleva hebillas plateadas y hombreras, sobre camiseta blanca. Los pantalones blancos con franja roja lateral rematan el look de concierto. Un disfraz perfecto para fiestas de música y temáticas de los 80.",
+    "categorias": ["música", "épocas e históricos"],
+    "genero": "hombre",
+    "archivo": "09-disfraz-de-freddie-mercury-amarillo-m-l-xl.avif"
+  },
+  {
+    "numero": 10,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.04 PM.jpeg",
+    "titulo": "Disfraz de pirata con sombrero de calavera",
+    "tallas": ["XL"],
+    "descripcion": "Disfraz de pirata con sombrero de calavera y tibiales bordadas. La parte superior mezcla camisa blanca de hombros descubiertos con chaleco marrón, y la falda de terciopelo rojo cae en corte asimétrico. Un cinturón a rayas y botas altas completan el conjunto. Ideal para fiestas temáticas de piratas y aventuras.",
+    "categorias": ["épocas e históricos"],
+    "genero": "mujer",
+    "archivo": "10-disfraz-de-pirata-con-sombrero-de-calavera-xl.avif"
+  },
+  {
+    "numero": 11,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.04 PM (1).jpeg",
+    "titulo": "Disfraz de sacerdote",
+    "tallas": ["M", "L", "XL"],
+    "descripcion": "Disfraz de sacerdote de tono solemne. La sotana negra lleva ribete rojo en la capa, el delantero y los botones, con fajín rojo a la cintura. Se acompaña de un crucifijo colgado en cadena. Un disfraz sencillo y muy reconocible para fiestas de disfraces.",
+    "categorias": ["profesiones"],
+    "genero": "hombre",
+    "archivo": "11-disfraz-de-sacerdote-m-l-xl.avif"
+  },
+  {
+    "numero": 12,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.05 PM.jpeg",
+    "titulo": "Disfraz de reina de corazones",
+    "tallas": ["L", "XL"],
+    "descripcion": "Vestido de Reina de Corazones con caída amplia y color rojo intenso. El corpiño combina pan dorado con corazones, y una banda estampada de naipes baja por el centro de la falda. Incluye guantes largos y una mini corona negra con corazones. Un disfraz de cuento perfecto para fiestas temáticas.",
+    "categorias": ["princesas y cuentos"],
+    "genero": "mujer",
+    "archivo": "12-disfraz-de-reina-de-corazones-l-xl.avif"
+  },
+  {
+    "numero": 13,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.05 PM (1).jpeg",
+    "titulo": "Disfraz de muñeca gótica",
+    "tallas": ["L"],
+    "descripcion": "Disfraz de muñeca gótica con estética de muñeca rota. El vestido combina cuerpo negro brillante con mangas y vuelo a rayas en blanco y negro. Lleva lazos bordados en tonos vivos que rompen el conjunto. Ideal para fiestas de Halloween o temáticas góticas.",
+    "categorias": ["halloween"],
+    "genero": "mujer",
+    "archivo": "13-disfraz-de-muneca-gotica-l.avif"
+  },
+  {
+    "numero": 14,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.05 PM (2).jpeg",
+    "titulo": "Disfraz de piloto de caza",
+    "tallas": ["S", "M", "L", "XL"],
+    "descripcion": "Mono de piloto de aviación en verde militar con parches de vuelo. Lleva cierres negros, bolsillos prácticos y detalles de bandera en la manga. Un disfraz cómodo y realista, ideal para fiestas temáticas de fuerzas aéreas o películas de acción. En la foto se acompaña de gafas de aviador.",
+    "categorias": ["profesiones"],
+    "genero": "hombre",
+    "archivo": "14-disfraz-de-piloto-de-caza-s-m-l-xl.avif"
+  },
+  {
+    "numero": 15,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.06 PM.jpeg",
+    "titulo": "Disfraz de Jason Voorhees",
+    "tallas": ["M", "L"],
+    "descripcion": "El clásico disfraz de Jason Voorhees, el asesino de Viernes 13. Incluye la máscara de hockey característica y ropa gastada y rasgada con aspecto sucio. Camisa desgastada sobre camiseta gris y pantalones oscuros completan el look. En la foto se acompaña de un machete ensangrentado.",
+    "categorias": ["terror", "películas y series", "halloween"],
+    "genero": "hombre",
+    "archivo": "15-disfraz-de-jason-voorhees-m-l.avif"
+  },
+  {
+    "numero": 16,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.06 PM (1).jpeg",
+    "titulo": "Disfraz de Cenicienta",
+    "tallas": ["L"],
+    "descripcion": "Vestido de Cenicienta en azul intenso con corte de baile. El escote cuadrado se remata con pedrería, y las mangas abullonadas son de tul translúcido. Guantes largos y una cintura de encaje dan un toque elegante. Un disfraz de princesa ideal para fiestas de cuento.",
+    "categorias": ["princesas y cuentos"],
+    "genero": "mujer",
+    "archivo": "16-disfraz-de-cenicienta-l.avif"
+  },
+  {
+    "numero": 17,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.07 PM.jpeg",
+    "titulo": "Disfraz de policía azul",
+    "tallas": ["L", "XL"],
+    "descripcion": "Disfraz de policía en color azul metálico brillante. La chaqueta corta con cierre frontal y volante combina con falda negra de acabado cuero. Lleva gorro con insignia, insignia en el pecho y botas altas. Un disfraz de fiesta con mucha personalidad, ideal para carnavales y Halloween.",
+    "categorias": ["profesiones", "sexy"],
+    "genero": "mujer",
+    "archivo": "17-disfraz-de-policia-azul-l-xl.avif"
+  },
+  {
+    "numero": 18,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.07 PM (1).jpeg",
+    "titulo": "Disfraz de payasa",
+    "tallas": ["L"],
+    "descripcion": "Disfraz de payasa de estilo simpático. Vestido corto en tono plateado con volantes en zigzag, pompones rojos y ribetes a juego. El escote con volante y las mangas abullonadas completan el look de circo. Perfecto para fiestas de temática de payasos y circos.",
+    "categorias": ["halloween", "terror"],
+    "genero": "mujer",
+    "archivo": "18-disfraz-de-payasa-l.avif"
+  },
+  {
+    "numero": 19,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.08 PM.jpeg",
+    "titulo": "Disfraz de Nezuko Kamado",
+    "tallas": ["S"],
+    "descripcion": "Disfraz de Nezuko Kamado, la protagonista femenina de Demon Slayer. Combina un kimono rosa con estampa tradicional bajo una capa negra de mangas amplias. El cinturón a cuadros rojo y blanco y las cintas en las piernas rematan el conjunto. No falta el característico mordedor de bambú.",
+    "categorias": ["anime y videojuegos"],
+    "genero": "mujer",
+    "archivo": "19-disfraz-de-nezuko-kamado-s.avif"
+  },
+  {
+    "numero": 20,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.08 PM (1).jpeg",
+    "titulo": "Disfraz de Harley Quinn",
+    "tallas": ["S", "M", "L"],
+    "descripcion": "Disfraz de Harley Quinn con mono metálico bicolor rojo y azul. La chaqueta corta lleva franjas doradas en las mangas y combina con el pantalón brillante del mismo tono. El peinado de coletas con mechas roja y azul completa el personaje. Un disfraz de superhéroes y villanos muy colorido.",
+    "categorias": ["superhéroes", "películas y series"],
+    "genero": "mujer",
+    "archivo": "20-disfraz-de-harley-quinn-s-m-l.avif"
+  },
+  {
+    "numero": 21,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.09 PM.jpeg",
+    "titulo": "Disfraz de Ash Ketchum",
+    "tallas": ["M", "L"],
+    "descripcion": "Disfraz de Ash Ketchum, el entrenador Pokémon por excelencia. Incluye el chaleco azul con vivos amarillos y gorro blanco y rojo con la señal característica. Camiseta blanca y manga verde de muñeca acompañan el conjunto. Un disfraz reconocible al instante para fans de la serie.",
+    "categorias": ["anime y videojuegos"],
+    "genero": "hombre",
+    "archivo": "21-disfraz-de-ash-ketchum-m-l.avif"
+  },
+  {
+    "numero": 22,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.10 PM.jpeg",
+    "titulo": "Disfraz de Jason ensangrentado",
+    "tallas": ["L", "XL"],
+    "descripcion": "Segunda versión del temido Jason Voorhees, esta vez con mono de trabajo salpicado de sangre. La máscara de hockey dorada y sucia refuerza el aspecto aterrador. El conjunto lleva roturas y manchas en todo el cuerpo. En la foto se acompaña de un bate envuelto en cinta.",
+    "categorias": ["terror", "películas y series", "halloween"],
+    "genero": "hombre",
+    "archivo": "22-disfraz-de-jason-ensangrentado-l-xl.avif"
+  },
+  {
+    "numero": 23,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.10 PM (1).jpeg",
+    "titulo": "Disfraz de Joker",
+    "tallas": ["L"],
+    "descripcion": "Disfraz de Joker con su icónico traje rojo. Lleva chaqueta y pantalón rojos sobre chaleco naranja y camisa oscura a lunares. La máscara de payaso blanca con lágrimas azules completa el look. Un disfraz de villano ideal para fiestas de temática de cómics y cine.",
+    "categorias": ["superhéroes", "películas y series"],
+    "genero": "hombre",
+    "archivo": "23-disfraz-de-joker-l.avif"
+  },
+  {
+    "numero": 24,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.10 PM (2).jpeg",
+    "titulo": "Disfraz de diablo",
+    "tallas": ["M", "L", "XL"],
+    "descripcion": "Disfraz de diablo con túnica negra y detalles en rojo. La capucha encaja con una máscara roja de cuernos y expresión amenazante. Puños, cuello y vuelo llevan pan de terciopelo rojo, con cinturón a juego. En la foto se acompaña de un tridente rojo para completar el personaje.",
+    "categorias": ["terror", "halloween"],
+    "genero": "hombre",
+    "archivo": "24-disfraz-de-diablo-m-l-xl.avif"
+  },
+  {
+    "numero": 25,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.11 PM.jpeg",
+    "titulo": "Disfraz de los años 80",
+    "tallas": ["M", "L"],
+    "descripcion": "Disfraz de los años 80 lleno de color. La camiseta negra con estampado de la década se combina con tutú rosa y leggins verde neón. Puñetas, cintas y collares de cuentas en tonos flúor rematan el conjunto. Un disfraz divertido para fiestas temáticas de la época.",
+    "categorias": ["épocas e históricos"],
+    "genero": "mujer",
+    "archivo": "25-disfraz-de-los-anos-80-m-l.avif"
+  },
+  {
+    "numero": 26,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.11 PM (1).jpeg",
+    "titulo": "Disfraz de la Mujer Increíble",
+    "tallas": ["S", "M"],
+    "descripcion": "Disfraz de la Mujer Increíble del universo de Los Increíbles. Mono rojo con el emblema del personaje en el pecho y cinturón naranja. Guantes y botas negras de caña alta completan el atuendo. Un disfraz de superhéroes cómodo y reconocible al instante.",
+    "categorias": ["superhéroes", "películas y series"],
+    "genero": "mujer",
+    "archivo": "26-disfraz-de-la-mujer-increible-s-m.avif"
+  },
+  {
+    "numero": 27,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.11 PM (2).jpeg",
+    "titulo": "Disfraz de Scorpion de Mortal Kombat",
+    "tallas": ["L", "XL"],
+    "descripcion": "Disfraz de Scorpion, el luchador de Mortal Kombat. La túnica acolchada amarilla se lleva sobre ropa negra de manga corta, con protecciones en piernas y antebrazos. La máscara negra con detalles dorados cubre el rostro. Un disfraz de videojuegos ideal para fiestas gaming.",
+    "categorias": ["anime y videojuegos"],
+    "genero": "hombre",
+    "archivo": "27-disfraz-de-scorpion-de-mortal-kombat-l-xl.avif"
+  },
+  {
+    "numero": 28,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.12 PM.jpeg",
+    "titulo": "Disfraz de reina de corazones",
+    "tallas": ["talla sin especificar"],
+    "descripcion": "Otro ejemplar del vestido de Reina de Corazones en rojo intenso. El corpiño dorado con corazones y la banda de naipes destacan sobre la falda amplia. Lleva guantes largos y corona de reina. Un disfraz de cuento muy vistoso para fiestas y carnavales.",
+    "categorias": ["princesas y cuentos"],
+    "genero": "mujer",
+    "archivo": "28-disfraz-de-reina-de-corazones-sin-especificar.avif"
+  },
+  {
+    "numero": 29,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.12 PM (1).jpeg",
+    "titulo": "Disfraz de payaso blanco y negro",
+    "tallas": ["talla sin especificar"],
+    "descripcion": "Disfraz de payaso de terror en blanco y negro. La túnica bicolor lleva pompones negros y cuello de volante, con bombín a juego. La máscara de payaso sonriente da un aire inquietante. Un disfraz ideal para Halloween y fiestas de terror.",
+    "categorias": ["terror", "halloween"],
+    "genero": "hombre",
+    "archivo": "29-disfraz-de-payaso-blanco-y-negro-sin-especificar.avif"
+  },
+  {
+    "numero": 30,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.13 PM.jpeg",
+    "titulo": "Disfraz de príncipe azul",
+    "tallas": ["L", "XL"],
+    "descripcion": "Disfraz de príncipe con chaqueta azul de corte real. Los detalles dorados en botones y hombreras, junto al cuello rojo, dan un toque de lujo. Pantalones rojos y corona dorada completan el conjunto. Un disfraz de cuento perfecto para fiestas temáticas.",
+    "categorias": ["princesas y cuentos", "épocas e históricos"],
+    "genero": "hombre",
+    "archivo": "30-disfraz-de-principe-azul-l-xl.avif"
+  },
+  {
+    "numero": 31,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.14 PM.jpeg",
+    "titulo": "Disfraz de policía negro",
+    "tallas": ["S"],
+    "descripcion": "Disfraz de policía en vestido corto negro de corte militar. Lleva botones metálicos, escote con remaches y gorro con insignia. Se acompaña de botas altas de tacón para rematar el look. Ideal para fiestas de disfraces y temáticas de acción.",
+    "categorias": ["profesiones", "sexy"],
+    "genero": "mujer",
+    "archivo": "31-disfraz-de-policia-negro-s.avif"
+  },
+  {
+    "numero": 32,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.15 PM.jpeg",
+    "titulo": "Disfraz de payaso ensangrentado",
+    "tallas": ["S", "M"],
+    "descripcion": "Disfraz de payaso asesino con monigote rojo y negro a rayas. La mitad blanca lleva salpicaduras de sangre y el cuello de volante remata el conjunto. El maquillaje de diamantes negros en los ojos completa el aspecto aterrador. Un clásico de Halloween con mucha presencia.",
+    "categorias": ["terror", "halloween"],
+    "genero": "hombre",
+    "archivo": "32-disfraz-de-payaso-ensangrentado-s-m.avif"
+  },
+  {
+    "numero": 33,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.15 PM (1).jpeg",
+    "titulo": "Disfraz de novia gótica",
+    "tallas": ["L"],
+    "descripcion": "Disfraz de novia gótica en negro con corte de vestido corto. El cuerpo lleva capa de hombros y volantes, con falda de tul en capas. Un tocado de tul y guantes negros acompañan el conjunto. En la foto sostiene un ramo de flores que da el toque macabro.",
+    "categorias": ["halloween", "épocas e históricos"],
+    "genero": "mujer",
+    "archivo": "33-disfraz-de-novia-gotica-l.avif"
+  },
+  {
+    "numero": 34,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.16 PM.jpeg",
+    "titulo": "Disfraz de Chucky vaquero",
+    "tallas": ["M"],
+    "descripcion": "Segunda versión del muñeco Chucky con overol vaquero de mezclilla. La camiseta roja a rayas y las tachuelas doradas recuerdan al personaje. El maquillaje de costuras en la cara refuerza el efecto. En la foto se acompaña de un cuchillo ensangrentado.",
+    "categorias": ["terror", "películas y series"],
+    "genero": "hombre",
+    "archivo": "34-disfraz-de-chucky-vaquero-m.avif"
+  },
+  {
+    "numero": 35,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.17 PM.jpeg",
+    "titulo": "Disfraz de muñeca Annabelle",
+    "tallas": ["M", "XL"],
+    "descripcion": "Disfraz de la muñeca Annabelle de la saga de terror. Vestido largo blanco con volantes, lazo rojo en la cintura y cuello alto. Peluca castaña con trenzas y lazos rojos completa el look de muñeca. Un disfraz inquietante ideal para Halloween.",
+    "categorias": ["terror", "películas y series", "halloween"],
+    "genero": "mujer",
+    "archivo": "35-disfraz-de-muneca-annabelle-m-xl.avif"
+  },
+  {
+    "numero": 36,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.18 PM.jpeg",
+    "titulo": "Disfraz de princesa verde",
+    "tallas": ["M", "L", "XL"],
+    "descripcion": "Vestido de princesa en tonos verdes con capas de volantes. El terciopelo del cuerpo se combina con falda satinada a varios tonos y bordes dorados. Lleva una flor en la cintura y una tiara con piedra verde. Un disfraz de cuento elegante para fiestas temáticas.",
+    "categorias": ["princesas y cuentos"],
+    "genero": "mujer",
+    "archivo": "36-disfraz-de-princesa-verde-m-l-xl.avif"
+  },
+  {
+    "numero": 37,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.19 PM.jpeg",
+    "titulo": "Disfraz de faraón egipcio",
+    "tallas": ["M", "L"],
+    "descripcion": "Disfraz de faraón egipcio con túnica negra de terciopelo. El collar, las pulseras y el cinturón son de color dorado con motivos egipcios. La cabeza lleva el tocado real de rayas negro y oro con cobra. En la foto se acompaña de un cetro para rematar el personaje.",
+    "categorias": ["épocas e históricos"],
+    "genero": "hombre",
+    "archivo": "37-disfraz-de-faraon-egipcio-m-l.avif"
+  },
+  {
+    "numero": 38,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.20 PM.jpeg",
+    "titulo": "Disfraz de Ghostface",
+    "tallas": ["S", "M", "L"],
+    "descripcion": "El disfraz de Ghostface, la máscara icónica de la saga Scream. Túnica negra larga con capucha y bordes desgarrados en las mangas. La máscara blanca de expresión alargada es inconfundible. En la foto sostiene un cuchillo ensangrentado.",
+    "categorias": ["terror", "películas y series", "halloween"],
+    "genero": "unisex",
+    "archivo": "38-disfraz-de-ghostface-s-m-l.avif"
+  },
+  {
+    "numero": 39,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.20 PM (1).jpeg",
+    "titulo": "Disfraz de Michael Myers",
+    "tallas": ["M"],
+    "descripcion": "Disfraz de Michael Myers, el asesino de la saga Halloween. Mono de trabajo azul oscuro con cierre frontal y bolsillos de pecho. La máscara blanca de expresión neutra es el detalle clave. Un conjunto sobrio y muy reconocible para los fans del terror.",
+    "categorias": ["terror", "películas y series", "halloween"],
+    "genero": "hombre",
+    "archivo": "39-disfraz-de-michael-myers-m.avif"
+  },
+  {
+    "numero": 40,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.20 PM (2).jpeg",
+    "titulo": "Disfraz de Akatsuki de Naruto",
+    "tallas": ["S", "L"],
+    "descripcion": "Disfraz de la organización Akatsuki de la serie Naruto. Capa larga negra con las nubes rojas características y cierre frontal en rojo. El interior de la capucha también es rojo para más contraste. Un disfraz de anime ideal para fans de la serie.",
+    "categorias": ["anime y videojuegos"],
+    "genero": "hombre",
+    "archivo": "40-disfraz-de-akatsuki-de-naruto-s-l.avif"
+  },
+  {
+    "numero": 41,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.20 PM (3).jpeg",
+    "titulo": "Disfraz de Wednesday Addams",
+    "tallas": ["M", "L"],
+    "descripcion": "Disfraz de Wednesday Addams con vestido negro de vuelo. El cuerpo lleva cuello de camisa, volantes en el escote y mangas de organza. La falda en capas y el cinturón con hebilla rematan el conjunto. Trenzas largas y maquillaje pálido completan el personaje.",
+    "categorias": ["películas y series"],
+    "genero": "mujer",
+    "archivo": "41-disfraz-de-wednesday-addams-m-l.avif"
+  },
+  {
+    "numero": 42,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.20 PM (4).jpeg",
+    "titulo": "Disfraz de princesa Peach",
+    "tallas": ["XL"],
+    "descripcion": "Vestido de la princesa Peach en amarillo con detalles naranjas. El escote con cuello blanco y la piedra verde del pecho son el sello del personaje. Mangas abullonadas, guantes blancos y tiara dorada acompañan el look. Un disfraz de videojuegos muy luminoso.",
+    "categorias": ["anime y videojuegos", "princesas y cuentos"],
+    "genero": "mujer",
+    "archivo": "42-disfraz-de-princesa-peach-xl.avif"
+  },
+  {
+    "numero": 43,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.21 PM.jpeg",
+    "titulo": "Disfraz de Capitana Marvel",
+    "tallas": ["S", "M"],
+    "descripcion": "Mono de Capitana Marvel con estampado completo del traje del personaje. Los colores rojo, azul y dorado cubren todo el conjunto con detalles de armadura. Cuello alto y cierre trasero facilitan su puesta. Un disfraz de superhéroes ideal para fans del universo Marvel.",
+    "categorias": ["superhéroes", "películas y series"],
+    "genero": "mujer",
+    "archivo": "43-disfraz-de-capitana-marvel-s-m.avif"
+  },
+  {
+    "numero": 44,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.21 PM (1).jpeg",
+    "titulo": "Disfraz de Pennywise con globo",
+    "tallas": ["M", "L"],
+    "descripcion": "Otra versión del payaso Pennywise de la película It. El traje plateado lleva volantes en cuello y puños, con pompones rojos y cintas a juego. La peluca y el maquillaje recrean al payaso del terror. En la foto se acompaña del característico globo rojo.",
+    "categorias": ["terror", "películas y series", "halloween"],
+    "genero": "hombre",
+    "archivo": "44-disfraz-de-pennywise-con-globo-m-l.avif"
+  },
+  {
+    "numero": 45,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.21 PM (2).jpeg",
+    "titulo": "Disfraz de monja",
+    "tallas": ["S", "M", "L"],
+    "descripcion": "Disfraz de monja con velo negro y túnica corta. El cuerpo combina blanco y negro con cruces doradas en la falda y un escote con forma de cruz. Un atuendo de fiesta con mucho carácter. Ideal para Halloween y fiestas de temática de terror.",
+    "categorias": ["terror", "sexy"],
+    "genero": "mujer",
+    "archivo": "45-disfraz-de-monja-s-m-l.avif"
+  },
+  {
+    "numero": 46,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.22 PM.jpeg",
+    "titulo": "Disfraz de doctor de la peste",
+    "tallas": ["L", "XL"],
+    "descripcion": "Disfraz de doctor de la peste negra con túnica negra larga y capucha. La máscara de pico con gafas metálicas es el elemento más llamativo. Un cordón dorado de cuero marca la cintura. Un disfraz histórico inquietante, perfecto para Halloween.",
+    "categorias": ["épocas e históricos", "terror"],
+    "genero": "hombre",
+    "archivo": "46-disfraz-de-doctor-de-la-peste-l-xl.avif"
+  },
+  {
+    "numero": 47,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.22 PM (1).jpeg",
+    "titulo": "Disfraz de Bo Peep",
+    "tallas": ["M"],
+    "descripcion": "Disfraz de Bo Peep inspirado en su diseño de película. Vestido blanco con lunares rojos, cuerpo turquesa y capa rosa de tul. Bonete rosa con lazos y bastón azul completan el conjunto. Un disfraz de princesa dulce y colorido.",
+    "categorias": ["princesas y cuentos", "películas y series"],
+    "genero": "mujer",
+    "archivo": "47-disfraz-de-bo-peep-m.avif"
+  },
+  {
+    "numero": 48,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.22 PM (2).jpeg",
+    "titulo": "Disfraz de Harley Quinn con bate",
+    "tallas": ["M", "L"],
+    "descripcion": "Segunda versión de Harley Quinn con falda escarlata y azul. La chaqueta de corte deportivo se lleva sobre camiseta blanca con estampado. Guantes de red, medias y coletas completan el look. En la foto lleva su famoso bate de béisbol.",
+    "categorias": ["superhéroes", "películas y series"],
+    "genero": "mujer",
+    "archivo": "48-disfraz-de-harley-quinn-con-bate-m-l.avif"
+  },
+  {
+    "numero": 49,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.22 PM (3).jpeg",
+    "titulo": "Disfraz de Beetlejuice",
+    "tallas": ["M"],
+    "descripcion": "Disfraz de Beetlejuice con el traje rayado blanco y negro. Chaqueta y pantalón a rayas con camisa blanca y corbata de lagartija. Los guantes con motivo de esqueleto rematan las manos. Un disfraz de película muy reconocible para fiestas.",
+    "categorias": ["películas y series", "terror"],
+    "genero": "hombre",
+    "archivo": "49-disfraz-de-beetlejuice-m.avif"
+  },
+  {
+    "numero": 50,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.23 PM.jpeg",
+    "titulo": "Disfraz de Willy Wonka",
+    "tallas": ["M"],
+    "descripcion": "Disfraz de Willy Wonka con gabardina de terciopelo morado. Chaleco azul, pajarita geométrica y chistera negra acompañan el conjunto. Un bastón negro completa la figura del chocolatero. Un disfraz de película con mucho encanto.",
+    "categorias": ["películas y series"],
+    "genero": "hombre",
+    "archivo": "50-disfraz-de-willy-wonka-m.avif"
+  },
+  {
+    "numero": 51,
+    "archivo_original": "WhatsApp Image 2026-10-13 at 1.13.23 PM (1).jpeg",
+    "titulo": "Disfraz de emperador romano",
+    "tallas": ["M", "L"],
+    "descripcion": "Disfraz de emperador romano en color rojo intenso. Túnica con dibujo griego en el borde, capa larga con galones dorados y cinturón negro. Lleva un gorro rojo con cinta dorada a juego. Un disfraz histórico ideal para fiestas temáticas de la antigüedad.",
+    "categorias": ["épocas e históricos"],
+    "genero": "hombre",
+    "archivo": "51-disfraz-de-emperador-romano-m-l.avif"
+  }
+]

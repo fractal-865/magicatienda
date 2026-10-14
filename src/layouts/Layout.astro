@@ -1,0 +1,72 @@
+---
+import '../styles/global.css';
+/* Fuentes locales (sin CDN externo): Fredoka, Nunito y Caveat */
+import '@fontsource/fredoka/500.css';
+import '@fontsource/fredoka/600.css';
+import '@fontsource/fredoka/700.css';
+import '@fontsource/nunito/400.css';
+import '@fontsource/nunito/700.css';
+import '@fontsource/nunito/800.css';
+import '@fontsource/caveat/600.css';
+import Topbar from '../components/Topbar.astro';
+import Header from '../components/Header.astro';
+import Drawer from '../components/Drawer.astro';
+import Footer from '../components/Footer.astro';
+import Floaters from '../components/Floaters.astro';
+import Modals from '../components/Modals.astro';
+
+const title =
+  'La Mágica Tienda de Disfraces ✨ Arriendo de disfraces para adultos en Chile · #lamagicatienda';
+const description =
+  'Arriendo de disfraces solo para adultos en Providencia, Santiago. Cotiza por WhatsApp: garantía de $13.000 a $20.000 según el disfraz, se paga el día del retiro y se devuelve. #lamagicatienda';
+---
+
+<!doctype html>
+<html lang="es-CL">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body class="min-h-screen">
+    <a
+      href="#catalogo"
+      class="absolute -left-[999px] top-0 z-[200] rounded-br-xl bg-m600 px-4 py-2.5 font-extrabold text-white focus:left-0"
+    >
+      Ir al catálogo
+    </a>
+
+    <!-- Sprites SVG -->
+    <svg style="display:none" aria-hidden="true">
+      <symbol id="d-star" viewBox="0 0 64 64"><path d="M32 6l7 18 19 2-14 13 4 19-16-10-16 10 4-19L6 26l19-2z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/></symbol>
+      <symbol id="d-hat" viewBox="0 0 64 64"><path d="M18 26v-12a4 4 0 0 1 4-4h20a4 4 0 0 1 4 4v12M10 30c14 6 30 6 44 0M18 26h28M26 16h12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></symbol>
+      <symbol id="d-mask" viewBox="0 0 64 64"><path d="M8 26c8-6 40-6 48 0-2 12-10 20-24 20S10 38 8 26z" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="22" cy="30" r="4" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="42" cy="30" r="4" fill="none" stroke="currentColor" stroke-width="2.5"/></symbol>
+      <symbol id="d-balloon" viewBox="0 0 64 64"><ellipse cx="32" cy="22" rx="13" ry="16" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M30 38l2 4 2-4M32 42c-4 8 4 10 0 18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></symbol>
+      <symbol id="d-bow" viewBox="0 0 64 64"><path d="M30 32L12 22v20zM34 32l18-10v20zM28 28h8v8h-8z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/></symbol>
+      <symbol id="d-bowler" viewBox="0 0 64 64"><path d="M16 34a16 14 0 0 1 32 0M8 38c16 6 32 6 48 0" fill="none" stroke="currentColor" stroke-width="2.5"/></symbol>
+    </svg>
+
+    <div id="doodles" aria-hidden="true"></div>
+
+    <Topbar />
+    <Header />
+    <Drawer />
+
+    <slot />
+
+    <Footer />
+    <Floaters />
+    <Modals />
+
+    <div id="toasts" class="pointer-events-none fixed bottom-20 left-1/2 z-[120] flex -translate-x-1/2 flex-col items-center gap-2 md:bottom-6">
+    </div>
+    <canvas id="confettiCanvas" class="pointer-events-none fixed inset-0 z-[130]" aria-hidden="true"></canvas>
+
+    <script>
+      import '../scripts/site';
+    </script>
+  </body>
+</html>

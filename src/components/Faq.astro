@@ -1,0 +1,23 @@
+---
+import { FAQS } from '../data/site';
+---
+
+<section id="faq" class="relative px-4 py-[46px]">
+  <div class="mx-auto max-w-[1220px]">
+    <h2 class="sec rv">❓ Preguntas frecuentes</h2>
+    <div class="acc rv mx-auto mt-[26px] max-w-[760px]" id="faqList">
+      {
+        FAQS.map(([q, a]) => (
+          <div class="acc-item mb-2.5 overflow-hidden rounded-[14px] border-[1.5px] border-line bg-white text-ink">
+            <button class="flex w-full items-center justify-between gap-2.5 bg-transparent px-[18px] py-4 text-left font-ft text-[1rem] font-semibold" aria-expanded="false">
+              {q} <span class="ic text-[1.2rem] text-m500 transition">＋</span>
+            </button>
+            <div class="ab">
+              <div class="ab-in px-[18px] pb-4 text-[.92rem] text-ink2">{a}</div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

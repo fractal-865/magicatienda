@@ -1,0 +1,57 @@
+---
+import { CONFIG, waLink } from '../data/site';
+
+const fLink = 'block py-1 text-[.9rem] text-[#4a3c78] no-underline hover:text-m800';
+const waFoot = waLink('¡Hola! 👋 Quiero cotizar el arriendo de disfraces para adultos en La Mágica Tienda ✨');
+---
+
+<footer class="border-t-[1.5px] border-line bg-lav2 px-4 pb-[90px] pt-11 min-[900px]:pb-11">
+  <div class="mx-auto grid max-w-[1220px] grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-[26px]">
+    <div>
+      <b class="font-ft text-[1.1rem] text-ink">⭐ La Mágica Tienda de Disfraces</b>
+      <p class="my-2.5 text-[.88rem] text-[#4a3c78]">
+        Arriendo de disfraces solo para adultos en el corazón de Providencia. #lamagicatienda
+      </p>
+      <div class="flex gap-2">
+        {
+          CONFIG.redes.map((r) => (
+            <a class="grid h-[34px] w-[34px] place-items-center rounded-full bg-white text-[.95rem] no-underline transition hover:-translate-y-[3px] hover:bg-ama" href={r.u} target="_blank" rel="noopener" aria-label={r.n}>
+              {r.i}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <div>
+      <h4 class="mb-3 text-m600">Explora</h4>
+      <a class={fLink} href="#catalogo">Catálogo</a>
+      <a class={fLink} href="#promos">Promos</a>
+      <a class={fLink} href="#fechas">Fechas</a>
+      <a class={fLink} href="#pagos">Medios de pago</a>
+    </div>
+
+    <div>
+      <h4 class="mb-3 text-m600">Arriendo</h4>
+      <button class="flink block w-full cursor-pointer border-0 bg-transparent py-1 text-left text-[.9rem] text-[#4a3c78] hover:text-m800" data-opencond>
+        🛡️ Condiciones de arriendo y reserva
+      </button>
+      <a class={fLink} href="#como">🪄 Cómo funciona</a>
+      <a class={fLink} href="#faq">❓ Preguntas frecuentes</a>
+    </div>
+
+    <div>
+      <h4 class="mb-3 text-m600">Horarios y contacto</h4>
+      <p class="text-[.9rem] leading-[1.8] text-[#4a3c78]">
+        Lun–Vie: 10:00–19:00<br />Sábado: 10:00–17:00<br />Domingo: cerrado 😴
+      </p>
+      <a class={fLink} href="tel:+56221234567">📞 +56 2 2123 4567</a>
+      <a class={fLink} href="mailto:contacto@lamagicatienda.cl">✉️ contacto@lamagicatienda.cl</a>
+      <a class={fLink} href={waFoot} target="_blank" rel="noopener">💬 {CONFIG.waDisplay}</a>
+    </div>
+  </div>
+
+  <p class="mt-[30px] text-center text-[.8rem] text-[#8a7bb0]">
+    © 2026 La Mágica Tienda de Disfraces · Maqueta demostrativa · Hecho con 💜 en Chile
+  </p>
+</footer>

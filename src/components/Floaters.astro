@@ -1,0 +1,89 @@
+---
+import { CONFIG, waLink } from '../data/site';
+
+const waChat = waLink('¡Hola! 👋 Quiero cotizar el arriendo de disfraces para adultos en La Mágica Tienda ✨');
+---
+
+<!-- Navegación inferior móvil -->
+<nav
+  id="bottomNav"
+  class="fixed inset-x-0 bottom-0 z-[85] grid grid-cols-5 border-t-[1.5px] border-line bg-white px-1 pt-1.5 pb-[calc(6px+env(safe-area-inset-bottom))] shadow-[0_-6px_20px_rgba(90,42,156,.08)] min-[900px]:hidden"
+  aria-label="Navegación móvil"
+>
+  <button data-nav="top" class="flex min-h-12 cursor-pointer flex-col items-center gap-[3px] border-0 bg-transparent py-1.5 text-[.62rem] font-extrabold text-ink2 active:text-m600">
+    <i class="text-[1.25rem] not-italic">🏠</i>Inicio
+  </button>
+  <button data-nav="cat" class="flex min-h-12 cursor-pointer flex-col items-center gap-[3px] border-0 bg-transparent py-1.5 text-[.62rem] font-extrabold text-ink2 active:text-m600">
+    <i class="text-[1.25rem] not-italic">🎭</i>Disfraces
+  </button>
+  <button data-nav="fecha" class="flex min-h-12 cursor-pointer flex-col items-center gap-[3px] border-0 bg-transparent py-1.5 text-[.62rem] font-extrabold text-ink2 active:text-m600">
+    <i class="text-[1.25rem] not-italic">📆</i>Fechas
+  </button>
+  <button data-nav="req" class="flex min-h-12 cursor-pointer flex-col items-center gap-[3px] border-0 bg-transparent py-1.5 text-[.62rem] font-extrabold text-ink2 active:text-m600">
+    <i class="text-[1.25rem] not-italic">🛒</i>Arriendo
+  </button>
+  <button data-nav="menu" class="flex min-h-12 cursor-pointer flex-col items-center gap-[3px] border-0 bg-transparent py-1.5 text-[.62rem] font-extrabold text-ink2 active:text-m600">
+    <i class="text-[1.25rem] not-italic">☰</i>Menú
+  </button>
+</nav>
+
+<!-- Barra pegajosa de arriendo -->
+<div
+  id="stickyBar"
+  class="fixed bottom-[72px] left-2.5 right-[86px] z-[84] items-center gap-2.5 rounded-2xl border-2 border-ama bg-white px-3.5 py-2.5 text-[.85rem] font-extrabold text-ink shadow-sh2 min-[900px]:bottom-5"
+>
+  <span id="stickyTxt"></span>
+  <button class="btn btn-wsp ml-auto px-3 py-2 text-[.8rem]" id="stickySend">Cotizar 💬</button>
+</div>
+
+<!-- Flotante de contacto -->
+<div id="wspZone" class="fixed right-3.5 bottom-[76px] z-[88] flex flex-col items-end gap-2.5 min-[900px]:bottom-5">
+  <div id="speedDial" class="flex-col items-center gap-2">
+    <a href={CONFIG.telHref} class="grid h-[46px] w-[46px] place-items-center rounded-full border-[1.5px] border-line bg-white text-[1.1rem] no-underline shadow-sh" aria-label="Llamar">📞</a>
+    <a href="https://instagram.com/lamagicatienda" target="_blank" rel="noopener" class="grid h-[46px] w-[46px] place-items-center rounded-full border-[1.5px] border-line bg-white text-[1.1rem] no-underline shadow-sh" aria-label="Instagram">📸</a>
+    <a href={`mailto:${CONFIG.email1}`} class="grid h-[46px] w-[46px] place-items-center rounded-full border-[1.5px] border-line bg-white text-[1.1rem] no-underline shadow-sh" aria-label="Email">✉️</a>
+  </div>
+
+  <button id="speedToggle" class="grid h-10 w-10 cursor-pointer place-items-center rounded-full border-[1.5px] border-line bg-white text-[1.1rem] text-m600 shadow-sh" aria-label="Más opciones de contacto" aria-expanded="false">＋</button>
+
+  <div id="wspBubble" class="relative max-w-[230px] rounded-[16px_16px_4px_16px] border-[1.5px] border-line bg-white px-4 py-3 text-[.85rem] font-bold text-ink shadow-sh2" role="status">
+    ¡Hola! 👋 ¿Buscas disfraz para tu fiesta?
+    <button aria-label="Cerrar mensaje" id="bubbleX" class="absolute right-2 top-1 cursor-pointer border-0 bg-transparent font-extrabold text-[#999]">✕</button>
+  </div>
+
+  <button
+    id="wspFloat"
+    class="relative flex cursor-pointer items-center gap-2.5 rounded-full border-0 bg-[linear-gradient(135deg,#2ecb6e,#128f4a)] px-[18px] py-[13px] font-ft font-bold text-white shadow-[0_10px_26px_rgba(37,211,102,.4)]"
+    aria-label="Abrir chat de WhatsApp"
+  >
+    <span class="text-[1.4rem]">💬</span><span>¿Te ayudamos a elegir?</span>
+    <span class="wsp-on h-2.5 w-2.5 rounded-full bg-[#b7ffd2]" aria-hidden="true"></span>
+  </button>
+</div>
+
+<!-- Chat de WhatsApp -->
+<div
+  id="wspChat"
+  class="fixed right-3.5 bottom-[150px] z-[89] w-[min(330px,92vw)] overflow-hidden rounded-[20px_20px_6px_20px] bg-white text-ink shadow-[0_20px_50px_rgba(60,20,120,.35)] min-[900px]:bottom-24"
+  role="dialog"
+  aria-label="Chat de WhatsApp"
+>
+  <div class="flex items-center gap-2.5 bg-m700 px-4 py-3.5 text-white">
+    <span class="grid h-10 w-10 place-items-center rounded-full bg-ama text-[1.3rem]">🎭</span>
+    <div>
+      <b class="font-ft">La Mágica Tienda</b><br />
+      <small class="text-[#9ff0bb]">● en línea</small>
+    </div>
+    <button class="ml-auto cursor-pointer border-0 bg-transparent text-[1.1rem] text-white" id="waChatClose" aria-label="Cerrar chat">✕</button>
+  </div>
+  <div class="bg-mist p-3.5">
+    <div class="mb-2.5 rounded-[12px_12px_12px_4px] bg-white p-3 text-[.85rem] shadow-[0_2px_8px_rgba(0,0,0,.08)]">
+      ¡Hola! 👋 Elige una opción y seguimos por WhatsApp 💬
+    </div>
+    <div class="grid gap-2" id="waQR">
+      <a href={waChat} target="_blank" rel="noopener" class="rounded-xl border-[1.5px] border-[#17a152] bg-[#e7f9ee] p-3 text-[.83rem] font-extrabold text-[#0c6a3c] no-underline hover:bg-[#25D366] hover:text-white">💬 Cotizar un disfraz</a>
+      <a href={waChat} target="_blank" rel="noopener" class="rounded-xl border-[1.5px] border-[#17a152] bg-[#e7f9ee] p-3 text-[.83rem] font-extrabold text-[#0c6a3c] no-underline hover:bg-[#25D366] hover:text-white">📏 Consultar mi talla</a>
+      <a href={waChat} target="_blank" rel="noopener" class="rounded-xl border-[1.5px] border-[#17a152] bg-[#e7f9ee] p-3 text-[.83rem] font-extrabold text-[#0c6a3c] no-underline hover:bg-[#25D366] hover:text-white">📅 Reservar para una fecha</a>
+    </div>
+  </div>
+</div>
