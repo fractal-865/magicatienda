@@ -20,24 +20,26 @@ const accs = [
 
 <section id="como" class="relative px-4 py-[46px]">
   <div class="mx-auto max-w-[1220px]">
+    <div class="text-center"><span class="script rv">Sin misterios</span></div>
     <h2 class="sec rv">🪄 ¿Cómo funciona el arriendo?</h2>
     <p class="sec-sub rv">Cuatro pasos y listo para brillar.</p>
 
-    <div class="grid gap-4 grid-cols-[repeat(auto-fit,minmax(220px,1fr))]">
+    <div class="stepsgrid">
       {
         steps.map((s, k) => (
-          <div class="rv relative rounded-[20px] border-[1.5px] border-line bg-white p-[22px] text-center shadow-[0_6px_16px_rgba(90,42,156,.07)] transition hover:-translate-y-1.5 hover:border-m400 hover:shadow-sh" style={`--d:${(k * 0.12).toFixed(2)}s`}>
-            <span class="absolute -top-4 left-1/2 grid h-[34px] w-[34px] -translate-x-1/2 place-items-center rounded-full bg-ama font-ft font-bold text-m800">{s.n}</span>
-            <div class="my-2 text-[2.6rem]">{s.i}</div>
-            <b class="font-ft text-[1.05rem] text-ink">{s.t}</b>
-            <p class="mt-1.5 text-[.88rem] text-ink2">{s.p}</p>
+          <div class="stepcard rv" style={`--d:${(k * 0.12).toFixed(2)}s`}>
+            <span class="step-n">{s.n}</span>
+            <div class="step-i">{s.i}</div>
+            <b class="step-t">{s.t}</b>
+            <p class="step-p">{s.p}</p>
+            {k < steps.length - 1 && <span class="step-arrow" aria-hidden="true">→</span>}
           </div>
         ))
       }
     </div>
 
     <!-- Los 3 días del arriendo -->
-    <div class="rv mx-auto mt-[26px] grid max-w-[820px] gap-2 max-[560px]:grid-cols-1 min-[561px]:grid-cols-3" aria-label="Los 3 días del arriendo">
+    <div class="rv mx-auto mt-[30px] grid max-w-[820px] gap-2 max-[560px]:grid-cols-1 min-[561px]:grid-cols-3" aria-label="Los 3 días del arriendo">
       {
         days.map((d) => (
           <div class="r3 relative rounded-[14px] border-[1.5px] border-dashed border-m400 bg-mist p-2.5 text-center">

@@ -9,34 +9,13 @@ const catCount = (id: string) => PRODUCTS.filter((p) => p.cats.includes(id)).len
 <section id="catalogo" class="relative px-4 pb-[46px] pt-[30px]">
   <div class="mx-auto max-w-[1220px]">
     <div class="text-center"><span class="script rv">¡Elige y brilla!</span></div>
-    <h2 class="sec rv">🎭 Elige tu disfraz</h2>
+    <h2 class="sec rv">🎭 Elige tu disfraz en Punta Arenas</h2>
     <p class="sec-sub rv">
       Arriendo solo para adultos · 3 días (retiro, uso y entrega) · Cotiza por WhatsApp en 1 minuto.
     </p>
 
     <div class="rv mb-4 flex flex-wrap items-center gap-2.5">
-      <div class="relative block max-w-[520px] flex-1" role="search">
-        <div class="searchbox">
-          🔍<input
-            id="catSearch"
-            type="search"
-            placeholder="Busca 'bruja', 'vampiro', 'Halloween'…"
-            aria-label="Buscar en catálogo"
-            autocomplete="off"
-          />
-        </div>
-        <div id="sugCat" class="suggest absolute inset-x-0 top-[calc(100%+8px)] z-[70] max-h-[340px] overflow-y-auto rounded-2xl border-2 border-line bg-white shadow-sh2"></div>
-      </div>
       <button class="btn btn-ghost btn-sm inline-flex min-[900px]:hidden" id="filterOpen">⚙️ Filtrar</button>
-      <select
-        id="sortSel"
-        class="cursor-pointer rounded-xl border-2 border-line bg-white px-3 py-[9px] font-fb font-bold text-ink"
-        aria-label="Ordenar disfraces"
-      >
-        <option value="pop">Destacados</option>
-        <option value="new">Novedades</option>
-        <option value="az">A–Z</option>
-      </select>
       <span id="countLabel" class="ml-auto text-[.85rem] font-bold text-ink2" aria-live="polite"></span>
     </div>
 

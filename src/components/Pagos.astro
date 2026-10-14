@@ -37,7 +37,10 @@ const opciones = [
             <b class="font-ft text-[1.02rem] text-ink">{o.b}</b>
             <ul class="mt-2 list-none text-[.9rem] leading-[1.8] text-ink2">
               {o.items.map(([k, v]) => (
-                <li><b class="text-[.9rem] text-ink">{k}</b> {v}</li>
+                <li class="copyrow">
+                  <span><b class="text-[.9rem] text-ink">{k}</b> <span class="copyval">{v}</span></span>
+                  <button class="copybtn" data-copy={v} aria-label={`Copiar ${k}`} title="Copiar">📋</button>
+                </li>
               ))}
             </ul>
           </div>

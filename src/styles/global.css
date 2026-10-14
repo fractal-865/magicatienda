@@ -347,12 +347,385 @@ footer {
   color: var(--color-ink);
   background: #f9f6ff;
 }
+.mdates {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* Fechas legibles: "lunes 19 de octubre" */
+.daterow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin: -2px 0 10px;
+  font-size: 0.78rem;
+  color: var(--color-ink2);
+}
+.daterow b {
+  color: var(--color-m600);
+}
+
+/* Tooltip + animación al elegir talla */
+.sizetip {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  margin-top: 6px;
+  z-index: 5;
+  padding: 7px 12px;
+  border-radius: 11px;
+  background: var(--color-m700, #2b0d5e);
+  color: #fff;
+  font-size: 0.76rem;
+  font-weight: 800;
+  box-shadow: 0 8px 18px rgba(43, 13, 94, 0.3);
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: 0.25s;
+}
+.sizetip.show {
+  opacity: 1;
+  transform: none;
+}
+.sizetip::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 22px;
+  width: 10px;
+  height: 10px;
+  background: var(--color-m700, #2b0d5e);
+  transform: rotate(45deg);
+}
+@keyframes nudgepulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 95, 162, 0); }
+  35% { box-shadow: 0 0 0 8px rgba(255, 95, 162, 0.35); background: #fff0f7; }
+}
+#qmSizeWrap.nudge {
+  animation: nudgepulse 1.1s ease 2;
+}
+
+/* Botón "agregar" de la tarjeta: pulso al hacer clic */
+@keyframes addpop {
+  0% { transform: scale(1); }
+  40% { transform: scale(0.9); }
+  70% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+.addbtn.clicked {
+  animation: addpop 0.45s ease;
+}
+
+/* ═══ Datos de pago copiables ═══ */
+.copyrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.copyval {
+  color: var(--color-ink);
+  font-weight: 700;
+  user-select: all;
+}
+.copybtn {
+  flex: none;
+  margin-left: auto;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  border: 1.5px solid var(--color-line);
+  border-radius: 9px;
+  background: #f7f2ff;
+  font-size: 0.9rem;
+  line-height: 1;
+  transition: 0.2s;
+}
+.copybtn:hover {
+  background: #e6d9ff;
+  border-color: var(--color-m400, #b89af0);
+  transform: translateY(-1px);
+}
+.copybtn.done {
+  background: #e2f7ec;
+  border-color: #25d366;
+}
+
+/* ═══ Picker aleatorio "Sorpréndeme" ═══ */
+.pickcard {
+  margin: 18px auto 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 460px;
+  padding: 12px;
+  border-radius: 18px;
+  background: #fff;
+  color: var(--color-ink);
+  text-align: left;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
+  animation: mup 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+.pickcard[hidden] {
+  display: none;
+}
+.pickcard img {
+  flex: none;
+  width: 76px;
+  height: 92px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: linear-gradient(135deg, #efe8ff, #ffd9ec);
+}
+.pickinfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+.pickinfo b {
+  font-family: var(--font-ft);
+  font-size: 1rem;
+  line-height: 1.2;
+}
+.pickinfo span {
+  font-size: 0.76rem;
+  color: var(--color-ink2);
+}
+.pickinfo #pickPrice {
+  font-family: var(--font-ft);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--color-m600);
+}
+.pickhint {
+  margin-top: 12px;
+  font-size: 0.8rem;
+  color: #ffe3f1;
+}
+@media (max-width: 520px) {
+  .pickcard {
+    flex-wrap: wrap;
+  }
+}
+
+/* ═══ Pasos "Cómo funciona" ═══ */.stepsgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+}
+.stepcard {
+  position: relative;
+  border-radius: 20px;
+  border: 1.5px solid var(--color-line);
+  background: linear-gradient(165deg, #fff, #faf7ff);
+  padding: 26px 18px 20px;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(90, 42, 156, 0.07);
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+.stepcard:hover {
+  transform: translateY(-6px);
+  border-color: var(--color-m400, #b89af0);
+  box-shadow: 0 14px 28px rgba(90, 42, 156, 0.16);
+}
+.step-n {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-m600), var(--color-rosa));
+  color: #fff;
+  font-family: var(--font-ft);
+  font-weight: 800;
+  box-shadow: 0 6px 14px rgba(255, 95, 162, 0.35);
+}
+.step-i {
+  margin: 8px 0 6px;
+  font-size: 2.5rem;
+}
+.step-t {
+  display: block;
+  font-family: var(--font-ft);
+  font-size: 1.05rem;
+  color: var(--color-ink);
+}
+.step-p {
+  margin-top: 6px;
+  font-size: 0.88rem;
+  color: var(--color-ink2);
+  line-height: 1.5;
+}
+.step-arrow {
+  position: absolute;
+  top: 50%;
+  right: -15px;
+  transform: translateY(-50%);
+  z-index: 2;
+  color: var(--color-m400, #b89af0);
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+@media (max-width: 620px) {
+  .step-arrow {
+    display: none;
+  }
+}
+
+/* ═══ Barra de urgencia (próximo evento) ═══ */.urgencia {
+  position: relative;
+  z-index: 55;
+  background: linear-gradient(120deg, #2b0d5e, #5a2a9c);
+  color: #fff;
+}
+.urg-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 16px;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+.urg-next {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.urg-next b {
+  color: var(--color-ama, #ffd23f);
+  white-space: nowrap;
+}
+.urg-pulse {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ff5fa2;
+  box-shadow: 0 0 0 0 rgba(255, 95, 162, 0.7);
+  animation: urgpulse 1.8s infinite;
+}
+@keyframes urgpulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 95, 162, 0.7); }
+  70% { box-shadow: 0 0 0 8px rgba(255, 95, 162, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 95, 162, 0); }
+}
+.urg-toggle {
+  margin-left: auto;
+  flex: none;
+  cursor: pointer;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  padding: 5px 13px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  transition: 0.2s;
+}
+.urg-toggle:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+.urg-arrow {
+  display: inline-block;
+  transition: transform 0.3s;
+}
+.urg-toggle[aria-expanded='true'] .urg-arrow {
+  transform: rotate(180deg);
+}
+.urg-panel {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  background: #2b0d5e;
+  overflow: hidden;
+}
+.urg-panel[hidden] {
+  display: none;
+}
+.urg-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(178px, 1fr));
+  gap: 9px;
+  padding: 14px 0 4px;
+}
+.urg-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  text-align: left;
+  border: 0;
+  border-top: 3px solid;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.07);
+  padding: 10px 12px;
+  color: #fff;
+  transition: 0.2s;
+}
+.urg-item:hover {
+  background: rgba(255, 255, 255, 0.16);
+  transform: translateY(-2px);
+}
+.urg-i {
+  font-size: 1.5rem;
+}
+.urg-txt {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.2;
+}
+.urg-txt b {
+  font-size: 0.88rem;
+}
+.urg-txt small {
+  font-size: 0.7rem;
+  opacity: 0.8;
+}
+.urg-cd-b {
+  margin-left: auto;
+  flex: none;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--color-ama, #ffd23f);
+  text-align: right;
+}
+.urg-badge {
+  position: absolute;
+  top: -9px;
+  right: 8px;
+  border-radius: 999px;
+  background: var(--color-rosa, #ff5fa2);
+  padding: 2px 8px;
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.urg-hint {
+  padding: 6px 0 14px;
+  font-size: 0.76rem;
+  opacity: 0.8;
+  text-align: center;
+}
+@media (max-width: 620px) {
+  .urg-bar {
+    font-size: 0.76rem;
+  }
+  .urg-next b {
+    white-space: normal;
+  }
+}
 .payline {
   font-size: 0.72rem;
   color: var(--color-ink2);
   margin-top: 8px;
-}
-.payline button {
+}.payline button {
   background: none;
   border: 0;
   color: var(--color-m600);
@@ -622,12 +995,95 @@ mark {
   display: grid;
   animation: mup 0.22s ease;
 }
+/* ── Panel lateral del carrito (drawer) ── */
+.cart-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 94;
+  background: rgba(43, 13, 94, 0.45);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+.cart-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
 .minicart {
-  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 95;
+  width: min(392px, 92vw);
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  color: var(--color-ink);
+  box-shadow: -14px 0 44px rgba(60, 20, 120, 0.25);
+  transform: translateX(102%);
+  transition: transform 0.38s cubic-bezier(0.22, 0.85, 0.3, 1);
+  visibility: hidden;
 }
 .minicart.open {
-  display: block;
-  animation: mup 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  transform: translateX(0);
+  visibility: visible;
+}
+body.drawer-lock {
+  overflow: hidden;
+}
+.cart-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 18px;
+  border-bottom: 1.5px solid var(--color-line);
+  background: linear-gradient(120deg, #f7f2ff, #fff);
+  flex: none;
+}
+.cart-head .cart-n {
+  margin-left: auto;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--color-ink2);
+}
+.cart-head .cart-close {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  border: 1.5px solid var(--color-line);
+  border-radius: 11px;
+  background: #fff;
+  color: var(--color-ink);
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1;
+  transition: 0.2s;
+}
+.cart-head .cart-close:hover {
+  background: #f0eaff;
+  border-color: var(--color-m400);
+  transform: rotate(90deg);
+}
+.cart-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 18px;
+}
+.cart-foot {
+  flex: none;
+  padding: 14px 18px calc(16px + env(safe-area-inset-bottom));
+  border-top: 1.5px solid var(--color-line);
+  background: #faf8ff;
+  display: grid;
+  gap: 9px;
+}
+@media (max-width: 560px) {
+  .minicart {
+    width: 100vw;
+  }
 }
 .suggest {
   display: none;
@@ -1020,9 +1476,6 @@ mark {
 /* ═══ Modales / toasts ═══ */
 .mpanel {
   animation: mup 0.3s;
-}
-.minicart.open {
-  animation: mup 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
 }
 #speedDial.open {
   animation: mup 0.25s;

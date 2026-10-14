@@ -68,6 +68,7 @@ const nlink =
             id="cartBtn"
             class="relative grid h-11 w-11 cursor-pointer place-items-center rounded-2xl border-[1.5px] border-line bg-[#f4eeff] text-[1.2rem] transition hover:bg-[#e6d9ff]"
             aria-label="Tu arriendo, ver cotización"
+            aria-expanded="false"
           >
             🛒<span
               id="cartCount"
@@ -75,10 +76,6 @@ const nlink =
               >0</span
             >
           </button>
-          <div
-            id="miniCart"
-            class="minicart absolute right-0 top-[calc(100%+12px)] z-[75] w-[350px] rounded-[18px] border-2 border-line bg-white p-4 text-ink shadow-sh2 max-[899px]:fixed max-[899px]:inset-x-0 max-[899px]:bottom-0 max-[899px]:top-auto max-[899px]:w-auto max-[899px]:max-h-[80vh] max-[899px]:overflow-auto max-[899px]:rounded-t-3xl"
-            aria-label="Tu arriendo"></div>
         </div>
 
         <button
@@ -182,3 +179,7 @@ const nlink =
     </div>
   </div>
 </header>
+
+<!-- Panel lateral del carrito (deslizable) + fondo -->
+<div id="cartBackdrop" class="cart-backdrop" aria-hidden="true"></div>
+<aside id="miniCart" class="minicart" aria-label="Tu arriendo" aria-live="polite"></aside>

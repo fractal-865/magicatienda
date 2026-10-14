@@ -34,6 +34,22 @@ const hay = (c: Product) =>
     [c.n, c.cats.map((x) => catById(x).n).join(' '), c.pub, c.tl.join(' '), c.oc.join(' ')].join(' '),
   );
 
+/* Orden aleatorio fijo por visita: así el catálogo se ve distinto cada vez
+   (sin re-mezclar al filtrar, para que las tarjetas no "brinquen"). */
+const RANDOM_ORDER = new Map<number, number>(
+  PRODUCTS.map((p) => [p.id, Math.random()]).sort((a, b) => a[1] - b[1]).map(([id], k) => [id as number, k]),
+);
+
+/* Fecha legible: "lunes 19 de octubre" */
+const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const DIAS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+function fmtDate(iso: string): string {
+  if (!iso) return '—';
+  const dt = new Date(iso + 'T12:00:00');
+  if (isNaN(dt.getTime())) return '—';
+  return `${DIAS[dt.getDay()]} ${dt.getDate()} de ${MESES[dt.getMonth()]}`;
+}
+
 /* ── estado ── */
 const state = {
   q: '',
@@ -58,7 +74,10 @@ function toast(m: string, ms = 2800) {
   t.className = 'toast rounded-[14px] border-2 border-m400 bg-white px-[18px] py-3 text-center text-[.88rem] font-extrabold text-ink shadow-sh2 max-w-[92vw]';
   t.innerHTML = m;
   box.append(t);
+  // rAF pinta el estado inicial antes de la transición; el setTimeout garantiza
+  // que se muestre aunque rAF esté pausado (pestaña en segundo plano).
   requestAnimationFrame(() => t.classList.add('on'));
+  setTimeout(() => t.classList.add('on'), 60);
   setTimeout(() => {
     t.classList.remove('on');
     setTimeout(() => t.remove(), 350);
@@ -249,6 +268,100 @@ const tickCd = () => {
 tickCd();
 setInterval(tickCd, 1000);
 
+/* ═══ BARRA DE URGENCIA (toggle manual) ═══ */
+(() => {
+  const urg = $('#urgencia');
+  if (!urg) return;
+  const toggle = $('#urgToggle');
+  const panel = $('#urgPanel');
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    if (panel) panel.hidden = open;
+  });
+  // Conteo compacto de cada fecha de la barra
+  const tickUrg = () => {
+    $$<HTMLElement>('.urg-cd').forEach((el) => {
+      const p = cdParts(nextDate(Number(el.dataset.m), Number(el.dataset.d)));
+      el.textContent = p ? `${p.d}d ${p.h}h ${p.m}m` : '¡es hoy!';
+    });
+  };
+  tickUrg();
+  setInterval(tickUrg, 30000);
+  // Clic en una fecha → filtra el catálogo por esa temática
+  $$<HTMLElement>('.urg-item').forEach((b) =>
+    b.addEventListener('click', () => {
+      if (panel) panel.hidden = true;
+      toggle?.setAttribute('aria-expanded', 'false');
+      applyFilter({ tem: b.dataset.tem });
+    }),
+  );
+})();
+
+/* ═══ COPIAR DATOS DE PAGO ═══ */
+document.addEventListener('click', (e) => {
+  const b = (e.target as HTMLElement).closest('[data-copy]') as HTMLElement | null;
+  if (!b) return;
+  const txt = b.dataset.copy || '';
+  const done = () => {
+    b.classList.add('done');
+    b.textContent = '✅';
+    toast('📋 Dato copiado al portapapeles');
+    setTimeout(() => {
+      b.classList.remove('done');
+      b.textContent = '📋';
+    }, 1800);
+  };
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(txt).then(done).catch(() => fallbackCopy(txt, done));
+  } else fallbackCopy(txt, done);
+});
+function fallbackCopy(txt: string, cb: () => void) {
+  const ta = document.createElement('textarea');
+  ta.value = txt;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.append(ta);
+  ta.select();
+  try {
+    document.execCommand('copy');
+    cb();
+  } catch {
+    /* noop */
+  }
+  ta.remove();
+}
+
+/* ═══ PICKER ALEATORIO "SORPRÉNDEME" ═══ */
+(() => {
+  const btn = $('#pickBtn');
+  if (!btn) return;
+  const card = $('#pickCard');
+  const img = $<HTMLImageElement>('#pickImg');
+  const name = $('#pickName');
+  const meta = $('#pickMeta');
+  const price = $('#pickPrice');
+  const go = $('#pickGo');
+  let cur = 0;
+  btn.addEventListener('click', () => {
+    let p = PRODUCTS[Math.floor(Math.random() * PRODUCTS.length)];
+    if (PRODUCTS.length > 1 && p.id === cur) p = PRODUCTS[(PRODUCTS.indexOf(p) + 1) % PRODUCTS.length];
+    cur = p.id;
+    if (img) {
+      img.src = p.img;
+      img.alt = p.n;
+    }
+    if (name) name.textContent = p.n;
+    if (meta) meta.textContent = `${catById(p.t).n} · Tallas ${p.tl.join(' · ')} · ${pubLabel(p.pub)}`;
+    if (price) price.textContent = `${clp(p.price)} arriendo 3 días`;
+    if (card) card.hidden = false;
+    go?.classList.remove('clicked');
+    void go?.offsetWidth;
+    go?.classList.add('clicked');
+  });
+  go?.addEventListener('click', () => cur && openQuick(cur));
+})();
+
 /* ═══ CATÁLOGO ═══ */
 function filtered(): Product[] {
   let L = PRODUCTS.filter((c) => {
@@ -263,9 +376,8 @@ function filtered(): Product[] {
     if (state.tal.size && ![...state.tal].some((t) => c.tl.includes(t))) return false;
     return true;
   });
-  if (state.sort === 'az') L.sort((a, b) => a.n.localeCompare(b.n, 'es'));
-  else if (state.sort === 'new') L.sort((a, b) => b.id - a.id);
-  else L = [...L].sort((a, b) => a.pop - b.pop);
+  // Orden aleatorio (fijo por visita) para que siempre se vea algo distinto
+  L.sort((a, b) => (RANDOM_ORDER.get(a.id) ?? 0) - (RANDOM_ORDER.get(b.id) ?? 0));
   return L;
 }
 
@@ -292,7 +404,7 @@ function cardHTML(c: Product, k: number) {
   const multiSize = c.tl.length > 1;
   return `<article class="pcard relative cursor-pointer rounded-[20px] border-[1.5px] border-line bg-white shadow-[0_8px_20px_rgba(90,42,156,.08)] transition duration-300 hover:-translate-y-[5px] hover:shadow-sh2" data-id="${c.id}" style="--d:${Math.min(k * 0.05, 0.4)}s" tabindex="0" aria-label="${esc(c.n)}, disfraz para adultos en arriendo">
   <div class="relative h-[300px] overflow-hidden" style="background:linear-gradient(135deg,${T.g[0]},${T.g[1]})">
-    <img src="${c.img}" alt="Disfraz ${esc(c.n)}" loading="lazy" class="absolute inset-0 h-full w-full object-contain p-3 transition duration-500">
+    <img src="${c.img}" alt="Disfraz ${esc(c.n)}" loading="lazy" class="absolute inset-0 h-full w-full object-cover object-top transition duration-500">
   </div>
   <div class="p-3.5 pb-4">
     <span class="block text-[.72rem] font-extrabold uppercase tracking-[.05em] text-m500">${T.i} ${T.n} · adultos</span>
@@ -302,7 +414,7 @@ function cardHTML(c: Product, k: number) {
       <span class="font-ft text-[1.3rem] font-bold leading-none text-m600">${clp(c.price)}</span>
       <span class="text-[.68rem] font-bold text-ink2">arriendo 3 días</span>
     </div>
-    <button class="w-full cursor-pointer rounded-xl border-2 border-[#d9c9f7] bg-[#f4eeff] px-2 py-2.5 font-ft text-[.82rem] font-bold text-m600 transition hover:-translate-y-0.5 hover:border-m400 hover:bg-[#e6d9ff] active:scale-[.92]" data-act="add">${multiSize ? '📏 Elegir talla y arrendar' : '🎭 Arrendar disfraz'}</button>
+    <button class="addbtn w-full cursor-pointer rounded-xl border-0 bg-[linear-gradient(135deg,var(--color-m600),var(--color-m500))] px-2 py-2.5 font-ft text-[.84rem] font-bold text-white shadow-[0_4px_12px_rgba(90,42,156,.3)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_18px_rgba(90,42,156,.45)] active:scale-[.9]" data-act="add">${multiSize ? '📏 Elegir talla y arrendar' : '🎭 Arrendar disfraz'}</button>
   </div>
 </article>`;
 }
@@ -391,10 +503,6 @@ $('#clearFilters')?.addEventListener('click', () => {
   state.exFecha = '';
   state.q = '';
   syncFilterUI();
-  renderGrid();
-});
-$('#sortSel')?.addEventListener('change', (e) => {
-  state.sort = (e.target as HTMLSelectElement).value;
   renderGrid();
 });
 
@@ -673,6 +781,12 @@ function setRetiro(v: string) {
   state.req.uso = addDays(v, 1);
   state.req.entrega = addDays(v, 2);
 }
+/* refresca la fila de fechas legibles ("lunes 19 de octubre") */
+function refreshDateRow() {
+  const row = $('.daterow');
+  if (!row) return;
+  row.innerHTML = `<span>📦 Retiro: <b>${fmtDate(state.req.retiro)}</b></span><span>↩️ Entrega: <b>${fmtDate(state.req.entrega)}</b></span>`;
+}
 
 /* ── bloque de totales (arriendo + garantía), compartido ── */
 function totalsHTML(): string {
@@ -681,11 +795,16 @@ function totalsHTML(): string {
   const tot = rentalTotal();
   const gar = guaranteeTotal();
   const dto = sub - tot;
+  const pagoDia = tot + gar;
   return `<div class="mt-3 rounded-2xl border-2 border-line bg-[#f9f6ff] p-3 text-[.85rem]">
     <div class="flex justify-between"><span>Arriendo 3 días</span><b>${clp(sub)}</b></div>
     ${pct ? `<div class="flex justify-between text-[#0c7a56]"><span>✨ Descuento ${pct}%</span><b>−${clp(dto)}</b></div>` : ''}
     <div class="mt-1 flex justify-between border-t border-line pt-1 font-ft text-[1rem] text-m600"><span>Total arriendo</span><b>${clp(tot)}</b></div>
     <div class="mt-1.5 flex justify-between border-t border-dashed border-line pt-1.5 text-[.8rem] text-ink2"><span>🛡️ Garantía (se devuelve)</span><b>${clp(gar)}</b></div>
+    <div class="mt-2 rounded-xl border-[1.5px] border-ama bg-[#fdf6d9] p-2.5 text-[.82rem] text-[#6b5200]">
+      💳 <b>El día del retiro pagarás ≈ ${clp(pagoDia)}</b><br>
+      <span class="opacity-90">Arriendo ${clp(tot)} + garantía aprox. ${clp(gar)} (la garantía se te devuelve al entregar el disfraz en las mismas condiciones).</span>
+    </div>
   </div>`;
 }
 const thumb = (it: Item) =>
@@ -711,7 +830,13 @@ function afterCart(srcEl?: Element | null) {
     void cc.offsetWidth;
     cc.classList.add('pop');
   }
-  if (srcEl && !reduced()) fly(srcEl);
+  if (srcEl && !reduced()) {
+    fly(srcEl);
+    Confetti.at(srcEl); // estallido visible al agregar
+    srcEl.classList.remove('clicked');
+    void (srcEl as HTMLElement).offsetWidth;
+    srcEl.classList.add('clicked');
+  }
   if (disfQty() >= 7 && !state.groupCelebrated) {
     state.groupCelebrated = true;
     Confetti.rain(140);
@@ -744,13 +869,15 @@ function fly(el: Element) {
 function renderMini() {
   const mc = $('#miniCart');
   if (!mc) return;
+  const head = `<div class="cart-head"><b class="font-ft text-[1.05rem] text-ink">🛒 Tu arriendo</b><span class="cart-n">${cartQty()} prenda(s)</span><button class="cart-close" data-act="close" aria-label="Cerrar panel">✕</button></div>`;
   if (!state.cart.length) {
-    mc.innerHTML = `<div class="mb-2 flex items-center gap-2 font-ft font-bold text-ink">🛒 Tu arriendo</div><div class="py-5 text-center text-ink2"><span class="mb-2 block text-[2.6rem]">🎭✨</span><b>Tu arriendo está esperando magia</b><p class="mt-1.5 text-[.85rem]">Agrega disfraces de adultos y cotiza por WhatsApp.</p><button class="btn btn-mora btn-sm mt-2.5" data-act="gocat">Ver disfraces</button></div>`;
+    mc.innerHTML = head + `<div class="cart-body"><div class="py-8 text-center text-ink2"><span class="mb-2 block text-[2.8rem]">🎭✨</span><b class="font-ft">Tu arriendo está esperando magia</b><p class="mt-1.5 text-[.85rem]">Agrega disfraces de adultos y te vamos apuntando todo aquí.</p></div></div><div class="cart-foot"><button class="btn btn-ghost w-full" data-act="gocat">← Seguir viendo disfraces</button></div>`;
     return;
   }
   const dl = discountLabels();
   mc.innerHTML =
-    `<div class="mb-2 flex items-center gap-2 font-ft font-bold text-ink">🛒 Tu arriendo <span class="ml-auto text-[.75rem] font-normal text-ink2">${cartQty()} prenda(s)</span></div>` +
+    head +
+    `<div class="cart-body">` +
     state.cart
       .map((i) => {
         const it = byId(i.id)!;
@@ -758,17 +885,23 @@ function renderMini() {
       })
       .join('') +
     totalsHTML() +
-    `<div class="mdates"><label>Día de retiro<input type="date" id="mcRet" value="${state.req.retiro}"></label><label>Día de entrega (auto)<input type="date" id="mcEnt" value="${state.req.entrega}" readonly class="bg-[#f4f1fb] text-ink2"></label></div>` +
-    (dl.length ? `<div class="infoline">✨ Descuentos aplicables a tu cotización: ${dl.join(' · ')}. Se aplica el mayor.</div>` : '') +
+    `<div class="mdates"><label>Día de retiro<input type="date" id="mcRet" value="${state.req.retiro}"></label><label>Día de entrega (auto)<input type="date" id="mcEnt" value="${state.req.entrega}" readonly class="bg-[#f4f1fb] text-ink2"></label></div>
+    <div class="daterow"><span>📦 Retiro: <b>${fmtDate(state.req.retiro)}</b></span><span>↩️ Entrega: <b>${fmtDate(state.req.entrega)}</b></span></div>` +
+    (dl.length ? `<div class="infoline">✨ Descuentos aplicables: ${dl.join(' · ')}. Se aplica el mayor.</div>` : '') +
     (disfQty() < 7 && disfQty() > 0 ? `<div class="infoline">🎈 Agrega ${7 - disfQty()} disfraces más y desbloquea 25% grupal.</div>` : '') +
-    `<div class="mt-2.5 flex gap-2"><button class="btn btn-ghost btn-sm" data-act="req">Ver solicitud</button><button class="btn btn-wsp btn-sm flex-1" data-act="wa">Cotizar por WhatsApp 💬</button></div>
-  <p class="payline">Pagos por depósito o transferencia: ver datos en <button data-opencond>Condiciones de arriendo</button>.</p>`;
+    `</div>` +
+    `<div class="cart-foot">
+      <button class="btn btn-wsp w-full" data-act="req">Continuar con mi cotización 💬</button>
+      <button class="btn btn-ghost w-full" data-act="gocat">← Seguir comprando</button>
+      <p class="payline text-center">Pagos por depósito o transferencia: ver <button data-opencond>Condiciones de arriendo</button>.</p>
+    </div>`;
 
   const mret = $<HTMLInputElement>('#mcRet');
   mret?.addEventListener('change', (e) => {
     setRetiro((e.target as HTMLInputElement).value);
     const ent = $<HTMLInputElement>('#mcEnt');
     if (ent) ent.value = state.req.entrega;
+    refreshDateRow();
   });
 }
 
@@ -780,7 +913,8 @@ $('#miniCart')?.addEventListener('click', (e) => {
   }
   const act = t.closest('[data-act]') as HTMLElement | null;
   if (act) {
-    if (act.dataset.act === 'gocat') {
+    if (act.dataset.act === 'close') closeMini();
+    else if (act.dataset.act === 'gocat') {
       closeMini();
       scrollToCat();
     } else if (act.dataset.act === 'req') {
@@ -801,23 +935,24 @@ $('#miniCart')?.addEventListener('click', (e) => {
   afterCart();
 });
 
+function openMini() {
+  $('#miniCart')?.classList.add('open');
+  $('#cartBackdrop')?.classList.add('open');
+  document.body.classList.add('drawer-lock');
+}
 function closeMini() {
   $('#miniCart')?.classList.remove('open');
+  $('#cartBackdrop')?.classList.remove('open');
+  document.body.classList.remove('drawer-lock');
 }
 (() => {
-  const w = $('#cartWrap');
-  if (!w) return;
-  let t: ReturnType<typeof setTimeout>;
-  w.addEventListener('mouseenter', () => {
-    if (!isMobile()) {
-      clearTimeout(t);
-      $('#miniCart')?.classList.add('open');
-    }
+  $('#cartBtn')?.addEventListener('click', () => {
+    $('#miniCart')?.classList.contains('open') ? closeMini() : openMini();
   });
-  w.addEventListener('mouseleave', () => {
-    if (!isMobile()) t = setTimeout(closeMini, 250);
+  $('#cartBackdrop')?.addEventListener('click', closeMini);
+  addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMini();
   });
-  $('#cartBtn')?.addEventListener('click', () => $('#miniCart')?.classList.toggle('open'));
 })();
 
 function renderSticky() {
@@ -881,15 +1016,32 @@ function sendWA() {
 }
 
 /* ═══ FICHA RÁPIDA ═══ */
+/* resalta la sección de talla + tooltip, si aún no se elige */
+function nudgeSize() {
+  const wrap = $('#qmSizeWrap');
+  if (wrap) {
+    wrap.scrollIntoView({ block: 'center', behavior: reduced() ? 'auto' : 'smooth' });
+    wrap.classList.remove('nudge');
+    void wrap.offsetWidth;
+    wrap.classList.add('nudge');
+  }
+  const tip = $('#qmTtip');
+  if (tip) {
+    tip.classList.add('show');
+    setTimeout(() => tip.classList.remove('show'), 2600);
+  }
+}
+
 function openQuick(id: number) {
   const c = PRODUCTS.find((p) => p.id === id);
   if (!c) return;
   const T = catById(c.t);
-  let talla = c.tl[0];
+  const multi = c.tl.length > 1;
+  let talla = multi ? '' : c.tl[0]; // en multi-talla hay que elegir explícitamente
   const body = $('#qmBody');
   if (!body) return;
   body.innerHTML = `<div class="qimg group relative h-[340px] cursor-zoom-in overflow-hidden rounded-2xl" style="background:linear-gradient(135deg,${T.g[0]},${T.g[1]})">
-    <img src="${c.img}" alt="Disfraz ${esc(c.n)}" class="absolute inset-0 h-full w-full object-contain p-3 transition-transform duration-500 ease-out group-hover:scale-[1.7]">
+    <img src="${c.img}" alt="Disfraz ${esc(c.n)}" class="absolute inset-0 h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[1.7]">
   </div>
   <span class="mt-3 block text-[.8rem] font-extrabold text-m500">${T.i} ${T.n} · solo adultos · ${pubLabel(c.pub)}</span>
   <h3 class="my-1 text-[1.45rem]">${esc(c.n)}</h3>
@@ -898,24 +1050,40 @@ function openQuick(id: number) {
     <span class="font-ft text-[1.5rem] font-bold leading-none text-m600">${clp(c.price)}</span>
     <span class="text-[.78rem] font-bold text-ink2">arriendo 3 días (retiro, uso y entrega)</span>
   </div>
-  <b class="my-3 block">📏 Elige tu talla:</b>
-  <div class="tsel" id="qmTallas">${c.tl.map((t, k) => `<button class="${k === 0 ? 'on' : ''}" data-t="${esc(t)}">${esc(t)}</button>`).join('')}</div>
-  <div class="mt-4 flex items-start gap-2 rounded-2xl border-[1.5px] border-ama bg-[#fdf6d9] p-3 text-[.82rem] text-[#6b5200]">🛡️ <span>Garantía de <b>${clp(c.gar)}</b>, se paga el día del retiro y <b>se te devuelve</b> al entregar el disfraz en las mismas condiciones.</span></div>
-  <div class="mt-5 flex flex-wrap gap-2.5">
-    <button class="btn btn-mora flex-1" id="qmAdd">🎭 Arrendar disfraz</button>
-    <a class="btn btn-wsp flex-1" target="_blank" rel="noopener" href="${waLink(`¡Hola! Quiero cotizar el arriendo del disfraz ${c.n} para adultos 🎭 ¿Está disponible?`)}">Cotizar por WhatsApp 💬</a>
+  <div id="qmSizeWrap" class="relative rounded-2xl">
+    <b class="my-3 block">📏 Elige tu talla:</b>
+    <div class="tsel" id="qmTallas">${c.tl.map((t) => `<button class="${!multi && t === talla ? 'on' : ''}" data-t="${esc(t)}">${esc(t)}</button>`).join('')}</div>
+    <span id="qmTtip" class="sizetip" role="status">👆 Selecciona una talla para continuar</span>
   </div>
-  <p class="payline mt-3">Pagos por depósito o transferencia: ver datos en <button data-opencond>Condiciones de arriendo</button></p>`;
+  <div class="mt-4 flex items-start gap-2 rounded-2xl border-[1.5px] border-ama bg-[#fdf6d9] p-3 text-[.82rem] text-[#6b5200]">🛡️ <span>Garantía de <b>${clp(c.gar)}</b>, se paga el día del retiro y <b>se te devuelve</b> al entregar el disfraz en las mismas condiciones.</span></div>
+  <div class="mt-5 flex flex-col gap-2.5">
+    <button class="btn btn-mora w-full" id="qmAdd">🛒 Agregar a mi cotización →</button>
+    <a class="btn btn-wsp w-full" id="qmWa" target="_blank" rel="noopener" href="${waLink(`¡Hola! Quiero cotizar el arriendo del disfraz ${c.n} para adultos 🎭 ¿Está disponible?`)}">💬 Cotizar directo por WhatsApp</a>
+  </div>
+  <p class="payline mt-3">Al agregarlo queda en tu lista de cotización; lo envías por WhatsApp con tus datos. Pagos: ver <button data-opencond>Condiciones de arriendo</button></p>`;
 
   $('#qmTallas')?.addEventListener('click', (e) => {
     const b = (e.target as HTMLElement).closest('[data-t]') as HTMLButtonElement | null;
     if (!b) return;
     talla = b.dataset.t!;
     $$('#qmTallas button').forEach((x) => x.classList.toggle('on', x === b));
+    $('#qmTtip')?.classList.remove('show');
+    $('#qmSizeWrap')?.classList.remove('nudge');
   });
   $('#qmAdd')?.addEventListener('click', (e) => {
+    if (!talla) {
+      nudgeSize();
+      return;
+    }
     addItem(id, 'd', talla, 1, e.target as Element);
     closeModal('quickModal');
+  });
+  // Si no se eligió talla, no abre WhatsApp: resalta y avisa
+  $('#qmWa')?.addEventListener('click', (ev) => {
+    if (!talla) {
+      ev.preventDefault();
+      nudgeSize();
+    }
   });
   openModal('quickModal');
 }
@@ -928,9 +1096,10 @@ $('#grid')?.addEventListener('click', (e) => {
   const act = (e.target as HTMLElement).closest('[data-act]') as HTMLElement | null;
   if (act?.dataset.act === 'add') {
     const p = PRODUCTS.find((x) => x.id === id);
-    // Si hay más de una talla, abrir la ficha para elegir talla antes de agregar
+    // Si hay más de una talla, abrir la ficha y llevar/resaltar la sección de talla
     if (p && p.tl.length > 1) {
       openQuick(id);
+      nudgeSize(); // el modal ya quedó abierto; resalta la talla al instante
       return;
     }
     addItem(id, 'd', p?.tl[0], 1, act);
@@ -973,6 +1142,10 @@ function renderReq() {
   <div class="mdates">
     <label>Día de retiro<input type="date" id="rqRet" value="${state.req.retiro}"></label>
     <label>Día de entrega (auto)<input type="date" id="rqEnt" value="${state.req.entrega}" readonly class="bg-[#f4f1fb] text-ink2"></label>
+  </div>
+  <div class="daterow">
+    <span>📦 Retiro: <b>${fmtDate(state.req.retiro)}</b></span>
+    <span>↩️ Entrega: <b>${fmtDate(state.req.entrega)}</b></span>
   </div>
   <div class="mt-1.5 grid gap-2.5 min-[600px]:grid-cols-2">
     <input id="rqNom" placeholder="Nombre" value="${esc(state.req.nombre)}" class="rounded-[10px] border-2 border-line p-2.5">
@@ -1026,6 +1199,7 @@ function renderReq() {
         setRetiro(el.value);
         const ent = $<HTMLInputElement>('#rqEnt');
         if (ent) ent.value = state.req.entrega;
+        refreshDateRow();
       }
     });
   });
