@@ -1,7 +1,6 @@
 ---
 import { CATS_ACTIVE, PUBLICOS, TALLAS, PRODUCTS } from '../data/products';
 
-const popular = ['Halloween', 'Payaso', 'Pirata', 'Terror', 'Princesa', 'Joker'];
 const fgroupTitle = 'mb-2 text-[.85rem] font-bold uppercase tracking-[.06em] text-m600';
 const catCount = (id: string) => PRODUCTS.filter((p) => p.cats.includes(id)).length;
 ---
@@ -19,8 +18,21 @@ const catCount = (id: string) => PRODUCTS.filter((p) => p.cats.includes(id)).len
       <span id="countLabel" class="ml-auto text-[.85rem] font-bold text-ink2" aria-live="polite"></span>
     </div>
 
-    <div id="chipsPop" class="mb-3.5 flex flex-wrap gap-2" aria-label="Búsquedas populares">
-      {popular.map((p) => <button class="chip" data-q={p}>🔥 {p}</button>)}
+    <!-- Buscador fijo: queda pegado bajo el header mientras recorres el catálogo -->
+    <div id="catSearchWrap" class="catsearch-sticky">
+      <div class="searchbox" role="search">
+        🔍<input
+          id="catSearch"
+          type="search"
+          placeholder="Busca 'bruja', 'vampiro', 'Halloween'…"
+          aria-label="Buscar en catálogo"
+          autocomplete="off"
+        />
+      </div>
+      <div
+        id="sugCat"
+        class="suggest absolute inset-x-0 top-[calc(100%+8px)] z-[70] max-h-[340px] overflow-y-auto rounded-2xl border-2 border-line bg-white shadow-sh2"
+        role="listbox"></div>
     </div>
 
     <div id="activeChips" class="mb-3 flex flex-wrap gap-2"></div>

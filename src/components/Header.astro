@@ -34,32 +34,47 @@ const nlink =
 
       <!-- Navegación -->
       <nav class="hidden items-center gap-0.5 lg:flex" aria-label="Navegación principal">
-        <div>
-          <button id="megaBtn" class={nlink} aria-expanded="false" aria-controls="megaMenu"
+        <button id="topHome" class={nlink} aria-label="Ir al inicio">🏠</button>
+        <div class="relative">
+          <button
+            id="megaBtn"
+            class={`${nlink} mega-btn`}
+            aria-expanded="false"
+            aria-controls="megaMenu"
             >Disfraces <span class="text-[.7em] opacity-70">▾</span></button
           >
         </div>
-        <a class={nlink} href="#promos">Promos</a>
-        <a class={nlink} href="#fechas">Fechas</a>
-        <a class={nlink} href="#como">Cómo funciona</a>
-        <a class={nlink} href="#contacto">Contacto</a>
+        <a class={nlink} href="#promos" data-navsec="promos">Promos</a>
+        <a class={nlink} href="#fechas" data-navsec="fechas">Fechas</a>
+        <a class={nlink} href="#como" data-navsec="como">Cómo funciona</a>
+        <a class={nlink} href="#contacto" data-navsec="contacto">Contacto</a>
       </nav>
 
-      <!-- Buscador -->
-      <div class="relative ml-auto hidden max-w-[360px] flex-1 min-[760px]:block" role="search">
-        <div class="searchbox">
-          🔍<input
-            id="hdrSearch"
-            type="search"
-            placeholder="Buscar disfraz…"
-            aria-label="Buscar disfraces"
-            autocomplete="off"
-          />
+      <!-- Buscador: solo lupa, despliega popup -->
+      <div class="relative ml-auto hidden min-[760px]:block">
+        <button
+          id="searchToggle"
+          class="searchToggle"
+          aria-label="Buscar disfraces"
+          aria-expanded="false"
+          aria-controls="searchPop"
+          >🔍</button
+        >
+        <div id="searchPop" class="searchpop" role="search" hidden>
+          <div class="searchbox">
+            🔍<input
+              id="hdrSearch"
+              type="search"
+              placeholder="Buscar disfraz…"
+              aria-label="Buscar disfraces"
+              autocomplete="off"
+            />
+          </div>
+          <div
+            id="sugHdr"
+            class="suggest absolute inset-x-0 top-[calc(100%+8px)] z-[70] max-h-[340px] overflow-y-auto rounded-2xl border-2 border-line bg-white shadow-sh2"
+            role="listbox"></div>
         </div>
-        <div
-          id="sugHdr"
-          class="suggest absolute inset-x-0 top-[calc(100%+8px)] z-[70] max-h-[340px] overflow-y-auto rounded-2xl border-2 border-line bg-white shadow-sh2"
-          role="listbox"></div>
       </div>
 
       <div class="flex items-center gap-2">
@@ -102,12 +117,13 @@ const nlink =
     </div>
   </div>
 
-  <!-- Mega menú -->
+  <!-- Mega menú (centrado, no ocupa todo el ancho) -->
   <div
     id="megaMenu"
-    class="mega absolute inset-x-0 top-full z-[80] grid-cols-[1.1fr_1fr_1fr_1.3fr] gap-6 rounded-b-3xl border-t border-line bg-white px-[4vw] pt-6 shadow-[0_24px_50px_rgba(90,42,156,.22)]"
+    class="mega absolute left-1/2 top-full z-[80] grid w-[min(1020px,94vw)] -translate-x-1/2 grid-cols-[1.1fr_1fr_1fr_1.3fr] gap-6 rounded-b-3xl rounded-t-[10px] border-x border-b border-line bg-white px-6 pt-7 shadow-[0_24px_50px_rgba(90,42,156,.22)]"
     role="menu"
   >
+    <span class="mega-arrow" aria-hidden="true"></span>
     <div>
       <h5 class="mb-2.5 font-ft text-[.95rem] text-m600">🎭 Temática</h5>
       <ul class="list-none">

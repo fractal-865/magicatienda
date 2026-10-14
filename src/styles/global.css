@@ -417,37 +417,31 @@ footer {
 }
 
 /* ═══ Datos de pago copiables ═══ */
-.copyrow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
 .copyval {
   color: var(--color-ink);
   font-weight: 700;
   user-select: all;
 }
 .copybtn {
-  flex: none;
-  margin-left: auto;
-  width: 30px;
-  height: 30px;
+  margin-left: 6px;
   cursor: pointer;
-  border: 1.5px solid var(--color-line);
-  border-radius: 9px;
-  background: #f7f2ff;
-  font-size: 0.9rem;
+  border: 0;
+  background: none;
+  padding: 0;
+  font-size: 0.72rem;
   line-height: 1;
+  vertical-align: middle;
+  color: var(--color-ink2);
+  opacity: 0.55;
   transition: 0.2s;
 }
 .copybtn:hover {
-  background: #e6d9ff;
-  border-color: var(--color-m400, #b89af0);
-  transform: translateY(-1px);
+  opacity: 1;
+  color: var(--color-m600);
 }
 .copybtn.done {
-  background: #e2f7ec;
-  border-color: #25d366;
+  opacity: 1;
+  color: #0c9455;
 }
 
 /* ═══ Picker aleatorio "Sorpréndeme" ═══ */
@@ -994,6 +988,129 @@ mark {
 .mega.open {
   display: grid;
   animation: mup 0.22s ease;
+}
+/* Flecha del mega menú que apunta al botón "Disfraces" */
+.mega-arrow {
+  position: absolute;
+  top: -9px;
+  left: var(--mega-x, 120px);
+  transform: translateX(-50%) rotate(45deg);
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-left: 1.5px solid var(--color-line);
+  border-top: 1.5px solid var(--color-line);
+  border-radius: 3px;
+}
+/* Buscador del header: solo lupa + popup */
+.searchToggle {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  border: 1.5px solid var(--color-line);
+  border-radius: 14px;
+  background: #f4eeff;
+  font-size: 1.15rem;
+  transition: 0.2s;
+}
+.searchToggle:hover,
+.searchToggle[aria-expanded='true'] {
+  background: #e6d9ff;
+  border-color: var(--color-m400, #b89af0);
+}
+.searchpop {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 82;
+  width: min(400px, 78vw);
+  padding: 12px;
+  border: 2px solid var(--color-line);
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 20px 44px rgba(90, 42, 156, 0.22);
+  animation: mup 0.22s ease;
+}
+.searchpop[hidden] {
+  display: none;
+}
+.searchpop .searchbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border: 2px solid var(--color-line);
+  border-radius: 999px;
+  padding: 10px 16px;
+}
+.searchpop .searchbox:focus-within {
+  border-color: var(--color-m400, #b89af0);
+  box-shadow: 0 0 0 4px rgb(122 79 208 / 0.14);
+}
+.searchpop .searchbox input {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: 0;
+  outline: 0;
+  color: var(--color-ink);
+  font-family: var(--font-fb);
+  font-size: 0.95rem;
+}
+/* Estado activo del nav según la sección visible (scrollspy) */
+nav [data-navsec].on {
+  color: var(--color-m600);
+  background: #f0eaff;
+}
+nav [data-navsec].on::after {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  margin: 2px auto 0;
+  border-radius: 50%;
+  background: var(--color-rosa);
+}
+/* Buscador fijo del catálogo (queda bajo el header al recorrer la grilla) */
+.catsearch-sticky {
+  position: sticky;
+  top: calc(var(--hdr-h, 64px) + 8px);
+  z-index: 40;
+  max-width: 560px;
+  margin-bottom: 14px;
+  padding: 8px;
+  border-radius: 18px;
+  background: rgb(255 255 255 / 0.9);
+  backdrop-filter: blur(10px);
+}
+.catsearch-sticky .searchbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border: 2px solid var(--color-line);
+  border-radius: 999px;
+  padding: 10px 16px;
+  transition: 0.25s;
+}
+.catsearch-sticky .searchbox:focus-within {
+  border-color: var(--color-m400, #b89af0);
+  box-shadow: 0 0 0 4px rgb(122 79 208 / 0.14);
+}
+.catsearch-sticky .searchbox input {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: 0;
+  outline: 0;
+  color: var(--color-ink);
+  font-family: var(--font-fb);
+  font-size: 0.95rem;
+}
+.catsearch-sticky .searchbox input::placeholder {
+  color: #9a88c9;
 }
 /* ── Panel lateral del carrito (drawer) ── */
 .cart-backdrop {

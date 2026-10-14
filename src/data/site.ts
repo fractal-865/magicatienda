@@ -9,7 +9,7 @@ export const CONFIG = {
   telHref: 'tel:+56221234567',
   email1: 'contacto@lamagicatienda.cl',
   email2: 'reservas@lamagicatienda.cl',
-  dir: 'Av. Ejemplo 1234, Local 5, Providencia, Santiago',
+  dir: 'Hermann Wiegartt 01194, Punta Arenas, Región de Magallanes',
   horario: {
     1: ['10:00', '19:00'],
     2: ['10:00', '19:00'],
@@ -88,7 +88,7 @@ export const MARQUEE = [
   '💬 Cotiza por WhatsApp',
   '🛡️ Garantía $13.000–$20.000',
   '🎉 25% dcto. grupal',
-  '📍 Providencia, Santiago',
+  '📍 Punta Arenas, Magallanes',
 ];
 
 export const SEARCH_PH = ["Busca 'vampiro'…", "Busca 'bruja'…", "Busca 'Halloween'…", "Busca 'años 80'…", "Busca 'payaso'…"];

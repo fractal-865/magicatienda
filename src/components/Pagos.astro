@@ -1,21 +1,22 @@
 ---
 /* Medios de pago por depósito o transferencia */
+const soloDigitos = (s: string) => s.replace(/\D/g, '');
 const opciones = [
   {
     t: 'OPCIÓN 1',
     b: '🏦 Cuenta RUT · Banco Estado',
     items: [
-      ['Titular:', 'Sandra Vera Galindo'],
-      ['RUT:', '10.086.234-4'],
+      ['Titular:', 'Sandra Vera Galindo', 'Sandra Vera Galindo'],
+      ['RUT:', '10.086.234-4', soloDigitos('10.086.234-4')],
     ],
   },
   {
     t: 'OPCIÓN 2',
     b: '📲 Copec Pay · Chequera Electrónica',
     items: [
-      ['Titular:', 'Sandra Vera Galindo'],
-      ['RUT:', '10.086.234-4'],
-      ['N° de chequera electrónica:', '11008623401'],
+      ['Titular:', 'Sandra Vera Galindo', 'Sandra Vera Galindo'],
+      ['RUT:', '10.086.234-4', soloDigitos('10.086.234-4')],
+      ['N° de chequera electrónica:', '11008623401', '11008623401'],
     ],
   },
 ];
@@ -35,11 +36,11 @@ const opciones = [
             <span class="mb-2 inline-block rounded-lg bg-m600 px-2.5 py-0.5 text-[.72rem] font-extrabold text-white">{o.t}</span>
             <br />
             <b class="font-ft text-[1.02rem] text-ink">{o.b}</b>
-            <ul class="mt-2 list-none text-[.9rem] leading-[1.8] text-ink2">
-              {o.items.map(([k, v]) => (
-                <li class="copyrow">
-                  <span><b class="text-[.9rem] text-ink">{k}</b> <span class="copyval">{v}</span></span>
-                  <button class="copybtn" data-copy={v} aria-label={`Copiar ${k}`} title="Copiar">📋</button>
+            <ul class="mt-2 list-none text-[.9rem] leading-[1.9] text-ink2">
+              {o.items.map(([k, v, cp]) => (
+                <li>
+                  <b class="text-[.9rem] text-ink">{k}</b> <span class="copyval">{v}</span>
+                  <button class="copybtn" data-copy={cp} aria-label={`Copiar ${k}`} title="Copiar">📋</button>
                 </li>
               ))}
             </ul>

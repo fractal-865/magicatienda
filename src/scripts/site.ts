@@ -474,14 +474,25 @@ $<HTMLElement>('#filterGroups')?.addEventListener('change', (e) => {
     el.checked ? s.add(el.value) : s.delete(el.value);
   }
   renderGrid();
+  scrollToResults();
 });
 $<HTMLElement>('#filterGroups')?.addEventListener('click', (e) => {
   const b = (e.target as HTMLElement).closest('.fchip') as HTMLButtonElement | null;
   if (!b) return;
-  const s = state[b.dataset.g as 'pub'];
-  s.has(b.dataset.v!) ? s.delete(b.dataset.v!) : s.add(b.dataset.v!);
-  b.classList.toggle('on');
+  const g = b.dataset.g as 'pub' | 'tal';
+  const s = state[g];
+  if (g === 'pub') {
+    // Público: selección única (como radio). Clickea otra y cambia; la activa la quita.
+    const wasOn = s.has(b.dataset.v!);
+    s.clear();
+    if (!wasOn) s.add(b.dataset.v!);
+    syncFilterUI();
+  } else {
+    s.has(b.dataset.v!) ? s.delete(b.dataset.v!) : s.add(b.dataset.v!);
+    b.classList.toggle('on');
+  }
   renderGrid();
+  scrollToResults();
 });
 
 function syncFilterUI() {
@@ -591,6 +602,16 @@ $<HTMLElement>('#chipsPop')?.addEventListener('click', (e) => {
 function scrollToCat() {
   $('#catalogo')?.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth' });
 }
+/* Al filtrar, sube a ver las primeras filas de resultados (no te "pierdes" en la pantalla) */
+function scrollToResults() {
+  const grid = $('#grid');
+  if (!grid) return;
+  const off = ($('#header')?.offsetHeight ?? 64) + 8;
+  const y = Math.max(0, window.scrollY + grid.getBoundingClientRect().top - off);
+  // Si la distancia es grande, salto instantáneo (el scroll suave de lejos es lento y se "pierde")
+  const lejos = Math.abs(y - window.scrollY) > 1200;
+  window.scrollTo({ top: y, behavior: reduced() || lejos ? 'auto' : 'smooth' });
+}
 function closeAll() {
   $('#megaMenu')?.classList.remove('open');
   $('#drawer')?.classList.remove('open');
@@ -619,6 +640,12 @@ function applyFilter(o: { q?: string; tem?: string; pub?: string; oca?: string }
   const open = (v: boolean) => {
     menu.classList.toggle('open', v);
     btn.setAttribute('aria-expanded', String(v));
+    if (v) {
+      // Coloca la flecha apuntando al botón "Disfraces"
+      const mb = menu.getBoundingClientRect();
+      const bb = btn.getBoundingClientRect();
+      menu.style.setProperty('--mega-x', `${Math.round(bb.left + bb.width / 2 - mb.left)}px`);
+    }
   };
   btn.addEventListener('mouseenter', () => {
     clearTimeout(mt);
@@ -1041,7 +1068,7 @@ function openQuick(id: number) {
   const body = $('#qmBody');
   if (!body) return;
   body.innerHTML = `<div class="qimg group relative h-[340px] cursor-zoom-in overflow-hidden rounded-2xl" style="background:linear-gradient(135deg,${T.g[0]},${T.g[1]})">
-    <img src="${c.img}" alt="Disfraz ${esc(c.n)}" class="absolute inset-0 h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[1.7]">
+    <img src="${c.img}" alt="Disfraz ${esc(c.n)}" class="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.8]">
   </div>
   <span class="mt-3 block text-[.8rem] font-extrabold text-m500">${T.i} ${T.n} · solo adultos · ${pubLabel(c.pub)}</span>
   <h3 class="my-1 text-[1.45rem]">${esc(c.n)}</h3>
@@ -1085,6 +1112,20 @@ function openQuick(id: number) {
       nudgeSize();
     }
   });
+  // Zoom que sigue el cursor: subes el mouse y ves la cabeza/cara; bajas y ves los pies
+  const qimg = body.querySelector('.qimg') as HTMLElement | null;
+  const qimEl = body.querySelector('.qimg img') as HTMLElement | null;
+  if (qimg && qimEl) {
+    qimg.addEventListener('mousemove', (ev: MouseEvent) => {
+      const r = qimg.getBoundingClientRect();
+      const x = Math.max(0, Math.min(100, ((ev.clientX - r.left) / r.width) * 100));
+      const y = Math.max(0, Math.min(100, ((ev.clientY - r.top) / r.height) * 100));
+      qimEl.style.transformOrigin = `${x}% ${y}%`;
+    });
+    qimg.addEventListener('mouseleave', () => {
+      qimEl.style.transformOrigin = 'center';
+    });
+  }
   openModal('quickModal');
 }
 
@@ -1449,6 +1490,59 @@ $('#halloCTA')?.addEventListener('click', () => applyFilter({ tem: 'halloween' }
     { threshold: 0.12, rootMargin: '0px 0px -6% 0px' },
   );
   els.forEach((el) => io.observe(el));
+})();
+
+/* ═══ HEADER: buscador popup · inicio · scrollspy · alto del header ═══ */
+(() => {
+  const hdr = $('#header');
+  const setH = () => {
+    if (hdr) document.documentElement.style.setProperty('--hdr-h', `${hdr.offsetHeight}px`);
+  };
+  setH();
+  addEventListener('resize', setH);
+
+  // Buscador: solo lupa; al hacer clic se despliega un popup (no ocupa espacio en el menú)
+  const stog = $('#searchToggle');
+  const spop = $('#searchPop');
+  const sinp = $<HTMLInputElement>('#hdrSearch');
+  const closePop = () => {
+    if (!spop) return;
+    spop.hidden = true;
+    stog?.setAttribute('aria-expanded', 'false');
+  };
+  stog?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const willOpen = spop?.hidden ?? true;
+    if (spop) spop.hidden = !willOpen;
+    stog.setAttribute('aria-expanded', String(willOpen));
+    if (willOpen) sinp?.focus();
+  });
+  spop?.addEventListener('click', (e) => e.stopPropagation());
+  document.addEventListener('click', closePop);
+  addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closePop();
+  });
+
+  // Icono de inicio: lleva al tope del sitio
+  $('#topHome')?.addEventListener('click', () =>
+    window.scrollTo({ top: 0, behavior: reduced() ? 'auto' : 'smooth' }),
+  );
+
+  // Scrollspy: remarca con un puntito en qué sección del menú estás
+  const ids = ['promos', 'fechas', 'como', 'contacto'];
+  const links = $$<HTMLAnchorElement>('nav a[data-navsec]');
+  const spy = () => {
+    const y = window.scrollY + (hdr?.offsetHeight ?? 64) + 150;
+    let cur = '';
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el && el.offsetTop <= y) cur = id;
+    });
+    links.forEach((a) => a.classList.toggle('on', a.dataset.navsec === cur));
+  };
+  spy();
+  addEventListener('scroll', spy, { passive: true });
+  addEventListener('resize', spy);
 })();
 
 /* ═══ ARRANQUE ═══ */
