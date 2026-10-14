@@ -874,6 +874,8 @@ function addItem(id: string | number, tipo: 'd' | 'a' = 'd', talla?: string, qty
   toast(`${item.e} <b>${esc(item.n)}</b> agregado a tu arriendo (talla ${talla})`);
 }
 
+let miniAutoShown = false;
+
 function afterCart(srcEl?: Element | null) {
   const n = cartQty();
   const cc = $('#cartCount');
@@ -893,8 +895,12 @@ function afterCart(srcEl?: Element | null) {
   renderMini();
   renderSticky();
   if ($('#reqModal')?.classList.contains('open')) renderReq();
-  // El panel lateral se abre solo para que veas el detalle de tu cotización
-  openMini();
+  // Quieter: el panel se abre solo en el primer agregado (y nunca detrás del modal
+  // de solicitud). Después avisan el badge del carrito y la barra pegajosa.
+  if (!miniAutoShown && !$('#reqModal')?.classList.contains('open')) {
+    miniAutoShown = true;
+    openMini();
+  }
 }
 
 function fly(el: Element) {

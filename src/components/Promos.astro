@@ -15,9 +15,36 @@ const benefits = [
   <div class="mx-auto max-w-[1220px]">
     <!-- Slide de banners: la tarjeta de Halloween aparece primero -->
     <div id="promoTrack" class="promo-track">
-      <!-- Banner Halloween -->
+      <!-- Banner principal: primera pantalla con la promesa única (H1) -->
+      <div class="promo-card rv relative flex min-h-[310px] flex-col justify-center gap-2.5 overflow-hidden rounded-3xl bg-[linear-gradient(120deg,#2B0D5E,#5A2A9C)] p-7 text-white shadow-sh2">
+        <img
+          class="absolute inset-0 h-full w-full object-cover"
+          src={`${import.meta.env.BASE_URL}/img/promo-globos.png`.replace(/\/{2,}/g, '/')}
+          alt="Fiesta de adultos con globos y disfraces"
+          loading="eager"
+          fetchpriority="high"
+          onerror="this.closest('.promo-card').classList.add('imgfail');this.style.display='none'"
+        />
+        <div class="absolute inset-0 bg-[linear-gradient(115deg,rgba(28,8,64,.92)_25%,rgba(43,13,94,.5))]"></div>
+        <div class="fbk absolute inset-0 hidden place-items-center bg-[linear-gradient(120deg,#2B0D5E,#5A2A9C)] text-[5rem]">🎭</div>
+        <span class="script relative">¡Pa' tu fiesta!</span>
+        <h1 class="relative text-[clamp(1.4rem,2.6vw,1.9rem)] leading-[1.15]">
+          Tu <em class="not-italic text-ama">transformación</em> empieza aquí
+        </h1>
+        <p class="relative max-w-[46ch] text-[.92rem] text-lav2">
+          Disfraces solo para adultos: cumpleaños, graduaciones, fiestas de época y eventos. Elige arriba y cotiza
+          por WhatsApp. 🌟
+        </p>
+        <div class="relative mt-1.5 flex flex-wrap gap-2.5">
+          <a class="btn btn-ama" href="#catalogo">Ver disfraces 🎭</a>
+          <a class="btn btn-wsp" href={waPromo} target="_blank" rel="noopener">Cotizar por WhatsApp 💬</a>
+        </div>
+      </div>
+
+      <!-- Banner Halloween (temporada; la urgencia también vive en la barra superior) -->
       <div
         class="promo-card rv relative flex min-h-[310px] flex-col justify-center gap-2.5 overflow-hidden rounded-3xl bg-[linear-gradient(130deg,#1c0840,#3c1481_70%,#7a3a10)] p-7 text-white shadow-sh2"
+        style="--d:.1s"
       >
         <!-- Amigos disfrazados de Halloween celebrando -->
         <img
@@ -39,31 +66,6 @@ const benefits = [
         <div id="cdBanner" class="cdbox relative flex flex-wrap gap-2" aria-label="Cuenta regresiva a Halloween"></div>
         <div class="relative mt-1.5 flex flex-wrap gap-2.5">
           <button class="btn btn-ama" id="halloCTA">Armar mi look 🧛</button>
-        </div>
-      </div>
-
-      <!-- Banner principal -->
-      <div class="promo-card rv relative flex min-h-[310px] flex-col justify-center gap-2.5 overflow-hidden rounded-3xl bg-[linear-gradient(120deg,#2B0D5E,#5A2A9C)] p-7 text-white shadow-sh2" style="--d:.1s">
-        <img
-          class="absolute inset-0 h-full w-full object-cover"
-          src={`${import.meta.env.BASE_URL}/img/promo-globos.png`.replace(/\/{2,}/g, '/')}
-          alt="Fiesta de adultos con globos y disfraces"
-          loading="lazy"
-          onerror="this.closest('.promo-card').classList.add('imgfail');this.style.display='none'"
-        />
-        <div class="absolute inset-0 bg-[linear-gradient(115deg,rgba(28,8,64,.92)_25%,rgba(43,13,94,.5))]"></div>
-        <div class="fbk absolute inset-0 hidden place-items-center bg-[linear-gradient(120deg,#2B0D5E,#5A2A9C)] text-[5rem]">🎭</div>
-        <span class="script relative">¡Pa' tu fiesta!</span>
-        <h3 class="relative text-[clamp(1.4rem,2.6vw,1.9rem)] leading-[1.15]">
-          Tu <em class="not-italic text-ama">transformación</em> empieza aquí
-        </h3>
-        <p class="relative max-w-[46ch] text-[.92rem] text-lav2">
-          Disfraces solo para adultos: cumpleaños, graduaciones, fiestas de época y eventos. Elige arriba y cotiza
-          por WhatsApp. 🌟
-        </p>
-        <div class="relative mt-1.5 flex flex-wrap gap-2.5">
-          <a class="btn btn-ama" href="#catalogo">Ver disfraces 🎭</a>
-          <a class="btn btn-wsp" href={waPromo} target="_blank" rel="noopener">Cotizar por WhatsApp 💬</a>
         </div>
       </div>
 
