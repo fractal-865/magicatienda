@@ -35,16 +35,17 @@ const nlink =
       <!-- Navegación -->
       <nav class="hidden items-center gap-0.5 lg:flex" aria-label="Navegación principal">
         <button id="topHome" class={nlink} aria-label="Ir al inicio">🏠</button>
-        <div class="relative">
+        <div class="relative flex items-center">
+          <a class={nlink} href="#catalogo" data-navsec="catalogo">Disfraces</a>
           <button
             id="megaBtn"
-            class={`${nlink} mega-btn`}
+            class="mega-arrow-btn"
             aria-expanded="false"
             aria-controls="megaMenu"
-            >Disfraces <span class="text-[.7em] opacity-70">▾</span></button
+            aria-label="Ver categorías"
+            >▾</button
           >
         </div>
-        <a class={nlink} href="#promos" data-navsec="promos">Promos</a>
         <a class={nlink} href="#fechas" data-navsec="fechas">Fechas</a>
         <a class={nlink} href="#como" data-navsec="como">Cómo funciona</a>
         <a class={nlink} href="#contacto" data-navsec="contacto">Contacto</a>

@@ -325,6 +325,29 @@ footer {
 .mc-item .mn small {
   color: var(--color-ink2);
 }
+/* Ítem recién agregado: queda destacado al abrir el panel */
+.mc-item.justadded {
+  animation: popIn 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.3);
+  background: linear-gradient(90deg, #fdf6d9, #fff);
+  border-radius: 12px;
+}
+.mc-item .mn .justbadge {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--color-ama, #ffd23f);
+  color: var(--color-m800, #2b0d5e);
+  font-size: 0.62rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+@keyframes popIn {
+  0% { opacity: 0; transform: translateX(24px) scale(0.96); }
+  60% { transform: translateX(-4px) scale(1.01); }
+  100% { opacity: 1; transform: none; }
+}
 .mdates {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -442,65 +465,6 @@ footer {
 .copybtn.done {
   opacity: 1;
   color: #0c9455;
-}
-
-/* ═══ Picker aleatorio "Sorpréndeme" ═══ */
-.pickcard {
-  margin: 18px auto 0;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  max-width: 460px;
-  padding: 12px;
-  border-radius: 18px;
-  background: #fff;
-  color: var(--color-ink);
-  text-align: left;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
-  animation: mup 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2);
-}
-.pickcard[hidden] {
-  display: none;
-}
-.pickcard img {
-  flex: none;
-  width: 76px;
-  height: 92px;
-  border-radius: 12px;
-  object-fit: cover;
-  background: linear-gradient(135deg, #efe8ff, #ffd9ec);
-}
-.pickinfo {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-  flex: 1;
-}
-.pickinfo b {
-  font-family: var(--font-ft);
-  font-size: 1rem;
-  line-height: 1.2;
-}
-.pickinfo span {
-  font-size: 0.76rem;
-  color: var(--color-ink2);
-}
-.pickinfo #pickPrice {
-  font-family: var(--font-ft);
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: var(--color-m600);
-}
-.pickhint {
-  margin-top: 12px;
-  font-size: 0.8rem;
-  color: #ffe3f1;
-}
-@media (max-width: 520px) {
-  .pickcard {
-    flex-wrap: wrap;
-  }
 }
 
 /* Aviso dinámico de horario Halloween (solo se ve en temporada) */
@@ -936,6 +900,16 @@ mark {
   .btn-ghost:hover {
     background: #f0eaff;
   }
+  .btn-blanco {
+    background: #fff;
+    border: 2px solid var(--color-line);
+    color: var(--color-ink);
+    box-shadow: 0 4px 12px rgb(90 42 156 / 0.12);
+  }
+  .btn-blanco:hover {
+    background: #f4f1fb;
+    border-color: var(--color-m400);
+  }
   .btn-sm {
     padding: 9px 14px;
     font-size: 0.9rem;
@@ -1027,9 +1001,30 @@ mark {
   display: grid;
   animation: mup 0.22s ease;
 }
+.mega-arrow-btn {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 34px;
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+  color: var(--color-ink);
+  font-size: 0.8em;
+  transition: 0.2s;
+  border-radius: 0 8px 8px 0;
+}
+nav .relative > a[data-navsec='catalogo'] {
+  border-radius: 8px 0 0 8px;
+  padding-right: 3px;
+}
+.mega-arrow-btn:hover,
+.mega-arrow-btn[aria-expanded='true'] {
+  color: var(--color-m600);
+  background: #f0eaff;
+}
 /* Flecha del mega menú que apunta al botón "Disfraces" */
-.mega-arrow {
-  position: absolute;
+.mega-arrow {  position: absolute;
   top: -9px;
   left: var(--mega-x, 120px);
   transform: translateX(-50%) rotate(45deg);
@@ -1111,33 +1106,41 @@ nav [data-navsec].on::after {
   border-radius: 50%;
   background: var(--color-rosa);
 }
-/* Buscador fijo del catálogo (queda bajo el header al recorrer la grilla) */
-.catsearch-sticky {
+/* Buscador fijo + Público + Talla (quedan bajo el header al recorrer la grilla) */
+.cat-filters {
   position: sticky;
   top: calc(var(--hdr-h, 64px) + 8px);
   z-index: 40;
-  max-width: 560px;
   margin-bottom: 14px;
-  padding: 8px;
+  padding: 10px 12px;
   border-radius: 18px;
-  background: rgb(255 255 255 / 0.9);
+  background: rgb(255 255 255 / 0.92);
   backdrop-filter: blur(10px);
+  box-shadow: 0 4px 14px rgba(90, 42, 156, 0.08);
 }
-.catsearch-sticky .searchbox {
+.cat-filters-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+}
+.cat-filters-main .searchbox {
+  flex: 1 1 220px;
+  max-width: 360px;
   display: flex;
   align-items: center;
   gap: 8px;
   background: #fff;
   border: 2px solid var(--color-line);
   border-radius: 999px;
-  padding: 10px 16px;
+  padding: 9px 15px;
   transition: 0.25s;
 }
-.catsearch-sticky .searchbox:focus-within {
+.cat-filters-main .searchbox:focus-within {
   border-color: var(--color-m400, #b89af0);
   box-shadow: 0 0 0 4px rgb(122 79 208 / 0.14);
 }
-.catsearch-sticky .searchbox input {
+.cat-filters-main .searchbox input {
   flex: 1;
   min-width: 0;
   background: none;
@@ -1147,8 +1150,38 @@ nav [data-navsec].on::after {
   font-family: var(--font-fb);
   font-size: 0.95rem;
 }
-.catsearch-sticky .searchbox input::placeholder {
+.cat-filters-main .searchbox input::placeholder {
   color: #9a88c9;
+}
+.quick-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 18px;
+}
+.qf-group {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.qf-title {
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--color-m600);
+  white-space: nowrap;
+}
+.qf-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+/* Chips más compactos en la barra rápida */
+.qf-chips .chip {
+  padding: 5px 11px;
+  font-size: 0.76rem;
+  font-weight: 800;
 }
 /* ── Panel lateral del carrito (drawer) ── */
 .cart-backdrop {
@@ -1379,147 +1412,6 @@ body.drawer-lock {
   padding: 16px;
   text-align: center;
   color: var(--color-ink2);
-}
-
-/* ═══ Cupón del topbar ═══ */
-.couponbtn {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: #fff;
-  border: 2px dashed var(--color-m500);
-  color: var(--color-m600);
-  border-radius: 12px;
-  padding: 8px 12px;
-  font-weight: 800;
-  font-size: 0.78rem;
-  cursor: pointer;
-  font-family: var(--font-ft);
-  overflow: visible;
-  transition: 0.2s;
-  min-height: 38px;
-}
-.couponbtn:hover {
-  background: #fdf6d9;
-}
-@media (min-width: 900px) {
-  .couponbtn::after {
-    content: attr(data-tip);
-    position: absolute;
-    bottom: calc(100% + 8px);
-    left: 50%;
-    transform: translateX(-50%) scale(0.8);
-    background: var(--color-m700);
-    color: #fff;
-    padding: 6px 10px;
-    border-radius: 10px;
-    font-size: 0.7rem;
-    opacity: 0;
-    pointer-events: none;
-    transition: 0.2s;
-    white-space: nowrap;
-    font-family: var(--font-fb);
-    z-index: 10;
-  }
-  .couponbtn:hover::after,
-  .couponbtn:focus-visible::after {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
-  }
-}
-
-/* ═══ Reveal on scroll ═══ */
-.rv {
-  opacity: 0;
-  transform: translateY(26px);
-  transition:
-    opacity 0.6s ease,
-    transform 0.6s cubic-bezier(0.2, 0.7, 0.3, 1);
-  transition-delay: var(--d, 0s);
-}
-.rv.in {
-  opacity: 1;
-  transform: none;
-}
-
-/* ═══ Doodles de fondo ═══ */
-#doodles {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-.doodle {
-  position: absolute;
-  color: rgb(90 42 156 / 0.1);
-}
-.doodle svg {
-  width: 100%;
-  height: 100%;
-  animation: floaty var(--d, 7s) ease-in-out infinite;
-}
-
-/* ═══ Marquesina ═══ */
-.mq-in {
-  display: flex;
-  gap: 44px;
-  width: max-content;
-  animation: mq 26s linear infinite;
-  font-family: var(--font-ft);
-  font-weight: 600;
-  color: var(--color-ama);
-  white-space: nowrap;
-}
-.marquee:hover .mq-in {
-  animation-play-state: paused;
-}
-
-/* ═══ Tarjeta de producto ═══ */
-.pcard {
-  animation: popin 0.45s both;
-  animation-delay: var(--d, 0s);
-}
-.pcard:hover .pmedia img {
-  transform: scale(1.07);
-}
-
-/* ═══ Cupón del topbar ═══ */
-.couponbtn .shim {
-  position: absolute;
-  inset: 0;
-  border-radius: 10px;
-  overflow: hidden;
-  pointer-events: none;
-}
-.couponbtn .shim::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -70%;
-  width: 40%;
-  height: 100%;
-  background: linear-gradient(100deg, transparent, rgb(255 255 255 / 0.55), transparent);
-  animation: shimmer 6s infinite;
-}
-.couponbtn.ok {
-  background: var(--color-ama);
-  color: var(--color-m800);
-  border-style: solid;
-}
-.couponbtn.bounce {
-  animation: gum 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.ck path {
-  stroke: currentColor;
-  stroke-width: 2.4;
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 20;
-  stroke-dashoffset: 20;
-  animation: ckd 0.5s 0.05s forwards;
 }
 
 /* ═══ Botón hamburguesa ═══ */

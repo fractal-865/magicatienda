@@ -3,7 +3,7 @@
    Filtros + buscador + "Tu arriendo" (cotización) + modales
    ═══════════════════════════════════════════════════════════════ */
 import { PRODUCTS, CATS, PUBLICOS, OCASIONES, TALLAS, catById, clp, type Product } from '../data/products';
-import { GAR_SHORT, waLink, ACC, TOPMSGS, SEARCH_PH, esTemporadaHalloween } from '../data/site';
+import { GAR_SHORT, waLink, ACC, SEARCH_PH, esTemporadaHalloween } from '../data/site';
 
 type Acc = { id: string; n: string; e: string };
 type Item = Product | Acc;
@@ -64,6 +64,7 @@ const state = {
   coupons: { MAGIA15: { pct: 15, label: 'Cupón MAGIA15' } },
   req: { nombre: '', rut: '', correo: '', tel: '', dir: '', retiro: '', uso: '', entrega: '', com: '' },
   groupCelebrated: false,
+  lastAdd: null as null | { id: string; tipo: 'd' | 'a'; talla: string },
 };
 
 /* ── toast ── */
@@ -163,19 +164,7 @@ const Confetti = (() => {
   };
 })();
 
-/* ═══ TOPBAR / HEADER ═══ */
-let tmi = 0;
-setInterval(() => {
-  const el = $('#topbarMsg');
-  if (!el) return;
-  el.classList.add('opacity-0', '-translate-y-2');
-  setTimeout(() => {
-    tmi = (tmi + 1) % TOPMSGS.length;
-    el.textContent = TOPMSGS[tmi];
-    el.classList.remove('opacity-0', '-translate-y-2');
-  }, 400);
-}, 4200);
-
+/* ═══ HEADER ═══ */
 addEventListener(
   'scroll',
   () => $('#header')?.classList.toggle('scrolled', scrollY > 40),
@@ -332,36 +321,6 @@ function fallbackCopy(txt: string, cb: () => void) {
   ta.remove();
 }
 
-/* ═══ PICKER ALEATORIO "SORPRÉNDEME" ═══ */
-(() => {
-  const btn = $('#pickBtn');
-  if (!btn) return;
-  const card = $('#pickCard');
-  const img = $<HTMLImageElement>('#pickImg');
-  const name = $('#pickName');
-  const meta = $('#pickMeta');
-  const price = $('#pickPrice');
-  const go = $('#pickGo');
-  let cur = 0;
-  btn.addEventListener('click', () => {
-    let p = PRODUCTS[Math.floor(Math.random() * PRODUCTS.length)];
-    if (PRODUCTS.length > 1 && p.id === cur) p = PRODUCTS[(PRODUCTS.indexOf(p) + 1) % PRODUCTS.length];
-    cur = p.id;
-    if (img) {
-      img.src = p.img;
-      img.alt = p.n;
-    }
-    if (name) name.textContent = p.n;
-    if (meta) meta.textContent = `${catById(p.t).n} · Tallas ${p.tl.join(' · ')} · ${pubLabel(p.pub)}`;
-    if (price) price.textContent = `${clp(p.price)} arriendo 3 días`;
-    if (card) card.hidden = false;
-    go?.classList.remove('clicked');
-    void go?.offsetWidth;
-    go?.classList.add('clicked');
-  });
-  go?.addEventListener('click', () => cur && openQuick(cur));
-})();
-
 /* ═══ CATÁLOGO ═══ */
 function filtered(): Product[] {
   let L = PRODUCTS.filter((c) => {
@@ -466,7 +425,7 @@ $('#activeChips')?.addEventListener('click', (e) => {
 });
 
 /* grupos de filtros (marcado estático) */
-$<HTMLElement>('#filterGroups')?.addEventListener('change', (e) => {
+$<HTMLElement>('#catalogo')?.addEventListener('change', (e) => {
   const el = e.target as HTMLInputElement;
   if (el.id === 'fxFecha') state.exFecha = el.value;
   else if (el.dataset.g) {
@@ -476,7 +435,7 @@ $<HTMLElement>('#filterGroups')?.addEventListener('change', (e) => {
   renderGrid();
   scrollToResults();
 });
-$<HTMLElement>('#filterGroups')?.addEventListener('click', (e) => {
+$<HTMLElement>('#catalogo')?.addEventListener('click', (e) => {
   const b = (e.target as HTMLElement).closest('.fchip') as HTMLButtonElement | null;
   if (!b) return;
   const g = b.dataset.g as 'pub' | 'tal';
@@ -496,7 +455,7 @@ $<HTMLElement>('#filterGroups')?.addEventListener('click', (e) => {
 });
 
 function syncFilterUI() {
-  $$('#filterGroups [data-g]').forEach((el) => {
+  $$('#catalogo [data-g]').forEach((el) => {
     const inp = el as HTMLInputElement;
     if (el.tagName === 'INPUT') inp.checked = state[inp.dataset.g as 'tem'].has(inp.value);
     else el.classList.toggle('on', state[(el as HTMLButtonElement).dataset.g as 'pub'].has((el as HTMLButtonElement).dataset.v!));
@@ -844,6 +803,7 @@ function addItem(id: string | number, tipo: 'd' | 'a' = 'd', talla?: string, qty
   const f = state.cart.find((i) => i.id === String(id) && i.talla === talla && i.tipo === tipo);
   if (f) f.qty += qty;
   else state.cart.push({ id: String(id), tipo, talla, qty });
+  state.lastAdd = { id: String(id), tipo, talla };
   afterCart(srcEl);
   toast(`${item.e} <b>${esc(item.n)}</b> agregado a tu arriendo (talla ${talla})`);
 }
@@ -873,6 +833,8 @@ function afterCart(srcEl?: Element | null) {
   renderMini();
   renderSticky();
   if ($('#reqModal')?.classList.contains('open')) renderReq();
+  // El panel lateral se abre solo para que veas el detalle de tu cotización
+  openMini();
 }
 
 function fly(el: Element) {
@@ -908,7 +870,8 @@ function renderMini() {
     state.cart
       .map((i) => {
         const it = byId(i.id)!;
-        return `<div class="mc-item">${thumb(it)}<span class="mn">${esc(it.n)}<br><small>Talla ${i.talla}</small></span><span class="qty inline-flex items-center gap-2"><button data-mc="-" data-id="${i.id}" data-t="${esc(i.talla)}" aria-label="Menos">−</button>${i.qty}<button data-mc="+" data-id="${i.id}" data-t="${esc(i.talla)}" aria-label="Más">+</button></span></div>`;
+        const nuevo = state.lastAdd && state.lastAdd.id === i.id && state.lastAdd.talla === i.talla && state.lastAdd.tipo === i.tipo;
+        return `<div class="mc-item${nuevo ? ' justadded' : ''}">${thumb(it)}<span class="mn">${esc(it.n)}${nuevo ? ' <b class="justbadge">✨ ¡Agregado!</b>' : ''}<br><small>Talla ${i.talla}</small></span><span class="qty inline-flex items-center gap-2"><button data-mc="-" data-id="${i.id}" data-t="${esc(i.talla)}" aria-label="Menos">−</button>${i.qty}<button data-mc="+" data-id="${i.id}" data-t="${esc(i.talla)}" aria-label="Más">+</button></span></div>`;
       })
       .join('') +
     totalsHTML() +
@@ -1085,7 +1048,10 @@ function openQuick(id: number) {
   <div class="mt-4 flex items-start gap-2 rounded-2xl border-[1.5px] border-ama bg-[#fdf6d9] p-3 text-[.82rem] text-[#6b5200]">🛡️ <span>Garantía de <b>${clp(c.gar)}</b>, se paga el día del retiro y <b>se te devuelve</b> al entregar el disfraz en las mismas condiciones.</span></div>
   <div class="mt-5 flex flex-col gap-2.5">
     <button class="btn btn-mora w-full" id="qmAdd">🛒 Agregar a mi cotización →</button>
-    <a class="btn btn-wsp w-full" id="qmWa" target="_blank" rel="noopener" href="${waLink(`¡Hola! Quiero cotizar el arriendo del disfraz ${c.n} para adultos 🎭 ¿Está disponible?`)}">💬 Cotizar directo por WhatsApp</a>
+    <a class="btn btn-blanco w-full" id="qmWa" target="_blank" rel="noopener" href="${waLink(`¡Hola! Quiero cotizar el arriendo del disfraz ${c.n} para adultos 🎭 ¿Está disponible?`)}">💬 Cotizar solo este disfraz por WhatsApp</a>
+    <p class="text-center text-[.76rem] leading-[1.4] text-ink2">
+      <b>Agregar</b> lo suma a tu lista para cotizar varios · <b>Cotizar directo</b> es solo por <b>este</b> disfraz, al tiro.
+    </p>
   </div>
   <p class="payline mt-3">Al agregarlo queda en tu lista de cotización; lo envías por WhatsApp con tus datos. Pagos: ver <button data-opencond>Condiciones de arriendo</button></p>`;
 
@@ -1289,51 +1255,6 @@ $('#resultsBtn')?.addEventListener('click', () => {
   $('#fback')?.classList.remove('on');
 });
 
-/* ═══ CUPÓN ═══ */
-$('#couponBtn')?.addEventListener('click', (e) => {
-  const btn = e.currentTarget as HTMLElement;
-  const code = 'MAGIA15';
-  const done = () => {
-    const t = $('#cpnTxt');
-    if (t)
-      t.innerHTML =
-        '¡Copiado! <b>MAGIA15</b> <svg class="ck" viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>';
-    btn.classList.add('ok', 'bounce');
-    state.coupon = { code, pct: 15, label: 'Cupón MAGIA15' };
-    renderMini();
-    renderSticky();
-    if ($('#reqModal')?.classList.contains('open')) renderReq();
-    if (!reduced()) Confetti.at(btn);
-    toast('🎟️ Cupón MAGIA15 copiado y aplicado a tu cotización 🎉');
-    if (navigator.vibrate && !reduced()) try { navigator.vibrate(40); } catch { /* noop */ }
-    setTimeout(() => {
-      const t2 = $('#cpnTxt');
-      if (t2) t2.textContent = 'Cupón 15% dto.';
-      $('#cpnIco')?.replaceChildren(document.createTextNode('🎟️'));
-      btn.classList.remove('ok', 'bounce');
-    }, 3000);
-  };
-  const fallback = () => {
-    const ta = document.createElement('textarea');
-    ta.value = code;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.append(ta);
-    ta.select();
-    try {
-      document.execCommand('copy');
-    } catch {
-      /* noop */
-    }
-    ta.remove();
-  };
-  if (navigator.clipboard?.writeText) navigator.clipboard.writeText(code).then(done).catch(() => { fallback(); done(); });
-  else {
-    fallback();
-    done();
-  }
-});
-
 /* ═══ FECHAS ═══ */
 $('#fechasRow')?.addEventListener('click', (e) => {
   const b = (e.target as HTMLElement).closest('[data-tem]') as HTMLElement | null;
@@ -1504,7 +1425,7 @@ $('#halloCTA')?.addEventListener('click', () => applyFilter({ tem: 'halloween' }
   );
 
   // Scrollspy: remarca con un puntito en qué sección del menú estás
-  const ids = ['promos', 'fechas', 'como', 'contacto'];
+  const ids = ['catalogo', 'fechas', 'como', 'contacto'];
   const links = $$<HTMLAnchorElement>('nav a[data-navsec]');
   const spy = () => {
     const y = window.scrollY + (hdr?.offsetHeight ?? 64) + 150;

@@ -8,7 +8,6 @@ export const CONFIG = {
   tel: '+56 9 8433 0378',
   telHref: 'tel:+56984330378',
   email1: 'contacto@lamagicatienda.cl',
-  email2: 'reservas@lamagicatienda.cl',
   dir: 'Hermann Wiegartt 01194, Punta Arenas, Región de Magallanes',
   horario: {
     1: ['15:00', '20:30'],

@@ -14,24 +14,42 @@ const catCount = (id: string) => PRODUCTS.filter((p) => p.cats.includes(id)).len
     </p>
 
     <div class="rv mb-4 flex flex-wrap items-center gap-2.5">
-      <button class="btn btn-ghost btn-sm inline-flex min-[900px]:hidden" id="filterOpen">⚙️ Filtrar</button>
+      <button class="btn btn-ghost btn-sm inline-flex min-[900px]:hidden" id="filterOpen">⚙️ Categorías</button>
       <span id="countLabel" class="ml-auto text-[.85rem] font-bold text-ink2" aria-live="polite"></span>
     </div>
 
-    <!-- Buscador fijo: queda pegado bajo el header mientras recorres el catálogo -->
-    <div id="catSearchWrap" class="catsearch-sticky">
-      <div class="searchbox" role="search">
-        🔍<input
-          id="catSearch"
-          type="search"
-          placeholder="Busca 'bruja', 'vampiro', 'Halloween'…"
-          aria-label="Buscar en catálogo"
-          autocomplete="off"
-        />
+    <!-- Barra fija: buscador + Público + Talla, siempre a la vista al recorrer el catálogo -->
+    <div id="catFilters" class="cat-filters">
+      <div class="cat-filters-main">
+        <div class="searchbox" role="search">
+          🔍<input
+            id="catSearch"
+            type="search"
+            placeholder="Busca 'bruja', 'vampiro', 'Halloween'…"
+            aria-label="Buscar en catálogo"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="quick-filters">
+          <div class="qf-group">
+            <span class="qf-title">Público</span>
+            <div class="qf-chips">
+              {PUBLICOS.map((p) => <button class="chip fchip" data-g="pub" data-v={p.id}>{p.i} {p.n}</button>)}
+            </div>
+          </div>
+          <div class="qf-group">
+            <span class="qf-title">Talla</span>
+            <div class="qf-chips">
+              {TALLAS.map((t) => <button class="chip fchip" data-g="tal" data-v={t}>{t}</button>)}
+            </div>
+          </div>
+        </div>
       </div>
+
       <div
         id="sugCat"
-        class="suggest absolute inset-x-0 top-[calc(100%+8px)] z-[70] max-h-[340px] overflow-y-auto rounded-2xl border-2 border-line bg-white shadow-sh2"
+        class="suggest absolute inset-x-0 top-[calc(100%+6px)] z-[70] max-h-[340px] overflow-y-auto rounded-2xl border-2 border-line bg-white shadow-sh2"
         role="listbox"></div>
     </div>
 
@@ -44,22 +62,14 @@ const catCount = (id: string) => PRODUCTS.filter((p) => p.cats.includes(id)).len
         aria-label="Filtros de disfraces"
       >
         <div class="mb-2 flex items-center justify-between">
-          <b class="font-ft">Filtros ✨</b>
+          <b class="font-ft">Categorías ✨</b>
           <button id="clearFilters" class="cursor-pointer border-0 bg-transparent text-[.85rem] font-extrabold text-m500 underline">
             Limpiar todo
           </button>
         </div>
 
         <div id="filterGroups">
-          <div class="mb-4">
-            <h4 class={fgroupTitle}>Público</h4>
-            <div class="flex flex-wrap gap-[7px]">
-              {PUBLICOS.map((p) => <button class="chip fchip" data-g="pub" data-v={p.id}>{p.i} {p.n}</button>)}
-            </div>
-          </div>
-
-          <div class="mb-4">
-            <h4 class={fgroupTitle}>Categoría</h4>
+          <div class="mb-2">
             <div class="flex flex-wrap gap-[7px]">
               {
                 CATS_ACTIVE.map((c) => (
@@ -70,13 +80,6 @@ const catCount = (id: string) => PRODUCTS.filter((p) => p.cats.includes(id)).len
                   </label>
                 ))
               }
-            </div>
-          </div>
-
-          <div class="mb-4">
-            <h4 class={fgroupTitle}>Talla</h4>
-            <div class="flex flex-wrap gap-[7px]">
-              {TALLAS.map((t) => <button class="chip fchip" data-g="tal" data-v={t}>{t}</button>)}
             </div>
           </div>
         </div>
