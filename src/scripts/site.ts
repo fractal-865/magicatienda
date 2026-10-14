@@ -53,8 +53,16 @@ function fmtDate(iso: string): string {
 function todayISO(d = new Date()): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
+/* Tope de días para elegir el retiro: hasta 60 días desde hoy */
+function maxISO(days = 60): string {
+  const d = new Date();
+  d.setDate(d.getDate() + days);
+  return todayISO(d);
+}
 
 /* ── estado ── */
+const PAGE_SIZE = 24;
+
 const state = {
   q: '',
   tem: new Set<string>(),
@@ -63,6 +71,7 @@ const state = {
   tal: new Set<string>(),
   exFecha: '',
   sort: 'pop',
+  page: 1,
   cart: [] as CartItem[],
   coupon: null as null | { code: string; pct: number; label: string },
   coupons: { MAGIA15: { pct: 15, label: 'Cupón MAGIA15' } },
@@ -177,8 +186,8 @@ addEventListener(
 
 let phi = 0;
 setInterval(() => {
-  const i = $<HTMLInputElement>('#hdrSearch');
-  if (i && document.activeElement !== i) {
+  const i = $<HTMLInputElement>('#catSearch');
+  if (i && document.activeElement !== i && !i.value) {
     phi = (phi + 1) % SEARCH_PH.length;
     i.placeholder = SEARCH_PH[phi];
   }
@@ -367,7 +376,7 @@ function cardHTML(c: Product, k: number) {
   const multiSize = c.tl.length > 1;
   const guia = (t: string) => TALLA_GUIA[t] ? `Estatura recomendada: ${TALLA_GUIA[t]}` : 'Sin referencia de estatura';
   return `<article class="pcard relative flex cursor-pointer flex-col rounded-[20px] border-[1.5px] border-line bg-white shadow-[0_8px_20px_rgba(90,42,156,.08)] transition duration-300 hover:-translate-y-[5px] hover:shadow-sh2" data-id="${c.id}" style="--d:${Math.min(k * 0.05, 0.4)}s" tabindex="0" aria-label="${esc(c.n)}, disfraz para adultos en arriendo">
-  <div class="relative h-[380px] shrink-0 overflow-hidden" style="background:linear-gradient(135deg,${T.g[0]},${T.g[1]})">
+  <div class="pimg relative h-[380px] shrink-0 overflow-hidden" style="background:linear-gradient(135deg,${T.g[0]},${T.g[1]})">
     <img src="${c.img}" alt="Disfraz ${esc(c.n)}" loading="lazy" class="absolute inset-0 h-full w-full object-cover object-center transition duration-500">
   </div>
   <div class="flex flex-1 flex-col p-3.5 pb-4">
@@ -385,17 +394,41 @@ function cardHTML(c: Product, k: number) {
 </article>`;
 }
 
-function renderGrid() {
+function renderGrid(reset = true) {
+  if (reset) state.page = 1;
   const g = $('#grid');
   if (!g) return;
   const L = filtered();
+  const shown = L.slice(0, state.page * PAGE_SIZE);
   g.innerHTML = L.length
-    ? L.map(cardHTML).join('')
+    ? shown.map(cardHTML).join('')
     : `<div class="col-span-full rounded-[20px] border-[1.5px] border-line bg-white p-10 text-center"><div class="text-[3rem]">🔮</div><b class="font-ft">Mmm… no encontramos eso</b><p class="mt-1.5 text-ink2">Prueba con <b>payaso</b>, <b>terror</b> o <b>Halloween</b> ✨</p></div>`;
+
   const cl = $('#countLabel');
-  if (cl) cl.textContent = `Mostrando ${L.length} de ${PRODUCTS.length} disfraces`;
+  if (cl) {
+    cl.textContent = !L.length
+      ? 'Sin resultados'
+      : L.length === PRODUCTS.length
+        ? `Mostrando ${shown.length} de ${L.length} disfraces`
+        : `Mostrando ${shown.length} de ${L.length} disfraces · hay ${PRODUCTS.length} en total`;
+  }
   const rb = $('#resultsBtn');
   if (rb) rb.textContent = `Ver ${L.length} resultados ✨`;
+
+  // Paginación: 24 disfraces por carga
+  const quedan = L.length - shown.length;
+  const wrap = $('#loadWrap');
+  const more = $<HTMLButtonElement>('#loadMore');
+  const info = $('#loadInfo');
+  if (wrap) wrap.classList.toggle('hidden', quedan <= 0);
+  if (more) more.textContent = `Cargar más disfraces (${quedan})`;
+  if (info) info.textContent = quedan > 0 ? `Te quedan ${quedan} por ver` : `Ya viste los ${L.length} disfraces ✨`;
+
+  // Botón "Limpiar filtros": solo aparece cuando hay algo activo
+  const cc = $('#catClear');
+  const activo = state.tem.size + state.oca.size + state.pub.size + state.tal.size > 0 || !!state.q || !!state.exFecha;
+  cc?.classList.toggle('hidden', !activo);
+
   renderChips();
 }
 
@@ -429,6 +462,14 @@ $('#activeChips')?.addEventListener('click', (e) => {
   } else if (k && v && ['tem', 'oca', 'pub', 'tal'].includes(k)) state[k as 'tem'].delete(v);
   syncFilterUI();
   renderGrid();
+});
+
+/* Paginación: carga 24 disfraces más sin mover la vista */
+$('#loadMore')?.addEventListener('click', () => {
+  const y = window.scrollY;
+  state.page += 1;
+  renderGrid(false);
+  window.scrollTo({ top: y, behavior: 'auto' });
 });
 
 /* grupos de filtros (marcado estático) */
@@ -469,19 +510,24 @@ function syncFilterUI() {
   });
   const ff = $<HTMLInputElement>('#fxFecha');
   if (ff) ff.value = state.exFecha;
-  ['hdrSearch', 'catSearch', 'mobSearch'].forEach((id) => {
-    const i = $<HTMLInputElement>('#' + id);
-    if (i && document.activeElement !== i) i.value = state.q;
-  });
+  const cs = $<HTMLInputElement>('#catSearch');
+  if (cs && document.activeElement !== cs) cs.value = state.q;
+  const cc = $('#catClear');
+  const hayFiltro = state.tem.size + state.oca.size + state.pub.size + state.tal.size > 0 || !!state.q || !!state.exFecha;
+  cc?.classList.toggle('hidden', !hayFiltro);
 }
 
-$('#clearFilters')?.addEventListener('click', () => {
+function clearAllFilters() {
   ['tem', 'oca', 'pub', 'tal'].forEach((k) => state[k as 'tem'].clear());
   state.exFecha = '';
   state.q = '';
+  const inp = $<HTMLInputElement>('#catSearch');
+  if (inp) inp.value = '';
   syncFilterUI();
   renderGrid();
-});
+}
+$('#clearFilters')?.addEventListener('click', clearAllFilters);
+$('#catClear')?.addEventListener('click', clearAllFilters);
 
 /* ── buscador + sugerencias ── */
 function bindSearch(id: string, sugId?: string) {
@@ -508,10 +554,8 @@ function bindSearch(id: string, sugId?: string) {
 
   const deb = debounce(() => {
     state.q = inp.value.trim();
-    ['hdrSearch', 'catSearch', 'mobSearch'].forEach((o) => {
-      const el = $<HTMLInputElement>('#' + o);
-      if (el && el !== inp) el.value = state.q;
-    });
+    const other = $<HTMLInputElement>('#catSearch');
+    if (other && other !== inp) other.value = state.q;
     renderGrid();
     show();
   }, 220);
@@ -552,9 +596,41 @@ function bindSearch(id: string, sugId?: string) {
     });
   }
 }
-bindSearch('hdrSearch', 'sugHdr');
 bindSearch('catSearch', 'sugCat');
-bindSearch('mobSearch');
+
+/* ── Buscador único: en la cabecera solo la lupa, que baja al buscador del catálogo ── */
+$('#searchToggle')?.addEventListener('click', () => {
+  const sb = $('#catFilters .searchbox');
+  if (sb && !sb.classList.contains('open')) sb.classList.add('open');
+  scrollToCat();
+  setTimeout(() => $<HTMLInputElement>('#catSearch')?.focus(), reduced() ? 0 : 520);
+});
+
+/* ── El buscador del catálogo empieza plegado (solo lupa) y se despliega al apretar ── */
+(() => {
+  const box = $('#catFilters .searchbox');
+  const tog = $<HTMLButtonElement>('#searchToggle2');
+  const inp = $<HTMLInputElement>('#catSearch');
+  if (!box || !tog || !inp) return;
+  const setOpen = (v: boolean) => {
+    box.classList.toggle('open', v);
+    tog.setAttribute('aria-expanded', String(v));
+    tog.setAttribute('aria-label', v ? 'Cerrar buscador' : 'Abrir buscador');
+    if (v) inp.focus();
+    else {
+      inp.value = '';
+      if (state.q) {
+        state.q = '';
+        renderGrid();
+      }
+      $('#sugCat')?.classList.remove('open');
+    }
+  };
+  tog.addEventListener('click', () => setOpen(!box.classList.contains('open')));
+  inp.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setOpen(false);
+  });
+})();
 
 $<HTMLElement>('#chipsPop')?.addEventListener('click', (e) => {
   const b = (e.target as HTMLElement).closest('[data-q]') as HTMLElement | null;
@@ -566,13 +642,21 @@ $<HTMLElement>('#chipsPop')?.addEventListener('click', (e) => {
 });
 
 function scrollToCat() {
-  $('#catalogo')?.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth' });
+  const el = $('#catalogo');
+  if (!el) return;
+  const off = ($('#header')?.offsetHeight ?? 64) + 10;
+  const y = Math.max(0, window.scrollY + el.getBoundingClientRect().top - off);
+  window.scrollTo({ top: y, behavior: reduced() ? 'auto' : 'smooth' });
 }
-/* Al filtrar, sube a ver las primeras filas de resultados (no te "pierdes" en la pantalla) */
+/* Al filtrar, sube a ver las primeras filas de resultados: deja un margen extra
+   para que la barra fija (buscador + Público + Talla) no tape las primeras tarjetas. */
 function scrollToResults() {
   const grid = $('#grid');
   if (!grid) return;
-  const off = ($('#header')?.offsetHeight ?? 64) + 8;
+  const hdr = $('#header')?.offsetHeight ?? 64;
+  const bar = $('#catFilters')?.offsetHeight ?? 0;
+  // La barra queda pegada 14px bajo el header: ese hueco también hay que saltarlo
+  const off = hdr + 14 + bar + 16;
   const y = Math.max(0, window.scrollY + grid.getBoundingClientRect().top - off);
   // Si la distancia es grande, salto instantáneo (el scroll suave de lejos es lento y se "pierde")
   const lejos = Math.abs(y - window.scrollY) > 1200;
@@ -789,15 +873,19 @@ function totalsHTML(): string {
   const gar = guaranteeTotal();
   const dto = sub - tot;
   const pagoDia = tot + gar;
-  return `<div class="mt-3 rounded-2xl border-2 border-line bg-[#f9f6ff] p-3 text-[.85rem]">
+  return `<div class="det mt-3 rounded-2xl border-2 border-line bg-[#f9f6ff] p-3 text-[.85rem]">
     <div class="flex justify-between"><span>Arriendo 3 días</span><b>${clp(sub)}</b></div>
     ${pct ? `<div class="flex justify-between text-[#0c7a56]"><span>✨ Descuento ${pct}%</span><b>−${clp(dto)}</b></div>` : ''}
-    <div class="mt-1 flex justify-between border-t border-line pt-1 font-ft text-[1rem] text-m600"><span>Total arriendo</span><b>${clp(tot)}</b></div>
-    <div class="mt-1.5 flex justify-between border-t border-dashed border-line pt-1.5 text-[.8rem] text-ink2"><span>🛡️ Garantía (se devuelve)</span><b>${clp(gar)}</b></div>
-    <div class="mt-2 rounded-xl border-[1.5px] border-ama bg-[#fdf6d9] p-2.5 text-[.82rem] text-[#6b5200]">
-      💳 <b>El día del retiro pagarás ≈ ${clp(pagoDia)}</b><br>
-      <span class="opacity-90">Arriendo ${clp(tot)} + garantía aprox. ${clp(gar)} (la garantía se te devuelve al entregar el disfraz en las mismas condiciones).</span>
+    <div class="mt-1.5 flex items-baseline justify-between gap-2 border-t border-line pt-1.5">
+      <span class="font-ft text-[.95rem] font-bold text-m600">Total a pagar por el arriendo</span>
+      <b class="font-ft text-[1.3rem] leading-none text-m600">${clp(tot)}</b>
     </div>
+  </div>
+  <span class="gchip">🛡️ Garantía de ${clp(gar)} reintegrable</span>
+  <div class="paynote">
+    <span class="pn-label">El día del retiro pagarás</span>
+    <b class="pn-total">${clp(pagoDia)}</b>
+    <small>Arriendo ${clp(tot)} + garantía ${clp(gar)}. La garantía se te devuelve completa al entregar el disfraz en las mismas condiciones.</small>
   </div>`;
 }
 const thumb = (it: Item) =>
@@ -882,9 +970,10 @@ function renderMini() {
       })
       .join('') +
     totalsHTML() +
-    `<div class="mdates mdates-one"><label>Día de retiro<input type="date" id="mcRet" value="${state.req.retiro}" min="${todayISO()}"></label></div>
+    `<div class="mdates-md"><span class="md-title">📅 ¿Qué día retiras el disfraz?</span>
+    <div class="mdates mdates-one"><label>Día de retiro<input type="date" id="mcRet" value="${state.req.retiro}" min="${todayISO()}" max="${maxISO(60)}"></label></div>
     <p class="entnota">↩️ La entrega es 2 días después del retiro: arriendo de 3 días.</p>
-    <div class="daterow"><span>📦 Retiro: <b>${fmtDate(state.req.retiro)}</b></span><span>↩️ Entrega: <b>${fmtDate(state.req.entrega)}</b></span></div>` +
+    <div class="daterow"><span>📦 Retiro: <b>${fmtDate(state.req.retiro)}</b></span><span>↩️ Entrega: <b>${fmtDate(state.req.entrega)}</b></span></div></div>` +
     (dl.length ? `<div class="infoline">✨ Descuentos aplicables: ${dl.join(' · ')}. Se aplica el mayor.</div>` : '') +
     (disfQty() < 7 && disfQty() > 0 ? `<div class="infoline">🎈 Agrega ${7 - disfQty()} disfraces más y desbloquea 25% grupal.</div>` : '') +
     `</div>` +
@@ -1051,7 +1140,7 @@ function openQuick(id: number) {
     <div class="tsel" id="qmTallas">${c.tl.map((t) => `<button class="tip ${!multi && t === talla ? 'on' : ''}" data-t="${esc(t)}" data-tip="${esc(TALLA_GUIA[t] ? 'Estatura recomendada: ' + TALLA_GUIA[t] : 'Sin referencia de estatura')}">${esc(t)}</button>`).join('')}</div>
     <span id="qmTtip" class="sizetip" role="status">👆 Selecciona una talla para continuar</span>
   </div>
-  <div class="mt-4 flex items-start gap-2 rounded-2xl border-[1.5px] border-ama bg-[#fdf6d9] p-3 text-[.82rem] text-[#6b5200]">🛡️ <span>Garantía de <b>${clp(c.gar)}</b>, se paga el día del retiro y <b>se te devuelve</b> al entregar el disfraz en las mismas condiciones.</span></div>
+  <span class="gchip">🛡️ Garantía de ${clp(c.gar)} reintegrable</span>
   <div class="mt-5 flex flex-col gap-2.5">
     <button class="btn btn-mora w-full" id="qmAdd">🛒 Agregar a mi cotización →</button>
     <a class="btn btn-blanco w-full" id="qmWa" target="_blank" rel="noopener" href="${waLink(`¡Hola! Quiero cotizar el arriendo del disfraz ${c.n} para adultos 🎭 ¿Está disponible?`)}">💬 Cotizar solo este disfraz por WhatsApp</a>
@@ -1152,14 +1241,16 @@ function renderReq() {
           .join('')
       : `<div class="py-6 text-center text-[#777]"><div class="text-[3rem]">🎭</div>Tu arriendo está esperando magia…</div>`
   }
+  <div class="mdates-md"><span class="md-title">📅 ¿Qué día retiras el disfraz?</span>
   <div class="mdates">
-    <label>Día de retiro<input type="date" id="rqRet" value="${state.req.retiro}" min="${todayISO()}"></label>
+    <label>Día de retiro<input type="date" id="rqRet" value="${state.req.retiro}" min="${todayISO()}" max="${maxISO(60)}"></label>
     <label>Día de entrega (auto)<input type="date" id="rqEnt" value="${state.req.entrega}" readonly class="bg-[#f4f1fb] text-ink2"></label>
   </div>
+  <p class="entnota">↩️ El arriendo es de 3 días: eliges el retiro y la entrega queda 2 días después.</p>
   <div class="daterow">
     <span>📦 Retiro: <b>${fmtDate(state.req.retiro)}</b></span>
     <span>↩️ Entrega: <b>${fmtDate(state.req.entrega)}</b></span>
-  </div>
+  </div></div>
   <div class="mt-1.5 grid gap-2.5 min-[600px]:grid-cols-2">
     <input id="rqNom" placeholder="Nombre" value="${esc(state.req.nombre)}" class="rounded-[10px] border-2 border-line p-2.5">
     <input id="rqRut" placeholder="RUT" value="${esc(state.req.rut)}" class="rounded-[10px] border-2 border-line p-2.5">
@@ -1344,6 +1435,17 @@ document.addEventListener('click', (e) => {
   b.setAttribute('aria-expanded', String(open));
 });
 
+/* Tarjetas informativas de "Cómo funciona": "Leer más" despliega el contenido */
+document.addEventListener('click', (e) => {
+  const b = (e.target as HTMLElement).closest('.info-more') as HTMLButtonElement | null;
+  if (!b) return;
+  const card = b.closest('.infocard');
+  if (!card) return;
+  const open = card.classList.toggle('open');
+  b.setAttribute('aria-expanded', String(open));
+  b.innerHTML = `${open ? 'Leer menos' : 'Leer más'} <span class="arr" aria-hidden="true">▾</span>`;
+});
+
 $('#nlForm')?.addEventListener('submit', (e) => {
   e.preventDefault();
   Confetti.rain(120);
@@ -1403,26 +1505,9 @@ $('#halloCTA')?.addEventListener('click', () => applyFilter({ tem: 'halloween' }
   setH();
   addEventListener('resize', setH);
 
-  // Buscador: solo lupa; al hacer clic se despliega un popup (no ocupa espacio en el menú)
-  const stog = $('#searchToggle');
-  const spop = $('#searchPop');
-  const sinp = $<HTMLInputElement>('#hdrSearch');
-  const closePop = () => {
-    if (!spop) return;
-    spop.hidden = true;
-    stog?.setAttribute('aria-expanded', 'false');
-  };
-  stog?.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const willOpen = spop?.hidden ?? true;
-    if (spop) spop.hidden = !willOpen;
-    stog.setAttribute('aria-expanded', String(willOpen));
-    if (willOpen) sinp?.focus();
-  });
-  spop?.addEventListener('click', (e) => e.stopPropagation());
-  document.addEventListener('click', closePop);
+  // Menú móvil: se cierra con Escape
   addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closePop();
+    if (e.key === 'Escape') closeAll();
   });
 
   // Icono de inicio: lleva al tope del sitio

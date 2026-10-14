@@ -51,34 +51,22 @@ const nlink =
         <a class={nlink} href="#contacto" data-navsec="contacto">Contacto</a>
       </nav>
 
-      <!-- Buscador: solo lupa, despliega popup -->
-      <div class="relative ml-auto hidden min-[760px]:block">
-        <button
-          id="searchToggle"
-          class="searchToggle"
-          aria-label="Buscar disfraces"
-          aria-expanded="false"
-          aria-controls="searchPop"
-          >🔍</button
-        >
-        <div id="searchPop" class="searchpop" role="search" hidden>
-          <div class="searchbox">
-            🔍<input
-              id="hdrSearch"
-              type="search"
-              placeholder="Buscar disfraz…"
-              aria-label="Buscar disfraces"
-              autocomplete="off"
-            />
-          </div>
-          <div
-            id="sugHdr"
-            class="suggest absolute inset-x-0 top-[calc(100%+8px)] z-[70] max-h-[340px] overflow-y-auto rounded-2xl border-2 border-line bg-white shadow-sh2"
-            role="listbox"></div>
-        </div>
+      <!-- Buscador: un solo botón que lleva al buscador del catálogo -->
+      <div class="ml-auto">
+        <button id="searchToggle" class="searchToggle" aria-label="Ir al buscador del catálogo">🔍</button>
       </div>
 
+      <!-- Menú y carrito juntos, alineados a la derecha -->
       <div class="flex items-center gap-2">
+        <button
+          id="burger"
+          class="grid h-11 w-11 cursor-pointer place-items-center rounded-2xl border-[1.5px] border-line bg-[#f4eeff]"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+        >
+          <span></span><span></span><span></span>
+        </button>
+
         <div id="cartWrap" class="relative">
           <button
             id="cartBtn"
@@ -93,27 +81,6 @@ const nlink =
             >
           </button>
         </div>
-
-        <button
-          id="burger"
-          class="grid h-11 w-11 cursor-pointer place-items-center rounded-2xl border-[1.5px] border-line bg-[#f4eeff]"
-          aria-label="Abrir menú"
-          aria-expanded="false"
-        >
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-    </div>
-
-    <div class="flex gap-2.5 pb-2.5 min-[760px]:hidden">
-      <div class="msearch flex flex-1 items-center gap-2 rounded-full border-2 border-line bg-white px-3.5 py-2.5">
-        🔍<input
-          id="mobSearch"
-          type="search"
-          placeholder="Busca tu disfraz…"
-          aria-label="Buscar disfraces"
-          class="min-w-0 flex-1 border-0 bg-transparent font-fb text-[.95rem] text-ink outline-none"
-        />
       </div>
     </div>
   </div>

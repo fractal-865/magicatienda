@@ -148,7 +148,9 @@ export const PRODUCTS: Product[] = (raw as Raw[]).map((r) => {
 });
 
 /* Tallas del filtro, en orden y solo las que existen en el catálogo */
-export const TALLAS: string[] = orderTallas.filter((t) => PRODUCTS.some((p) => p.tl.includes(t)));
+export const TALLAS: string[] = orderTallas.filter(
+  (t) => t !== 'Sin especificar' && PRODUCTS.some((p) => p.tl.includes(t)),
+);
 
 /* Guía de tallas (adultos): estatura recomendada para cada talla */
 export const TALLA_GUIA: Record<string, string> = {

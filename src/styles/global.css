@@ -1722,3 +1722,313 @@ body.drawer-lock {
     scroll-behavior: auto !important;
   }
 }
+
+/* ═══ Buscador del catálogo: plegable (solo lupa hasta abrir) ═══ */
+.cat-filters-main .searchbox-sm {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 44px;
+  max-width: 44px;
+  flex: 0 0 44px;
+  padding: 5px;
+  transition: width 0.32s cubic-bezier(0.2, 0.8, 0.25, 1), max-width 0.32s cubic-bezier(0.2, 0.8, 0.25, 1),
+    flex-basis 0.32s cubic-bezier(0.2, 0.8, 0.25, 1);
+}
+.cat-filters-main .searchbox-sm.open {
+  width: 100%;
+  max-width: 360px;
+  flex: 1 1 220px;
+}
+.cat-filters-main .searchbox-sm .sb-toggle {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+}
+.cat-filters-main .searchbox-sm .sb-toggle:hover {
+  background: #f0eaff;
+}
+.cat-filters-main .searchbox-sm input {
+  min-width: 0;
+  flex: 1 1 auto;
+  border: 0;
+  background: transparent;
+  font-family: var(--font-fb);
+  font-size: 0.92rem;
+  color: var(--color-ink);
+  outline: none;
+  opacity: 0;
+  width: 0;
+  transition: opacity 0.25s;
+}
+.cat-filters-main .searchbox-sm.open input {
+  opacity: 1;
+  width: auto;
+}
+
+/* Chip "Limpiar filtros" */
+.chip-clear {
+  align-self: flex-end;
+  border: 1.5px dashed var(--color-m400, #b89af0);
+  background: #fff;
+  color: var(--color-m600);
+}
+.chip-clear:hover {
+  background: #f3edff;
+}
+
+/* ═══ Tarjetas informativas ("Cómo funciona") ═══ */
+.infogrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 18px;
+  margin: 34px auto 0;
+  max-width: 900px;
+}
+.infocard {
+  display: flex;
+  flex-direction: column;
+  border-radius: 22px;
+  border: 1.5px solid var(--color-line);
+  background: linear-gradient(165deg, #fff, #faf7ff);
+  padding: 22px 20px;
+  box-shadow: 0 6px 18px rgba(90, 42, 156, 0.08);
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+.infocard:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-m400, #b89af0);
+  box-shadow: 0 14px 28px rgba(90, 42, 156, 0.14);
+}
+.info-i {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 12px;
+  border-radius: 16px;
+  background: linear-gradient(140deg, #f4eeff, #ffe6f2);
+  font-size: 1.6rem;
+}
+.infocard h3 {
+  font-family: var(--font-ft);
+  font-size: 1.1rem;
+  color: var(--color-ink);
+}
+.info-s {
+  margin-top: 4px;
+  font-size: 0.85rem;
+  color: var(--color-ink2);
+  line-height: 1.5;
+}
+.info-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s cubic-bezier(0.2, 0.8, 0.25, 1);
+}
+.info-body > * {
+  overflow: hidden;
+  min-height: 0;
+}
+.infocard.open .info-body {
+  grid-template-rows: 1fr;
+}
+.info-body p {
+  margin-top: 9px;
+  font-size: 0.87rem;
+  line-height: 1.55;
+  color: var(--color-ink2);
+}
+.info-body p:first-child {
+  margin-top: 12px;
+}
+.info-h {
+  font-size: 0.7rem !important;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-m500) !important;
+  margin-bottom: 2px;
+}
+.info-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+.info-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.84rem;
+  color: var(--color-ink2);
+  padding: 5px 10px;
+  border-radius: 9px;
+  background: #fff;
+  border: 1px solid var(--color-line);
+}
+.info-list li b {
+  color: var(--color-m600);
+}
+.info-more {
+  align-self: flex-start;
+  margin-top: 12px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-ft);
+  font-size: 0.86rem;
+  font-weight: 800;
+  color: var(--color-m600);
+}
+.info-more .arr {
+  display: inline-block;
+  transition: transform 0.3s;
+}
+.infocard.open .info-more .arr {
+  transform: rotate(180deg);
+}
+
+/* ═══ Nota de pago del día del retiro ═══ */
+.paynote {
+  margin: 12px 0;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 2px solid var(--color-ama, #f2c94c);
+  background: linear-gradient(135deg, #fff8e2, #fdf3d0);
+  color: #5f4700;
+  text-align: center;
+}
+.paynote .pn-label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.75;
+}
+.paynote .pn-total {
+  display: block;
+  margin: 3px 0 2px;
+  font-family: var(--font-ft);
+  font-size: 1.85rem;
+  font-weight: 800;
+  line-height: 1;
+  color: #3f2f00;
+}
+.paynote small {
+  display: block;
+  font-size: 0.74rem;
+  opacity: 0.8;
+}
+
+/* ═══ Fechas del arriendo: más claras ═══ */
+.mdates-md {
+  margin: 16px 0 10px;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1.5px dashed var(--color-m400, #b89af0);
+  background: #faf7ff;
+}
+.mdates-md .md-title {
+  display: block;
+  margin-bottom: 8px;
+  font-family: var(--font-ft);
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--color-m600);
+}
+.mdates-md .mdates {
+  margin: 0;
+  grid-template-columns: 1fr;
+}
+.mdates-md .mdates input {
+  border-color: var(--color-m400, #b89af0);
+  padding: 9px;
+  font-size: 0.9rem;
+}
+
+/* ═══ Chip "garantía reintegrable" en la ficha rápida ═══ */
+.gchip {
+  display: inline-block;
+  margin: 2px 0 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #e2f7ec;
+  color: #0c7a56;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+/* ═══ Móvil: dos disfraces por fila, fotos completas ═══ */
+@media (max-width: 600px) {
+  /* Barra de próximo evento: texto arriba, botón abajo y ancho completo */
+  .urg-bar {
+    flex-wrap: wrap;
+    gap: 7px;
+    padding: 10px 14px;
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+  .urg-next {
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+    row-gap: 1px;
+  }
+  .urg-next b {
+    white-space: normal;
+  }
+  .urg-toggle {
+    flex: 1 1 100%;
+    margin-left: 0;
+    text-align: center;
+    padding: 7px 13px;
+  }
+  .urg-grid {
+    grid-template-columns: 1fr;
+  }
+  .urg-item {
+    padding-right: 10px;
+  }
+  .urg-cd-b {
+    font-size: 0.72rem;
+  }
+
+  #grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 11px;
+  }
+  /* En móvil las fotos se ven completas, de cabeza a pies */
+  .pcard .pimg {
+    height: 290px;
+  }
+  .pcard .pimg img {
+    object-fit: contain;
+    object-position: center;
+  }
+  .pcard .addbtn {
+    font-size: 0.75rem;
+    padding: 9px 6px;
+  }
+  .cat-filters {
+    padding: 9px;
+  }
+  .quick-filters {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 2px;
+  }
+  .quick-filters .qf-group {
+    flex: none;
+  }
+}

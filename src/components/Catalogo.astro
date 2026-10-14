@@ -20,10 +20,10 @@ const catCount = (id: string) => PRODUCTS.filter((p) => p.cats.includes(id)).len
 
     <div id="activeChips" class="mb-3 flex flex-wrap gap-2"></div>
 
-    <div class="grid gap-[22px] min-[900px]:grid-cols-[272px_1fr]">
+    <div class="grid gap-[22px] min-[900px]:grid-cols-[304px_1fr]">
       <aside
         id="filterPanel"
-        class="self-start rounded-[20px] border-[1.5px] border-line bg-white p-[18px] shadow-[0_6px_18px_rgba(90,42,156,.07)]"
+        class="self-start rounded-[20px] border-[1.5px] border-line bg-white p-[18px] shadow-[0_10px_28px_rgba(90,42,156,.14)]"
         aria-label="Filtros de disfraces"
       >
         <div class="mb-2 flex items-center justify-between">
@@ -57,8 +57,10 @@ const catCount = (id: string) => PRODUCTS.filter((p) => p.cats.includes(id)).len
              Vive dentro de esta columna para no tapar nunca el panel de categorías. -->
         <div id="catFilters" class="cat-filters">
           <div class="cat-filters-main">
-            <div class="searchbox" role="search">
-              🔍<input
+            <!-- Buscador: plegable, empieza como solo lupa -->
+            <div class="searchbox searchbox-sm" role="search">
+              <button id="searchToggle2" class="sb-toggle" aria-label="Abrir buscador" aria-expanded="false">🔍</button>
+              <input
                 id="catSearch"
                 type="search"
                 placeholder="Busca 'bruja', 'vampiro', 'Halloween'…"
@@ -81,6 +83,8 @@ const catCount = (id: string) => PRODUCTS.filter((p) => p.cats.includes(id)).len
                 </div>
               </div>
             </div>
+
+            <button id="catClear" class="chip chip-clear hidden">🧹 Limpiar filtros</button>
           </div>
 
           <div
@@ -90,6 +94,11 @@ const catCount = (id: string) => PRODUCTS.filter((p) => p.cats.includes(id)).len
         </div>
 
         <div id="grid" class="grid grid-cols-[repeat(auto-fill,minmax(215px,1fr))] gap-4" aria-live="polite"></div>
+
+        <div id="loadWrap" class="mt-6 hidden text-center">
+          <button id="loadMore" class="btn btn-mora">Cargar más disfraces</button>
+          <p id="loadInfo" class="mt-2 text-[.8rem] font-bold text-ink2"></p>
+        </div>
       </div>
     </div>
   </div>

@@ -14,17 +14,7 @@ const days = [
   { i: '↩️', t: 'Entrega', s: 'Devuelves el disfraz y recuperas tu garantía' },
 ];
 
-const guia = ['XS', 'S', 'M', 'L', 'L-XL', 'XL', 'XXL']
-  .map((k) => `<b>${k}</b> (${TALLA_GUIA[k].replace(' cm o más', ' cm o más').replace(' a ', '–')})`)
-  .join(' · ');
-
-const accs = [
-  {
-    q: '📏 Guía de tallas (adultos)',
-    a: `<b>Adultos:</b> ${guia}.<br>Arrendamos solo a personas adultas. ¿Dudas? Escríbenos por WhatsApp con tu estatura y te recomendamos la talla exacta. 💜`,
-  },
-  { q: '🧼 ¿Los disfraces vienen limpios?', a: 'Siempre. Cada disfraz se higieniza y revisa entre arriendo y arriendo.' },
-];
+const guiaTallas = ['XS', 'S', 'M', 'L', 'L-XL', 'XL', 'XXL'].map((k) => ({ t: k, r: TALLA_GUIA[k] }));
 ---
 
 <section id="como" class="relative px-4 py-[46px]">
@@ -62,34 +52,44 @@ const accs = [
       }
     </div>
 
-    <!-- Acordeones -->
-    <div class="acc mx-auto mt-[26px] max-w-[760px]">
-      {
-        accs.map((a) => (
-          <div class="acc-item mb-2.5 overflow-hidden rounded-[16px] border-[1.5px] border-line bg-white text-ink transition hover:border-m400">
-            <button class="flex w-full items-center justify-between gap-2.5 bg-transparent px-[18px] py-4 text-left font-ft text-[1rem] font-semibold" aria-expanded="false">
-              {a.q} <span class="ic text-[1.2rem] text-m500 transition">＋</span>
-            </button>
-            <div class="ab">
-              <div class="ab-in px-[18px] pb-4 text-[.92rem] text-ink2" set:html={a.a} />
-            </div>
-          </div>
-        ))
-      }
-      <div class="acc-item mb-2.5 overflow-hidden rounded-[16px] border-[1.5px] border-line bg-white text-ink transition hover:border-m400">
-        <button class="flex w-full items-center justify-between gap-2.5 bg-transparent px-[18px] py-4 text-left font-ft text-[1rem] font-semibold" aria-expanded="false" data-opencond>
-          🛡️ Condiciones de arriendo y reserva <span class="ic text-[1.2rem] text-m500 transition">＋</span>
-        </button>
-        <div class="ab">
-          <div class="ab-in px-[18px] pb-4 text-[.92rem] text-ink2">
-            Resumen: reserva = valor del arriendo (no reembolsable) · garantía de $13.000 a $20.000 se paga al
-            retiro y se devuelve al entregar en las mismas condiciones.
-            <button class="glink cursor-pointer border-0 bg-transparent p-0 text-[.82rem] font-extrabold text-m600 underline" data-opencond>
-              Ver condiciones completas
-            </button>
-          </div>
+    <!-- Dos tarjetas informativas con contenido desplegable -->
+    <div class="infogrid rv">
+      <article class="infocard">
+        <span class="info-i" aria-hidden="true">📏</span>
+        <h3>Guía de tallas (adultos)</h3>
+        <p class="info-s">Cada talla tiene su estatura recomendada.</p>
+        <div class="info-body" id="infoGuia">
+          <p class="info-h">Estatura recomendada por talla</p>
+          <ul class="info-list">
+            {guiaTallas.map((g) => <li><b>{g.t}</b><span>{g.r}</span></li>)}
+          </ul>
+          <p>
+            Arrendamos solo a personas adultas. ¿Dudas? Escríbenos por WhatsApp con tu estatura y te
+            recomendamos la talla exacta. 💜
+          </p>
         </div>
-      </div>
+        <button class="info-more" aria-expanded="false" aria-controls="infoGuia" data-more>
+          Leer más <span class="arr" aria-hidden="true">▾</span>
+        </button>
+      </article>
+
+      <article class="infocard">
+        <span class="info-i" aria-hidden="true">🛡️</span>
+        <h3>Condiciones de arriendo</h3>
+        <p class="info-s">Reserva, garantía y devolución, en pocas palabras.</p>
+        <div class="info-body" id="infoCond">
+          <p><b>Reserva.</b> El valor del arriendo asegura tu disfraz para la fecha seleccionada. Es el monto que se paga por adelantado y no es reembolsable.</p>
+          <p><b>Garantía.</b> $13.000 a $20.000 según el disfraz. Se paga el día del retiro, en efectivo o transferencia, y se devuelve completa al entregar en las mismas condiciones.</p>
+          <p><b>A tiempo.</b> El arriendo es de 3 días: retiro, uso y entrega. Si te atrasas, los días de más se descuentan de la garantía.</p>
+          <p><b>Estado.</b> Si el disfraz vuelve con daños o manchas, se descuenta de la garantía según el arreglo correspondiente.</p>
+        </div>
+        <button class="info-more" aria-expanded="false" aria-controls="infoCond" data-more>
+          Leer más <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <button class="btn btn-ghost btn-sm mt-3 w-full" data-opencond>
+          Ver condiciones completas
+        </button>
+      </article>
     </div>
   </div>
 </section>
