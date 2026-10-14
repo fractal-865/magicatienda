@@ -59,6 +59,21 @@ function maxISO(days = 60): string {
   d.setDate(d.getDate() + days);
   return todayISO(d);
 }
+/* La tienda cierra los domingos: el retiro no puede ser un domingo */
+function isSunday(iso: string): boolean {
+  return new Date(iso + 'T12:00:00').getDay() === 0;
+}
+function nextMondayISO(iso: string): string {
+  const d = new Date(iso + 'T12:00:00');
+  // domingo (0) → lunes siguiente (+1); cualquier otro día → al lunes de la semana entrante
+  d.setDate(d.getDate() + (d.getDay() === 0 ? 1 : 7 - d.getDay() + 1));
+  return todayISO(d);
+}
+/* Primer día hábil de retiro: hoy (si no es domingo) o el lunes siguiente */
+function firstRetiroISO(): string {
+  const t = todayISO();
+  return isSunday(t) ? nextMondayISO(t) : t;
+}
 
 /* ── estado ── */
 const PAGE_SIZE = 24;
@@ -73,7 +88,7 @@ const state = {
   sort: 'pop',
   page: 1,
   cart: [] as CartItem[],
-  req: (() => { const h = todayISO(); return { nombre: '', rut: '', correo: '', tel: '', dir: '', retiro: h, uso: addDays(h, 1), entrega: addDays(h, 2), com: '' }; })(),
+  req: (() => { const h = firstRetiroISO(); return { nombre: '', rut: '', correo: '', tel: '', dir: '', retiro: h, uso: addDays(h, 1), entrega: addDays(h, 2), com: '' }; })(),
   lastAdd: null as null | { id: string; tipo: 'd' | 'a'; talla: string },
 };
 
@@ -721,9 +736,12 @@ function applyFilter(o: { q?: string; tem?: string; pub?: string; oca?: string }
   if (!d) return;
   const open = (v: boolean) => {
     d.classList.toggle('open', v);
+    d.toggleAttribute('inert', !v);
     $('#burger')?.classList.toggle('x', v);
     $('#burger')?.setAttribute('aria-expanded', String(v));
     document.body.style.overflow = v ? 'hidden' : '';
+    if (v) ($('#drawerClose') as HTMLButtonElement | null)?.focus();
+    else ($('#burger') as HTMLButtonElement | null)?.focus();
   };
   ($('#burger') as HTMLButtonElement | null)?.addEventListener('click', () =>
     open(!d.classList.contains('open')),
@@ -803,6 +821,8 @@ function addDays(v: string, d: number): string {
   return dt.toISOString().slice(0, 10);
 }
 function setRetiro(v: string) {
+  // Domingo cerrado: si eligen domingo, se mueve al lunes y se avisa
+  if (isSunday(v)) v = nextMondayISO(v);
   state.req.retiro = v;
   state.req.uso = addDays(v, 1);
   state.req.entrega = addDays(v, 2);
@@ -916,8 +936,8 @@ function renderMini() {
       .join('') +
     totalsHTML() +
     `<div class="mdates-md"><span class="md-title">📅 ¿Qué día retiras el disfraz?</span>
-    <div class="mdates mdates-one"><label>Día de retiro<input type="date" id="mcRet" value="${state.req.retiro}" min="${todayISO()}" max="${maxISO(60)}"></label></div>
-    <p class="entnota">↩️ La entrega es 2 días después del retiro: arriendo de 3 días.</p>
+    <div class="mdates mdates-one"><label>Día de retiro<input type="date" id="mcRet" value="${state.req.retiro}" min="${firstRetiroISO()}" max="${maxISO(60)}"></label></div>
+    <p class="entnota">↩️ La entrega es 2 días después del retiro: arriendo de 3 días. Los domingos la tienda cierra: el retiro pasa al lunes.</p>
     <div class="daterow"><span>📦 Retiro: <b>${fmtDate(state.req.retiro)}</b></span><span>↩️ Entrega: <b>${fmtDate(state.req.entrega)}</b></span></div></div>` +
     `</div>` +
     `<div class="cart-foot">
@@ -929,6 +949,7 @@ function renderMini() {
   const mret = $<HTMLInputElement>('#mcRet');
   mret?.addEventListener('change', (e) => {
     setRetiro((e.target as HTMLInputElement).value);
+    if (mret) mret.value = state.req.retiro; // refleja la corrección si era domingo
     refreshDateRow();
   });
 }
@@ -964,12 +985,17 @@ $('#miniCart')?.addEventListener('click', (e) => {
 });
 
 function openMini() {
-  $('#miniCart')?.classList.add('open');
+  const mc = $('#miniCart');
+  mc?.classList.add('open');
+  mc?.removeAttribute('inert');
   $('#cartBackdrop')?.classList.add('open');
   document.body.classList.add('drawer-lock');
+  ($('#cartBtn') as HTMLButtonElement | null)?.focus();
 }
 function closeMini() {
-  $('#miniCart')?.classList.remove('open');
+  const mc = $('#miniCart');
+  mc?.classList.remove('open');
+  mc?.setAttribute('inert', '');
   $('#cartBackdrop')?.classList.remove('open');
   document.body.classList.remove('drawer-lock');
 }
@@ -1092,7 +1118,7 @@ function openQuick(id: number) {
   </div>
   <span class="mt-3 block text-[.8rem] font-extrabold text-m500">${T.i} ${T.n} · solo adultos · ${pubLabel(c.pub)}</span>
   <h3 class="my-1 text-[1.45rem]">${esc(c.n)}</h3>
-  <p class="text-[#555]">${esc(c.d)}</p>
+  <p class="text-ink2">${esc(c.d)}</p>
   <div class="mt-3 flex flex-wrap items-center gap-2.5 rounded-2xl border-2 border-line bg-[#f9f6ff] p-3">
     <span class="font-ft text-[1.5rem] font-bold leading-none text-m600">${clp(c.price)}</span>
     <span class="text-[.78rem] font-bold text-ink2">arriendo 3 días (retiro, uso y entrega)</span>
@@ -1196,18 +1222,18 @@ function renderReq() {
             const it = byId(i.id)!;
             const tls = isProduct(it) ? it.tl : ['único'];
             const line = isProduct(it) ? clp(it.price * i.qty) : '';
-            return `<div class="req-row"><span class="re">${'img' in it && it.img ? `<img src="${it.img}" alt="">` : it.e}</span><span class="rn">${esc(it.n)}<br><small class="font-normal text-[#888]">${isProduct(it) ? `Talla ${i.talla} · ${clp(it.price)}` : 'Arriendo por 3 días'}</small></span>
+            return `<div class="req-row"><span class="re">${'img' in it && it.img ? `<img src="${it.img}" alt="">` : it.e}</span><span class="rn">${esc(it.n)}<br><small class="font-normal text-ink2">${isProduct(it) ? `Talla ${i.talla} · ${clp(it.price)}` : 'Arriendo por 3 días'}</small></span>
   <select data-rt="${k}" aria-label="Talla">${tls.map((x) => `<option ${x === i.talla ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>
   <span class="qty inline-flex items-center gap-2"><button data-rq="-" data-k="${k}" aria-label="Quitar una unidad de ${esc(it.n)}">−</button>${i.qty}<button data-rq="+" data-k="${k}" aria-label="Agregar una unidad de ${esc(it.n)}">+</button></span>
   <span class="ml-1 min-w-[70px] text-right font-ft text-[.9rem] font-bold text-m600">${line}</span>
   <button data-rm="${k}" class="border-0 bg-transparent text-[1.1rem] text-[#c33]" aria-label="Eliminar">🗑</button></div>`;
           })
           .join('')
-      : `<div class="py-6 text-center text-[#777]"><div class="text-[3rem]">🎭</div>Tu arriendo está esperando magia…</div>`
+      : `<div class="py-6 text-center text-ink2"><div class="text-[3rem]">🎭</div>Tu arriendo está esperando magia…</div>`
   }
   <div class="mdates-md"><span class="md-title">📅 ¿Qué día retiras el disfraz?</span>
   <div class="mdates">
-    <label>Día de retiro<input type="date" id="rqRet" value="${state.req.retiro}" min="${todayISO()}" max="${maxISO(60)}"></label>
+    <label>Día de retiro<input type="date" id="rqRet" value="${state.req.retiro}" min="${firstRetiroISO()}" max="${maxISO(60)}"></label>
     <label>Día de entrega (auto)<input type="date" id="rqEnt" value="${state.req.entrega}" readonly class="bg-[#f4f1fb] text-ink2"></label>
   </div>
   <p class="entnota">↩️ El arriendo es de 3 días: eliges el retiro y la entrega queda 2 días después.</p>
@@ -1216,13 +1242,13 @@ function renderReq() {
     <span>↩️ Entrega: <b>${fmtDate(state.req.entrega)}</b></span>
   </div></div>
   <div class="mt-1.5 grid gap-2.5 min-[600px]:grid-cols-2">
-    <input id="rqNom" placeholder="Nombre" value="${esc(state.req.nombre)}" class="rounded-[10px] border-2 border-line p-2.5">
-    <input id="rqRut" placeholder="RUT" value="${esc(state.req.rut)}" class="rounded-[10px] border-2 border-line p-2.5">
-    <input id="rqCor" placeholder="Correo" value="${esc(state.req.correo)}" class="rounded-[10px] border-2 border-line p-2.5">
-    <input id="rqTel" placeholder="Teléfono" value="${esc(state.req.tel)}" class="rounded-[10px] border-2 border-line p-2.5">
+    <input id="rqNom" placeholder="Nombre" autocomplete="name" aria-label="Nombre y apellido" value="${esc(state.req.nombre)}" class="rounded-[10px] border-2 border-line p-2.5">
+    <input id="rqRut" placeholder="RUT" inputmode="numeric" aria-label="RUT chileno con dígito verificador" value="${esc(state.req.rut)}" class="rounded-[10px] border-2 border-line p-2.5">
+    <input id="rqCor" placeholder="Correo" type="email" autocomplete="email" aria-label="Correo electrónico" value="${esc(state.req.correo)}" class="rounded-[10px] border-2 border-line p-2.5">
+    <input id="rqTel" placeholder="Teléfono" type="tel" autocomplete="tel" aria-label="Teléfono de contacto" value="${esc(state.req.tel)}" class="rounded-[10px] border-2 border-line p-2.5">
   </div>
-  <input id="rqDir" placeholder="Dirección" value="${esc(state.req.dir)}" class="mt-2.5 w-full rounded-[10px] border-2 border-line p-2.5">
-  <textarea id="rqCom" rows="2" placeholder="Comentarios (evento, dudas de talla, etc.)" class="mt-2.5 w-full rounded-[10px] border-2 border-line p-2.5">${esc(state.req.com)}</textarea>
+  <input id="rqDir" placeholder="Dirección" autocomplete="street-address" aria-label="Dirección" value="${esc(state.req.dir)}" class="mt-2.5 w-full rounded-[10px] border-2 border-line p-2.5">
+  <textarea id="rqCom" rows="2" placeholder="Comentarios (evento, dudas de talla, etc.)" aria-label="Comentarios" class="mt-2.5 w-full rounded-[10px] border-2 border-line p-2.5">${esc(state.req.com)}</textarea>
   ${totalsHTML()}
   <div class="infoline">🧾 <b>Resumen:</b> ${cartQty()} prenda(s). La reserva corresponde al valor de arriendo; la garantía (${GAR_SHORT} por disfraz) se paga el día del retiro y se devuelve al entregar.</div>
   <p class="mt-3 rounded-2xl border-[1.5px] border-ama bg-[#fff8e6] p-3 text-[.82rem] font-bold leading-relaxed text-ink">⚠️ <b>La reserva (valor del arriendo) no es reembolsable</b>: asegura tu disfraz para tu fecha. La garantía (${GAR_SHORT} por disfraz) se paga solo el día del retiro y se devuelve completa.</p>
@@ -1265,6 +1291,7 @@ function renderReq() {
       (state.req as Record<string, string>)[map[id]] = el.value;
       if (id === 'rqRet') {
         setRetiro(el.value);
+        el.value = state.req.retiro; // refleja la corrección si era domingo
         const ent = $<HTMLInputElement>('#rqEnt');
         if (ent) ent.value = state.req.entrega;
         refreshDateRow();
@@ -1296,24 +1323,24 @@ document.addEventListener('click', (e) => {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     ['quickModal', 'reqModal', 'condModal'].forEach(closeModal);
-    $('#filterPanel')?.classList.remove('open');
-    $('#fback')?.classList.remove('on');
+    setFiltersOpen(false);
   }
 });
 
-/* panel de filtros (móvil) */
-$('#filterOpen')?.addEventListener('click', () => {
-  $('#filterPanel')?.classList.add('open');
-  $('#fback')?.classList.add('on');
-});
-$('#fback')?.addEventListener('click', () => {
-  $('#filterPanel')?.classList.remove('open');
-  $('#fback')?.classList.remove('on');
-});
-$('#resultsBtn')?.addEventListener('click', () => {
-  $('#filterPanel')?.classList.remove('open');
-  $('#fback')?.classList.remove('on');
-});
+/* panel de filtros (móvil): en escritorio es la barra lateral siempre visible,
+   así que el estado inert solo aplica bajo 900px */
+const isMobileFilters = () => matchMedia('(max-width: 899px)').matches;
+function setFiltersOpen(v: boolean) {
+  const fp = $('#filterPanel');
+  if (!fp) return;
+  fp.classList.toggle('open', v);
+  if (isMobileFilters()) fp.toggleAttribute('inert', !v);
+  $('#fback')?.classList.toggle('on', v);
+}
+$('#filterOpen')?.addEventListener('click', () => setFiltersOpen(true));
+$('#fback')?.addEventListener('click', () => setFiltersOpen(false));
+$('#resultsBtn')?.addEventListener('click', () => setFiltersOpen(false));
+if (isMobileFilters()) $('#filterPanel')?.setAttribute('inert', '');
 
 /* ═══ FECHAS ═══ */
 $('#fechasRow')?.addEventListener('click', (e) => {

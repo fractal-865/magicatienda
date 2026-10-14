@@ -105,7 +105,7 @@ const corto = (s: string) => CORTOS[s] ?? s;
   >
     <span class="mega-arrow" aria-hidden="true"></span>
     <div>
-      <h5 class="mb-2.5 font-ft text-[.95rem] text-m600">🎭 Temática</h5>
+      <p class="mb-2.5 font-ft text-[.95rem] text-m600">🎭 Temática</p>
       <ul class="list-none">
         {
           CATS_ACTIVE.map((c) => (
@@ -121,7 +121,7 @@ const corto = (s: string) => CORTOS[s] ?? s;
     </div>
 
     <div>
-      <h5 class="mb-2.5 font-ft text-[.95rem] text-m600">🧑 Público</h5>
+      <p class="mb-2.5 font-ft text-[.95rem] text-m600">🧑 Público</p>
       <ul class="list-none">
         {
           PUBLICOS.map((p) => (
@@ -136,7 +136,7 @@ const corto = (s: string) => CORTOS[s] ?? s;
     </div>
 
     <div>
-      <h5 class="mb-2.5 font-ft text-[.95rem] text-m600">🎉 Celebración</h5>
+      <p class="mb-2.5 font-ft text-[.95rem] text-m600">🎉 Celebración</p>
       <ul class="list-none">
         {
           OCASIONES.slice(0, 6).map((o) => (
@@ -178,4 +178,4 @@ const corto = (s: string) => CORTOS[s] ?? s;
 
 <!-- Panel lateral del carrito (deslizable) + fondo -->
 <div id="cartBackdrop" class="cart-backdrop" aria-hidden="true"></div>
-<aside id="miniCart" class="minicart" aria-label="Tu arriendo" aria-live="polite"></aside>
+<aside id="miniCart" class="minicart" aria-label="Tu arriendo" aria-live="polite" inert></aside>
