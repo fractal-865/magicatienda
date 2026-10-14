@@ -1040,9 +1040,48 @@ function waMsg() {
   if (r.com) L.push('💬 ' + r.com);
   return L.join('\n');
 }
+/* valida RUT chileno con dígito verificador */
+function validRUT(rut: string): boolean {
+  const m = rut.replace(/\s/g, '').match(/^(\d{1,2})\.?(\d{3})\.?(\d{3})-?([\dkK])$/);
+  if (!m) return false;
+  const body = m[1] + m[2] + m[3];
+  let sum = 0;
+  let mult = 2;
+  for (let i = body.length - 1; i >= 0; i--) {
+    sum += Number(body[i]) * mult;
+    mult = mult === 7 ? 2 : mult + 1;
+  }
+  const dv = 11 - (sum % 11);
+  const check = dv === 11 ? '0' : dv === 10 ? 'K' : String(dv);
+  return check === m[4].toUpperCase();
+}
+
 function sendWA() {
   if (!state.cart.length) {
     toast('🛒 Tu arriendo está vacío. ¡Agrega un disfraz primero!');
+    return;
+  }
+  // Validación mínima antes de abrir WhatsApp: nombre, RUT, correo y teléfono reales
+  const r = state.req;
+  const errs: [string, string][] = [];
+  if (!r.nombre.trim()) errs.push(['#rqNom', 'Falta tu nombre (ej: Camila)']);
+  if (!validRUT(r.rut)) errs.push(['#rqRut', 'RUT no válido (ej: 12.345.678-9)']);
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(r.correo.trim())) errs.push(['#rqCor', 'Correo no válido (ej: nombre@correo.cl)']);
+  if (r.tel.replace(/\D/g, '').length < 8) errs.push(['#rqTel', 'Teléfono no válido (8 dígitos o más)']);
+  ['#rqNom', '#rqRut', '#rqCor', '#rqTel'].forEach((s) => $<HTMLInputElement>(s)?.classList.remove('border-[#c0392b]'));
+  document.querySelectorAll('.req-err').forEach((e) => e.remove());
+  if (errs.length) {
+    errs.forEach(([sel, msg]) => {
+      const el = $<HTMLInputElement>(sel);
+      if (!el) return;
+      el.classList.add('border-[#c0392b]');
+      const p = document.createElement('p');
+      p.className = 'req-err mt-1 text-[.75rem] font-extrabold text-[#c0392b]';
+      p.textContent = `⚠️ ${msg}`;
+      el.insertAdjacentElement('afterend', p);
+    });
+    $<HTMLInputElement>(errs[0][0])?.focus();
+    toast('⚠️ Revisa tus datos para enviar la solicitud');
     return;
   }
   window.open(waLink(waMsg()), '_blank');
@@ -1171,7 +1210,10 @@ function renderReq() {
   const rb = $('#reqBody');
   if (!rb) return;
   rb.innerHTML = `<h3 class="mb-1 text-[1.5rem]">🛒 Tu solicitud de arriendo</h3>
-  <p class="text-[.9rem] text-[#666]">Completa tus datos, elige las fechas y envíala por WhatsApp. Te respondemos con la cotización (valor de arriendo y garantía de cada disfraz). 💜</p>
+  <div class="mb-3 grid gap-1 rounded-2xl border-2 border-line bg-[#f9f6ff] p-3 text-[.85rem] text-ink">
+    <span>💬 <b>Te respondemos por WhatsApp</b> en horario de tienda (lunes a sábado).</span>
+    <span>🛡️ Primero cotizas y decides: <b>no se paga nada en línea</b>.</span>
+  </div>
   ${
     state.cart.length
       ? state.cart
@@ -1181,7 +1223,7 @@ function renderReq() {
             const line = isProduct(it) ? clp(it.price * i.qty) : '';
             return `<div class="req-row"><span class="re">${'img' in it && it.img ? `<img src="${it.img}" alt="">` : it.e}</span><span class="rn">${esc(it.n)}<br><small class="font-normal text-[#888]">${isProduct(it) ? `Talla ${i.talla} · ${clp(it.price)}` : 'Arriendo por 3 días'}</small></span>
   <select data-rt="${k}" aria-label="Talla">${tls.map((x) => `<option ${x === i.talla ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>
-  <span class="qty inline-flex items-center gap-2"><button data-rq="-" data-k="${k}">−</button>${i.qty}<button data-rq="+" data-k="${k}">+</button></span>
+  <span class="qty inline-flex items-center gap-2"><button data-rq="-" data-k="${k}" aria-label="Quitar una unidad de ${esc(it.n)}">−</button>${i.qty}<button data-rq="+" data-k="${k}" aria-label="Agregar una unidad de ${esc(it.n)}">+</button></span>
   <span class="ml-1 min-w-[70px] text-right font-ft text-[.9rem] font-bold text-m600">${line}</span>
   <button data-rm="${k}" class="border-0 bg-transparent text-[1.1rem] text-[#c33]" aria-label="Eliminar">🗑</button></div>`;
           })
@@ -1208,7 +1250,8 @@ function renderReq() {
   <textarea id="rqCom" rows="2" placeholder="Comentarios (evento, dudas de talla, etc.)" class="mt-2.5 w-full rounded-[10px] border-2 border-line p-2.5">${esc(state.req.com)}</textarea>
   ${totalsHTML()}
   <div class="infoline">🧾 <b>Resumen:</b> ${cartQty()} prenda(s). La reserva corresponde al valor de arriendo; la garantía (${GAR_SHORT} por disfraz) se paga el día del retiro y se devuelve al entregar.</div>
-  <button class="btn btn-wsp btn-lg mt-3 w-full" id="rqSend">Enviar solicitud de arriendo 💬</button>
+  <p class="mt-3 rounded-2xl border-[1.5px] border-ama bg-[#fff8e6] p-3 text-[.82rem] font-bold leading-relaxed text-ink">⚠️ <b>La reserva (valor del arriendo) no es reembolsable</b>: asegura tu disfraz para tu fecha. La garantía (${GAR_SHORT} por disfraz) se paga solo el día del retiro y se devuelve completa.</p>
+  <button class="btn btn-wsp btn-lg mt-2.5 w-full" id="rqSend">Enviar solicitud de arriendo 💬</button>
   <p class="payline text-center">Pagos por depósito o transferencia: ver datos en <button data-opencond>Condiciones de arriendo</button>. Sin pagos en línea en esta demo.</p>`;
 
   rb.querySelectorAll<HTMLButtonElement>('[data-rq]').forEach((b) =>

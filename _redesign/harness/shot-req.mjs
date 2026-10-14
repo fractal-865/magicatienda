@@ -1,0 +1,26 @@
+// Captura del modal de solicitud con datos vacíos (errores visibles).
+import puppeteer from 'puppeteer-core';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+const __dir = path.dirname(fileURLToPath(import.meta.url));
+const SHOTS = path.join(__dir, '..', 'shots');
+const CHROME = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+const b = await puppeteer.launch({ executablePath: CHROME, headless: 'new', args: ['--no-sandbox'] });
+const p = await b.newPage();
+await p.setViewport({ width: 1440, height: 900 });
+await p.goto('http://localhost:4321/magicatienda/', { waitUntil: 'networkidle2' });
+await new Promise((r) => setTimeout(r, 1200));
+await p.click('#grid .pcard');
+await new Promise((r) => setTimeout(r, 600));
+await p.click('#qmTallas button');
+await p.click('#qmAdd');
+await new Promise((r) => setTimeout(r, 700));
+await p.evaluate(() => document.querySelector('#miniCart [data-act="req"]')?.click());
+await new Promise((r) => setTimeout(r, 700));
+await p.click('#rqSend');
+await new Promise((r) => setTimeout(r, 500));
+await p.evaluate(() => { document.querySelector('#reqModal').scrollTop = 99999; document.querySelector('#reqBody').parentElement.scrollTop = 99999; });
+await new Promise((r) => setTimeout(r, 400));
+await p.screenshot({ path: path.join(SHOTS, 'check-solicitud.png') });
+await b.close();
+console.log('ok');
