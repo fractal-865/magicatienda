@@ -3,7 +3,7 @@
    Filtros + buscador + "Tu arriendo" (cotización) + modales
    ═══════════════════════════════════════════════════════════════ */
 import { PRODUCTS, CATS, PUBLICOS, OCASIONES, TALLAS, TALLA_GUIA, catById, clp, type Product } from '../data/products';
-import { GAR_SHORT, waLink, ACC, esTemporadaHalloween } from '../data/site';
+import { GAR_SHORT, GAR, waLink, ACC, esTemporadaHalloween } from '../data/site';
 
 type Acc = { id: string; n: string; e: string };
 type Item = Product | Acc;
@@ -88,7 +88,7 @@ const state = {
   sort: 'pop',
   page: 1,
   cart: [] as CartItem[],
-  req: (() => { const h = firstRetiroISO(); return { nombre: '', rut: '', correo: '', tel: '', dir: '', retiro: h, uso: addDays(h, 1), entrega: addDays(h, 2), com: '' }; })(),
+  req: (() => { const h = firstRetiroISO(); return { nombre: '', rut: '', correo: '', tel: '', dir: '', retiro: h, uso: addDays(h, 1), entrega: addDays(h, 2), com: '', msg: '' }; })(),
   lastAdd: null as null | { id: string; tipo: 'd' | 'a'; talla: string },
 };
 
@@ -830,8 +830,12 @@ function setRetiro(v: string) {
 /* refresca la fila de fechas legibles ("lunes 19 de octubre") */
 function refreshDateRow() {
   const row = $('.daterow');
-  if (!row) return;
-  row.innerHTML = `<span>📦 Retiro: <b>${fmtDate(state.req.retiro)}</b></span><span>↩️ Entrega: <b>${fmtDate(state.req.entrega)}</b></span>`;
+  if (row) row.innerHTML = `<span>📦 Retiro: <b>${fmtDate(state.req.retiro)}</b></span><span>↩️ Entrega: <b>${fmtDate(state.req.entrega)}</b></span>`;
+  const entTxt = $('#rqEntTxt');
+  if (entTxt) entTxt.textContent = fmtDate(state.req.entrega);
+  const ent = $<HTMLInputElement>('#rqEnt');
+  if (ent) ent.value = state.req.entrega;
+  refreshMsgDraft(); // las fechas también van en el mensaje
 }
 
 /* ── bloque de totales (arriendo + garantía), compartido ── */
@@ -1013,6 +1017,43 @@ function renderSticky() {
 }
 $('#stickySend')?.addEventListener('click', () => openReq());
 
+/* Límite seguro del texto enviado por wa.me: más allá la URL se puede
+   cortar en algunos navegadores y el mensaje llegaría incompleto. */
+const WA_MSG_MAX = 1200;
+/* El usuario puede editar el mensaje: una vez que lo toca, su texto manda
+   y el borrador automático deja de sobrescribirlo. */
+let reqMsgDirty = false;
+
+/* Borrador compacto del mensaje de WhatsApp (corto para no chocar con el límite) */
+function waDraft(): string {
+  const r = state.req;
+  const L = ['¡Hola! 🎭 Quiero arrendar en La Mágica Tienda ✨'];
+  L.push(`👤 ${r.nombre || '—'} · 🪪 ${r.rut || '—'} · 📱 ${r.tel || '—'}`);
+  if (r.correo) L.push(`✉️ ${r.correo}`);
+  L.push(`📅 Retiro: ${r.retiro || '—'} · Devolución: ${r.entrega || '—'} (arriendo 3 días)`);
+  L.push('🧾 Mi pedido:');
+  state.cart.forEach((i) => {
+    const it = byId(i.id);
+    if (it) L.push(`• ${i.qty}× ${it.n} (talla ${i.talla})`);
+  });
+  const tot = rentalTotal();
+  const gar = guaranteeTotal();
+  L.push(`💰 Arriendo: ${clp(tot)} + Garantía reintegrable: ${clp(gar)} = Total en sucursal: ${clp(tot + gar)}`);
+  if (r.dir) L.push(`🏠 ${r.dir}`);
+  if (r.com) L.push(`💬 ${r.com}`);
+  L.push('¿Tienen disponibilidad confirmada?');
+  return L.join('\n');
+}
+/* Refresca el textarea del mensaje solo si el usuario no lo editó + contador */
+function refreshMsgDraft() {
+  if (reqMsgDirty) return;
+  const ta = $<HTMLTextAreaElement>('#rqMsg');
+  if (!ta) return;
+  ta.value = waDraft();
+  const c = $('#rqMsgCount');
+  if (c) c.textContent = `${ta.value.length} / ${WA_MSG_MAX}`;
+}
+
 function waMsg() {
   const L = ['¡Hola! 🎭 Quiero cotizar el arriendo de disfraces en La Mágica Tienda ✨'];
   const r = state.req;
@@ -1078,7 +1119,7 @@ function sendWA() {
     toast('⚠️ Revisa tus datos para enviar la solicitud');
     return;
   }
-  window.open(waLink(waMsg()), '_blank');
+  window.open(waLink((($<HTMLTextAreaElement>('#rqMsg')?.value.trim() || waDraft())).slice(0, WA_MSG_MAX)), '_blank');
 }
 
 /* ═══ FICHA RÁPIDA ═══ */
@@ -1203,7 +1244,10 @@ function openReq() {
 function renderReq() {
   const rb = $('#reqBody');
   if (!rb) return;
-  rb.innerHTML = `<h3 class="mb-1 text-[1.5rem]">🛒 Tu solicitud de arriendo</h3>
+  const tot = rentalTotal();
+  const gar = guaranteeTotal();
+  const draft = reqMsgDirty && state.req.msg ? state.req.msg : waDraft();
+  rb.innerHTML = `<div class="mb-1 flex flex-wrap items-center gap-2"><h3 class="m-0 text-[1.5rem]">🛒 Tu solicitud de arriendo</h3><span class="req-pill green">💬 Se envía por WhatsApp</span></div>
   <div class="mb-3 grid gap-1 rounded-2xl border-2 border-line bg-[#f9f6ff] p-3 text-[.85rem] text-ink">
     <span>💬 <b>Te respondemos por WhatsApp</b> en horario de tienda (lunes a sábado).</span>
     <span>🛡️ Primero cotizas y decides: <b>no se paga nada en línea</b>.</span>
@@ -1215,25 +1259,27 @@ function renderReq() {
             const it = byId(i.id)!;
             const tls = isProduct(it) ? it.tl : ['único'];
             const line = isProduct(it) ? clp(it.price * i.qty) : '';
-            return `<div class="req-row"><span class="re">${'img' in it && it.img ? `<img src="${it.img}" alt="">` : it.e}</span><span class="rn">${esc(it.n)}<br><small class="font-normal text-ink2">${isProduct(it) ? `Talla ${i.talla} · ${clp(it.price)}` : 'Arriendo por 3 días'}</small></span>
-  <select data-rt="${k}" aria-label="Talla">${tls.map((x) => `<option ${x === i.talla ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>
+            const pricePill = isProduct(it)
+              ? `<span class="price-pill">${clp(it.price)} / arriendo</span> <button type="button" class="info-dot tip" data-tip="Arriendo por 3 días: retiro, uso y devolución." aria-label="Qué incluye el arriendo">i</button>`
+              : '';
+            return `<div class="req-card"><span class="re">${'img' in it && it.img ? `<img src="${it.img}" alt="">` : it.e}</span><span class="rn">${esc(it.n)}<br>${pricePill}<br><small class="font-normal text-ink2">${isProduct(it) ? `Talla ${i.talla}` : 'Arriendo por 3 días'}</small></span>
+  <select data-rt="${k}" aria-label="Talla de ${esc(it.n)}">${tls.map((x) => `<option ${x === i.talla ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>
   <span class="qty inline-flex items-center gap-2"><button data-rq="-" data-k="${k}" aria-label="Quitar una unidad de ${esc(it.n)}">−</button>${i.qty}<button data-rq="+" data-k="${k}" aria-label="Agregar una unidad de ${esc(it.n)}">+</button></span>
   <span class="ml-1 min-w-[70px] text-right font-ft text-[.9rem] font-bold text-m600">${line}</span>
-  <button data-rm="${k}" class="border-0 bg-transparent text-[1.1rem] text-[#c33]" aria-label="Eliminar">🗑</button></div>`;
+  <button data-rm="${k}" class="border-0 bg-transparent text-[1.1rem] text-[#c33]" aria-label="Eliminar ${esc(it.n)}">🗑</button></div>`;
           })
           .join('')
       : `<div class="py-6 text-center text-ink2"><div class="text-[3rem]">🎭</div>Tu arriendo está esperando magia…</div>`
   }
-  <div class="mdates-md"><span class="md-title">📅 ¿Qué día retiras el disfraz?</span>
-  <div class="mdates">
-    <label>Día de retiro<input type="date" id="rqRet" value="${state.req.retiro}" min="${firstRetiroISO()}" max="${maxISO(60)}"></label>
-    <label style="display:none">Día de entrega (auto)<input type="date" id="rqEnt" value="${state.req.entrega}" readonly class="bg-[#f4f1fb] text-ink2"></label>
+  <div class="req-sec"><span>📅 Selecciona tus fechas de uso</span><span class="req-pill">Período 3 días</span></div>
+  <div class="datebox">
+    <label class="dcell">Retiro en tienda<input type="date" id="rqRet" value="${state.req.retiro}" min="${firstRetiroISO()}" max="${maxISO(60)}" aria-label="Día de retiro en tienda"></label>
+    <span class="darrow" aria-hidden="true">→</span>
+    <div class="dcell">Devolución (auto)<b id="rqEntTxt">${fmtDate(state.req.entrega)}</b></div>
   </div>
-  <p class="entnota">↩️ El arriendo es de 3 días: eliges el retiro y la entrega queda 2 días después.</p>
-  <div class="daterow">
-    <span>📦 Retiro: <b>${fmtDate(state.req.retiro)}</b></span>
-    <span>↩️ Entrega: <b>${fmtDate(state.req.entrega)}</b></span>
-  </div></div>
+  <input type="date" id="rqEnt" value="${state.req.entrega}" readonly hidden>
+  <p class="entnota">↩️ Eliges el retiro y la devolución queda 2 días después. Domingos cerrado: si eliges domingo, pasa al lunes.</p>
+  <div class="req-sec"><span>👤 Tus datos</span><span class="req-pill">Para reservar tu disfraz</span></div>
   <div class="mt-1.5 grid gap-2.5 min-[600px]:grid-cols-2">
     <input id="rqNom" placeholder="Nombre" autocomplete="name" aria-label="Nombre y apellido" value="${esc(state.req.nombre)}" class="rounded-[10px] border-2 border-line p-2.5">
     <input id="rqRut" placeholder="RUT" inputmode="numeric" aria-label="RUT chileno con dígito verificador" value="${esc(state.req.rut)}" class="rounded-[10px] border-2 border-line p-2.5">
@@ -1242,10 +1288,17 @@ function renderReq() {
   </div>
   <input id="rqDir" placeholder="Dirección" autocomplete="street-address" aria-label="Dirección" value="${esc(state.req.dir)}" class="mt-2.5 w-full rounded-[10px] border-2 border-line p-2.5">
   <textarea id="rqCom" rows="2" placeholder="Comentarios (evento, dudas de talla, etc.)" aria-label="Comentarios" class="mt-2.5 w-full rounded-[10px] border-2 border-line p-2.5">${esc(state.req.com)}</textarea>
-  ${totalsHTML()}
-  <div class="infoline">🧾 <b>Resumen:</b> ${cartQty()} prenda(s). La reserva corresponde al valor de arriendo; la garantía (${GAR_SHORT} por disfraz) se paga el día del retiro y se devuelve al entregar.</div>
+  <div class="req-sec"><span>💬 Tu mensaje</span><span class="req-meta"><button type="button" class="info-dot tip" data-tip="Esto es lo que llegará a nuestro WhatsApp. Puedes editarlo." aria-label="Sobre este mensaje">i</button> <span id="rqMsgCount">${draft.length} / ${WA_MSG_MAX}</span></span></div>
+  <textarea id="rqMsg" rows="6" maxlength="${WA_MSG_MAX}" aria-label="Mensaje que se enviará por WhatsApp" class="w-full rounded-[10px] border-2 border-line bg-[#f9f6ff] p-2.5 leading-relaxed">${esc(draft)}</textarea>
+  <button id="rqMsgReset" class="mt-1 border-0 bg-transparent p-0 text-[.78rem] font-extrabold text-m600 underline">↺ Restablecer texto automático</button>
+  <div class="totbox">
+    <div class="trow"><span>Valor de arriendo por 3 días:</span><b>${clp(tot)}</b></div>
+    <div class="trow"><span>Garantía reembolsable <button type="button" class="info-dot tip" data-tip="${esc(GAR)}" aria-label="Sobre la garantía">i</button>:</span><b>${clp(gar)}</b></div>
+    <div class="trow total"><span>Total final en sucursal:</span><b>${clp(tot + gar)}</b></div>
+  </div>
   <p class="mt-3 rounded-2xl border-[1.5px] border-ama bg-[#fff8e6] p-3 text-[.82rem] font-bold leading-relaxed text-ink">⚠️ <b>La reserva (valor del arriendo) no es reembolsable</b>: asegura tu disfraz para tu fecha. La garantía (${GAR_SHORT} por disfraz) se paga solo el día del retiro y se devuelve completa.</p>
-  <button class="btn btn-wsp btn-lg mt-2.5 w-full" id="rqSend">Enviar solicitud de arriendo 💬</button>
+  <button class="btn btn-wsp btn-lg mt-2.5 w-full" id="rqSend">💬 Enviar solicitud por WhatsApp</button>
+  <p class="mt-2.5 text-center text-[.8rem] font-bold text-ink2">✓ Garantía 100% reembolsable <span class="mx-1 opacity-40">·</span> 🕐 Lun a Sáb</p>
   <p class="payline text-center">Pagos por depósito o transferencia: ver datos en <button data-opencond>Condiciones de arriendo</button>. Sin pagos en línea en esta demo.</p>`;
 
   rb.querySelectorAll<HTMLButtonElement>('[data-rq]').forEach((b) =>
@@ -1285,11 +1338,21 @@ function renderReq() {
       if (id === 'rqRet') {
         setRetiro(el.value);
         el.value = state.req.retiro; // refleja la corrección si era domingo
-        const ent = $<HTMLInputElement>('#rqEnt');
-        if (ent) ent.value = state.req.entrega;
-        refreshDateRow();
-      }
+        refreshDateRow(); // actualiza devolución + borrador del mensaje
+      } else refreshMsgDraft(); // los datos también van en el mensaje
     });
+  });
+  const ta = $<HTMLTextAreaElement>('#rqMsg');
+  ta?.addEventListener('input', () => {
+    state.req.msg = ta.value;
+    reqMsgDirty = true;
+    const c = $('#rqMsgCount');
+    if (c) c.textContent = `${ta.value.length} / ${WA_MSG_MAX}`;
+  });
+  $('#rqMsgReset')?.addEventListener('click', () => {
+    reqMsgDirty = false;
+    state.req.msg = '';
+    refreshMsgDraft();
   });
   $('#rqSend')?.addEventListener('click', sendWA);
 }

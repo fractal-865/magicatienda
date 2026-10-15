@@ -301,6 +301,213 @@ footer {
   color: var(--color-m600);
   background: #fff;
 }
+/* ═══ Solicitud estilo "mensaje de WhatsApp" ═══ */
+.req-sec {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 18px 0 8px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-m600);
+}
+.req-pill {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  background: #efe6ff;
+  color: var(--color-m600);
+  border-radius: 999px;
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+.req-pill.green {
+  background: #e2f7ec;
+  color: #0c7a56;
+}
+.req-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--color-ink2);
+}
+.info-dot {
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1.5px solid var(--color-m400);
+  background: #efe6ff;
+  color: var(--color-m600);
+  font-size: 0.68rem;
+  font-weight: 800;
+  font-style: normal;
+  line-height: 1;
+  cursor: help;
+}
+.req-card {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border: 1.5px solid var(--color-line);
+  border-radius: 14px;
+  background: #faf7ff;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+}
+.req-card .re {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--color-m400), var(--color-rosa));
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 1.3rem;
+  flex: none;
+}
+.req-card .re img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.req-card .rn {
+  flex: 1;
+  font-weight: 800;
+  font-size: 0.9rem;
+  min-width: 0;
+}
+.req-card select {
+  border: 2px solid var(--color-line);
+  border-radius: 8px;
+  padding: 5px 8px;
+  font-family: var(--font-fb);
+  font-weight: 700;
+  color: var(--color-m600);
+  background: #fff;
+}
+.price-pill {
+  display: inline-block;
+  margin: 2px 0;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: #efe6ff;
+  color: var(--color-m600);
+  font-size: 0.72rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+/* Fechas retiro → devolución */
+.datebox {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  border: 1.5px solid var(--color-line);
+  border-radius: 14px;
+  background: #faf7ff;
+  padding: 10px 12px;
+}
+.datebox .dcell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ink2);
+}
+.datebox .dcell input {
+  border: 2px solid var(--color-line);
+  border-radius: 10px;
+  padding: 8px;
+  font-family: var(--font-fb);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  background: #fff;
+  width: 100%;
+}
+.datebox .dcell b {
+  font-size: 0.9rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--color-m600);
+  padding: 8px 0;
+}
+.datebox .darrow {
+  align-self: center;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  border-radius: 999px;
+  background: #efe6ff;
+  color: var(--color-m600);
+  font-weight: 800;
+}
+/* Totales estilo maqueta */
+.totbox {
+  margin-top: 14px;
+  border: 1.5px solid var(--color-line);
+  border-radius: 14px;
+  background: #faf7ff;
+  padding: 12px 14px;
+  display: grid;
+  gap: 6px;
+}
+.totbox .trow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--color-ink2);
+  font-weight: 700;
+}
+.totbox .trow b {
+  color: var(--color-ink);
+  white-space: nowrap;
+}
+.totbox .trow.total {
+  border-top: 1.5px dashed var(--color-line);
+  padding-top: 8px;
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  font-weight: 800;
+}
+.totbox .trow.total b {
+  font-family: var(--font-ft);
+  font-size: 1.3rem;
+  color: var(--color-m600);
+}
+@media (max-width: 560px) {
+  .req-card {
+    flex-wrap: wrap;
+  }
+  /* En móvil: foto + nombre arriba, controles abajo en una fila propia */
+  .req-card .rn {
+    flex: 1 1 calc(100% - 54px);
+  }
+  .datebox {
+    gap: 6px;
+    padding: 8px;
+  }
+  .datebox .dcell b {
+    font-size: 0.8rem;
+  }
+}
 .mc-item {
   display: flex;
   gap: 10px;
