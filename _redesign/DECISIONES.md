@@ -56,3 +56,14 @@ Criterio de resolución (en orden): 1) conversión a WhatsApp, 2) conservador y 
 | 4.6 | **h5 del mega menú → párrafo**: los títulos del mega menú declaraban h5 antes que ningún h1/h2 de la página. | Orden de encabezados (auditoría P2-10); el H1 del hero recién agregado no debía venir "después" en el árbol. | NO |
 | 4.7 | **Scrollspy con throttle rAF**. | Auditoría P2-7: forced reflow en cada evento scroll. | NO |
 | 4.8 | **`impeccable detect` final: 210 hallazgos, 0 error/critical** (158 font-size + 28 color + 16 radio advisory; 8 warnings = bounce-easing del botón (declarado intencional en DESIGN.md), transiciones de acordeón/buscador y subrayados decorativos). Snapshot en `_redesign/detect-final.json`. | El drift de escalas (44 tamaños únicos) es deuda preexistente del sistema; normalizarlo entero excede el presupuesto de conservador y se registra como pendiente para el dueño. | NO |
+
+## 2026-10-15 · Revisión del dueño (feedback en local)
+
+Pedidos directos del dueño sobre la vista local (`localhost:4321/magicatienda/`); cambios puntuales sobre lo ya entregado.
+
+| # | Decisión | Por qué | Revisión |
+|---|---|---|---|
+| R1 | **Se eliminó el bloque de fechas del mini-carrito** (`.mdates-md`: selector de retiro, nota de entrega y fila de fechas). El selector de "Día de retiro" queda solo en el modal de solicitud (`#rqRet`). | Pedido del dueño al revisar el panel: el panel pasaba a ser "elegir fecha" en vez de "ver lo que arriendo". La fecha se elige un solo lugar, en el paso de solicitud. | **SÍ** (pedido del dueño; quita la fecha del paso previo a la conversión) |
+| R2 | **Campo "Día de entrega (auto)" oculto** en el modal de solicitud (`<label style="display:none">`, se mantiene en el DOM para no romper `setRetiro`/`refreshDateRow`). | Pedido del dueño: era ruido un campo readonly que el sistema calcula solo; la fila "Retiro / Entrega" debajo ya muestra la entrega en legible. | NO (oculto, no borrado; reversible quitando el estilo) |
+| R3 | **Nota de pago `.paynote` ("El día del retiro pagarás $40.000") fuera del mini-carrito** (`totalsHTML(false)`); sigue presente en el modal de solicitud. | Pedido del dueño: duplicaba el total que ya está arriba y ensuciaba el panel. En el modal conserva la explicación arriendo + garantía. | NO |
+| R4 | **`test-harden.mjs` migrado de `#mcRet` a `#rqRet`** (con apertura del modal antes de manipular el campo). | Con R1 el input del minicart ya no existe; el test de domingo→lunes pasa a probar el único selector restante. Cubre igual la regla de negocio de 4.1. | NO |

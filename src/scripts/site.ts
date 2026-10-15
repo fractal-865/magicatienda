@@ -835,7 +835,7 @@ function refreshDateRow() {
 }
 
 /* ── bloque de totales (arriendo + garantía), compartido ── */
-function totalsHTML(): string {
+function totalsHTML(conPagoDia = true): string {
   const sub = rentalSubtotal();
   const tot = rentalTotal();
   const gar = guaranteeTotal();
@@ -848,11 +848,15 @@ function totalsHTML(): string {
     </div>
   </div>
   <span class="gchip">🛡️ Garantía de ${clp(gar)} reintegrable</span>
-  <div class="paynote">
+  ${
+    conPagoDia
+      ? `<div class="paynote">
     <span class="pn-label">El día del retiro pagarás</span>
     <b class="pn-total">${clp(pagoDia)}</b>
     <small>Arriendo ${clp(tot)} + garantía ${clp(gar)}. La garantía se te devuelve completa al entregar el disfraz en las mismas condiciones.</small>
-  </div>`;
+  </div>`
+      : ''
+  }`;
 }
 const thumb = (it: Item) =>
   `<span class="me">${'img' in it && it.img ? `<img src="${it.img}" alt="">` : it.e}</span>`;
@@ -934,24 +938,13 @@ function renderMini() {
         return `<div class="mc-item${nuevo ? ' justadded' : ''}">${thumb(it)}<span class="mn">${esc(it.n)}${nuevo ? ' <b class="justbadge">✨ ¡Agregado!</b>' : ''}<br><small>Talla ${i.talla}</small></span><span class="qty inline-flex items-center gap-2"><button data-mc="-" data-id="${i.id}" data-t="${esc(i.talla)}" aria-label="Menos">−</button>${i.qty}<button data-mc="+" data-id="${i.id}" data-t="${esc(i.talla)}" aria-label="Más">+</button></span></div>`;
       })
       .join('') +
-    totalsHTML() +
-    `<div class="mdates-md"><span class="md-title">📅 ¿Qué día retiras el disfraz?</span>
-    <div class="mdates mdates-one"><label>Día de retiro<input type="date" id="mcRet" value="${state.req.retiro}" min="${firstRetiroISO()}" max="${maxISO(60)}"></label></div>
-    <p class="entnota">↩️ La entrega es 2 días después del retiro: arriendo de 3 días. Los domingos la tienda cierra: el retiro pasa al lunes.</p>
-    <div class="daterow"><span>📦 Retiro: <b>${fmtDate(state.req.retiro)}</b></span><span>↩️ Entrega: <b>${fmtDate(state.req.entrega)}</b></span></div></div>` +
+    totalsHTML(false) +
     `</div>` +
     `<div class="cart-foot">
       <button class="btn btn-wsp w-full" data-act="req">Continuar con mi cotización 💬</button>
       <button class="btn btn-ghost w-full" data-act="gocat">← Seguir comprando</button>
       <p class="payline text-center">Pagos por depósito o transferencia: ver <button data-opencond>Condiciones de arriendo</button>.</p>
     </div>`;
-
-  const mret = $<HTMLInputElement>('#mcRet');
-  mret?.addEventListener('change', (e) => {
-    setRetiro((e.target as HTMLInputElement).value);
-    if (mret) mret.value = state.req.retiro; // refleja la corrección si era domingo
-    refreshDateRow();
-  });
 }
 
 $('#miniCart')?.addEventListener('click', (e) => {
@@ -1234,7 +1227,7 @@ function renderReq() {
   <div class="mdates-md"><span class="md-title">📅 ¿Qué día retiras el disfraz?</span>
   <div class="mdates">
     <label>Día de retiro<input type="date" id="rqRet" value="${state.req.retiro}" min="${firstRetiroISO()}" max="${maxISO(60)}"></label>
-    <label>Día de entrega (auto)<input type="date" id="rqEnt" value="${state.req.entrega}" readonly class="bg-[#f4f1fb] text-ink2"></label>
+    <label style="display:none">Día de entrega (auto)<input type="date" id="rqEnt" value="${state.req.entrega}" readonly class="bg-[#f4f1fb] text-ink2"></label>
   </div>
   <p class="entnota">↩️ El arriendo es de 3 días: eliges el retiro y la entrega queda 2 días después.</p>
   <div class="daterow">

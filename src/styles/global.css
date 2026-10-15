@@ -378,9 +378,6 @@ footer {
   color: var(--color-ink);
   background: #f9f6ff;
 }
-.mdates.mdates-one {
-  grid-template-columns: 1fr;
-}
 /* Nota de entrega automática en el panel */
 .entnota {
   margin: -4px 0 8px;

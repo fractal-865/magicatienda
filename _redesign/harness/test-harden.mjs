@@ -33,12 +33,15 @@ const dom = await p.evaluate(() => {
 });
 console.log('hoy:', dom.hoy, 'día(semana):', dom.dia, '(0=domingo)');
 
-// domingo directo en setRetiro (vía cambio en el input del minicart)
+// domingo directo en setRetiro (vía cambio en el input del modal de solicitud)
 await p.click('#grid .pcard');
 await new Promise((r) => setTimeout(r, 600));
 await p.click('#qmTallas button');
 await p.click('#qmAdd');
 await new Promise((r) => setTimeout(r, 800));
+// el campo de retiro ahora vive solo en el modal de solicitud
+await p.evaluate(() => document.querySelector('#miniCart [data-act="req"]')?.click());
+await new Promise((r) => setTimeout(r, 700));
 // buscar próximo domingo
 const nextSun = await p.evaluate(() => {
   const d = new Date();
@@ -46,11 +49,12 @@ const nextSun = await p.evaluate(() => {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 });
 const after = await p.evaluate((sun) => {
-  const el = document.querySelector('#mcRet');
+  const el = document.querySelector('#rqRet');
+  if (!el) return 'SIN-INPUT';
   el.value = sun;
   el.dispatchEvent(new Event('input', { bubbles: true }));
   el.dispatchEvent(new Event('change', { bubbles: true }));
-  return new Promise((res) => setTimeout(() => res(document.querySelector('#mcRet').value), 300));
+  return new Promise((res) => setTimeout(() => res(document.querySelector('#rqRet').value), 300));
 }, nextSun);
 const afterDay = new Date(after + 'T12:00:00').getDay();
 console.log('domingo pedido:', nextSun, '→ retiro resultante:', after, '(día', afterDay, 'esperado 1=lunes)');
