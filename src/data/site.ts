@@ -38,8 +38,12 @@ export const GAR_SHORT = '$13.000–$20.000';
 export const GAR =
   'Garantía de $13.000 a $20.000 según el disfraz. Se paga el día del retiro, en efectivo o transferencia, y se devuelve al entregar el disfraz en las mismas condiciones.';
 
+/* Enlaces de WhatsApp: se usa api.whatsapp.com/send en vez del atajo wa.me.
+   wa.me no abre WhatsApp: redirige al servidor, y en ese salto los caracteres
+   de 4 bytes UTF-8 (los emojis) se dañan y llegan como "?" en WhatsApp Web y
+   de escritorio. Con el enlace directo el mensaje llega intacto. */
 export const waLink = (m: string) =>
-  `https://wa.me/${CONFIG.wa}?text=${encodeURIComponent(m)}`;
+  `https://api.whatsapp.com/send?phone=${CONFIG.wa}&text=${encodeURIComponent(m)}`;
 
 /* Fechas clave del año → categoría del catálogo con productos disponibles */
 export const FECHAS = [

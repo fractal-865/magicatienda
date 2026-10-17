@@ -2,7 +2,7 @@
 import { CATS_ACTIVE, PUBLICOS, OCASIONES } from '../data/products';
 import { CONFIG, waLink } from '../data/site';
 
-const waDrawer = waLink('¡Hola! 👋 Quiero cotizar el arriendo de disfraces para adultos en La Mágica Tienda ✨');
+const waDrawer = waLink('¡Hola! Quiero cotizar el arriendo de disfraces para adultos en La Mágica Tienda.');
 const sublink = 'block rounded-[10px] px-3.5 py-[11px] text-[#4a3c78] no-underline hover:bg-[#f3edff]';
 
 /* Nombres abreviados: máximo 2 palabras */
@@ -26,7 +26,13 @@ const corto = (s: string) => CORTOS[s] ?? s;
   inert
 >
   <div class="mb-3.5 flex items-center justify-between">
-    <span class="font-ft font-bold text-ink">⭐ La Mágica Tienda</span>
+    <img
+      class="drawer-logo"
+      src={`${import.meta.env.BASE_URL}/img/logo.png`.replace(/\/{2,}/g, '/')}
+      alt="La Mágica Tienda de Disfraces"
+      width="380"
+      height="300"
+    />
     <button class="btn btn-ghost btn-sm" id="drawerClose">Cerrar ✕</button>
   </div>
 

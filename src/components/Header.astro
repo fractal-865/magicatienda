@@ -28,19 +28,17 @@ const corto = (s: string) => CORTOS[s] ?? s;
       <!-- Logo -->
       <button
         id="logoBtn"
-        class="group flex shrink-0 cursor-pointer items-center gap-2.5 border-0 bg-transparent p-0 text-left"
-        aria-label="Inicio, La Mágica Tienda"
+        class="group flex shrink-0 cursor-pointer items-center border-0 bg-transparent p-0 text-left"
+        aria-label="Inicio, La Mágica Tienda de Disfraces"
       >
-        <span
-          class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-[linear-gradient(135deg,var(--color-m500),var(--color-rosa))] text-[1.5rem] shadow-[0_6px_16px_rgba(255,95,162,.35)] transition duration-300 group-hover:rotate-[10deg] group-hover:scale-105"
-          >🎭</span
-        >
-        <span class="hidden font-ft text-[1.05rem] font-bold leading-none text-ink min-[420px]:block">
-          La Mágica Tienda
-          <small class="mt-1 block text-[.58rem] font-extrabold uppercase tracking-[.16em] text-m500">
-            Arriendo de disfraces · solo adultos
-          </small>
-        </span>
+        <img
+          class="logo-img group-hover:scale-[1.03]"
+          src={`${import.meta.env.BASE_URL}/img/logo.png`.replace(/\/{2,}/g, '/')}
+          alt="La Mágica Tienda de Disfraces"
+          width="380"
+          height="300"
+          decoding="async"
+        />
       </button>
 
       <!-- Navegación -->

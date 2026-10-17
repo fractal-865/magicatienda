@@ -88,7 +88,7 @@ const state = {
   sort: 'pop',
   page: 1,
   cart: [] as CartItem[],
-  req: (() => { const h = firstRetiroISO(); return { nombre: '', rut: '', correo: '', tel: '', dir: '', retiro: h, uso: addDays(h, 1), entrega: addDays(h, 2), com: '', msg: '' }; })(),
+  req: (() => { const h = firstRetiroISO(); return { nombre: '', retiro: h, uso: addDays(h, 1), entrega: addDays(h, 2) }; })(),
   lastAdd: null as null | { id: string; tipo: 'd' | 'a'; talla: string },
 };
 
@@ -835,7 +835,6 @@ function refreshDateRow() {
   if (entTxt) entTxt.textContent = fmtDate(state.req.entrega);
   const ent = $<HTMLInputElement>('#rqEnt');
   if (ent) ent.value = state.req.entrega;
-  refreshMsgDraft(); // las fechas también van en el mensaje
 }
 
 /* ── bloque de totales (arriendo + garantía), compartido ── */
@@ -873,13 +872,11 @@ function addItem(id: string | number, tipo: 'd' | 'a' = 'd', talla?: string, qty
   if (f) f.qty += qty;
   else state.cart.push({ id: String(id), tipo, talla, qty });
   state.lastAdd = { id: String(id), tipo, talla };
-  afterCart(srcEl);
+  afterCart(srcEl, true);
   toast(`${item.e} <b>${esc(item.n)}</b> agregado a tu arriendo (talla ${talla})`);
 }
 
-let miniAutoShown = false;
-
-function afterCart(srcEl?: Element | null) {
+function afterCart(srcEl?: Element | null, abrir = false) {
   const n = cartQty();
   const cc = $('#cartCount');
   if (cc) {
@@ -898,12 +895,9 @@ function afterCart(srcEl?: Element | null) {
   renderMini();
   renderSticky();
   if ($('#reqModal')?.classList.contains('open')) renderReq();
-  // Quieter: el panel se abre solo en el primer agregado (y nunca detrás del modal
-  // de solicitud). Después avisan el badge del carrito y la barra pegajosa.
-  if (!miniAutoShown && !$('#reqModal')?.classList.contains('open')) {
-    miniAutoShown = true;
-    openMini();
-  }
+  // El panel lateral se abre siempre al agregar un disfraz (salvo detrás del
+  // modal de solicitud, que ya ocupa toda la pantalla).
+  if (abrir && !$('#reqModal')?.classList.contains('open')) openMini();
 }
 
 function fly(el: Element) {
@@ -942,9 +936,9 @@ function renderMini() {
         return `<div class="mc-item${nuevo ? ' justadded' : ''}">${thumb(it)}<span class="mn">${esc(it.n)}${nuevo ? ' <b class="justbadge">✨ ¡Agregado!</b>' : ''}<br><small>Talla ${i.talla}</small></span><span class="qty inline-flex items-center gap-2"><button data-mc="-" data-id="${i.id}" data-t="${esc(i.talla)}" aria-label="Menos">−</button>${i.qty}<button data-mc="+" data-id="${i.id}" data-t="${esc(i.talla)}" aria-label="Más">+</button></span></div>`;
       })
       .join('') +
-    totalsHTML(false) +
     `</div>` +
     `<div class="cart-foot">
+      ${totalsHTML(false)}
       <button class="btn btn-wsp w-full" data-act="req">Continuar con mi cotización 💬</button>
       <button class="btn btn-ghost w-full" data-act="gocat">← Seguir comprando</button>
       <p class="payline text-center">Pagos por depósito o transferencia: ver <button data-opencond>Condiciones de arriendo</button>.</p>
@@ -1017,78 +1011,28 @@ function renderSticky() {
 }
 $('#stickySend')?.addEventListener('click', () => openReq());
 
-/* Límite seguro del texto enviado por wa.me: más allá la URL se puede
-   cortar en algunos navegadores y el mensaje llegaría incompleto. */
-const WA_MSG_MAX = 1200;
-/* El usuario puede editar el mensaje: una vez que lo toca, su texto manda
-   y el borrador automático deja de sobrescribirlo. */
-let reqMsgDirty = false;
-
-/* Borrador compacto del mensaje de WhatsApp (corto para no chocar con el límite) */
+/* Mensaje de WhatsApp: se arma solo, con lo que el cliente elige en la solicitud.
+   Va sin emojis a propósito: los caracteres de 4 bytes UTF-8 (los emojis) se
+   dañan al viajar dentro del enlace y llegan como "?" a WhatsApp Web/escritorio. */
 function waDraft(): string {
   const r = state.req;
-  const L = ['¡Hola! 🎭 Quiero arrendar en La Mágica Tienda ✨'];
-  L.push(`👤 ${r.nombre || '—'} · 🪪 ${r.rut || '—'} · 📱 ${r.tel || '—'}`);
-  if (r.correo) L.push(`✉️ ${r.correo}`);
-  L.push(`📅 Retiro: ${r.retiro || '—'} · Devolución: ${r.entrega || '—'} (arriendo 3 días)`);
-  L.push('🧾 Mi pedido:');
-  state.cart.forEach((i) => {
-    const it = byId(i.id);
-    if (it) L.push(`• ${i.qty}× ${it.n} (talla ${i.talla})`);
-  });
-  const tot = rentalTotal();
-  const gar = guaranteeTotal();
-  L.push(`💰 Arriendo: ${clp(tot)} + Garantía reintegrable: ${clp(gar)} = Total en sucursal: ${clp(tot + gar)}`);
-  if (r.dir) L.push(`🏠 ${r.dir}`);
-  if (r.com) L.push(`💬 ${r.com}`);
-  L.push('¿Tienen disponibilidad confirmada?');
+  const pedido = state.cart
+    .map((i) => {
+      const it = byId(i.id);
+      return it ? `${i.qty}× ${it.n} (talla ${i.talla})` : '';
+    })
+    .filter(Boolean)
+    .join(' · ');
+  const L = ['¡Hola! Quiero cotizar el arriendo en La Mágica Tienda:'];
+  L.push(`Nombre: ${(r.nombre || '').trim() || '—'}${pedido ? ` · ${pedido}` : ''}`);
+  L.push(`Retiro ${cortaFecha(r.retiro)} · Devolución ${cortaFecha(r.entrega)}`);
+  L.push(`Arriendo ${clp(rentalTotal())} + garantía ${clp(guaranteeTotal())} = ${clp(rentalTotal() + guaranteeTotal())} en sucursal`);
+  L.push('¿Me confirman disponibilidad y valores?');
   return L.join('\n');
 }
-/* Refresca el textarea del mensaje solo si el usuario no lo editó + contador */
-function refreshMsgDraft() {
-  if (reqMsgDirty) return;
-  const ta = $<HTMLTextAreaElement>('#rqMsg');
-  if (!ta) return;
-  ta.value = waDraft();
-  const c = $('#rqMsgCount');
-  if (c) c.textContent = `${ta.value.length} / ${WA_MSG_MAX}`;
-}
-
-function waMsg() {
-  const L = ['¡Hola! 🎭 Quiero cotizar el arriendo de disfraces en La Mágica Tienda ✨'];
-  const r = state.req;
-  if (r.nombre) L.push(`👤 Nombre: ${r.nombre}`);
-  if (r.rut) L.push(`🪪 RUT: ${r.rut}`);
-  if (r.correo) L.push(`✉️ Correo: ${r.correo}`);
-  if (r.tel) L.push(`📱 Teléfono: ${r.tel}`);
-  if (r.dir) L.push(`🏠 Dirección: ${r.dir}`);
-  if (r.retiro || r.uso || r.entrega)
-    L.push(`📅 Fechas: retiro ${r.retiro || '—'} · uso ${r.uso || '—'} · entrega ${r.entrega || '—'}`);
-  L.push('🧾 Disfraces que quiero arrendar:');
-  state.cart.forEach((i) => {
-    const it = byId(i.id);
-    if (it) L.push(`• ${i.qty}× ${it.n} (talla ${i.talla})`);
-  });
-  L.push(`💰 Arriendo 3 días: ${clp(rentalTotal())}`);
-  L.push(`🛡️ Garantía total: ${clp(guaranteeTotal())} (${GAR_SHORT} por disfraz), se paga el día del retiro y se devuelve al entregar.`);
-  L.push('💳 Reserva: valor de arriendo de cada disfraz (se confirma en la cotización).');
-  if (r.com) L.push('💬 ' + r.com);
-  return L.join('\n');
-}
-/* valida RUT chileno con dígito verificador */
-function validRUT(rut: string): boolean {
-  const m = rut.replace(/\s/g, '').match(/^(\d{1,2})\.?(\d{3})\.?(\d{3})-?([\dkK])$/);
-  if (!m) return false;
-  const body = m[1] + m[2] + m[3];
-  let sum = 0;
-  let mult = 2;
-  for (let i = body.length - 1; i >= 0; i--) {
-    sum += Number(body[i]) * mult;
-    mult = mult === 7 ? 2 : mult + 1;
-  }
-  const dv = 11 - (sum % 11);
-  const check = dv === 11 ? '0' : dv === 10 ? 'K' : String(dv);
-  return check === m[4].toUpperCase();
+/* Fecha corta dd/mm/aaaa: el formato largo suma renglones al mensaje */
+function cortaFecha(iso: string): string {
+  return iso && iso.length >= 10 ? `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}` : '—';
 }
 
 function sendWA() {
@@ -1096,14 +1040,11 @@ function sendWA() {
     toast('🛒 Tu arriendo está vacío. ¡Agrega un disfraz primero!');
     return;
   }
-  // Validación mínima antes de abrir WhatsApp: nombre, RUT, correo y teléfono reales
+  // Validación mínima antes de abrir WhatsApp: solo el nombre
   const r = state.req;
   const errs: [string, string][] = [];
   if (!r.nombre.trim()) errs.push(['#rqNom', 'Falta tu nombre (ej: Camila)']);
-  if (!validRUT(r.rut)) errs.push(['#rqRut', 'RUT no válido (ej: 12.345.678-9)']);
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(r.correo.trim())) errs.push(['#rqCor', 'Correo no válido (ej: nombre@correo.cl)']);
-  if (r.tel.replace(/\D/g, '').length < 8) errs.push(['#rqTel', 'Teléfono no válido (8 dígitos o más)']);
-  ['#rqNom', '#rqRut', '#rqCor', '#rqTel'].forEach((s) => $<HTMLInputElement>(s)?.classList.remove('border-[#c0392b]'));
+  ['#rqNom'].forEach((s) => $<HTMLInputElement>(s)?.classList.remove('border-[#c0392b]'));
   document.querySelectorAll('.req-err').forEach((e) => e.remove());
   if (errs.length) {
     errs.forEach(([sel, msg]) => {
@@ -1119,7 +1060,7 @@ function sendWA() {
     toast('⚠️ Revisa tus datos para enviar la solicitud');
     return;
   }
-  window.open(waLink((($<HTMLTextAreaElement>('#rqMsg')?.value.trim() || waDraft())).slice(0, WA_MSG_MAX)), '_blank');
+  window.open(waLink(waDraft()), '_blank');
 }
 
 /* ═══ FICHA RÁPIDA ═══ */
@@ -1165,7 +1106,7 @@ function openQuick(id: number) {
   <span class="gchip">🛡️ Garantía de ${clp(c.gar)} reintegrable</span>
   <div class="mt-5 flex flex-col gap-2.5">
     <button class="btn btn-mora w-full" id="qmAdd">🛒 Agregar a mi cotización →</button>
-    <a class="btn btn-blanco w-full" id="qmWa" target="_blank" rel="noopener" href="${waLink(`¡Hola! Quiero cotizar el arriendo del disfraz ${c.n} para adultos 🎭 ¿Está disponible?`)}">💬 Cotizar solo este disfraz por WhatsApp</a>
+    <a class="btn btn-blanco w-full" id="qmWa" target="_blank" rel="noopener" href="${waLink(`¡Hola! Quiero cotizar el arriendo del disfraz ${c.n} para adultos. ¿Está disponible?`)}">💬 Cotizar solo este disfraz por WhatsApp</a>
     <p class="text-center text-[.76rem] leading-[1.4] text-ink2">
       <b>Agregar</b> lo suma a tu lista para cotizar varios · <b>Cotizar directo</b> es solo por <b>este</b> disfraz, al tiro.
     </p>
@@ -1246,12 +1187,7 @@ function renderReq() {
   if (!rb) return;
   const tot = rentalTotal();
   const gar = guaranteeTotal();
-  const draft = reqMsgDirty && state.req.msg ? state.req.msg : waDraft();
-  rb.innerHTML = `<div class="mb-1 flex flex-wrap items-center gap-2"><h3 class="m-0 text-[1.5rem]">🛒 Tu solicitud de arriendo</h3><span class="req-pill green">💬 Se envía por WhatsApp</span></div>
-  <div class="mb-3 grid gap-1 rounded-2xl border-2 border-line bg-[#f9f6ff] p-3 text-[.85rem] text-ink">
-    <span>💬 <b>Te respondemos por WhatsApp</b> en horario de tienda (lunes a sábado).</span>
-    <span>🛡️ Primero cotizas y decides: <b>no se paga nada en línea</b>.</span>
-  </div>
+  rb.innerHTML = `<div class="mb-2 flex flex-wrap items-center gap-2"><h3 class="m-0 text-[1.5rem]">🛒 Tu solicitud de arriendo</h3><span class="req-pill green">💬 Se envía por WhatsApp</span></div>
   ${
     state.cart.length
       ? state.cart
@@ -1280,23 +1216,13 @@ function renderReq() {
   <input type="date" id="rqEnt" value="${state.req.entrega}" readonly hidden>
   <p class="entnota">↩️ Eliges el retiro y la devolución queda 2 días después. Domingos cerrado: si eliges domingo, pasa al lunes.</p>
   <div class="req-sec"><span>👤 Tus datos</span><span class="req-pill">Para reservar tu disfraz</span></div>
-  <div class="mt-1.5 grid gap-2.5 min-[600px]:grid-cols-2">
-    <input id="rqNom" placeholder="Nombre" autocomplete="name" aria-label="Nombre y apellido" value="${esc(state.req.nombre)}" class="rounded-[10px] border-2 border-line p-2.5">
-    <input id="rqRut" placeholder="RUT" inputmode="numeric" aria-label="RUT chileno con dígito verificador" value="${esc(state.req.rut)}" class="rounded-[10px] border-2 border-line p-2.5">
-    <input id="rqCor" placeholder="Correo" type="email" autocomplete="email" aria-label="Correo electrónico" value="${esc(state.req.correo)}" class="rounded-[10px] border-2 border-line p-2.5">
-    <input id="rqTel" placeholder="Teléfono" type="tel" autocomplete="tel" aria-label="Teléfono de contacto" value="${esc(state.req.tel)}" class="rounded-[10px] border-2 border-line p-2.5">
-  </div>
-  <input id="rqDir" placeholder="Dirección" autocomplete="street-address" aria-label="Dirección" value="${esc(state.req.dir)}" class="mt-2.5 w-full rounded-[10px] border-2 border-line p-2.5">
-  <textarea id="rqCom" rows="2" placeholder="Comentarios (evento, dudas de talla, etc.)" aria-label="Comentarios" class="mt-2.5 w-full rounded-[10px] border-2 border-line p-2.5">${esc(state.req.com)}</textarea>
-  <div class="req-sec"><span>💬 Tu mensaje</span><span class="req-meta"><button type="button" class="info-dot tip" data-tip="Esto es lo que llegará a nuestro WhatsApp. Puedes editarlo." aria-label="Sobre este mensaje">i</button> <span id="rqMsgCount">${draft.length} / ${WA_MSG_MAX}</span></span></div>
-  <textarea id="rqMsg" rows="6" maxlength="${WA_MSG_MAX}" aria-label="Mensaje que se enviará por WhatsApp" class="w-full rounded-[10px] border-2 border-line bg-[#f9f6ff] p-2.5 leading-relaxed">${esc(draft)}</textarea>
-  <button id="rqMsgReset" class="mt-1 border-0 bg-transparent p-0 text-[.78rem] font-extrabold text-m600 underline">↺ Restablecer texto automático</button>
+  <input id="rqNom" placeholder="Nombre" autocomplete="name" aria-label="Nombre y apellido" value="${esc(state.req.nombre)}" class="mt-1.5 w-full rounded-[10px] border-2 border-line p-2.5">
   <div class="totbox">
     <div class="trow"><span>Valor de arriendo por 3 días:</span><b>${clp(tot)}</b></div>
     <div class="trow"><span>Garantía reembolsable <button type="button" class="info-dot tip" data-tip="${esc(GAR)}" aria-label="Sobre la garantía">i</button>:</span><b>${clp(gar)}</b></div>
-    <div class="trow total"><span>Total final en sucursal:</span><b>${clp(tot + gar)}</b></div>
+    <div class="trow total"><span>Total estimado en sucursal:</span><b>${clp(tot + gar)}</b></div>
   </div>
-  <p class="mt-3 rounded-2xl border-[1.5px] border-ama bg-[#fff8e6] p-3 text-[.82rem] font-bold leading-relaxed text-ink">⚠️ <b>La reserva (valor del arriendo) no es reembolsable</b>: asegura tu disfraz para tu fecha. La garantía (${GAR_SHORT} por disfraz) se paga solo el día del retiro y se devuelve completa.</p>
+  <p class="totnote">Es solo una cotización: el valor del arriendo y la garantía se revisan y confirman en la tienda al reservar.</p>
   <button class="btn btn-wsp btn-lg mt-2.5 w-full" id="rqSend">💬 Enviar solicitud por WhatsApp</button>
   <p class="mt-2.5 text-center text-[.8rem] font-bold text-ink2">✓ Garantía 100% reembolsable <span class="mx-1 opacity-40">·</span> 🕐 Lun a Sáb</p>
   <p class="payline text-center">Pagos por depósito o transferencia: ver datos en <button data-opencond>Condiciones de arriendo</button>. Sin pagos en línea en esta demo.</p>`;
@@ -1327,10 +1253,8 @@ function renderReq() {
     }),
   );
 
-  const map: Record<string, string> = {
-    rqRet: 'retiro', rqNom: 'nombre', rqRut: 'rut',
-    rqCor: 'correo', rqTel: 'tel', rqDir: 'dir', rqCom: 'com',
-  };
+  // El mensaje de WhatsApp se arma al enviarlo (waDraft), ya con el nombre y las fechas
+  const map: Record<string, string> = { rqRet: 'retiro', rqNom: 'nombre' };
   Object.keys(map).forEach((id) => {
     const el = $<HTMLInputElement>('#' + id);
     el?.addEventListener('input', () => {
@@ -1338,23 +1262,21 @@ function renderReq() {
       if (id === 'rqRet') {
         setRetiro(el.value);
         el.value = state.req.retiro; // refleja la corrección si era domingo
-        refreshDateRow(); // actualiza devolución + borrador del mensaje
-      } else refreshMsgDraft(); // los datos también van en el mensaje
+        refreshDateRow(); // actualiza la fecha de devolución
+      }
     });
   });
-  const ta = $<HTMLTextAreaElement>('#rqMsg');
-  ta?.addEventListener('input', () => {
-    state.req.msg = ta.value;
-    reqMsgDirty = true;
-    const c = $('#rqMsgCount');
-    if (c) c.textContent = `${ta.value.length} / ${WA_MSG_MAX}`;
-  });
-  $('#rqMsgReset')?.addEventListener('click', () => {
-    reqMsgDirty = false;
-    state.req.msg = '';
-    refreshMsgDraft();
-  });
   $('#rqSend')?.addEventListener('click', sendWA);
+  // Al tocar cualquier parte del campo (día, mes o año) se abre el calendario
+  const ret = $<HTMLInputElement>('#rqRet');
+  ret?.addEventListener('click', () => {
+    const pick = ret as HTMLInputElement & { showPicker?: () => void };
+    try {
+      pick.showPicker?.();
+    } catch {
+      /* si el navegador no lo permite, queda el icono del calendario */
+    }
+  });
 }
 
 /* ═══ MODALES ═══ */
@@ -1466,7 +1388,8 @@ $('#logoBtn')?.addEventListener('click', () => {
 $('#cForm')?.addEventListener('submit', (e) => {
   e.preventDefault();
   const v = (id: string) => ($<HTMLInputElement>('#' + id)?.value ?? '');
-  const m = `¡Hola! Soy ${v('cfNombre')} 🙋\n📱 ${v('cfCel')}\n💬 ${v('cfMsg')}`;
+  // Sin emojis: los caracteres de 4 bytes UTF-8 se dañan al viajar en el enlace
+  const m = `¡Hola! Soy ${v('cfNombre')}.\nTeléfono: ${v('cfCel')}\nMensaje: ${v('cfMsg')}`;
   window.open(waLink(m), '_blank');
   toast('💬 Abriendo WhatsApp con tu mensaje…');
 });
