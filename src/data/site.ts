@@ -28,8 +28,8 @@ export const CONFIG = {
    Hoy el sitio vive en GitHub Pages. Cuando lamagicatienda.cl quede en línea,
    basta con cambiar ORIGIN: el canónico, el sitemap, el robots y la imagen
    para compartir se rearman solos. */
-export const ORIGIN = 'https://fractal-865.github.io';
-export const BASE = import.meta.env.BASE_URL.replace(/\/$/, ''); // '/magicatienda'
+export const ORIGIN = 'https://magicatienda.cl';
+export const BASE = ''; // raíz del dominio magicatienda.cl
 export const url = (p = '/'): string => `${ORIGIN}${BASE}${p}`;
 /* Enlace interno (sin dominio): respeta el `base` de Astro, así funciona igual
    en GitHub Pages (/magicatienda/catalogo/) y el día del dominio propio. */
@@ -41,10 +41,10 @@ export const ir = (p = '/'): string => `${BASE}${p.startsWith('/') ? p : `/${p}`
 export const SEO = {
   title: 'Arriendo de disfraces en Punta Arenas | La Mágica Tienda',
   description:
-    'Arriendo de disfraces para adultos en Punta Arenas: más de 130 disfraces, tallas S a XXL, por 3 días, con garantía que se devuelve. Cotiza por WhatsApp.',
-  ogTitle: 'La Mágica Tienda de Disfraces 🎭 Arriendo para adultos en Punta Arenas',
+    'Arriendo de disfraces en Punta Arenas para adultos: más de 150 disfraces, tallas S a XXL, por 3 días, con garantía que se devuelve. Cotiza por WhatsApp y reserva tu look.',
+  ogTitle: 'Arriendo de disfraces en Punta Arenas | La Mágica Tienda 🎭',
   ogDescription:
-    'Más de 130 disfraces con tallas S a XXL, por 3 días. Garantía de $15.000 o $20.000 que se devuelve. Cotiza por WhatsApp y reserva tu look 💜',
+    'Más de 150 disfraces para arrendar en Punta Arenas, tallas S a XXL, por 3 días. Garantía de $15.000 o $20.000 que se devuelve. Cotiza por WhatsApp 💜',
   /* Ubicación de la tienda para las búsquedas locales: Pasaje Hermann Wiegartt,
      Punta Arenas (dato de OpenStreetMap). */
   geo: { lat: -53.1355206, lng: -70.9125253 },
@@ -56,11 +56,11 @@ export const SEO = {
 export const SEO_CAT = {
   title: 'Catálogo de disfraces en Punta Arenas | La Mágica Tienda',
   description:
-    'Todos los disfraces para arrendar en Punta Arenas: Halloween, princesas, superhéroes y más. Tallas S a XXL, por 3 días, garantía que se devuelve.',
-  ogTitle: 'Catálogo completo 🎭 Disfraces para adultos en Punta Arenas',
+    'Catálogo de disfraces en Punta Arenas para arrendar: más de 150 disfraces para adultos, tallas S a XXL, por 3 días. Filtra por temática y cotiza por WhatsApp.',
+  ogTitle: 'Catálogo de disfraces en Punta Arenas | La Mágica Tienda 🎭',
   ogDescription:
-    'Explora todo el catálogo: disfraces con tallas S a XXL, por 3 días. Filtra por temática, público y talla. Cotiza por WhatsApp 💜',
-  h1: 'Catálogo de disfraces para adultos en Punta Arenas',
+    'Explora el catálogo completo: más de 150 disfraces para arrendar en Punta Arenas, tallas S a XXL, por 3 días. Filtra por temática, público y talla. Cotiza por WhatsApp 💜',
+  h1: 'Catálogo de disfraces para arrendar en Punta Arenas',
 };
 
 /* Temporada Halloween: del 15 al 31 de octubre el horario cambia y se muestra destacado.
