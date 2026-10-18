@@ -368,7 +368,7 @@ function cardHTML(c: Product, k: number) {
   const guia = (t: string) => TALLA_GUIA[t] ? `Estatura recomendada: ${TALLA_GUIA[t]}` : 'Sin referencia de estatura';
   return `<article class="pcard relative flex cursor-pointer flex-col rounded-[20px] border-[1.5px] border-line bg-white shadow-[0_8px_20px_rgba(90,42,156,.08)] transition duration-300 hover:-translate-y-[5px] hover:shadow-sh2" data-id="${c.id}" style="--d:${Math.min(k * 0.05, 0.4)}s" tabindex="0" aria-label="${esc(c.n)}, disfraz para adultos en arriendo">
   <div class="pimg relative aspect-[2/3] shrink-0 overflow-hidden" style="background:linear-gradient(135deg,${T.g[0]},${T.g[1]})">
-    <img src="${c.img}" alt="Disfraz ${esc(c.n)}" loading="lazy" class="absolute inset-0 h-full w-full object-cover object-center transition duration-500">
+    <img src="${c.img}" alt="${esc(c.n)} para arriendo en Punta Arenas" loading="lazy" class="absolute inset-0 h-full w-full object-cover object-center transition duration-500">
   </div>
   <div class="flex flex-1 flex-col p-3.5 pb-4">
     <span class="block text-[.72rem] font-extrabold uppercase tracking-[.05em] text-m500">${T.i} ${T.n}</span>
@@ -1089,7 +1089,7 @@ function openQuick(id: number) {
   const body = $('#qmBody');
   if (!body) return;
   body.innerHTML = `<div class="qimg group relative h-[420px] cursor-zoom-in overflow-hidden rounded-2xl" style="background:linear-gradient(135deg,${T.g[0]},${T.g[1]})">
-    <img src="${c.img}" alt="Disfraz ${esc(c.n)}" class="absolute inset-0 h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[2]">
+    <img src="${c.img}" alt="${esc(c.n)} para arriendo en Punta Arenas" class="absolute inset-0 h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[2]">
   </div>
   <span class="mt-3 block text-[.8rem] font-extrabold text-m500">${T.i} ${T.n} · solo adultos · ${pubLabel(c.pub)}</span>
   <h3 class="my-1 text-[1.45rem]">${esc(c.n)}</h3>

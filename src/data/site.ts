@@ -24,6 +24,29 @@ export const CONFIG = {
   handle: '@lamagicatiendadedisfraces',
 };
 
+/* ── Dirección pública del sitio ──
+   Hoy el sitio vive en GitHub Pages. Cuando lamagicatienda.cl quede en línea,
+   basta con cambiar ORIGIN: el canónico, el sitemap, el robots y la imagen
+   para compartir se rearman solos. */
+export const ORIGIN = 'https://fractal-865.github.io';
+export const BASE = import.meta.env.BASE_URL.replace(/\/$/, ''); // '/magicatienda'
+export const url = (p = '/'): string => `${ORIGIN}${BASE}${p}`;
+
+/* ── Textos para Google y para compartir ──
+   Título bajo 60 caracteres y descripción bajo 155, para que Google no los
+   corte. Se prioriza la búsqueda local: "arriendo de disfraces en Punta Arenas". */
+export const SEO = {
+  title: 'Arriendo de disfraces en Punta Arenas | La Mágica Tienda',
+  description:
+    'Arriendo de disfraces para adultos en Punta Arenas: más de 50 modelos, tallas S a XXL, por 3 días, con garantía que se devuelve. Cotiza por WhatsApp.',
+  ogTitle: 'La Mágica Tienda de Disfraces 🎭 Arriendo para adultos en Punta Arenas',
+  ogDescription:
+    'Más de 50 disfraces con tallas S a XXL, por 3 días. Garantía de $13.000 a $20.000 que se devuelve. Cotiza por WhatsApp y reserva tu look 💜',
+  /* Ubicación de la tienda para las búsquedas locales: Pasaje Hermann Wiegartt,
+     Punta Arenas (dato de OpenStreetMap). */
+  geo: { lat: -53.1355206, lng: -70.9125253 },
+};
+
 /* Temporada Halloween: del 15 al 31 de octubre el horario cambia y se muestra destacado.
    Pasado octubre vuelve al horario normal automáticamente. */
 export const HALLOWEEN_RANGO = { mesIni: 9, diaIni: 15, mesFin: 9, diaFin: 31 }; // mes 0-11

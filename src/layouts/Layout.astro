@@ -13,19 +13,86 @@ import Drawer from '../components/Drawer.astro';
 import Footer from '../components/Footer.astro';
 import Floaters from '../components/Floaters.astro';
 import Modals from '../components/Modals.astro';
+import { CONFIG, FAQS, SEO, url } from '../data/site';
 
-const title =
-  'La Mágica Tienda de Disfraces ✨ Arriendo de disfraces para adultos en Chile · #lamagicatienda';
-const description =
-  'Arriendo de disfraces solo para adultos en Punta Arenas, Región de Magallanes. Cotiza por WhatsApp: garantía de $13.000 a $20.000 según el disfraz, se paga el día del retiro y se devuelve. #lamagicatienda';
-
-/* El sitio publicado hoy vive en GitHub Pages. Cuando lamagicatienda.cl quede
-   en línea, basta con cambiar este ORIGEN: todo lo demás se arma solo. */
-const ORIGIN = 'https://fractal-865.github.io';
-const BASE = import.meta.env.BASE_URL.replace(/\/$/, ''); // '/magicatienda'
-const url = (p: string) => `${ORIGIN}${BASE}${p}`;
 const canonical = url('/');
 const ogImage = url('/img/logo-og.jpg');
+const ogImageAlt = 'Logo de La Mágica Tienda de Disfraces, arriendo para adultos en Punta Arenas';
+
+/* ── Datos para los buscadores (schema.org) ──
+   Le dicen a Google que es una tienda local de Punta Arenas: nombre, dirección,
+   teléfono, horario, redes y las preguntas frecuentes (esas pueden aparecer
+   como resultado enriquecido). Todo se arma desde CONFIG y FAQS, así que si
+   cambia un dato, cambia en un solo lugar. */
+const datos = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': ['ClothingStore', 'LocalBusiness'],
+      '@id': `${canonical}#tienda`,
+      name: 'La Mágica Tienda de Disfraces',
+      alternateName: 'La Mágica Tienda',
+      description: SEO.description,
+      url: canonical,
+      image: ogImage,
+      logo: url('/img/logo.png'),
+      telephone: CONFIG.tel,
+      email: CONFIG.email1,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Hermann Wiegartt 01194',
+        addressLocality: 'Punta Arenas',
+        addressRegion: 'Magallanes',
+        addressCountry: 'CL',
+      },
+      geo: { '@type': 'GeoCoordinates', latitude: SEO.geo.lat, longitude: SEO.geo.lng },
+      hasMap: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CONFIG.dir)}`,
+      openingHoursSpecification: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+          opens: '15:00',
+          closes: '20:30',
+        },
+      ],
+      priceRange: '$13.000–$20.000',
+      currenciesAccepted: 'CLP',
+      paymentAccepted: 'Efectivo, transferencia bancaria',
+      areaServed: [
+        { '@type': 'City', name: 'Punta Arenas' },
+        { '@type': 'AdministrativeArea', name: 'Región de Magallanes' },
+      ],
+      sameAs: CONFIG.redes.map((r) => r.u),
+      slogan: 'Arriendo de disfraces para adultos',
+      makesOffer: {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Arriendo de disfraces para adultos por 3 días',
+          serviceType: 'Arriendo de disfraces',
+        },
+      },
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${canonical}#sitio`,
+      url: canonical,
+      name: 'La Mágica Tienda de Disfraces',
+      description: SEO.description,
+      inLanguage: 'es-CL',
+      publisher: { '@id': `${canonical}#tienda` },
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': `${canonical}#faq`,
+      mainEntity: FAQS.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -33,30 +100,43 @@ const ogImage = url('/img/logo-og.jpg');
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
-    <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+    <title>{SEO.title}</title>
+    <meta name="description" content={SEO.description} />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="es-cl" href={canonical} />
+    <link rel="alternate" hreflang="x-default" href={canonical} />
+    <meta name="generator" content={Astro.generator} />
+    <!-- Zona de la tienda: apoya las búsquedas "cerca de mí" en Magallanes -->
+    <meta name="geo.region" content="CL-MA" />
+    <meta name="geo.placename" content="Punta Arenas" />
+    <meta name="geo.position" content={`${SEO.geo.lat};${SEO.geo.lng}`} />
+    <meta name="ICBM" content={`${SEO.geo.lat}, ${SEO.geo.lng}`} />
     <link rel="icon" href={url('/favicon.ico')} sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href={url('/favicon-32.png')} />
     <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} />
     <link rel="manifest" href={url('/site.webmanifest')} />
     <meta name="theme-color" content="#5a2a9c" />
+    <meta name="apple-mobile-web-app-title" content="La Mágica Tienda" />
+    <meta name="application-name" content="La Mágica Tienda de Disfraces" />
+    <!-- Al compartir el enlace (WhatsApp, Instagram, Facebook) -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="La Mágica Tienda de Disfraces" />
     <meta property="og:locale" content="es_CL" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={SEO.ogTitle} />
+    <meta property="og:description" content={SEO.ogDescription} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Logo de La Mágica Tienda de Disfraces" />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:title" content={SEO.ogTitle} />
+    <meta name="twitter:description" content={SEO.ogDescription} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+    <script type="application/ld+json" set:html={JSON.stringify(datos)} />
     <script is:inline>document.documentElement.classList.add('js');</script>
   </head>
   <body class="min-h-screen">
