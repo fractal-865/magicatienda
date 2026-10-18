@@ -44,7 +44,7 @@ export const SEO = {
     'Arriendo de disfraces para adultos en Punta Arenas: más de 130 disfraces, tallas S a XXL, por 3 días, con garantía que se devuelve. Cotiza por WhatsApp.',
   ogTitle: 'La Mágica Tienda de Disfraces 🎭 Arriendo para adultos en Punta Arenas',
   ogDescription:
-    'Más de 130 disfraces con tallas S a XXL, por 3 días. Garantía de $13.000 a $20.000 que se devuelve. Cotiza por WhatsApp y reserva tu look 💜',
+    'Más de 130 disfraces con tallas S a XXL, por 3 días. Garantía de $15.000 o $20.000 que se devuelve. Cotiza por WhatsApp y reserva tu look 💜',
   /* Ubicación de la tienda para las búsquedas locales: Pasaje Hermann Wiegartt,
      Punta Arenas (dato de OpenStreetMap). */
   geo: { lat: -53.1355206, lng: -70.9125253 },
@@ -73,9 +73,9 @@ export function esTemporadaHalloween(d = new Date()) {
   return d >= ini && d <= fin;
 }
 
-export const GAR_SHORT = '$13.000–$20.000';
+export const GAR_SHORT = '$15.000 o $20.000';
 export const GAR =
-  'Garantía de $13.000 a $20.000 según el disfraz. Se paga el día del retiro, en efectivo o transferencia, y se devuelve al entregar el disfraz en las mismas condiciones.';
+  'Garantía de $15.000 o $20.000 según el disfraz. Se paga el día del retiro, en efectivo o transferencia, y se devuelve al entregar el disfraz en las mismas condiciones.';
 
 /* Enlaces de WhatsApp: se usa api.whatsapp.com/send en vez del atajo wa.me.
    wa.me no abre WhatsApp: redirige al servidor, y en ese salto los caracteres
@@ -102,7 +102,7 @@ export const TESTIS = [
 ];
 
 export const FAQS: [string, string][] = [
-  ['¿Cuánto cuesta arrendar un disfraz?', 'El valor de arriendo se confirma en tu cotización por WhatsApp. Además, al retirar dejas una garantía de $13.000 a $20.000 según el disfraz, que se te devuelve al retornarlo en las mismas condiciones.'],
+  ['¿Cuánto cuesta arrendar un disfraz?', 'El valor de arriendo se confirma en tu cotización por WhatsApp. Además, al retirar dejas una garantía de $15.000 o $20.000 según el disfraz, que se te devuelve al retornarlo en las mismas condiciones.'],
   ['¿Por cuántos días es el arriendo?', 'Por 3 días: día de retiro, día de uso (tu evento) y día de entrega.'],
   ['¿Cómo y cuándo se paga la garantía?', 'El día del retiro, en efectivo o por transferencia (Cuenta RUT Banco Estado o Copec Pay). Se devuelve al entregar el disfraz en las mismas condiciones.'],
   ['¿Qué descuentos puede tener la garantía?', 'Si el disfraz vuelve con roturas, manchas, quemaduras, arreglos, accesorios perdidos o se entrega con retraso, se puede descontar parte o el total de la garantía, a criterio de la propietaria.'],

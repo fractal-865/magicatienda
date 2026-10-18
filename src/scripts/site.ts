@@ -371,7 +371,7 @@ function rent3HTML() {
 }
 
 function gnoticeHTML() {
-  return `<div class="my-2.5 flex items-start gap-2 rounded-[14px] border-[1.5px] border-ama bg-[#fdf6d9] p-2.5 text-[.82rem] text-[#6b5200]">🛡️ <span><b>Garantía de $13.000 a $20.000 según el disfraz.</b> Se paga el día del retiro, en efectivo o transferencia, y se devuelve al entregar el disfraz en las mismas condiciones. <button class="glink cursor-pointer whitespace-nowrap border-0 bg-transparent p-0 text-[.82rem] font-extrabold text-m600 underline" data-opencond>Ver condiciones de garantía</button></span></div>`;
+  return `<div class="my-2.5 flex items-start gap-2 rounded-[14px] border-[1.5px] border-ama bg-[#fdf6d9] p-2.5 text-[.82rem] text-[#6b5200]">🛡️ <span><b>Garantía de $15.000 o $20.000 según el disfraz.</b> Se paga el día del retiro, en efectivo o transferencia, y se devuelve al entregar el disfraz en las mismas condiciones. <button class="glink cursor-pointer whitespace-nowrap border-0 bg-transparent p-0 text-[.82rem] font-extrabold text-m600 underline" data-opencond>Ver condiciones de garantía</button></span></div>`;
 }
 
 /* ── Encuadre de las fotos ──
@@ -418,7 +418,8 @@ function cardHTML(c: Product, k: number) {
     <div class="mb-2.5 flex min-h-[1.6rem] flex-wrap gap-1">${c.tl.map((t) => `<span class="tip cursor-help rounded-[7px] bg-[#f0eaff] px-[7px] py-[3px] text-[.64rem] font-extrabold text-m600" data-tip="${esc(guia(t))}" tabindex="0">${esc(t)}</span>`).join('')}</div>
     <div class="mt-auto">
       <div class="mb-2.5 flex items-baseline justify-between gap-2">
-        <span class="font-ft text-[1.3rem] font-bold leading-none text-m600">${clp(c.price)}</span>
+        <span class="font-ft text-[1.3rem] font-bold leading-none text-m600">Desde $15.000</span>
+        <button type="button" class="info-dot tip cursor-help" data-tip="Valor según el disfraz. Cotiza por WhatsApp para conocer el precio exacto." aria-label="Sobre los precios">?</button>
         <span class="text-[.68rem] font-bold text-ink2">arriendo 3 días</span>
       </div>
       <button class="addbtn w-full cursor-pointer rounded-xl border-0 bg-[linear-gradient(135deg,var(--color-m600),var(--color-m500))] px-2 py-2.5 font-ft text-[.84rem] font-bold text-white shadow-[0_4px_12px_rgba(90,42,156,.3)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_18px_rgba(90,42,156,.45)] active:scale-[.9]" data-act="add">${multiSize ? '📏 Elegir talla y arrendar' : '🎭 Arrendar disfraz'}</button>
@@ -1073,19 +1074,19 @@ function totalsHTML(conPagoDia = true): string {
   const gar = guaranteeTotal();
   const pagoDia = tot + gar;
   return `<div class="det mt-3 rounded-2xl border-2 border-line bg-[#f9f6ff] p-3 text-[.85rem]">
-    <div class="flex justify-between"><span>Arriendo 3 días</span><b>${clp(sub)}</b></div>
+    <div class="flex justify-between"><span>Arriendo 3 días</span><b>Desde $15.000</b></div>
     <div class="mt-1.5 flex items-baseline justify-between gap-2 border-t border-line pt-1.5">
       <span class="font-ft text-[.95rem] font-bold text-m600">Total a pagar por el arriendo</span>
-      <b class="font-ft text-[1.3rem] leading-none text-m600">${clp(tot)}</b>
+      <b class="font-ft text-[1.3rem] leading-none text-m600">Desde $15.000</b>
     </div>
   </div>
-  <span class="gchip">🛡️ Garantía de ${clp(gar)} reintegrable</span>
+  <span class="gchip">🛡️ Garantía de $15.000 o $20.000 reintegrable</span>
   ${
     conPagoDia
       ? `<div class="paynote">
     <span class="pn-label">El día del retiro pagarás</span>
-    <b class="pn-total">${clp(pagoDia)}</b>
-    <small>Arriendo ${clp(tot)} + garantía ${clp(gar)}. La garantía se te devuelve completa al entregar el disfraz en las mismas condiciones.</small>
+    <b class="pn-total">Desde $30.000</b>
+    <small>Arriendo desde $15.000 + garantía de $15.000 o $20.000. La garantía se te devuelve completa al entregar el disfraz en las mismas condiciones.</small>
   </div>`
       : ''
   }`;
@@ -1333,7 +1334,8 @@ function openQuick(id: number) {
   <h3 class="my-1 text-[1.45rem]">${esc(c.n)}</h3>
   <p class="text-ink2">${esc(c.d)}</p>
   <div class="mt-3 flex flex-wrap items-center gap-2.5 rounded-2xl border-2 border-line bg-[#f9f6ff] p-3">
-    <span class="font-ft text-[1.5rem] font-bold leading-none text-m600">${clp(c.price)}</span>
+    <span class="font-ft text-[1.5rem] font-bold leading-none text-m600">Desde $15.000</span>
+    <button type="button" class="info-dot tip cursor-help" data-tip="Valor según el disfraz. Cotiza por WhatsApp para conocer el precio exacto." aria-label="Sobre los precios">?</button>
     <span class="text-[.78rem] font-bold text-ink2">arriendo 3 días (retiro, uso y entrega)</span>
   </div>
   <div id="qmSizeWrap" class="relative rounded-2xl">
@@ -1341,7 +1343,7 @@ function openQuick(id: number) {
     <div class="tsel" id="qmTallas">${c.tl.map((t) => `<button class="tip ${!multi && t === talla ? 'on' : ''}" data-t="${esc(t)}" data-tip="${esc(TALLA_GUIA[t] ? 'Estatura recomendada: ' + TALLA_GUIA[t] : 'Sin referencia de estatura')}">${esc(t)}</button>`).join('')}</div>
     <span id="qmTtip" class="sizetip" role="status">👆 Selecciona una talla para continuar</span>
   </div>
-  <span class="gchip">🛡️ Garantía de ${clp(c.gar)} reintegrable</span>
+  <span class="gchip">🛡️ Garantía de $15.000 o $20.000 reintegrable</span>
   <div class="mt-5 flex flex-col gap-2.5">
     <button class="btn btn-mora w-full" id="qmAdd">🛒 Agregar a mi cotización →</button>
     <a class="btn btn-blanco w-full" id="qmWa" target="_blank" rel="noopener" href="${waLink(`¡Hola! Quiero cotizar el arriendo del disfraz ${c.n} para adultos. ¿Está disponible?`)}">💬 Cotizar solo este disfraz por WhatsApp</a>
@@ -1437,9 +1439,9 @@ function renderReq() {
           .map((i, k) => {
             const it = byId(i.id)!;
             const tls = isProduct(it) ? it.tl : ['único'];
-            const line = isProduct(it) ? clp(it.price * i.qty) : '';
+            const line = isProduct(it) ? 'Desde $15.000' : '';
             const pricePill = isProduct(it)
-              ? `<span class="price-pill">${clp(it.price)} / arriendo</span> <button type="button" class="info-dot tip" data-tip="Arriendo por 3 días: retiro, uso y devolución." aria-label="Qué incluye el arriendo">i</button>`
+              ? `<span class="price-pill">Desde $15.000</span> <button type="button" class="info-dot tip" data-tip="Valor según el disfraz. Cotiza por WhatsApp para conocer el precio exacto." aria-label="Sobre los precios">?</button>`
               : '';
             return `<div class="req-card"><span class="re">${'img' in it && it.img ? `<img src="${it.img}" alt="">` : it.e}</span><span class="rn">${esc(it.n)}<br>${pricePill}<br><small class="font-normal text-ink2">${isProduct(it) ? `Talla ${i.talla}` : 'Arriendo por 3 días'}</small></span>
   <select data-rt="${k}" aria-label="Talla de ${esc(it.n)}">${tls.map((x) => `<option ${x === i.talla ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>
@@ -1462,9 +1464,9 @@ function renderReq() {
   <input id="rqNom" placeholder="Nombre y apellido *" autocomplete="name" required aria-required="true" aria-label="Nombre y apellido (obligatorio)" value="${esc(state.req.nombre)}" class="mt-1.5 w-full rounded-[10px] border-2 border-line p-2.5">
   <p class="mt-1 text-[.75rem] font-bold text-ink2">* Obligatorio: con tu nombre te confirmamos la reserva por WhatsApp.</p>
   <div class="totbox">
-    <div class="trow"><span>Valor de arriendo por 3 días:</span><b>${clp(tot)}</b></div>
-    <div class="trow"><span>Garantía reembolsable <button type="button" class="info-dot tip" data-tip="${esc(GAR)}" aria-label="Sobre la garantía">i</button>:</span><b>${clp(gar)}</b></div>
-    <div class="trow total"><span>Total estimado en sucursal:</span><b>${clp(tot + gar)}</b></div>
+    <div class="trow"><span>Valor de arriendo por 3 días:</span><b>Desde $15.000</b></div>
+    <div class="trow"><span>Garantía reembolsable <button type="button" class="info-dot tip" data-tip="${esc(GAR)}" aria-label="Sobre la garantía">i</button>:</span><b>$15.000 o $20.000</b></div>
+    <div class="trow total"><span>Total estimado en sucursal:</span><b>Desde $30.000</b></div>
   </div>
   <p class="totnote">Es solo una cotización: el valor del arriendo y la garantía se revisan y confirman en la tienda al reservar.</p>
   <button class="btn btn-wsp btn-lg mt-2.5 w-full" id="rqSend">💬 Enviar solicitud por WhatsApp</button>

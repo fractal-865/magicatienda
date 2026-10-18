@@ -49,13 +49,15 @@ const PRICE_BY_CAT: Record<string, number> = {
   'princesas-y-cuentos': 15000,
   musica: 15000,
   'halloween-y-terror': 15000,
+  halloween: 15000,
+  terror: 15000,
   'epocas-e-historicos': 17000,
   'anime-y-videojuegos': 18000,
   'peliculas-y-series': 18000,
   superheroes: 20000,
 };
 /* Garantía reintegrable: se devuelve al entregar en buenas condiciones */
-const garFor = (price: number): number => (price <= 13000 ? 13000 : price <= 17000 ? 16000 : 20000);
+const garFor = (price: number): number => (price <= 17000 ? 15000 : 20000);
 
 /** Formato CLP: $13.000 */
 export const clp = (n: number): string => '$' + n.toLocaleString('es-CL');
@@ -71,6 +73,8 @@ export const slug = (s: string): string =>
 
 /* ── Categorías del JSON (con icono y degradado propios) ── */
 export const CATS: Cat[] = [
+  { id: 'halloween', n: 'Halloween', i: '🎃', g: ['#3c1481', '#ff7a1a'] },
+  { id: 'terror', n: 'Terror', i: '👻', g: ['#1a0a2e', '#c22a4a'] },
   { id: 'halloween-y-terror', n: 'Halloween y terror', i: '🎃', g: ['#3c1481', '#ff7a1a'] },
   { id: 'superheroes', n: 'Superhéroes', i: '⚡', g: ['#5a2a9c', '#ff5fa2'] },
   { id: 'peliculas-y-series', n: 'Películas y series', i: '🎬', g: ['#274b9c', '#7a4fd0'] },
@@ -93,7 +97,7 @@ export const displayTalla = (t: string): string =>
 /* ── Celebraciones derivadas de las categorías del JSON ── */
 function ocasiones(cats: string[]): string[] {
   const oc = new Set<string>();
-  if (cats.includes('halloween-y-terror')) oc.add('halloween');
+  if (cats.includes('halloween-y-terror') || cats.includes('halloween') || cats.includes('terror')) oc.add('halloween');
   if (cats.includes('princesas-y-cuentos')) {
     oc.add('cumple');
     oc.add('gradua');

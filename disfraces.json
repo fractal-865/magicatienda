@@ -37,13 +37,14 @@
       "M",
       "XL"
     ],
-    "descripcion": "Disfraz de Annabelle con look de muñeca terrorífica. Vestido largo blanco de manga larga con cuello de volantes, mangas abullonadas y faldón fruncido en el bajo. Se ajusta con lazadas rojas en el pecho y una faja roja a la cintura que destacan sobre la tela clara. Perfecto para Halloween, fiestas de miedo y sesiones de fotos de terror.",
+    "descripcion": "Disfraz de Annabelle para niña con look de muñeca terrorífica. Vestido largo blanco de manga larga con cuello de volantes, mangas abullonadas y faldón fruncido en el bajo. Se ajusta con lazadas rojas en el pecho y una faja roja a la cintura que destacan sobre la tela clara. Perfecto para Halloween, fiestas de miedo y sesiones de fotos de terror.",
     "categorias": [
-      "halloween y terror",
-      "películas y series"
+      "terror",
+      "películas y series",
+      "halloween"
     ],
-    "genero": "mujer",
-    "archivo": "3-disfraz-annabelle-mujer-talla-m-xl.avif"
+    "genero": "niña",
+    "archivo": "3-disfraz-annabelle-nina-talla-m-xl.avif"
   },
   {
     "numero": 4,
@@ -85,8 +86,9 @@
     ],
     "descripcion": "Disfraz de Beetlejuice para hombre con traje de rayas blanco y negro. Incluye chaqueta y pantalón de rayas verticales, camisa blanca y corbata negra que completan el conjunto. Se remata con la característica peluca rizada blanca y el maquillaje oscuro alrededor de los ojos. Un clásico de Halloween y de las fiestas de cine de terror.",
     "categorias": [
-      "halloween y terror",
-      "películas y series"
+      "terror",
+      "películas y series",
+      "halloween"
     ],
     "genero": "hombre",
     "archivo": "6-disfraz-beetlejuice-hombre-talla-m-l.avif"
@@ -130,7 +132,8 @@
     ],
     "descripcion": "Disfraz de bruja para mujer en clave elegante y misteriosa. Vestido largo negro de tejido satinado con escote de pico, cordones cruzados en el delantero y mangas acampanadas. Se acompaña de una larga peluca negra con mechones blancos que aporta un aire tenebroso. Perfecto para Halloween, fiestas de terror y noches temáticas.",
     "categorias": [
-      "halloween y terror"
+      "terror",
+      "halloween"
     ],
     "genero": "mujer",
     "archivo": "9-disfraz-bruja-mujer-talla-s.avif"
@@ -145,7 +148,8 @@
     ],
     "descripcion": "Disfraz de bruja para mujer en tallas grandes con estampado de Halloween. Conjunto formado por top negro de manga larga y falda acampanada con dibujos de calaveras, calabazas, murciélagos y telarañas en color naranja y blanco. Se completa con un sombrero de bruja naranja decorado con lazos negros. Ideal para fiestas de Halloween y eventos terroríficos.",
     "categorias": [
-      "halloween y terror"
+      "terror",
+      "halloween"
     ],
     "genero": "mujer",
     "archivo": "10-disfraz-bruja-mujer-talla-xl-xxl.avif"
@@ -160,7 +164,8 @@
     ],
     "descripcion": "Disfraz de bruja para mujer con acabado de gala. Vestido largo de terciopelo negro con mangas de gasa transparente decoradas con lunas y estrellas brillantes. Incluye un sombrero de bruja a juego con velo de tul estrellado y una luna plateada en el frontal. Perfecto para Halloween, fiestas temáticas y eventos de disfraces.",
     "categorias": [
-      "halloween y terror"
+      "terror",
+      "halloween"
     ],
     "genero": "mujer",
     "archivo": "11-disfraz-bruja-mujer-talla-s-m.avif"
@@ -256,8 +261,9 @@
     ],
     "descripcion": "Disfraz de Chucky en su versión clásica de muñeco asesino. Incluye jersey de manga larga a rayas rojas y blancas y peto vaquero azul con tirantes, cremallera y botones metálicos. Se completa con un cuchillo de juguete manchado y botas negras de caña alta. Perfecto para Halloween, fiestas de terror y noches temáticas de películas de culto.",
     "categorias": [
-      "halloween y terror",
-      "películas y series"
+      "terror",
+      "películas y series",
+      "halloween"
     ],
     "genero": "hombre",
     "archivo": "17-disfraz-chucky-hombre-talla-m.avif"
@@ -271,8 +277,9 @@
     ],
     "descripcion": "Disfraz de muñeco asesino con jersey arcoíris muy llamativo. Incluye camiseta de manga larga con rayas multicolor y ribetes rojos y peto vaquero azul con botones rojos a juego. Se complementa con cuchillo de juguete ensangrentado y zapatillas rojas de caña alta. Ideal para Halloween, fiestas de terror y disfraces inspirados en el cine.",
     "categorias": [
-      "halloween y terror",
-      "películas y series"
+      "terror",
+      "películas y series",
+      "halloween"
     ],
     "genero": "hombre",
     "archivo": "18-disfraz-chucky-hombre-talla-nd.avif"
@@ -286,7 +293,8 @@
     ],
     "descripcion": "Disfraz de colegiala asesina en tono beige con aire siniestro. Incluye vestido corto con cuello camisero, botones forrados y una lazada a rayas a juego en el escote. Las mangas van cubiertas por una camiseta interior de rayas marrones y blancas, y se remata con medias y cuchillo de juguete con restos rojos. Perfecto para Halloween, fiestas de terror y eventos temáticos.",
     "categorias": [
-      "halloween y terror"
+      "terror",
+      "halloween"
     ],
     "genero": "mujer",
     "archivo": "19-disfraz-colegiala-asesina-mujer-talla-m.avif"
@@ -360,7 +368,8 @@
     ],
     "descripcion": "Disfraz de diablo con un aspecto oscuro y amenazante. Incluye túnica larga de acabado satinado con cuello de volante rojo y bajo con picos a juego, ajustada con un fajín rojo anudado. Incorpora máscara roja con cuernos, garras de juguete y un tridente a juego. Ideal para Halloween, fiestas de terror y eventos de disfraces.",
     "categorias": [
-      "halloween y terror"
+      "terror",
+      "halloween"
     ],
     "genero": "hombre",
     "archivo": "24-disfraz-diablo-hombre-talla-m-l-xl.avif"
@@ -391,8 +400,8 @@
     "categorias": [
       "películas y series"
     ],
-    "genero": "mujer",
-    "archivo": "26-disfraz-dorothy-mujer-talla-m.avif"
+    "genero": "niña",
+    "archivo": "26-disfraz-dorothy-nina-talla-m.avif"
   },
   {
     "numero": 27,
@@ -477,7 +486,8 @@
     ],
     "descripcion": "Vestido de novia de Frankenstein en color negro con cuerpo satinado y delantero decorado con costuras rosas tipo puntiadas. Luce mangas cortas abullonadas de rayas blancas y negras, cinturilla blanca satinada y falda plisada negra con detalles de puntadas blancas y bajo de rayas. Se completa con medias negras opacas y botas militares negras de plataforma. Ideal para Halloween, fiestas de terror y eventos de disfraces de monstruos clásicos.",
     "categorias": [
-      "halloween y terror",
+      "terror",
+      "halloween",
       "películas y series"
     ],
     "genero": "mujer",
@@ -508,7 +518,8 @@
     ],
     "descripcion": "Versión femenina del terrorífico Freddy Krueger con jersey de punto corto a rayas rojas y negras y bajo deshilachado. Se acompaña de minifalda plisada negra con acabado tipo cuero y sombrero fedora negro de fieltro. El conjunto incluye el característico guante marrón con cuchillas metálicas y se remata con zapatillas negras. Es un disfraz ideal para Halloween, fiestas de terror y noches de cine de miedo.",
     "categorias": [
-      "halloween y terror",
+      "terror",
+      "halloween",
       "películas y series"
     ],
     "genero": "mujer",
@@ -648,7 +659,8 @@
     ],
     "descripcion": "Disfraz de hombre lobo con máscara de lobo gris de pelo largo, hocico abierto con colmillos y orejas puntiagudas. El pecho luce pelo marrón espeso y una pajarita azul, sobre una camisa de cuadros rojos desgarrada con jirones. La parte inferior se completa con vaqueros oscuros, guantes de garras negras y botas negras de cordones. Ideal para Halloween, fiestas de terror y noches de luna llena.",
     "categorias": [
-      "halloween y terror"
+      "terror",
+      "halloween"
     ],
     "genero": "hombre",
     "archivo": "43-disfraz-hombre-lobo-hombre-talla-m-l.avif"
@@ -663,7 +675,8 @@
     "descripcion": "Traje de esqueleto inspirado en Jack Skellington, formado por chaqueta y pantalón negros con finas rayas verticales blancas. La chaqueta destaca por su cuello con forma de alas de murciélago y se acompaña de camiseta interior blanca. Incluye guantes blancos con efecto de huesos y una pajarita negra con cara de calabaza, rematándose con zapatos negros. Un disfraz muy reconocible para Halloween, fiestas de terror y eventos de cine.",
     "categorias": [
       "películas y series",
-      "halloween y terror"
+      "terror",
+      "halloween"
     ],
     "genero": "hombre",
     "archivo": "44-disfraz-jack-skellington-hombre-talla-m.avif"
@@ -695,7 +708,8 @@
     ],
     "descripcion": "Disfraz de Jason Voorhees en su versión más sangrienta y desgastada. Incluye mono de trabajo beige con manchas de sangre simulada, rotos y desgarros que imitan el paso del tiempo, y máscara de hockey dorada con detalles rojos y correas negras. Se completa con un bate de béisbol forrado con cinta. Perfecto para Halloween, casas del terror y fiestas de terror.",
     "categorias": [
-      "halloween y terror",
+      "terror",
+      "halloween",
       "películas y series"
     ],
     "genero": "hombre",
@@ -711,7 +725,8 @@
     ],
     "descripcion": "Disfraz de Jason Voorhees de aire rudo y desgastado. Incluye máscara de hockey plateada de acabado envejecido, camisa beige de tela suave con bajos deshilachados y abierta sobre una camiseta gris, y pantalón vaquero oscuro con rotos y bolsillos cargo. Se acompaña de un machete de juguete. Ideal para Halloween, escape rooms y fiestas de terror.",
     "categorias": [
-      "halloween y terror",
+      "terror",
+      "halloween",
       "películas y series"
     ],
     "genero": "hombre",
@@ -881,7 +896,8 @@
     ],
     "descripcion": "Disfraz de médico de la peste de estética siniestra. Incluye túnica negra larga con capucha y mangas amplias, ceñida con un cordón dorado anudado a la cintura, y máscara de pico negra con remaches plateados y lentes redondas. Ideal para Halloween, casas del terror y eventos de temática histórica y oscura.",
     "categorias": [
-      "halloween y terror",
+      "terror",
+      "halloween",
       "épocas e históricos"
     ],
     "genero": "unisex",
@@ -911,7 +927,8 @@
     ],
     "descripcion": "Disfraz de Michael Myers, el asesino de Halloween. Incluye máscara blanca de rostro pálido y mono de trabajo azul oscuro con cremallera frontal, cuello camisero y bolsillos en el pecho. Se completa con un cuchillo de juguete para dar el toque final. Ideal para Halloween, casas del terror y fiestas de terror.",
     "categorias": [
-      "halloween y terror",
+      "terror",
+      "halloween",
       "películas y series"
     ],
     "genero": "hombre",
@@ -926,7 +943,8 @@
     ],
     "descripcion": "Disfraz de terror inspirado en el icónico asesino de Halloween. Incluye un mono de trabajo azul marino con cierre frontal, cuello alto y bolsillos tipo cargo en pecho y piernas, de acabado mate y corte holgado. Se completa con una máscara blanca pálida de rostro inexpresivo y cabello castaño despeinado. Perfecto para fiestas de Halloween, casas del terror y noches temáticas de cine de miedo.",
     "categorias": [
-      "halloween y terror",
+      "terror",
+      "halloween",
       "películas y series"
     ],
     "genero": "hombre",
@@ -1006,7 +1024,7 @@
     "descripcion": "Disfraz de monja en versión provocadora con hábito negro formado por toca blanca y velo amplio. El cuerpo combina blanco y negro con una gran cruz negra en el pecho y escote con abertura, rematado con ribetes dorados. La falda es corta y de corte asimétrico con acabado dorado y apliques de cruces. Se completa con zapatillas blancas y resulta ideal para fiestas de Halloween, despedidas y eventos de temática sexy.",
     "categorias": [
       "sexy",
-      "halloween y terror"
+      "halloween"
     ],
     "genero": "mujer",
     "archivo": "66-disfraz-monja-mujer-talla-s-m-l.avif"
@@ -1037,7 +1055,8 @@
     ],
     "descripcion": "Disfraz de Morticia Addams con vestido largo y ajustado en terciopelo negro que marca la silueta. Presenta escote profundo en pico y mangas largas que se abren en amplias bocamangas con colgantes de gasa negra calada. El acabado elegante y oscuro aporta un aire gótico muy reconocible. Perfecto para Halloween, fiestas de terror y eventos temáticos de cine y series.",
     "categorias": [
-      "halloween y terror",
+      "terror",
+      "halloween",
       "películas y series"
     ],
     "genero": "mujer",
@@ -1113,7 +1132,8 @@
     ],
     "descripcion": "Disfraz de novia zombie con vestido largo blanco de escote alto y mangas largas confeccionadas en encaje con motivos florales. El cuerpo presenta un lazo a la cintura y la falda, de vuelo amplio y tejido vaporoso, luce estampados de manchas rojas simulando sangre, igual que en pecho y mangas. El bajo es irregular y deshilachado, y el conjunto se completa con un velo a juego de tul y encaje. Perfecto para Halloween, pasajes del terror y fiestas de terror.",
     "categorias": [
-      "halloween y terror"
+      "terror",
+      "halloween"
     ],
     "genero": "mujer",
     "archivo": "73-disfraz-novia-zombie-mujer-talla-m-l.avif"
@@ -1141,7 +1161,8 @@
     ],
     "descripcion": "Disfraz de payasa con cuerpo de rayas verticales claras y corpiño adornado con un cuello de volantes y tres pompones rojos al frente. Las mangas son abullonadas en tono verde grisáceo sobre mangas largas de rayas, y la falda se resuelve en capas de gasa con bajo de encaje blanco. El personaje se completa con dos moños altos atados con lazos rojos y un maquillaje de ojos oscuro y labios rojos. Perfecto para Halloween, fiestas de terror y eventos temáticos de circo.",
     "categorias": [
-      "halloween y terror"
+      "terror",
+      "halloween"
     ],
     "genero": "mujer",
     "archivo": "75-disfraz-payasa-mujer-talla-xxl.avif"
@@ -1156,7 +1177,7 @@
     ],
     "descripcion": "Disfraz de payaso para hombre con camiseta negra de manga larga y ribetes blancos al estilo marinero, rematada con una larga corbata roja de acabado satinado. Incluye pantalón corto negro con franjas laterales blancas, calcetines amarillos hasta la rodilla y un gorro multicolor en amarillo, rojo y azul. El conjunto se completa con unas zapatillas deportivas blancas y un gran chupachús de caramelo. Es una opción muy vistosa para fiestas de disfraces, carnaval y eventos de circo.",
     "categorias": [
-      "halloween y terror",
+      "halloween",
       "profesiones"
     ],
     "genero": "hombre",
@@ -1171,7 +1192,7 @@
     ],
     "descripcion": "Vestido de payaso para mujer en tejido satinado color plateado, con cuello de volantes, manga corta abullonada y puños con ribete rojo. Luce dos pompones rojos sobre el pecho y una pasamanería roja que marca la cintura. La falda combina capas de brillo gris y blanco con un corte dentado muy original. Ideal para Halloween, fiestas temáticas y despedidas de soltera.",
     "categorias": [
-      "halloween y terror",
+      "halloween",
       "profesiones"
     ],
     "genero": "mujer",
@@ -1187,7 +1208,8 @@
     ],
     "descripcion": "Mono de payaso asesino para hombre con diseño mitad a rayas rojas y negras y mitad blanca salpicada de manchas de sangre simulada. Incorpora un cuello de volantes negro, pompones negros en la botonadura y puños elásticos con volante. Se completa con guantes blancos y un maquillaje de payaso oscuro muy inquietante. Es la opción estrella para Halloween, casas del terror y fiestas de terror.",
     "categorias": [
-      "halloween y terror"
+      "terror",
+      "halloween"
     ],
     "genero": "hombre",
     "archivo": "78-disfraz-payaso-asesino-hombre-talla-s-m.avif"
@@ -1202,7 +1224,8 @@
     ],
     "descripcion": "Disfraz de payaso sanguinario formado por una chaqueta de manga larga en tela satinada con paneles azul, rojo y verde, y pantalón a juego. Incluye cuello de volantes amarillo con ribete, tres botones amarillos y una máscara de payaso con pelo rojo y mirada siniestra. Se acompaña de un cuchillo de juguete manchado de sangre que completa el look. Perfecto para Halloween, fiestas de terror y pasajes del terror.",
     "categorias": [
-      "halloween y terror"
+      "terror",
+      "halloween"
     ],
     "genero": "hombre",
     "archivo": "79-disfraz-payaso-asesino-hombre-talla-xl-xxl.avif"
@@ -1217,7 +1240,8 @@
     ],
     "descripcion": "Mono de payaso siniestro con diseño bicolor, una mitad blanca y otra negra, con puños elásticos y perneras fruncidas en los tobillos. Luce un gran cuello de volantes blanco y pompones negros en la botonadura, además de guantes blancos a juego. La máscara de payaso incorpora un pequeño sombrero de copa y una sonrisa inquietante. Ideal para Halloween, fiestas de terror y escape rooms.",
     "categorias": [
-      "halloween y terror",
+      "terror",
+      "halloween",
       "películas y series"
     ],
     "genero": "hombre",
@@ -1233,7 +1257,8 @@
     ],
     "descripcion": "Disfraz de Pennywise en tejido satinado gris plateado con cuerpo de volantes superpuestos y pantalón con bajo fruncido a juego. Luce un amplio cuello blanco con encaje, pompones rojos en el pecho y puños con volante del mismo tono. Incluye peluca roja y máscara de payaso de aspecto inquietante, además de guantes blancos. Es un disfraz imprescindible para Halloween y fiestas de terror.",
     "categorias": [
-      "halloween y terror",
+      "terror",
+      "halloween",
       "películas y series"
     ],
     "genero": "hombre",
@@ -1249,7 +1274,8 @@
     ],
     "descripcion": "Conjunto de Pennywise en tejido satinado color gris con reflejos metálicos, formado por blusa de mangas abullonadas y pantalón a juego con bajos de volante. Detalles de encaje blanco en cuello y puños, pompones rojos en el pecho y cordón rojo en la cintura. Se completa con botas de cordones rojas y blancas y un globo rojo en la mano. Ideal para Halloween y fiestas temáticas de terror.",
     "categorias": [
-      "halloween y terror",
+      "terror",
+      "halloween",
       "películas y series"
     ],
     "genero": "hombre",
@@ -1390,7 +1416,7 @@
     "descripcion": "Disfraz de pirata corsaria con blusa roja de mangas abullonadas al hombro y lazo en el puño. Incorpora corsé negro de acabado terciopelo con cordón rojo en forma de corazones al frente y una gran lazada de satén rojo a la cintura. La falda roja lleva sobrefalda negra de tela brillante con bajo en pico y se completa con sombrero tricornio negro de ribete dorado y calavera blanca. Ideal para fiestas de Halloween y eventos de temática pirata.",
     "categorias": [
       "épocas e históricos",
-      "halloween y terror"
+      "halloween"
     ],
     "genero": "mujer",
     "archivo": "91-disfraz-pirata-mujer-talla-xs-s-xl.avif"
@@ -1465,7 +1491,8 @@
     ],
     "descripcion": "Disfraz de porrista diabólica en tonos naranja y negro, con top corto de escote cruzado en tiras y ribetes blancos y negros. La falda de pliegues tableados incorpora un cinturón con el número '666' y estrellas de cinco puntas, a juego con la gargantilla de cuello. Un look atrevido y oscuro que deja el abdomen al aire. Ideal para noches de Halloween y fiestas de terror.",
     "categorias": [
-      "halloween y terror",
+      "terror",
+      "halloween",
       "sexy"
     ],
     "genero": "mujer",
@@ -1483,7 +1510,8 @@
     ],
     "descripcion": "Disfraz de preso formado por camiseta de manga larga y pantalón a juego de rayas blancas y negras. El tejido incorpora manchas de sangre rojas salpicadas por el pecho, las mangas y las piernas para un efecto inquietante. Se completa con un gorro de rayas a juego. Perfecto para fiestas de Halloween y eventos de terror.",
     "categorias": [
-      "halloween y terror"
+      "terror",
+      "halloween"
     ],
     "genero": "hombre",
     "archivo": "97-disfraz-preso-hombre-talla-s-m-l-xl.avif"
@@ -1499,7 +1527,7 @@
     "descripcion": "Disfraz de preso con camiseta de manga larga de rayas blancas y negras, cuello con cordón y parche con el número '020267' en el pecho. Incluye pantalón de rayas a juego y gorro de lana con la misma trama. Un disfraz reconocible y cómodo, muy fácil de llevar. Ideal para fiestas de disfraces y eventos de Halloween.",
     "categorias": [
       "películas y series",
-      "halloween y terror"
+      "halloween"
     ],
     "genero": "hombre",
     "archivo": "98-disfraz-preso-hombre-talla-l-xl.avif"
@@ -1590,7 +1618,7 @@
     "descripcion": "Disfraz de Reina de Corazones con corona negra y dorada decorada con corazones rojos. El vestido negro de acabado terciopelo presenta un panel blanco en el pecho con tres corazones rojos y ribete dorado, además de mangas abullonadas de tul con ribetes rojos y lazos dorados. La falda corta combina rayas de lentejuelas negras y una capa de tul rojo. Un look ideal para Halloween y fiestas temáticas de cuento.",
     "categorias": [
       "princesas y cuentos",
-      "halloween y terror"
+      "halloween"
     ],
     "genero": "mujer",
     "archivo": "104-disfraz-reina-de-corazones-mujer-talla-xl.avif"
@@ -1606,7 +1634,7 @@
     "descripcion": "Disfraz de Reina de Corazones con corona negra y dorada adornada con un corazón rojo. El vestido rojo de satén luce mangas abullonadas con ribete negro, un panel dorado en el pecho con corazones rojos y guantes largos rojos a juego. A la cintura lleva una banda con estampado de naipes (corazones, picas, tréboles y diamantes) rematada en negro. Perfecto para Halloween, fiestas temáticas y eventos de cuento.",
     "categorias": [
       "princesas y cuentos",
-      "halloween y terror"
+      "halloween"
     ],
     "genero": "mujer",
     "archivo": "105-disfraz-reina-de-corazones-mujer-talla-l-xl.avif"
@@ -1623,7 +1651,7 @@
     "categorias": [
       "princesas y cuentos",
       "películas y series",
-      "halloween y terror"
+      "halloween"
     ],
     "genero": "mujer",
     "archivo": "106-disfraz-reina-de-corazones-mujer-talla-l-xl.avif"
@@ -1672,7 +1700,7 @@
     "descripcion": "Disfraz de Scooby-Doo unisex en peluche marrón de tacto suave. Es un mono de cuerpo entero con capucha integrada que reproduce la cabeza del famoso perro, con orejas largas, ojos grandes, hocico negro y collar con chapa amarilla en forma de rombo. Se cierra con cremallera frontal y resulta cálido y cómodo. Un clásico divertido para Halloween, fiestas infantiles y eventos de disfraces.",
     "categorias": [
       "películas y series",
-      "halloween y terror"
+      "halloween"
     ],
     "genero": "unisex",
     "archivo": "109-disfraz-scooby-doo-unisex-talla-s-m-l.avif"
@@ -1747,7 +1775,8 @@
     ],
     "descripcion": "Vestido negro de estilo gótico y elegante. Incluye vestido corto con cuello tipo Peter Pan con botón, escote con abertura y mangas abullonadas de tul transparente, además de falda acampanada con capas de tul. Se completa con guantes negros, medias y un tocado de rejilla con plumas. Un look ideal para Halloween, fiestas de disfraces y eventos temáticos.",
     "categorias": [
-      "halloween y terror"
+      "halloween",
+      "terror"
     ],
     "genero": "mujer",
     "archivo": "114-disfraz-vestido-negro-mujer-talla-l.avif"
@@ -1821,7 +1850,7 @@
     ],
     "descripcion": "Disfraz de bruja con vestido mostaza de manga larga y botones frontales. Incluye capa negra corta, cinturón negro con hebilla dorada y sombrero puntiagudo negro con pluma amarilla. Se combina con medias grises y botas negras de caña alta con vuelta. Perfecto para Halloween y fiestas temáticas de brujas.",
     "categorias": [
-      "halloween y terror"
+      "halloween"
     ],
     "genero": "mujer",
     "archivo": "119-disfraz-bruja-mujer-talla-m-l.avif"
@@ -1912,7 +1941,7 @@
     "descripcion": "Disfraz de gánster con gabardina larga morada de solapas marcadas y pantalón a juego. Bajo el abrigo se ve una camisa morada, chaleco verde botella con botones y corbata morada de tejido satinado. El contraste de morado y verde crea un look de villano de cómic muy reconocible. Ideal para Halloween, fiestas de disfraces y eventos de películas y series.",
     "categorias": [
       "películas y series",
-      "halloween y terror"
+      "halloween"
     ],
     "genero": "hombre",
     "archivo": "125-disfraz-joker-hombre-talla-m-l.avif"
@@ -1928,7 +1957,7 @@
     "descripcion": "Disfraz de lobo feroz disfrazado de abuela, con camisón largo azul estampado de flores y topos de colores. Incluye cofia a juego con volantes, careta de lobo con pelo largo y guantes de garras peludas en las manos. El cuello y los puños llevan ribetes de encaje blanco que rematan el look. Perfecto para Halloween, fiestas de cuento y obras de teatro.",
     "categorias": [
       "princesas y cuentos",
-      "halloween y terror"
+      "halloween"
     ],
     "genero": "unisex",
     "archivo": "126-disfraz-lobo-abuela-unisex-talla-l-xl.avif"
@@ -2002,9 +2031,407 @@
     ],
     "descripcion": "Disfraz de vampiro con capa negra de forro rojo satinado y cuello alto levantado. Bajo la capa luce un chaleco rojo con estampado de brocado y chorrera de volantes negros sobre camisa oscura. Se completa con pantalón negro y zapatos negros. Ideal para Halloween y fiestas de terror.",
     "categorias": [
-      "halloween y terror"
+      "terror",
+      "halloween"
     ],
     "genero": "hombre",
     "archivo": "131-disfraz-vampiro-hombre-talla-m-l.avif"
+  },
+  {
+    "numero": 132,
+    "archivo_original": "WhatsApp Image 2026-10-18 at 12.02.25 AM (1).jpeg",
+    "titulo": "Disfraz de Alicia en el País de las Maravillas",
+    "tallas": [
+      "S",
+      "M"
+    ],
+    "descripcion": "Vestido azul cielo con mangas abullonadas, delantal blanco con encaje y detalles de naipes en el pecho. Incluye medias blancas con estampado de naipes y diadema. Ideal para fiestas de Halloween, disfraces de cuentos o eventos infantiles.",
+    "categorias": [
+      "princesas y cuentos",
+      "halloween"
+    ],
+    "genero": "mujer",
+    "archivo": "132-disfraz-alicia-pais-maravillas-mujer-talla-s-m.avif"
+  },
+  {
+    "numero": 133,
+    "archivo_original": "WhatsApp Image 2026-10-18 at 1.20.44 AM.jpeg",
+    "titulo": "Otra versión del disfraz de Ana de Frozen en verde",
+    "tallas": [
+      "M",
+      "L"
+    ],
+    "descripcion": "Vestido de Ana de Frozen con corpiño negro de terciopelo con bordados florales y mangas abullonadas en satén verde. La falda es verde con estampado de flores y capa de tul. Incluye gargantilla negra con medallón dorado. Ideal para fiestas de princesas o eventos de Disney.",
+    "categorias": [
+      "princesas y cuentos",
+      "películas y series"
+    ],
+    "genero": "mujer",
+    "archivo": "133-disfraz-ana-frozen-mujer-talla-m-l.avif"
+  },
+  {
+    "numero": 134,
+    "archivo_original": "WhatsApp Image 2026-10-18 at 1.20.42 AM.jpeg",
+    "titulo": "Disfraz de Ana de Frozen blanco con detalles rojos",
+    "tallas": [
+      "talla sin especificar"
+    ],
+    "descripcion": "Vestido blanco satinado de estilo victoriano con mangas abullonadas, falda larga con volantes y detalles rojos. Incluye un cinturón rojo con flor. Ideal para fiestas de princesas, eventos infantiles o Halloween.",
+    "categorias": [
+      "princesas y cuentos",
+      "películas y series"
+    ],
+    "genero": "mujer",
+    "archivo": "134-disfraz-ana-frozen-mujer-talla-nd.avif"
+  },
+  {
+    "numero": 135,
+    "archivo_original": "WhatsApp Image 2026-10-18 at 12.02.26 AM.jpeg",
+    "titulo": "Disfraz de ángel caído negro",
+    "tallas": [
+      "L",
+      "XL"
+    ],
+    "descripcion": "Disfraz de ángel caído con vestido negro de corsé con cordones y falda de encaje con picos. Incluye alas negras, aro de plumas en la cabeza y mangas de tul transparente. Ideal para fiestas de Halloween o eventos de temática gótica.",
+    "categorias": [
+      "terror",
+      "halloween"
+    ],
+    "genero": "mujer",
+    "archivo": "135-disfraz-angel-caido-mujer-talla-l-xl.avif"
+  },
+  {
+    "numero": 136,
+    "archivo_original": "WhatsApp Image 2026-10-18 at 12.02.25 AM.jpeg",
+    "titulo": "Disfraz de arlequín con rombos blancos y negros",
+    "tallas": [
+      "L"
+    ],
+    "descripcion": "Vestido de arlequín con estampado de rombos en blanco y negro, mangas de tul transparente con ribetes rojos y falda de volantes con ribete rojo. Incluye gorguera de picos blancos y negros. Ideal para Halloween, fiestas de disfraces o eventos de carnaval.",
+    "categorias": [
+      "terror",
+      "halloween"
+    ],
+    "genero": "mujer",
+    "archivo": "136-disfraz-arlequin-mujer-talla-l.avif"
+  },
+  {
+    "numero": 137,
+    "archivo_original": "WhatsApp Image 2026-10-17 at 11.30.28 PM.jpeg",
+    "titulo": "Disfraz de bruja morada con sombrero puntiagudo",
+    "tallas": [
+      "S",
+      "M"
+    ],
+    "descripcion": "Vestido negro de bruja con ribetes y cordones morados, mangas acampanadas con ribetes satinados y capa extraíble de tul con puntas moradas. Incluye sombrero puntiagudo negro con cinta morada. Perfecto para Halloween, fiestas de disfraces o eventos de terror.",
+    "categorias": [
+      "terror",
+      "halloween"
+    ],
+    "genero": "mujer",
+    "archivo": "137-disfraz-bruja-morada-mujer-talla-s-m.avif"
+  },
+  {
+    "numero": 138,
+    "archivo_original": "WhatsApp Image 2026-10-18 at 12.02.26 AM (1).jpeg",
+    "titulo": "Disfraz de cardenal negro y rojo",
+    "tallas": [
+      "M",
+      "L",
+      "XL"
+    ],
+    "descripcion": "Disfraz de cardenal con túnica negra de corte largo y botones rojos delanteros. Incluye una capa corta con ribete rojo, faja roja a la cintura y gorro cardenalicio rojo. Complementado con collar dorado con cruz. Ideal para fiestas de disfraces con temática religiosa o Halloween.",
+    "categorias": [
+      "épocas e históricos"
+    ],
+    "genero": "hombre",
+    "archivo": "138-disfraz-cardenal-hombre-talla-m-l-xl.avif"
+  },
+  {
+    "numero": 139,
+    "archivo_original": "WhatsApp Image 2026-10-17 at 11.29.11 PM.jpeg",
+    "titulo": "Disfraz de Catwoman negro con aberturas",
+    "tallas": [
+      "S",
+      "M"
+    ],
+    "descripcion": "Body de cuero negro brillante con mangas largas y aberturas en hombros y piernas. Incluye antifaz con orejas puntiagudas de gata. Un diseño ideal para Halloween, fiestas sexy o eventos de superhéroes.",
+    "categorias": [
+      "superhéroes",
+      "sexy",
+      "halloween"
+    ],
+    "genero": "mujer",
+    "archivo": "139-disfraz-catwoman-mujer-talla-s-m.avif"
+  },
+  {
+    "numero": 140,
+    "archivo_original": "WhatsApp Image 2026-10-18 at 12.02.25 AM (2).jpeg",
+    "titulo": "Disfraz de Chucky con overol y cuchillo",
+    "tallas": [
+      "S"
+    ],
+    "descripcion": "Camisa de rayas multicolor de manga larga con cuello alto y overol vaquero con botones rojos y estampado de 'Wanna Play?'. Incluye cuchillo de juguete con detalles rojos. Ideal para fiestas de Halloween, eventos de terror o disfraces de películas.",
+    "categorias": [
+      "terror",
+      "halloween",
+      "películas y series"
+    ],
+    "genero": "mujer",
+    "archivo": "140-disfraz-chucky-mujer-talla-s.avif"
+  },
+  {
+    "numero": 141,
+    "archivo_original": "WhatsApp Image 2026-10-18 at 1.20.43 AM (2).jpeg",
+    "titulo": "Disfraz de dirndl bávaro rojo y negro",
+    "tallas": [
+      "talla sin especificar"
+    ],
+    "descripcion": "Vestido estilo Oktoberfest con blusa blanca de mangas cortas, corpiño negro con cordones y falda roja con volantes blancos y detalles bordados. Incluye medias blancas hasta la rodilla. Perfecto para fiestas bávaras, Oktoberfest o eventos temáticos.",
+    "categorias": [
+      "épocas e históricos"
+    ],
+    "genero": "mujer",
+    "archivo": "141-disfraz-dirndl-oktoberfest-mujer-talla-nd.avif"
+  },
+  {
+    "numero": 142,
+    "archivo_original": "WhatsApp Image 2026-10-18 at 1.20.43 AM (1).jpeg",
+    "titulo": "Disfraz de elfa navideña verde con medias a rayas",
+    "tallas": [
+      "L",
+      "XL"
+    ],
+    "descripcion": "Vestido verde de elfa con cuello rojo, botones de caramelo y cinturón negro con hebilla dorada. Incluye medias de rayas rojas y blancas y gorro puntiagudo verde con punta roja. Ideal para fiestas navideñas, eventos corporativos de Navidad o Halloween.",
+    "categorias": [
+      "épocas e históricos",
+      "halloween"
+    ],
+    "genero": "mujer",
+    "archivo": "142-disfraz-elfa-navidena-mujer-talla-l-xl.avif"
+  },
+  {
+    "numero": 143,
+    "archivo_original": "WhatsApp Image 2026-10-18 at 12.41.04 AM.jpeg",
+    "titulo": "Disfraz de explorador safari",
+    "tallas": [
+      "M",
+      "L"
+    ],
+    "descripcion": "Disfraz de explorador con camiseta de rayas marrones y blancas, pantalón corto beige y bandolera roja. Incluye gorro de safari a cuadros. Perfecto para fiestas infantiles o temáticas de aventura.",
+    "categorias": [
+      "épocas e históricos"
+    ],
+    "genero": "hombre",
+    "archivo": "143-disfraz-explorador-hombre-talla-m-l.avif"
+  },
+  {
+    "numero": 144,
+    "archivo_original": "WhatsApp Image 2026-10-17 at 11.29.11 PM (2).jpeg",
+    "titulo": "Disfraz de Jessie de Toy Story",
+    "tallas": [
+      "S",
+      "M",
+      "L"
+    ],
+    "descripcion": "Disfraz de la vaquera Jessie con camisa blanca de mangas largas, detalles amarillos con bordado rojo en puños y pecho. Incluye pantalones vaqueros con estampado de vaca, cinturón marrón con hebilla de búfalo y sombrero rojo con costuras blancas. Perfecto para fiestas infantiles, eventos de Disney o disfraces de personajes de película.",
+    "categorias": [
+      "películas y series",
+      "princesas y cuentos"
+    ],
+    "genero": "mujer",
+    "archivo": "144-disfraz-jessie-toy-story-mujer-talla-s-m-l.avif"
+  },
+  {
+    "numero": 145,
+    "archivo_original": "WhatsApp Image 2026-10-18 at 12.02.25 AM (3).jpeg",
+    "titulo": "Disfraz de Joker Arkham con chaqueta morada",
+    "tallas": [
+      "L"
+    ],
+    "descripcion": "Conjunto de Joker con chaqueta morada, chaleco verde con botones dorados, camisa blanca con cuello y pajarita morada. Incluye pantalón corto o falda plisada morada. Ideal para Halloween, fiestas de superhéroes o disfraces de villanos.",
+    "categorias": [
+      "superhéroes",
+      "halloween"
+    ],
+    "genero": "mujer",
+    "archivo": "145-disfraz-joker-mujer-mujer-talla-l.avif"
+  },
+  {
+    "numero": 146,
+    "archivo_original": "WhatsApp Image 2026-10-18 at 12.41.04 AM (1).jpeg",
+    "titulo": "Disfraz de Mafalda clásico",
+    "tallas": [
+      "S",
+      "L",
+      "XXL"
+    ],
+    "descripcion": "Disfraz de Mafalda con vestido verde, cuello amarillo, pantalón blanco con encaje y chaqueta roja. Incluye gafas y coletas con lazos amarillos. Perfecto para fiestas infantiles o eventos escolares.",
+    "categorias": [
+      "películas y series",
+      "princesas y cuentos"
+    ],
+    "genero": "niña",
+    "archivo": "146-disfraz-mafalda-nina-talla-s-l-xxl.avif"
+  },
+  {
+    "numero": 147,
+    "archivo_original": "WhatsApp Image 2026-10-18 at 1.20.43 AM (3).jpeg",
+    "titulo": "Disfraz de militar verde olivo con gorra",
+    "tallas": [
+      "S",
+      "M"
+    ],
+    "descripcion": "Conjunto militar de chaqueta y falda en verde olivo con botones plateados, cinturón con hebilla y hombreras. Incluye gorra militar de marcha. Ideal para fiestas de Halloween, eventos de profesiones o disfraces de acción.",
+    "categorias": [
+      "profesiones",
+      "halloween"
+    ],
+    "genero": "mujer",
+    "archivo": "147-disfraz-militar-verde-mujer-talla-s-m.avif"
+  },
+  {
+    "numero": 148,
+    "archivo_original": "WhatsApp Image 2026-10-17 at 11.29.11 PM (1).jpeg",
+    "titulo": "Disfraz de monja de negro con cruz dorada",
+    "tallas": [
+      "M",
+      "L",
+      "XL"
+    ],
+    "descripcion": "Disfraz de monja clásico en color negro con cuello blanco y mangas largas. Incluye el velo negro con cinta blanca y un colgante de cruz dorada al cuello. Ideal para fiestas de Halloween, eventos de terror o disfraces religiosos.",
+    "categorias": [
+      "terror",
+      "halloween"
+    ],
+    "genero": "mujer",
+    "archivo": "148-disfraz-monja-mujer-talla-m-l-xl.avif"
+  },
+  {
+    "numero": 149,
+    "archivo_original": "WhatsApp Image 2026-10-18 at 1.20.43 AM.jpeg",
+    "titulo": "Disfraz de monje negro con capucha",
+    "tallas": [
+      "S",
+      "M"
+    ],
+    "descripcion": "Túnica monástica negra con mangas anchas y capucha. Incluye cinturón de cuerda blanca con nudos y cruz negra colgante. Perfecto para Halloween, eventos de terror o fiestas de disfraces.",
+    "categorias": [
+      "terror",
+      "halloween"
+    ],
+    "genero": "hombre",
+    "archivo": "149-disfraz-monje-hombre-talla-s-m.avif"
+  },
+  {
+    "numero": 150,
+    "archivo_original": "WhatsApp Image 2026-10-18 at 12.41.04 AM (3).jpeg",
+    "titulo": "Disfraz de monje franciscano",
+    "tallas": [
+      "M",
+      "L",
+      "XL"
+    ],
+    "descripcion": "Disfraz de monje con túnica marrón de corte largo, capucha y cinturón de cuerda con nudos. Incluye gorro de monje. Perfecto para fiestas de temática religiosa o representaciones históricas.",
+    "categorias": [
+      "épocas e históricos"
+    ],
+    "genero": "hombre",
+    "archivo": "150-disfraz-monje-hombre-talla-m-l-xl.avif"
+  },
+  {
+    "numero": 151,
+    "archivo_original": "WhatsApp Image 2026-10-18 at 3.33.15 PM.jpeg",
+    "titulo": "Disfraz de payaso asesino con cuchillo",
+    "tallas": [
+      "S",
+      "M",
+      "L"
+    ],
+    "descripcion": "Disfraz de payaso asesino con camiseta de rayas de colores, peto azul y cuchillo ensangrentado. Incluye pantalón largo y zapatos negros. Perfecto para fiestas de Halloween de temática de terror.",
+    "categorias": [
+      "terror",
+      "halloween"
+    ],
+    "genero": "hombre",
+    "archivo": "151-disfraz-payaso-asesino-hombre-talla-s-m-l.avif"
+  },
+  {
+    "numero": 152,
+    "archivo_original": "WhatsApp Image 2026-10-18 at 3.32.33 PM.jpeg",
+    "titulo": "Disfraz de payaso blanco y negro",
+    "tallas": [
+      "L",
+      "XL"
+    ],
+    "descripcion": "Disfraz de payaso con mono blanco y negro a cuadros, cuello de volantes y botones grandes. Incluye gorro de payaso. Ideal para fiestas de Halloween o eventos de circo.",
+    "categorias": [
+      "terror",
+      "halloween"
+    ],
+    "genero": "hombre",
+    "archivo": "152-disfraz-payaso-blanco-hombre-talla-l-xl.avif"
+  },
+  {
+    "numero": 153,
+    "archivo_original": "WhatsApp Image 2026-10-18 at 12.41.04 AM (4).jpeg",
+    "titulo": "Disfraz de Robin femenino",
+    "tallas": [
+      "S",
+      "M"
+    ],
+    "descripcion": "Disfraz de Robin con top rojo con logo de R, mangas verdes, falda verde y capa amarilla. Incluye collarín amarillo. Ideal para fiestas de superhéroes o Halloween.",
+    "categorias": [
+      "superhéroes"
+    ],
+    "genero": "mujer",
+    "archivo": "153-disfraz-robin-mujer-talla-s-m.avif"
+  },
+  {
+    "numero": 154,
+    "archivo_original": "WhatsApp Image 2026-10-18 at 12.41.04 AM (2).jpeg",
+    "titulo": "Disfraz de centurión romano",
+    "tallas": [
+      "M",
+      "L"
+    ],
+    "descripcion": "Disfraz de centurión romano con túnica blanca, coraza marrón con detalles dorados y capa roja. Incluye falda de tiras de cuero, grebas, sandalias y espada romana. Ideal para fiestas de temática histórica o carnaval.",
+    "categorias": [
+      "épocas e históricos"
+    ],
+    "genero": "hombre",
+    "archivo": "154-disfraz-romano-hombre-talla-m-l.avif"
+  },
+  {
+    "numero": 155,
+    "archivo_original": "WhatsApp Image 2026-10-18 at 1.20.42 AM (1).jpeg",
+    "titulo": "Disfraz de vaquero negro con flecos blancos",
+    "tallas": [
+      "S",
+      "M"
+    ],
+    "descripcion": "Camisa negra de estilo western con bordados blancos en los hombros y flecos blancos en el pecho y la espalda. Incluye pañuelo rojo al cuello y pantalones vaqueros a juego. Ideal para fiestas de disfraces, eventos de música country o Halloween.",
+    "categorias": [
+      "épocas e históricos",
+      "halloween"
+    ],
+    "genero": "hombre",
+    "archivo": "155-disfraz-vaquero-hombre-talla-s-m.avif"
+  },
+  {
+    "numero": 156,
+    "archivo_original": "WhatsApp Image 2026-10-18 at 12.02.26 AM (2).jpeg",
+    "titulo": "Disfraz de vikingo con capa de piel",
+    "tallas": [
+      "M",
+      "L"
+    ],
+    "descripcion": "Disfraz de vikingo con túnica negra, capa con cuello de piel gris y cinturón de hebilla dorada. Incluye pantalón negro, polainas de piel gris, hacha vikinga y escudo redondo con runas. Perfecto para fiestas de temática nórdica o Halloween.",
+    "categorias": [
+      "épocas e históricos",
+      "terror"
+    ],
+    "genero": "hombre",
+    "archivo": "156-disfraz-vikingo-hombre-talla-m-l.avif"
   }
 ]

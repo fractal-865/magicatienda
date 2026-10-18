@@ -1,0 +1,88 @@
+
+> magicatienda@1.0.0 dev
+> astro dev --host
+
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"Generated 1ms","label":"types","level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":" astro  v7.3.8 ready in 569 ms\n┃ Local    http://localhost:4321/magicatienda\n┃ Network  http://192.168.8.100:4321/magicatienda","label":"SKIP_FORMAT","level":"info"}
+{"message":"watching for file changes...","label":null,"level":"info"}
+{"message":"[200] / 37ms","label":null,"level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] / 3ms","label":null,"level":"info"}
+{"message":"[200] / 3ms","label":null,"level":"info"}
+{"message":"[200] / 3ms","label":null,"level":"info"}
+{"message":"[200] / 5ms","label":null,"level":"info"}
+{"message":"src/scripts/site.ts","label":"watch","level":"info"}
+{"message":"[200] / 7ms","label":null,"level":"info"}
+{"message":"[200] / 6ms","label":null,"level":"info"}
+{"message":"src/scripts/site.ts","label":"watch","level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] / 2ms","label":null,"level":"info"}
+{"message":"src/scripts/site.ts","label":"watch","level":"info"}
+{"message":"/src/styles/global.css","label":"watch","level":"info"}
+{"message":"[200] / 28ms","label":null,"level":"info"}
+{"message":"[200] / 3ms","label":null,"level":"info"}
+{"message":"[200] / 2ms","label":null,"level":"info"}
+{"message":"/src/styles/global.css","label":"watch","level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] / 3ms","label":null,"level":"info"}
+{"message":"[200] / 2ms","label":null,"level":"info"}
+{"message":"[200] / 3ms","label":null,"level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"[200] / 31ms","label":null,"level":"info"}
+{"message":"[200] / 5ms","label":null,"level":"info"}
+{"message":"[200] / 16ms","label":null,"level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] / 3ms","label":null,"level":"info"}
+{"message":"[200] / 17ms","label":null,"level":"info"}
+{"message":"src/scripts/site.ts","label":"watch","level":"info"}
+{"message":"[200] / 6ms","label":null,"level":"info"}
+{"message":"[200] / 5ms","label":null,"level":"info"}
+{"message":"src/scripts/site.ts","label":"watch","level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] / 5ms","label":null,"level":"info"}
+{"message":"src/scripts/site.ts","label":"watch","level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"src/scripts/site.ts","label":"watch","level":"info"}
+{"message":"[200] / 5ms","label":null,"level":"info"}
+{"message":"[200] / 5ms","label":null,"level":"info"}
+{"message":"src/scripts/site.ts","label":"watch","level":"info"}
+{"message":"[200] / 5ms","label":null,"level":"info"}
+{"message":"[200] / 2ms","label":null,"level":"info"}
+{"message":"src/scripts/site.ts","label":"watch","level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"/src/styles/global.css","label":"watch","level":"info"}
+{"message":"[200] / 35ms","label":null,"level":"info"}
+{"message":"[Unhandled error] ReferenceError: GAR is not defined\n > renderReq src/scripts/site.ts:1296:109\n    1294 |    <div class=\"totbox\">\n    1295 |      <div class=\"trow\"><span>Valor de arriendo por 3 días:</span><b>${clp(tot)}</b></div>\n    1296 |  ... <button type=\"button\" class=\"info-dot tip\" data-tip=\"${esc(GAR)}\" aria-label=\"Sobre la garantía\">i</button>:</spa...\n         |                                                                 ^\n    1297 |      <div class=\"trow total\"><span>Total final en sucursal:</span><b>${clp(tot + gar)}</b></div>\n    1298 |    </div>\n > openReq src/scripts/site.ts:1241:2\n > HTMLElement.<anonymous> src/scripts/site.ts:968:6\n","label":"vite","level":"error"}
+{"message":"[200] / 3ms","label":null,"level":"info"}
+{"message":"[Unhandled error] ReferenceError: GAR is not defined\n > renderReq src/scripts/site.ts:1296:109\n    1294 |    <div class=\"totbox\">\n    1295 |      <div class=\"trow\"><span>Valor de arriendo por 3 días:</span><b>${clp(tot)}</b></div>\n    1296 |  ... <button type=\"button\" class=\"info-dot tip\" data-tip=\"${esc(GAR)}\" aria-label=\"Sobre la garantía\">i</button>:</spa...\n         |                                                                 ^\n    1297 |      <div class=\"trow total\"><span>Total final en sucursal:</span><b>${clp(tot + gar)}</b></div>\n    1298 |    </div>\n > openReq src/scripts/site.ts:1241:2\n > HTMLElement.<anonymous> src/scripts/site.ts:968:6\n","label":"vite","level":"error"}
+{"message":"[Unhandled error] ReferenceError: GAR is not defined\n > renderReq src/scripts/site.ts:1296:109\n    1294 |    <div class=\"totbox\">\n    1295 |      <div class=\"trow\"><span>Valor de arriendo por 3 días:</span><b>${clp(tot)}</b></div>\n    1296 |  ... <button type=\"button\" class=\"info-dot tip\" data-tip=\"${esc(GAR)}\" aria-label=\"Sobre la garantía\">i</button>:</spa...\n         |                                                                 ^\n    1297 |      <div class=\"trow total\"><span>Total final en sucursal:</span><b>${clp(tot + gar)}</b></div>\n    1298 |    </div>\n > openReq src/scripts/site.ts:1241:2\n > HTMLElement.<anonymous> src/scripts/site.ts:968:6\n","label":"vite","level":"error"}
+{"message":"src/scripts/site.ts","label":"watch","level":"info"}
+{"message":"[200] / 5ms","label":null,"level":"info"}
+{"message":"[200] / 5ms","label":null,"level":"info"}
+{"message":"[200] / 3ms","label":null,"level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] / 3ms","label":null,"level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"/src/styles/global.css","label":"watch","level":"info"}
+{"message":"/src/styles/global.css","label":"watch","level":"info"}
+{"message":"/src/styles/global.css","label":"watch","level":"info"}
+{"message":"[200] / 29ms","label":null,"level":"info"}
+{"message":"[200] / 2ms","label":null,"level":"info"}
+{"message":"/src/styles/global.css","label":"watch","level":"info"}
+{"message":"[200] / 37ms","label":null,"level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] / 3ms","label":null,"level":"info"}
+{"message":"[200] / 2ms","label":null,"level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"[200] / 24ms","label":null,"level":"info"}
+{"message":"[200] / 6ms","label":null,"level":"info"}
+{"message":"[200] / 5ms","label":null,"level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] / 8ms","label":null,"level":"info"}
