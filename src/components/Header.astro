@@ -55,11 +55,12 @@ const corto = (s: string) => CORTOS[s] ?? s;
       <!-- Navegación -->
       <nav class="hidden items-center gap-0.5 lg:flex" aria-label="Navegación principal">
         <button id="topHome" class={nlink} aria-label="Ir al inicio">🏠</button>
-        <!-- Un solo botón: "Catálogo" abre el mega menú al pasar el mouse -->
+        <!-- "Catálogo" abre la página del catálogo completo (donde están todos
+             los disfraces) y, al pasar el mouse, despliega el menú de temáticas -->
         <a
           id="megaBtn"
           class={`${nlink} mega-trigger`}
-          href="#catalogo"
+          href={urlCat}
           data-navsec="catalogo"
           aria-expanded="false"
           aria-controls="megaMenu"
@@ -70,9 +71,6 @@ const corto = (s: string) => CORTOS[s] ?? s;
         <a class={nlink} href={sec('#fechas')} data-navsec="fechas">Fechas</a>
         <a class={nlink} href={sec('#como')} data-navsec="como">Cómo funciona</a>
         <a class={nlink} href={sec('#contacto')} data-navsec="contacto">Contacto</a>
-        <!-- El catálogo completo: en la portada abre la página nueva; estando en
-             ella, baja a la sección del catálogo -->
-        <a class={nlink} href={urlCat}>Catálogo completo</a>
       </nav>
 
       <!-- Buscador: un solo botón que lleva al buscador del catálogo -->
@@ -130,6 +128,16 @@ const corto = (s: string) => CORTOS[s] ?? s;
           ))
         }
       </ul>
+      {
+        !enCat && (
+          <a
+            href={ir('/catalogo/')}
+            class="mt-2.5 flex items-center gap-2 rounded-[10px] bg-[#f3edff] px-2 py-[9px] text-[.9rem] font-extrabold text-m600 no-underline transition hover:translate-x-1 hover:bg-[#e6d9ff]"
+          >
+            🪄 Ver todo el catálogo ({PRODUCTS.length})
+          </a>
+        )
+      }
     </div>
 
     <div>

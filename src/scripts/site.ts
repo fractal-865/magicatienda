@@ -83,7 +83,12 @@ function firstRetiroISO(): string {
 }
 
 /* ── estado ── */
-const PAGE_SIZE = 26;
+/* Cuántos disfraces se ven de una vez. En la portada el escaparate muestra 25
+   (cinco filas de cinco en pantalla grande, sin dejar una tarjeta suelta) y en
+   /catalogo/ las tandas de "cargar más" van de 26. */
+const PAGE_PORTADA = 25;
+const PAGE_CATALOGO = 26;
+const PASO = enCatalogo ? PAGE_CATALOGO : PAGE_PORTADA;
 
 const state = {
   q: '',
@@ -433,7 +438,7 @@ function pintarInfo(L: Product[], mostrados: number) {
         ? `Mostrando ${mostrados} de ${L.length} disfraces`
         : `Mostrando ${mostrados} de ${L.length} disfraces · hay ${PRODUCTS.length} en total`;
   }
-  // Paginación: PAGE_SIZE disfraces por carga
+  // Paginación: PASO disfraces por carga
   const quedan = L.length - mostrados;
   const wrap = $('#loadWrap');
   const more = $<HTMLButtonElement>('#loadMore');
@@ -464,7 +469,7 @@ function renderGrid(reset = true) {
   const g = $('#grid');
   if (!g) return;
   const L = filtered();
-  const mostrados = Math.min(L.length, state.page * PAGE_SIZE);
+  const mostrados = Math.min(L.length, state.page * PASO);
   g.innerHTML = L.length ? L.slice(0, mostrados).map((c, k) => cardHTML(c, k)).join('') : VACIO_HTML;
 
   encuadrarFotos();
@@ -479,8 +484,8 @@ function cargarMas() {
   const g = $('#grid');
   if (!g) return;
   const L = filtered();
-  const ini = state.page * PAGE_SIZE;
-  const nuevas = L.slice(ini, ini + PAGE_SIZE);
+  const ini = state.page * PASO;
+  const nuevas = L.slice(ini, ini + PASO);
   if (!nuevas.length) return;
   state.page += 1;
   g.insertAdjacentHTML('beforeend', nuevas.map((c, k) => cardHTML(c, ini + k)).join(''));
