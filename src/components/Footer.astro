@@ -1,8 +1,15 @@
 ---
-import { CONFIG, waLink } from '../data/site';
+import { CONFIG, waLink, ir } from '../data/site';
 
 const fLink = 'block py-1 text-[.9rem] text-[#4a3c78] no-underline hover:text-m800';
 const waFoot = waLink('¡Hola! Quiero cotizar el arriendo de disfraces para adultos en La Mágica Tienda.');
+
+/* En la página del catálogo las secciones viven en la portada. */
+const { pagina = 'inicio' } = Astro.props as { pagina?: 'inicio' | 'catalogo' };
+const enCat = pagina === 'catalogo';
+const sec = (h: string) => (enCat ? ir(`/${h}`) : h);
+/* "Catálogo" apunta a la página del catálogo completo */
+const urlCat = enCat ? '#catalogo' : ir('/catalogo/');
 ---
 
 <footer class="border-t-[1.5px] border-line bg-lav2 px-4 pb-[90px] pt-11 min-[900px]:pb-11">
@@ -32,10 +39,10 @@ const waFoot = waLink('¡Hola! Quiero cotizar el arriendo de disfraces para adul
 
     <div>
       <h4 class="mb-3 text-m600">Explora</h4>
-      <a class={fLink} href="#catalogo">Catálogo</a>
-      <a class={fLink} href="#promos">Promos</a>
-      <a class={fLink} href="#fechas">Fechas</a>
-      <a class={fLink} href="#pagos">💳 Pagos</a>
+      <a class={fLink} href={urlCat}>Catálogo</a>
+      <a class={fLink} href={sec('#promos')}>Promos</a>
+      <a class={fLink} href={sec('#fechas')}>Fechas</a>
+      <a class={fLink} href={sec('#pagos')}>💳 Pagos</a>
     </div>
 
     <div>
@@ -43,8 +50,8 @@ const waFoot = waLink('¡Hola! Quiero cotizar el arriendo de disfraces para adul
       <button class="flink block w-full cursor-pointer border-0 bg-transparent py-1 text-left text-[.9rem] text-[#4a3c78] hover:text-m800" data-opencond>
         🛡️ Condiciones
       </button>
-      <a class={fLink} href="#como">🪄 Cómo funciona</a>
-      <a class={fLink} href="#faq">❓ Preguntas</a>
+      <a class={fLink} href={sec('#como')}>🪄 Cómo funciona</a>
+      <a class={fLink} href={sec('#faq')}>❓ Preguntas</a>
     </div>
 
     <div>

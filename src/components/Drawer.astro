@@ -1,6 +1,12 @@
 ---
 import { CATS_ACTIVE, PUBLICOS, OCASIONES } from '../data/products';
-import { CONFIG, waLink } from '../data/site';
+import { CONFIG, waLink, ir } from '../data/site';
+
+/* En la página del catálogo los enlaces a secciones vuelven a la portada. */
+const { pagina = 'inicio' } = Astro.props as { pagina?: 'inicio' | 'catalogo' };
+const enCat = pagina === 'catalogo';
+const sec = (h: string) => (enCat ? ir(`/${h}`) : h);
+const urlCat = enCat ? '#catalogo' : ir('/catalogo/');
 
 const waDrawer = waLink('¡Hola! Quiero cotizar el arriendo de disfraces para adultos en La Mágica Tienda.');
 const sublink = 'block rounded-[10px] px-3.5 py-[11px] text-[#4a3c78] no-underline hover:bg-[#f3edff]';
@@ -70,21 +76,22 @@ const corto = (s: string) => CORTOS[s] ?? s;
       </div>
     </details>
 
-    <a class="big flex items-center gap-2.5 border-b border-line px-1.5 py-3.5 font-ft text-[1.1rem] font-semibold text-ink no-underline" href="#tarifas">💸 Tarifas</a>
-    <a class="big flex items-center gap-2.5 border-b border-line px-1.5 py-3.5 font-ft text-[1.1rem] font-semibold text-ink no-underline" href="#promos">🎈 Promos</a>
-    <a class="big flex items-center gap-2.5 border-b border-line px-1.5 py-3.5 font-ft text-[1.1rem] font-semibold text-ink no-underline" href="#fechas">📆 Fechas</a>
-    <a class="big flex items-center gap-2.5 border-b border-line px-1.5 py-3.5 font-ft text-[1.1rem] font-semibold text-ink no-underline" href="#como">🪄 Cómo funciona</a>
+    <a class="big flex items-center gap-2.5 border-b border-line px-1.5 py-3.5 font-ft text-[1.1rem] font-semibold text-ink no-underline" href={urlCat}>🪄 Catálogo completo</a>
+    <a class="big flex items-center gap-2.5 border-b border-line px-1.5 py-3.5 font-ft text-[1.1rem] font-semibold text-ink no-underline" href={sec('#tarifas')}>💸 Tarifas</a>
+    <a class="big flex items-center gap-2.5 border-b border-line px-1.5 py-3.5 font-ft text-[1.1rem] font-semibold text-ink no-underline" href={sec('#promos')}>🎈 Promos</a>
+    <a class="big flex items-center gap-2.5 border-b border-line px-1.5 py-3.5 font-ft text-[1.1rem] font-semibold text-ink no-underline" href={sec('#fechas')}>📆 Fechas</a>
+    <a class="big flex items-center gap-2.5 border-b border-line px-1.5 py-3.5 font-ft text-[1.1rem] font-semibold text-ink no-underline" href={sec('#como')}>🪄 Cómo funciona</a>
 
     <details class="dacc">
       <summary class="flex cursor-pointer list-none items-center gap-2.5 border-b border-line px-1.5 py-3.5 font-ft text-[1.1rem] font-semibold text-ink [&::-webkit-details-marker]:hidden">
         ➕ Más <span class="arr ml-auto text-m500 transition">›</span>
       </summary>
       <div class="sub">
-        <a class={sublink} href="#pagos">💳 Pagos</a>
+        <a class={sublink} href={sec('#pagos')}>💳 Pagos</a>
         <a class={sublink} href="#" data-opencond>🛡️ Condiciones</a>
-        <a class={sublink} href="#mapa">📍 Cómo llegar</a>
-        <a class={sublink} href="#faq">❓ Preguntas</a>
-        <a class={sublink} href="#contacto">📞 Contacto</a>
+        <a class={sublink} href={sec('#mapa')}>📍 Cómo llegar</a>
+        <a class={sublink} href={sec('#faq')}>❓ Preguntas</a>
+        <a class={sublink} href={sec('#contacto')}>📞 Contacto</a>
       </div>
     </details>
   </div>

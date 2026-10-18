@@ -14,6 +14,12 @@ export const GET: APIRoute = () => {
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+  <url>
+    <loc>${ORIGIN}${BASE}/catalogo/</loc>
+    <lastmod>${hoy}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
 </urlset>
 `;
   return new Response(body, { headers: { 'Content-Type': 'application/xml; charset=utf-8' } });

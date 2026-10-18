@@ -26,6 +26,13 @@ const debounce = <T extends unknown[]>(f: (...a: T) => void, t: number) => {
 };
 const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 const isMobile = () => matchMedia('(max-width:899px)').matches;
+
+/* ── En qué página estamos ──
+   La portada y /catalogo/ comparten todo el script. El layout marca el body
+   con data-page="catalogo" y acá se decide qué enlaces salen del catálogo y
+   hacia dónde. */
+const enCatalogo = document.body.dataset.page === 'catalogo';
+const RAIZ = import.meta.env.BASE_URL.replace(/\/$/, ''); // '/magicatienda'
 const byId = (id: string | number): Item | undefined =>
   PRODUCTS.find((p) => p.id === Number(id)) ?? ACC.find((a) => a.id === String(id));
 const pubLabel = (id: string) => PUBLICOS.find((p) => p.id === id)?.n ?? id;
@@ -415,28 +422,19 @@ function cardHTML(c: Product, k: number) {
 </article>`;
 }
 
-function renderGrid(reset = true) {
-  if (reset) state.page = 1;
-  const g = $('#grid');
-  if (!g) return;
-  const L = filtered();
-  const shown = L.slice(0, state.page * PAGE_SIZE);
-  g.innerHTML = L.length
-    ? shown.map(cardHTML).join('')
-    : `<div class="col-span-full rounded-[20px] border-[1.5px] border-line bg-white p-10 text-center"><div class="text-[3rem]">🔮</div><b class="font-ft">Mmm… no encontramos eso</b><p class="mt-1.5 text-ink2">Prueba con <b>payaso</b>, <b>terror</b> o <b>Halloween</b> ✨</p></div>`;
-
-  encuadrarFotos();
-
+/* Contador, botón de "cargar más" y filtros activos: lo comparten el render
+   completo y la carga por tandas. */
+function pintarInfo(L: Product[], mostrados: number) {
   const cl = $('#countLabel');
   if (cl) {
     cl.textContent = !L.length
       ? 'Sin resultados'
       : L.length === PRODUCTS.length
-        ? `Mostrando ${shown.length} de ${L.length} disfraces`
-        : `Mostrando ${shown.length} de ${L.length} disfraces · hay ${PRODUCTS.length} en total`;
+        ? `Mostrando ${mostrados} de ${L.length} disfraces`
+        : `Mostrando ${mostrados} de ${L.length} disfraces · hay ${PRODUCTS.length} en total`;
   }
-  // Paginación: 24 disfraces por carga
-  const quedan = L.length - shown.length;
+  // Paginación: PAGE_SIZE disfraces por carga
+  const quedan = L.length - mostrados;
   const wrap = $('#loadWrap');
   const more = $<HTMLButtonElement>('#loadMore');
   const info = $('#loadInfo');
@@ -449,9 +447,96 @@ function renderGrid(reset = true) {
   const activo = state.tem.size + state.oca.size + state.pub.size + state.tal.size > 0 || !!state.q || !!state.exFecha;
   cc?.classList.toggle('hidden', !activo);
   $('#catFilters')?.classList.toggle('con-limpiar', activo);
+}
 
+/* Chips, alto de la barra, enlace al catálogo y dirección de la página */
+function pintarBarra() {
   renderChips();
   ajustarFilasBarra();
+  actualizarVerTodos();
+  sincronizarURL();
+}
+
+const VACIO_HTML = `<div class="col-span-full rounded-[20px] border-[1.5px] border-line bg-white p-10 text-center"><div class="text-[3rem]">🔮</div><b class="font-ft">Mmm… no encontramos eso</b><p class="mt-1.5 text-ink2">Prueba con <b>payaso</b>, <b>terror</b> o <b>Halloween</b> ✨</p></div>`;
+
+function renderGrid(reset = true) {
+  if (reset) state.page = 1;
+  const g = $('#grid');
+  if (!g) return;
+  const L = filtered();
+  const mostrados = Math.min(L.length, state.page * PAGE_SIZE);
+  g.innerHTML = L.length ? L.slice(0, mostrados).map((c, k) => cardHTML(c, k)).join('') : VACIO_HTML;
+
+  encuadrarFotos();
+  pintarInfo(L, mostrados);
+  pintarBarra();
+}
+
+/* ── Cargar más ──
+   Agrega solo las tarjetas nuevas: rehacer toda la grilla hacía parpadear las
+   fotos que ya estaban a la vista. */
+function cargarMas() {
+  const g = $('#grid');
+  if (!g) return;
+  const L = filtered();
+  const ini = state.page * PAGE_SIZE;
+  const nuevas = L.slice(ini, ini + PAGE_SIZE);
+  if (!nuevas.length) return;
+  state.page += 1;
+  g.insertAdjacentHTML('beforeend', nuevas.map((c, k) => cardHTML(c, ini + k)).join(''));
+  encuadrarFotos();
+  pintarInfo(L, ini + nuevas.length);
+  pintarBarra();
+}
+
+/* ── Dirección de la página del catálogo ──
+   Los filtros se escriben en la URL para poder compartir, por ejemplo,
+   "todos los de Halloween": /catalogo/?tem=halloween-y-terror */
+function queryActual(): string {
+  const p = new URLSearchParams();
+  if (state.q) p.set('q', state.q);
+  (['tem', 'oca', 'pub', 'tal'] as const).forEach((k) => state[k].forEach((v) => p.append(k, v)));
+  const s = p.toString();
+  return s ? `?${s}` : '';
+}
+function sincronizarURL() {
+  if (!enCatalogo) return;
+  const destino = location.pathname + queryActual();
+  if (destino !== location.pathname + location.search) history.replaceState(null, '', destino);
+}
+/* El enlace "Ver todos los disfraces" de la portada se lleva los filtros puestos */
+function actualizarVerTodos() {
+  const a = $<HTMLAnchorElement>('#verTodos');
+  if (a) a.href = `${RAIZ}/catalogo/${queryActual()}`;
+}
+
+/* ── Al abrir el catálogo desde un enlace con filtros (?tem=…&q=…), los aplica ── */
+function hidratarDesdeURL() {
+  if (!enCatalogo) return;
+  const p = new URLSearchParams(location.search);
+  const q = p.get('q');
+  if (q) state.q = q.trim();
+  const valido = (k: string, v: string) =>
+    k === 'tem'
+      ? CATS.some((c) => c.id === v)
+      : k === 'pub'
+        ? PUBLICOS.some((x) => x.id === v)
+        : k === 'oca'
+          ? OCASIONES.some((o) => o.id === v)
+          : TALLAS.includes(v);
+  (['tem', 'oca', 'pub', 'tal'] as const).forEach((k) =>
+    p.getAll(k).forEach((v) => {
+      if (valido(k, v)) state[k].add(v);
+    }),
+  );
+  // Si venía una búsqueda escrita, el buscador se muestra desplegado (sin robar el foco)
+  if (state.q) {
+    $('#catFilters .searchbox')?.classList.add('open');
+    const t2 = $('#searchToggle2');
+    t2?.setAttribute('aria-expanded', 'true');
+    t2?.setAttribute('aria-label', 'Cerrar buscador');
+  }
+  syncFilterUI();
 }
 
 function renderChips() {
@@ -483,13 +568,8 @@ $('#activeChips')?.addEventListener('click', (e) => {
   renderGrid();
 });
 
-/* Paginación: carga 24 disfraces más sin mover la vista */
-$('#loadMore')?.addEventListener('click', () => {
-  const y = window.scrollY;
-  state.page += 1;
-  renderGrid(false);
-  window.scrollTo({ top: y, behavior: 'auto' });
-});
+/* Paginación: el botón y la carga automática agregan la tanda siguiente */
+$('#loadMore')?.addEventListener('click', cargarMas);
 
 /* grupos de filtros (marcado estático) */
 $<HTMLElement>('#catalogo')?.addEventListener('change', (e) => {
@@ -741,8 +821,7 @@ function applyFilter(o: { q?: string; tem?: string; pub?: string; oca?: string }
   const btn = $<HTMLElement>('#megaBtn');
   const menu = $('#megaMenu');
   if (!btn || !menu) return;
-  // En escritorio con mouse se abre al pasar por encima; en táctil, al tocar
-  const conMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  // El menú se abre al pasar el mouse; en pantallas táctiles, al tocar
   let mt: ReturnType<typeof setTimeout>;
   const open = (v: boolean) => {
     menu.classList.toggle('open', v);
@@ -766,12 +845,15 @@ function applyFilter(o: { q?: string; tem?: string; pub?: string; oca?: string }
     mt = setTimeout(() => open(false), 220);
   });
   btn.addEventListener('click', (e) => {
-    if (conMouse) {
-      // Con mouse: el clic lleva al catálogo (el menú ya se abrió al pasar)
+    // Con mouse, el clic lleva al catálogo (el menú ya se abrió al pasar por
+    // encima). En táctil, el toque despliega el menú y no navega todavía.
+    // Se mira el tipo de puntero en el momento: hay notebooks con pantalla
+    // táctil que también reportan mouse, y ahí el toque no abría el menú.
+    const tactil = matchMedia('(hover: none)').matches || matchMedia('(pointer: coarse)').matches;
+    if (!tactil) {
       open(false);
       return;
     }
-    // Sin mouse: el clic despliega el menú y no navega todavía
     e.preventDefault();
     open(!menu.classList.contains('open'));
   });
@@ -802,7 +884,9 @@ function applyFilter(o: { q?: string; tem?: string; pub?: string; oca?: string }
     }
     if (t.closest('[data-mgo]')) {
       open(false);
-      $('#mapa')?.scrollIntoView({ behavior: 'smooth' });
+      // El mapa vive en la portada: si estamos en /catalogo/, volvemos allá
+      if (enCatalogo) location.assign(`${RAIZ}/#mapa`);
+      else $('#mapa')?.scrollIntoView({ behavior: 'smooth' });
     }
   });
   document.addEventListener('keydown', (e) => {
@@ -843,6 +927,9 @@ function applyFilter(o: { q?: string; tem?: string; pub?: string; oca?: string }
       return;
     }
     if (t.closest('[data-scroll]')) open(false);
+    // Cualquier enlace (una sección, el catálogo completo, WhatsApp o las redes):
+    // sin esto el cajón quedaba abierto tapando la página a la que se fue.
+    if (t.closest('a[href]')) open(false);
   });
   ($('#drawerReq') as HTMLButtonElement | null)?.addEventListener('click', () => {
     open(false);
@@ -860,15 +947,19 @@ document.addEventListener('click', (e) => {
   }
 });
 
-/* navegación inferior móvil */
+/* navegación inferior móvil. En /catalogo/, Inicio y Fechas viven en la portada. */
 $('#bottomNav')?.addEventListener('click', (e) => {
   const b = (e.target as HTMLElement).closest('[data-nav]') as HTMLElement | null;
   if (!b) return;
   const n = b.dataset.nav;
-  if (n === 'top') scrollTo({ top: 0, behavior: 'smooth' });
-  else if (n === 'cat') scrollToCat();
-  else if (n === 'fecha') $('#fechas')?.scrollIntoView({ behavior: 'smooth' });
-  else if (n === 'req') openReq();
+  if (n === 'top') {
+    if (enCatalogo) location.assign(`${RAIZ}/`);
+    else scrollTo({ top: 0, behavior: 'smooth' });
+  } else if (n === 'cat') scrollToCat();
+  else if (n === 'fecha') {
+    if (enCatalogo) location.assign(`${RAIZ}/#fechas`);
+    else $('#fechas')?.scrollIntoView({ behavior: 'smooth' });
+  } else if (n === 'req') openReq();
   else ($('#burger') as HTMLButtonElement | null)?.click();
 });
 
@@ -1643,10 +1734,11 @@ $('#halloCTA')?.addEventListener('click', () => applyFilter({ tem: 'halloween-y-
     if (e.key === 'Escape') closeAll();
   });
 
-  // Icono de inicio: lleva al tope del sitio
-  $('#topHome')?.addEventListener('click', () =>
-    window.scrollTo({ top: 0, behavior: reduced() ? 'auto' : 'smooth' }),
-  );
+  // Icono de inicio: en la portada sube al tope; en /catalogo/ vuelve a la portada
+  $('#topHome')?.addEventListener('click', () => {
+    if (enCatalogo) location.assign(`${RAIZ}/`);
+    else window.scrollTo({ top: 0, behavior: reduced() ? 'auto' : 'smooth' });
+  });
 
   // Scrollspy: remarca con un puntito en qué sección del menú estás
   const ids = ['catalogo', 'tarifas', 'fechas', 'como', 'contacto'];
@@ -1676,6 +1768,23 @@ $('#halloCTA')?.addEventListener('click', () => applyFilter({ tem: 'halloween-y-
 })();
 
 /* ═══ ARRANQUE ═══ */
+hidratarDesdeURL();
 renderGrid();
 renderMini();
 renderSticky();
+
+/* ── Catálogo completo ──
+   Al llegar al final de la lista se carga la tanda siguiente sola, para no
+   tener que apretar nada en el teléfono. El botón queda como respaldo (y para
+   quien navega con teclado o lector de pantalla). */
+if (enCatalogo) {
+  const wrap = $('#loadWrap');
+  if (wrap) {
+    new IntersectionObserver(
+      (entradas) => {
+        if (entradas.some((e) => e.isIntersecting)) cargarMas();
+      },
+      { rootMargin: '0px 0px 420px 0px' },
+    ).observe(wrap);
+  }
+}

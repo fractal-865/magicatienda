@@ -1,5 +1,15 @@
 ---
 import { CATS_ACTIVE, PUBLICOS, OCASIONES, PRODUCTS } from '../data/products';
+import { ir } from '../data/site';
+
+/* En la página del catálogo los enlaces a secciones vuelven a la portada; en la
+   portada siguen siendo anclas internas, como siempre. */
+const { pagina = 'inicio' } = Astro.props as { pagina?: 'inicio' | 'catalogo' };
+const enCat = pagina === 'catalogo';
+const sec = (h: string) => (enCat ? ir(`/${h}`) : h);
+/* "Catálogo" lleva a la página del catálogo completo; ya estando ahí, a la
+   sección de esta misma página. */
+const urlCat = enCat ? '#catalogo' : ir('/catalogo/');
 
 const count = (id: string) => PRODUCTS.filter((p) => p.cats.includes(id)).length;
 const destacados = [...PRODUCTS].sort((a, b) => a.pop - b.pop).slice(0, 3);
@@ -56,10 +66,13 @@ const corto = (s: string) => CORTOS[s] ?? s;
           aria-haspopup="true"
           >Catálogo<span class="mega-caret" aria-hidden="true">▾</span></a
         >
-        <a class={nlink} href="#tarifas" data-navsec="tarifas">Tarifas</a>
-        <a class={nlink} href="#fechas" data-navsec="fechas">Fechas</a>
-        <a class={nlink} href="#como" data-navsec="como">Cómo funciona</a>
-        <a class={nlink} href="#contacto" data-navsec="contacto">Contacto</a>
+        <a class={nlink} href={sec('#tarifas')} data-navsec="tarifas">Tarifas</a>
+        <a class={nlink} href={sec('#fechas')} data-navsec="fechas">Fechas</a>
+        <a class={nlink} href={sec('#como')} data-navsec="como">Cómo funciona</a>
+        <a class={nlink} href={sec('#contacto')} data-navsec="contacto">Contacto</a>
+        <!-- El catálogo completo: en la portada abre la página nueva; estando en
+             ella, baja a la sección del catálogo -->
+        <a class={nlink} href={urlCat}>Catálogo completo</a>
       </nav>
 
       <!-- Buscador: un solo botón que lleva al buscador del catálogo -->

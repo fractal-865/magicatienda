@@ -15,7 +15,42 @@ import Floaters from '../components/Floaters.astro';
 import Modals from '../components/Modals.astro';
 import { CONFIG, FAQS, SEO, url } from '../data/site';
 
-const canonical = url('/');
+/* ── Página actual ──
+   La portada y el catálogo comparten el mismo armazón (menú, pie, modales).
+   Cada página pasa su título, su descripción y su ruta; los valores por
+   defecto son los de la portada, así que sin props el resultado es idéntico
+   al de siempre. */
+interface Props {
+  /** <title> de la página */
+  titulo?: string;
+  /** Meta descripción */
+  descripcion?: string;
+  ogTitulo?: string;
+  ogDescripcion?: string;
+  /** Ruta canónica dentro del sitio, con barra final: '/catalogo/' */
+  ruta?: string;
+  /** En qué página estamos: ajusta los enlaces del menú, el cajón y el pie */
+  pagina?: 'inicio' | 'catalogo';
+  /** Nodos extra para el @graph (por ejemplo, las migas de pan) */
+  esquema?: Record<string, unknown>[];
+  /** Solo la portada tiene las preguntas frecuentes a la vista */
+  conFaq?: boolean;
+}
+const {
+  titulo = SEO.title,
+  descripcion = SEO.description,
+  ogTitulo = SEO.ogTitle,
+  ogDescripcion = SEO.ogDescription,
+  ruta = '/',
+  pagina = 'inicio',
+  esquema = [],
+  conFaq = true,
+} = Astro.props;
+
+const canonical = url(ruta);
+/* La ficha del negocio se ancla siempre a la portada: así el catálogo no parte
+   la entidad en dos direcciones distintas. */
+const raiz = url('/');
 const ogImage = url('/img/logo-og.jpg');
 const ogImageAlt = 'Logo de La Mágica Tienda de Disfraces, arriendo para adultos en Punta Arenas';
 
@@ -29,11 +64,11 @@ const datos = {
   '@graph': [
     {
       '@type': ['ClothingStore', 'LocalBusiness'],
-      '@id': `${canonical}#tienda`,
+      '@id': `${raiz}#tienda`,
       name: 'La Mágica Tienda de Disfraces',
       alternateName: 'La Mágica Tienda',
       description: SEO.description,
-      url: canonical,
+      url: raiz,
       image: ogImage,
       logo: url('/img/logo.png'),
       telephone: CONFIG.tel,
@@ -75,22 +110,27 @@ const datos = {
     },
     {
       '@type': 'WebSite',
-      '@id': `${canonical}#sitio`,
-      url: canonical,
+      '@id': `${raiz}#sitio`,
+      url: raiz,
       name: 'La Mágica Tienda de Disfraces',
       description: SEO.description,
       inLanguage: 'es-CL',
-      publisher: { '@id': `${canonical}#tienda` },
+      publisher: { '@id': `${raiz}#tienda` },
     },
-    {
-      '@type': 'FAQPage',
-      '@id': `${canonical}#faq`,
-      mainEntity: FAQS.map(([q, a]) => ({
-        '@type': 'Question',
-        name: q,
-        acceptedAnswer: { '@type': 'Answer', text: a },
-      })),
-    },
+    ...(conFaq
+      ? [
+          {
+            '@type': 'FAQPage',
+            '@id': `${raiz}#faq`,
+            mainEntity: FAQS.map(([q, a]) => ({
+              '@type': 'Question',
+              name: q,
+              acceptedAnswer: { '@type': 'Answer', text: a },
+            })),
+          },
+        ]
+      : []),
+    ...esquema,
   ],
 };
 ---
@@ -100,8 +140,8 @@ const datos = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{SEO.title}</title>
-    <meta name="description" content={SEO.description} />
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang="es-cl" href={canonical} />
@@ -123,8 +163,8 @@ const datos = {
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="La Mágica Tienda de Disfraces" />
     <meta property="og:locale" content="es_CL" />
-    <meta property="og:title" content={SEO.ogTitle} />
-    <meta property="og:description" content={SEO.ogDescription} />
+    <meta property="og:title" content={ogTitulo} />
+    <meta property="og:description" content={ogDescripcion} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:type" content="image/jpeg" />
@@ -132,14 +172,14 @@ const datos = {
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={ogImageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={SEO.ogTitle} />
-    <meta name="twitter:description" content={SEO.ogDescription} />
+    <meta name="twitter:title" content={ogTitulo} />
+    <meta name="twitter:description" content={ogDescripcion} />
     <meta name="twitter:image" content={ogImage} />
     <meta name="twitter:image:alt" content={ogImageAlt} />
     <script type="application/ld+json" set:html={JSON.stringify(datos)} />
     <script is:inline>document.documentElement.classList.add('js');</script>
   </head>
-  <body class="min-h-screen">
+  <body class="min-h-screen" {...pagina === 'catalogo' ? { 'data-page': 'catalogo' } : {}}>
     <a
       href="#catalogo"
       class="absolute -left-[999px] top-0 z-[200] rounded-br-xl bg-m600 px-4 py-2.5 font-extrabold text-white focus:left-0"
@@ -159,12 +199,12 @@ const datos = {
 
     <div id="doodles" aria-hidden="true"></div>
 
-    <Header />
-    <Drawer />
+    <Header pagina={pagina} />
+    <Drawer pagina={pagina} />
 
     <slot />
 
-    <Footer />
+    <Footer pagina={pagina} />
     <Floaters />
     <Modals />
 

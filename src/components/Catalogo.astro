@@ -1,16 +1,44 @@
 ---
 import { CATS_ACTIVE, PUBLICOS, TALLAS, PRODUCTS } from '../data/products';
+import { ir, SEO_CAT } from '../data/site';
+
+/* Dos modos del mismo componente:
+   · portada  → escaparate de la portada: 26 disfraces + enlace al catálogo completo.
+   · catalogo → la página /catalogo/: todo el catálogo, con filtros y carga por tandas.
+   La barra de filtros, el grid, los chips y el modal son idénticos en ambos. */
+const { modo = 'portada' } = Astro.props as { modo?: 'portada' | 'catalogo' };
+const esCat = modo === 'catalogo';
 
 const catCount = (id: string) => PRODUCTS.filter((p) => p.cats.includes(id)).length;
+const total = PRODUCTS.length;
+const urlCatalogo = ir('/catalogo/');
 ---
 
-<section id="catalogo" class="relative px-4 pb-[46px] pt-[30px]">
+<section
+  id="catalogo"
+  data-modo={esCat ? 'catalogo' : undefined}
+  class="relative px-4 pb-[46px] pt-[30px]"
+>
   <div class="mx-auto max-w-[1220px]">
     <div class="text-center"><span class="script rv">¡Elige y brilla!</span></div>
-    <h2 class="sec rv">🎭 Elige tu disfraz en Punta Arenas</h2>
-    <p class="sec-sub rv">
-      Arriendo solo para adultos · 3 días (retiro, uso y entrega) · Cotiza por WhatsApp en 1 minuto.
-    </p>
+    {
+      esCat ? (
+        <>
+          <h1 class="sec rv">🎭 {SEO_CAT.h1}</h1>
+          <p class="sec-sub rv">
+            {total} disfraces para arrendar · solo adultos · tallas S a XXL · 3 días (retiro, uso y entrega) ·
+            Cotiza por WhatsApp en 1 minuto.
+          </p>
+        </>
+      ) : (
+        <>
+          <h2 class="sec rv">🎭 Elige tu disfraz en Punta Arenas</h2>
+          <p class="sec-sub rv">
+            Arriendo solo para adultos · 3 días (retiro, uso y entrega) · Cotiza por WhatsApp en 1 minuto.
+          </p>
+        </>
+      )
+    }
 
     <div class="rv mb-4 flex flex-wrap items-center gap-2.5">
       <span id="countLabel" class="ml-auto text-[.85rem] font-bold text-ink2" aria-live="polite"></span>
@@ -102,9 +130,24 @@ const catCount = (id: string) => PRODUCTS.filter((p) => p.cats.includes(id)).len
   <div class="mx-auto max-w-[1220px]">
     <div id="grid" class="grid grid-cols-[repeat(auto-fill,minmax(215px,1fr))] gap-4"></div>
 
-    <div id="loadWrap" class="mt-6 hidden text-center">
-      <button id="loadMore" class="btn btn-mora">Cargar más disfraces</button>
-      <p id="loadInfo" class="mt-2 text-[.8rem] font-bold text-ink2"></p>
-    </div>
+    {
+      esCat ? (
+        /* Catálogo completo: al llegar al final se cargan más por tandas (el botón
+           queda como respaldo y el contador dice cuántos faltan por ver). */
+        <div id="loadWrap" class="mt-6 hidden text-center">
+          <button id="loadMore" class="btn btn-mora">Cargar más disfraces</button>
+          <p id="loadInfo" class="mt-2 text-[.8rem] font-bold text-ink2"></p>
+        </div>
+      ) : (
+        /* Portada: escaparate de 26. Todo el catálogo vive en /catalogo/ y el
+           enlace se lleva los filtros que tengas puestos. */
+        <div class="mt-6 text-center">
+          <a id="verTodos" class="btn btn-mora" href={urlCatalogo}>
+            Ver todos los disfraces 🎭
+          </a>
+          <p id="loadInfo" class="mt-2 text-[.8rem] font-bold text-ink2"></p>
+        </div>
+      )
+    }
   </div>
 </section>

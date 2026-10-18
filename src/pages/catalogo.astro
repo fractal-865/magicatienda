@@ -1,0 +1,55 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Catalogo from '../components/Catalogo.astro';
+import { PRODUCTS } from '../data/products';
+import { SEO_CAT, url } from '../data/site';
+
+/* ── El catálogo completo ──
+   Una página dedicada a los disfraces (la portada queda como escaparate).
+   Usa el mismo componente del catálogo, así que trae los mismos filtros,
+   la barra que se pega al header, los chips, el carrito y el modal. */
+const ruta = '/catalogo/';
+const canonical = url(ruta);
+const raiz = url('/');
+const total = PRODUCTS.length;
+
+/* Datos para Google: las migas de pan y la página como colección. La ficha del
+   negocio (tienda y sitio) vive en el @graph del layout, anclada a la portada. */
+const esquema = [
+  {
+    '@type': 'BreadcrumbList',
+    '@id': `${canonical}#migas`,
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: raiz },
+      { '@type': 'ListItem', position: 2, name: 'Catálogo', item: canonical },
+    ],
+  },
+  {
+    '@type': 'CollectionPage',
+    '@id': `${canonical}#pagina`,
+    url: canonical,
+    name: SEO_CAT.title,
+    description: SEO_CAT.description,
+    inLanguage: 'es-CL',
+    isPartOf: { '@id': `${raiz}#sitio` },
+    about: { '@id': `${raiz}#tienda` },
+    breadcrumb: { '@id': `${canonical}#migas` },
+    mainEntity: { '@type': 'ItemList', numberOfItems: total, name: `${total} disfraces para arrendar en Punta Arenas` },
+  },
+];
+---
+
+<Layout
+  pagina="catalogo"
+  ruta={ruta}
+  titulo={SEO_CAT.title}
+  descripcion={SEO_CAT.description}
+  ogTitulo={SEO_CAT.ogTitle}
+  ogDescripcion={SEO_CAT.ogDescription}
+  conFaq={false}
+  esquema={esquema}
+>
+  <main id="main" class="relative z-[1]">
+    <Catalogo modo="catalogo" />
+  </main>
+</Layout>
