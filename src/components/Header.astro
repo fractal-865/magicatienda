@@ -40,7 +40,7 @@ const corto = (s: string) => CORTOS[s] ?? s;
   class="sticky top-0 z-[60] border-b border-line/50 bg-white/80 backdrop-blur-xl transition-all duration-300"
 >
   <div class="mx-auto max-w-[1220px] px-4">
-    <div class="hrow flex items-center gap-3 py-3 transition-all duration-300">
+    <div class="hrow relative flex items-center gap-3 py-3 transition-all duration-300">
       <!-- Logo -->
       <LogoTag
         id="logoBtn"
@@ -58,8 +58,11 @@ const corto = (s: string) => CORTOS[s] ?? s;
         />
       </LogoTag>
 
-      <!-- Navegación -->
-      <nav class="hidden items-center gap-0.5 lg:flex" aria-label="Navegación principal">
+      <!-- Navegación: centrada respecto de la página -->
+      <nav
+        class="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-0.5 lg:flex"
+        aria-label="Navegación principal"
+      >
         <button id="topHome" class={nlink} aria-label="Ir al inicio">🏠</button>
         <!-- "Catálogo" abre la página del catálogo completo (donde están todos
              los disfraces) y, al pasar el mouse, despliega el menú de temáticas -->
