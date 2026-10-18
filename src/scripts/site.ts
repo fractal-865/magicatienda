@@ -601,6 +601,31 @@ $('#catCards')?.addEventListener('click', (e) => {
 /* Paginación: el botón y la carga automática agregan la tanda siguiente */
 $('#loadMore')?.addEventListener('click', cargarMas);
 
+/* Carrusel de categorías: las flechas corren una pantalla y se apagan en los
+   extremos (en el celular no hay flechas: se arrastra con el dedo) */
+(() => {
+  const track = $<HTMLElement>('#ctTrack');
+  const nav = $$('#catCards .ct-arrow');
+  if (!track || !nav.length) return;
+  const dirDe = (b: HTMLElement) => Number(b.dataset.ct ?? 1);
+  nav.forEach((b) =>
+    b.addEventListener('click', () => {
+      const paso = Math.max(160, track.clientWidth * 0.9);
+      track.scrollBy({ left: dirDe(b) * paso, behavior: reduced() ? 'auto' : 'smooth' });
+    }),
+  );
+  const marcarFlechas = () => {
+    const max = track.scrollWidth - track.clientWidth;
+    nav.forEach((b) => {
+      const aIzq = dirDe(b) < 0;
+      b.classList.toggle('off', max <= 4 ? true : aIzq ? track.scrollLeft <= 2 : track.scrollLeft >= max - 2);
+    });
+  };
+  track.addEventListener('scroll', marcarFlechas, { passive: true });
+  window.addEventListener('resize', marcarFlechas);
+  marcarFlechas();
+})();
+
 /* grupos de filtros (marcado estático) */
 $<HTMLElement>('#catalogo')?.addEventListener('change', (e) => {
   const el = e.target as HTMLInputElement;

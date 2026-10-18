@@ -19,11 +19,12 @@ const urlCatalogo = ir('/catalogo/');
   data-modo={esCat ? 'catalogo' : undefined}
   class="relative px-4 pb-[46px] pt-[30px]"
 >
-  <div class="mx-auto max-w-[1220px]">
-    {
-      esCat ? (
-        /* Cabecera del catálogo: centrada, con los datos a la vista */
-        <div class="cat-hero">
+  {
+    esCat && (
+      /* Cabecera: ocupa todo el ancho de la página (se sale del contenedor de
+         1220px) y no es una tarjeta: sin borde, esquinas ni sombra. */
+      <div class="cat-hero">
+        <div class="mx-auto max-w-[1220px]">
           <span class="script cat-hero-script">¡Elige y brilla!</span>
           <h1 class="cat-hero-t">🎭 {SEO_CAT.h1}</h1>
           <p class="cat-hero-sub">
@@ -35,7 +36,13 @@ const urlCatalogo = ir('/catalogo/');
             <li>📲 Cotizas por WhatsApp en 1 minuto</li>
           </ul>
         </div>
-      ) : (
+      </div>
+    )
+  }
+
+  <div class="mx-auto max-w-[1220px]">
+    {
+      !esCat && (
         <>
           <div class="text-center"><span class="script rv">¡Elige y brilla!</span></div>
           <h2 class="sec rv">🎭 Elige tu disfraz en Punta Arenas</h2>
@@ -60,10 +67,20 @@ const urlCatalogo = ir('/catalogo/');
 
     {
       esCat && (
-        /* Tarjetas de las categorías principales: al tocar una se filtra el catálogo */
+        /* Carrusel de las categorías principales: al tocar una se filtra el catálogo */
         <div id="catCards" class="cat-cards">
-          <p class="cat-cards-t">Explora por tipo de disfraz 🎭</p>
-          <div class="cat-cards-grid">
+          <div class="cat-cards-head">
+            <p class="cat-cards-t">Explora por tipo de disfraz 🎭</p>
+            <div class="ct-nav">
+              <button class="ct-arrow" data-ct="-1" type="button" aria-label="Categorías anteriores">
+                ‹
+              </button>
+              <button class="ct-arrow" data-ct="1" type="button" aria-label="Ver más categorías">
+                ›
+              </button>
+            </div>
+          </div>
+          <div id="ctTrack" class="ct-track">
             {CATS_ACTIVE.map((c, i) => (
               <a
                 class="ct-card"
