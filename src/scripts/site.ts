@@ -1256,7 +1256,6 @@ function waDraft(): string {
   const L = ['¡Hola! Quiero cotizar el arriendo en La Mágica Tienda:'];
   L.push(`Nombre: ${(r.nombre || '').trim() || '—'}${pedido ? ` · ${pedido}` : ''}`);
   L.push(`Retiro ${cortaFecha(r.retiro)} · Devolución ${cortaFecha(r.entrega)}`);
-  L.push(`Arriendo ${clp(rentalTotal())} + garantía ${clp(guaranteeTotal())} = ${clp(rentalTotal() + guaranteeTotal())} en sucursal`);
   L.push('¿Me confirman disponibilidad y valores?');
   return L.join('\n');
 }
