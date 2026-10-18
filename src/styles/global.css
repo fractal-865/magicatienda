@@ -3153,6 +3153,54 @@ body.drawer-lock {
   }
 }
 
+/* ── Telaraña de la esquina y aranita colgando ── */
+.hf-web {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 124px;
+  color: #d5c8f5;
+  opacity: 0.3;
+  pointer-events: none;
+}
+.hf-web-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.hf-spider {
+  position: absolute;
+  top: 104px;
+  left: 58px;
+  width: 13px;
+  transform-origin: 50% -62px;
+  animation: hfAranita 6s ease-in-out infinite;
+}
+.hf-spider::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  width: 1px;
+  height: 62px;
+  margin-left: -0.5px;
+  background: linear-gradient(180deg, rgb(213 200 245 / 0), rgb(213 200 245 / 0.42));
+}
+.hf-spider-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+@keyframes hfAranita {
+  0%,
+  100% {
+    transform: rotate(-2.5deg);
+  }
+  50% {
+    transform: rotate(2.5deg);
+  }
+}
+
 /* ── Niebla que se arrastra ── */
 .hf-fog {
   position: absolute;
@@ -3223,26 +3271,26 @@ body.drawer-lock {
   height: auto;
 }
 .hf-tomb-1 {
-  left: 5%;
+  left: 8%;
   bottom: 34px;
   width: 66px;
   transform: rotate(-3deg);
 }
 .hf-tomb-2 {
-  left: 14%;
+  left: 16%;
   bottom: 62px;
   width: 46px;
   transform: rotate(2deg);
   opacity: 0.85;
 }
 .hf-tomb-3 {
-  right: 6%;
+  right: 17%;
   bottom: 38px;
   width: 58px;
   transform: rotate(2.5deg);
 }
 .hf-tomb-4 {
-  right: 16%;
+  right: 24%;
   bottom: 66px;
   width: 42px;
   transform: rotate(-2deg);
@@ -3268,17 +3316,17 @@ body.drawer-lock {
   box-shadow: 0 0 22px rgb(140 255 60 / 0.25);
 }
 .hf-puddle-1 {
-  left: 8%;
+  left: 34%;
   bottom: 26px;
   width: 96px;
 }
 .hf-puddle-2 {
-  right: 9%;
+  right: 22%;
   bottom: 22px;
   width: 74px;
 }
 .hf-puddle-3 {
-  left: 26%;
+  left: 62%;
   bottom: 12px;
   width: 58px;
   opacity: 0.8;
@@ -3336,38 +3384,81 @@ body.drawer-lock {
   }
 }
 
-/* ── Los zombis ── */
+/* ── Los zombis y el perro zombi: se tocan y mueren ── */
 .hf-z {
   position: absolute;
   z-index: 1;
   display: block;
-  width: 56px;
+  width: 54px;
+  padding: 0;
+  cursor: pointer;
+  border: 0;
+  background: transparent;
   filter: drop-shadow(0 14px 12px rgb(0 0 0 / 0.6));
   animation: hfZombi 3.8s ease-in-out infinite;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: scale 0.2s ease;
+}
+.hf-z:hover {
+  scale: 1.08;
+}
+.hf-z:hover .hf-zsv {
+  filter: brightness(1.25) drop-shadow(0 0 8px rgb(168 255 62 / 0.85));
+}
+.hf-z:focus-visible {
+  border-radius: 12px;
+  outline: 2px solid var(--hf-baba);
+  outline-offset: 6px;
 }
 .hf-zsv {
   display: block;
   width: 100%;
   height: auto;
   shape-rendering: crispEdges;
+  transition: filter 1s ease;
 }
 .hf-z-1 {
   left: 3%;
-  bottom: 14px;
+  bottom: 56px;
 }
 .hf-z-2 {
   right: 4%;
-  bottom: 18px;
+  bottom: 56px;
   animation-delay: -1.3s;
 }
 .hf-z-2 .hf-zsv {
   transform: scaleX(-1);
 }
-.hf-z-3 {
-  left: 21%;
-  bottom: 66px;
-  width: 38px;
+.hf-perro {
+  left: 26%;
+  bottom: 68px;
+  width: 66px;
   animation-delay: -2.2s;
+}
+/* Caen de costado: cada uno pivota sobre su propio pie para no salirse del cuadro */
+.hf-z-1,
+.hf-perro {
+  transform-origin: 6% 100%;
+}
+.hf-z-2 {
+  transform-origin: 94% 100%;
+}
+.hf-z.muerto {
+  animation: hfZombiMuere 1.15s cubic-bezier(0.42, 0, 0.72, 1) forwards;
+  cursor: default;
+}
+.hf-z-2.muerto {
+  animation-name: hfZombiMuereIzq;
+}
+.hf-z.muerto .hf-zsv {
+  filter: saturate(0.35) brightness(0.7);
+}
+.hf-z.revive {
+  animation: hfZombiRevive 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.hf-z-2.revive {
+  animation-name: hfZombiReviveIzq;
 }
 @keyframes hfZombi {
   0%,
@@ -3376,6 +3467,137 @@ body.drawer-lock {
   }
   50% {
     transform: translateY(-5px) rotate(0.8deg);
+  }
+}
+@keyframes hfZombiMuere {
+  0% {
+    transform: translateY(0) rotate(-0.6deg);
+  }
+  10% {
+    transform: translateY(-4px) rotate(-7deg);
+  }
+  22% {
+    transform: translateY(0) rotate(3deg);
+  }
+  100% {
+    transform: translateY(0) rotate(84deg);
+  }
+}
+@keyframes hfZombiMuereIzq {
+  0% {
+    transform: translateY(0) rotate(0.6deg);
+  }
+  10% {
+    transform: translateY(-4px) rotate(7deg);
+  }
+  22% {
+    transform: translateY(0) rotate(-3deg);
+  }
+  100% {
+    transform: translateY(0) rotate(-84deg);
+  }
+}
+@keyframes hfZombiRevive {
+  0% {
+    transform: rotate(84deg);
+  }
+  45% {
+    transform: rotate(58deg);
+  }
+  72% {
+    transform: rotate(-7deg);
+  }
+  86% {
+    transform: rotate(4deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+@keyframes hfZombiReviveIzq {
+  0% {
+    transform: rotate(-84deg);
+  }
+  45% {
+    transform: rotate(-58deg);
+  }
+  72% {
+    transform: rotate(7deg);
+  }
+  86% {
+    transform: rotate(-4deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+/* La sangre: el charco que se agranda bajo el cuerpo y las gotas que saltan */
+.hf-sangre {
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  width: 80px;
+  height: 26px;
+  margin-left: -40px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(160 14 34 / 0.94), rgb(112 8 24 / 0.86) 58%, rgb(70 3 13 / 0) 100%);
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.14);
+  transition:
+    opacity 1.6s ease 0.4s,
+    transform 1.6s ease 0.4s;
+}
+.hf-z-1 .hf-sangre,
+.hf-perro .hf-sangre {
+  left: 62%;
+}
+.hf-z-2 .hf-sangre {
+  left: 38%;
+}
+.hf-z.muerto .hf-sangre {
+  animation: hfSangre 1.8s 0.5s ease-out forwards;
+}
+.hf-gota {
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #b0122a;
+  pointer-events: none;
+  opacity: 0;
+}
+.hf-z.muerto .hf-gota {
+  animation: hfGotaSangre 1.2s 0.42s cubic-bezier(0.3, 0, 0.6, 1) forwards;
+}
+@keyframes hfSangre {
+  0% {
+    opacity: 0;
+    transform: scale(0.12);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  100% {
+    opacity: 0.95;
+    transform: scale(1);
+  }
+}
+@keyframes hfGotaSangre {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.5);
+  }
+  18% {
+    opacity: 1;
+    transform: translate(calc(var(--dx, 10px) * 0.45), -19px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx, 10px), 7px) scale(1);
   }
 }
 
@@ -3510,16 +3732,16 @@ body.drawer-lock {
   text-shadow: 0 0 14px rgb(167 139 250 / 0.35);
 }
 
-/* En pantallas chicas el cementerio se guarda: el texto manda */
+/* En pantallas chicas el cementerio se guarda, pero los zombis y el perro
+   se quedan: en el celular se los toca y también tienen que caer. */
 @media (max-width: 900px) {
   .hf-foot {
-    padding: 112px 16px 96px;
+    padding: 112px 16px 172px;
   }
   .hf-tree,
   .hf-tomb,
-  .hf-z,
   .hf-fog-c,
-  .hf-puddle-3 {
+  .hf-puddle {
     display: none;
   }
   .hf-moon {
@@ -3528,13 +3750,33 @@ body.drawer-lock {
     width: 72px;
     height: 72px;
   }
-  .hf-puddle-1 {
-    bottom: 76px;
-    width: 70px;
+  .hf-web {
+    width: 96px;
   }
-  .hf-puddle-2 {
-    bottom: 72px;
-    width: 56px;
+  .hf-spider {
+    top: 84px;
+    left: 44px;
+  }
+  .hf-z {
+    width: 40px;
+  }
+  .hf-z-1 {
+    left: 5%;
+    bottom: 104px;
+  }
+  .hf-z-2 {
+    right: 6%;
+    bottom: 104px;
+  }
+  .hf-perro {
+    left: 31%;
+    bottom: 116px;
+    width: 46px;
+  }
+  .hf-sangre {
+    width: 52px;
+    height: 18px;
+    margin-left: -26px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -3543,7 +3785,17 @@ body.drawer-lock {
   .hf-bat,
   .hf-fog,
   .hf-drip,
+  .hf-spider,
   .hf-z {
+    animation: none;
+  }
+  /* Sin movimiento: el zombi se apaga y la sangre aparece igual */
+  .hf-z.muerto {
+    animation: none;
+    opacity: 0.55;
+    transition: opacity 0.4s ease;
+  }
+  .hf-z.revive {
     animation: none;
   }
 }

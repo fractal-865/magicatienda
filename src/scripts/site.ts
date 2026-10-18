@@ -1641,6 +1641,33 @@ $('#logoBtn')?.addEventListener('click', () => {
   }
 });
 
+/* ═══ ZOMBIS DEL PIE: al tocarlos se caen y se desangran ═══
+   A los 11 s se vuelven a levantar solos, así se puede repetir. */
+$$('[data-zombi]').forEach((z) => {
+  let revive: ReturnType<typeof setTimeout>;
+  const nombre = z.getAttribute('aria-label') ?? 'Zombi';
+  z.addEventListener('click', () => {
+    if (z.classList.contains('muerto')) return;
+    clearTimeout(revive);
+    z.classList.remove('revive');
+    void z.offsetWidth;
+    z.classList.add('muerto');
+    z.setAttribute('aria-label', `${nombre} (muerto)`);
+    revive = setTimeout(
+      () => {
+        z.classList.remove('muerto');
+        z.setAttribute('aria-label', nombre);
+        void z.offsetWidth;
+        z.classList.add('revive');
+      },
+      reduced() ? 6000 : 11000,
+    );
+  });
+  z.addEventListener('animationend', (e) => {
+    if ((e as AnimationEvent).animationName.startsWith('hfZombiRevive')) z.classList.remove('revive');
+  });
+});
+
 /* ═══ MAPA · HORARIO (con temporada Halloween dinámica) ═══ */
 (() => {
   const badge = $('#openBadge');

@@ -59,9 +59,96 @@ const piezas: Bloque[] = [
   [3, 16, 1, 1, C.pantO],
   [7, 17, 1, 1, C.pantO],
 ];
-const zombi = `<svg class="hf-zsv" viewBox="0 0 12 20" aria-hidden="true">${piezas
-  .map(([x, y, w, h, c]) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${c}"/>`)
-  .join('')}</svg>`;
+/* ── Perro zombi, mismo estilo: rejilla de 24 × 15 ── */
+const piezasPerro: Bloque[] = [
+  /* orejas */
+  [4, 0.2, 2.6, 3.2, C.pielO],
+  [8.2, 0.2, 2.6, 3.2, C.pielO],
+  /* cabeza */
+  [3, 3, 7.6, 6.4, C.piel],
+  [3, 3, 7.6, 1.2, C.pielO],
+  [3, 3, 1, 6.4, C.pielO],
+  [9.6, 4.2, 1, 5.2, C.pielO],
+  /* ojos */
+  [4.4, 5, 2, 1.5, C.ojo],
+  [7.8, 5, 1.8, 1.5, C.ojo],
+  [4.7, 5.2, 0.6, 0.6, C.pielC],
+  [8, 5.2, 0.6, 0.6, C.pielC],
+  /* hocico */
+  [0, 6.6, 3.4, 3, C.piel],
+  [0, 6.6, 3.4, 1, C.pielO],
+  [0.2, 7.5, 1.5, 1.3, C.ojo],
+  [1.9, 8.8, 1.5, 1.7, C.baba],
+  /* cuello */
+  [10.2, 5, 1.6, 3.6, C.piel],
+  /* cuerpo */
+  [11.6, 4.6, 9.4, 6, C.piel],
+  [11.6, 4.6, 9.4, 1.2, C.pielO],
+  [11.6, 9.4, 9.4, 1.2, C.pielO],
+  [14, 6.6, 3.6, 2, C.baba],
+  /* cola */
+  [21, 3.2, 2.4, 2.2, C.piel],
+  [22.6, 1.6, 1.8, 2, C.pielO],
+  /* patas: las de atrás un poco más oscuras para dar profundidad */
+  [12, 10.6, 2.5, 3.4, C.piel],
+  [14.8, 10.6, 2.2, 3, C.pielO],
+  [18.2, 10.6, 2.5, 3.4, C.piel],
+  [20.6, 10.6, 2.2, 3, C.pielO],
+  [12, 13.3, 2.5, 0.95, C.pielO],
+  [18.2, 13.3, 2.5, 0.95, C.pielO],
+];
+
+const dibujo = (viewBox: string, bloques: Bloque[]) =>
+  `<svg class="hf-zsv" viewBox="${viewBox}" aria-hidden="true">${bloques
+    .map(([x, y, w, h, c]) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${c}"/>`)
+    .join('')}</svg>`;
+
+const zombi = dibujo('0 0 12 20', piezas);
+const perro = dibujo('0 0 24 15', piezasPerro);
+
+/* ── La sangre: el charco y las gotas que saltan al morir ── */
+const sangre = `<span class="hf-sangre"></span>${[-22, -11, 7, 19]
+  .map((dx) => `<i class="hf-gota" style="--dx:${dx}px"></i>`)
+  .join('')}`;
+const criatura = (cuerpo: string) => cuerpo + sangre;
+
+/* ── Telaraña de la esquina (se calcula en el build) ── */
+const telarana = (() => {
+  const radios = [30, 56, 82, 108];
+  const angulos = [0, 22.5, 45, 67.5, 90];
+  const punto = (r: number, a: number) => {
+    const rad = (a * Math.PI) / 180;
+    return [+(Math.cos(rad) * r).toFixed(2), +(Math.sin(rad) * r).toFixed(2)];
+  };
+  const hilos = angulos
+    .map((a) => {
+      const [x, y] = punto(122, a);
+      return `<path d="M0 0 ${x} ${y}"/>`;
+    })
+    .join('');
+  const arcos = radios
+    .map((r) =>
+      angulos
+        .slice(0, -1)
+        .map((a, i) => {
+          const [x1, y1] = punto(r, a);
+          const [x2, y2] = punto(r, angulos[i + 1]);
+          const [cx, cy] = punto(r * 0.88, (a + angulos[i + 1]) / 2);
+          return `<path d="M${x1} ${y1} Q${cx} ${cy} ${x2} ${y2}"/>`;
+        })
+        .join(''),
+    )
+    .join('');
+  return `<svg class="hf-web-svg" viewBox="0 0 124 124" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true">${hilos}${arcos}</svg>`;
+})();
+
+/* ── Aranita colgando ── */
+const aranita = `<svg class="hf-spider-svg" viewBox="0 0 12 12" aria-hidden="true">
+  <ellipse cx="6" cy="7.3" rx="2.6" ry="3" fill="#170b29"/>
+  <ellipse cx="6" cy="4.2" rx="1.8" ry="1.7" fill="#1e1135"/>
+  <path d="M3.4 5.6 1 3.8M3.4 7.2 1 7.2M3.4 8.8 1 10.6M8.6 5.6 11 3.8M8.6 7.2 11 7.2M8.6 8.8 11 10.6" stroke="#170b29" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+  <circle cx="5.2" cy="3.8" r=".55" fill="#a8ff3e"/><circle cx="6.8" cy="3.8" r=".55" fill="#a8ff3e"/>
+</svg>`;
 
 /* ── Lápida ── */
 const lapida = (cruz: boolean) => `<svg class="hf-tomb-svg" viewBox="0 0 60 84" aria-hidden="true">
@@ -130,6 +217,9 @@ const gotas = [
     <i class="hf-bat hf-bat-2" style="animation-delay:-4s" set:html={murcielago} />
     <i class="hf-bat hf-bat-3" style="animation-delay:-7.5s" set:html={murcielago} />
 
+    <span class="hf-web" set:html={telarana} />
+    <span class="hf-spider" set:html={aranita} />
+
     <div class="hf-fog hf-fog-a"></div>
     <div class="hf-fog hf-fog-b"></div>
     <div class="hf-fog hf-fog-c"></div>
@@ -159,10 +249,10 @@ const gotas = [
     </div>
   </div>
 
-  {/* ═══ Los zombis, de pie sobre el pasto ═══ */}
-  <span class="hf-z hf-z-1" aria-hidden="true" set:html={zombi} />
-  <span class="hf-z hf-z-2" aria-hidden="true" set:html={zombi} />
-  <span class="hf-z hf-z-3" aria-hidden="true" set:html={zombi} />
+  {/* ═══ Los zombis y el perro zombi: al tocarlos caen y se desangran ═══ */}
+  <button type="button" class="hf-z hf-z-1" data-zombi aria-label="Zombi" set:html={criatura(zombi)} />
+  <button type="button" class="hf-z hf-z-2" data-zombi aria-label="Zombi" set:html={criatura(zombi)} />
+  <button type="button" class="hf-z hf-perro" data-zombi aria-label="Perro zombi" set:html={criatura(perro)} />
 
   <div class="hf-in mx-auto max-w-[1220px]">
     <div class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-[26px]">
