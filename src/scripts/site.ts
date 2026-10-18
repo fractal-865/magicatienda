@@ -76,7 +76,7 @@ function firstRetiroISO(): string {
 }
 
 /* ── estado ── */
-const PAGE_SIZE = 24;
+const PAGE_SIZE = 26;
 
 const state = {
   q: '',
@@ -451,6 +451,7 @@ function renderGrid(reset = true) {
   $('#catFilters')?.classList.toggle('con-limpiar', activo);
 
   renderChips();
+  ajustarFilasBarra();
 }
 
 function renderChips() {
@@ -551,6 +552,40 @@ function clearAllFilters() {
 $('#clearFilters')?.addEventListener('click', clearAllFilters);
 $('#catClear')?.addEventListener('click', clearAllFilters);
 
+/* ═══ La barra de filtros nunca debe pasar de 2 filas ═══
+   Cuenta las filas reales que ocupan los controles (los .cf-line son
+   display:contents y sus hijos fluyen en la misma caja) y, si en escritorio
+   no caben en 2, activa .compacta: cada fila se vuelve una tira deslizable. */
+function medirFilasBarra(): number {
+  const main = $('#catFilters .cat-filters-main');
+  if (!main) return 0;
+  const hijos = [...main.children]
+    .flatMap((e) => (getComputedStyle(e).display === 'contents' ? [...e.children] : [e]))
+    .filter((e) => e.offsetWidth > 0 && e.offsetHeight > 0)
+    .map((e) => {
+      const r = e.getBoundingClientRect();
+      return [r.top, r.bottom] as [number, number];
+    })
+    .sort((a, b) => a[0] - b[0]);
+  let filas = 0;
+  let fin = -Infinity;
+  hijos.forEach(([a, b]) => {
+    if (a >= fin - 1) {
+      filas += 1;
+      fin = b;
+    } else fin = Math.max(fin, b);
+  });
+  return filas;
+}
+function ajustarFilasBarra() {
+  const bar = $('#fbar');
+  if (!bar) return;
+  bar.classList.remove('compacta'); // mide primero el diseño de escritorio
+  if (medirFilasBarra() > 2) bar.classList.add('compacta');
+}
+ajustarFilasBarra();
+addEventListener('resize', ajustarFilasBarra);
+
 /* ── buscador + sugerencias ── */
 function bindSearch(id: string, sugId?: string) {
   const inp = $<HTMLInputElement>('#' + id);
@@ -626,6 +661,7 @@ $('#searchToggle')?.addEventListener('click', () => {
   if (sb && !sb.classList.contains('open')) sb.classList.add('open');
   scrollToCat();
   setTimeout(() => $<HTMLInputElement>('#catSearch')?.focus(), reduced() ? 0 : 520);
+  setTimeout(ajustarFilasBarra, reduced() ? 0 : 420);
 });
 
 /* ── El buscador del catálogo empieza plegado (solo lupa) y se despliega al apretar ── */
@@ -649,6 +685,8 @@ $('#searchToggle')?.addEventListener('click', () => {
       }
       $('#sugCat')?.classList.remove('open');
     }
+    // El buscador cambia de ancho con una transición: remide al terminar
+    setTimeout(ajustarFilasBarra, reduced() ? 0 : 380);
   };
   tog.addEventListener('click', () => setOpen(!box.classList.contains('open')));
   inp.addEventListener('keydown', (e) => {
@@ -669,9 +707,9 @@ function scrollToResults() {
   const grid = $('#grid');
   if (!grid) return;
   const hdr = $('#header')?.offsetHeight ?? 64;
-  const bar = $('#catFilters')?.offsetHeight ?? 0;
-  // La barra queda pegada 14px bajo el header: ese hueco también hay que saltarlo
-  const off = hdr + 14 + bar + 16;
+  // La barra queda pegada justo bajo el header: hay que saltar header + barra
+  const bar = $('#fbar')?.offsetHeight ?? $('#catFilters')?.offsetHeight ?? 0;
+  const off = hdr + bar + 6;
   const y = Math.max(0, window.scrollY + grid.getBoundingClientRect().top - off);
   // Si la distancia es grande, salto instantáneo (el scroll suave de lejos es lento y se "pierde")
   const lejos = Math.abs(y - window.scrollY) > 1200;
@@ -1082,27 +1120,36 @@ function sendWA() {
     toast('🛒 Tu arriendo está vacío. ¡Agrega un disfraz primero!');
     return;
   }
-  // Validación mínima antes de abrir WhatsApp: solo el nombre
+  // Validación mínima antes de abrir WhatsApp: solo el nombre (obligatorio)
   const r = state.req;
   const errs: [string, string][] = [];
   if (!r.nombre.trim()) errs.push(['#rqNom', 'Falta tu nombre (ej: Camila)']);
-  ['#rqNom'].forEach((s) => $<HTMLInputElement>(s)?.classList.remove('border-[#c0392b]'));
+  ['#rqNom'].forEach((s) => $<HTMLInputElement>(s)?.classList.remove('border-[#c0392b]', 'campo-falta'));
   document.querySelectorAll('.req-err').forEach((e) => e.remove());
   if (errs.length) {
     errs.forEach(([sel, msg]) => {
       const el = $<HTMLInputElement>(sel);
       if (!el) return;
       el.classList.add('border-[#c0392b]');
+      void el.offsetWidth; // reinicia la animación si se insiste sin escribir
+      el.classList.add('campo-falta');
       const p = document.createElement('p');
       p.className = 'req-err mt-1 text-[.75rem] font-extrabold text-[#c0392b]';
       p.textContent = `⚠️ ${msg}`;
       el.insertAdjacentElement('afterend', p);
     });
     $<HTMLInputElement>(errs[0][0])?.focus();
-    toast('⚠️ Revisa tus datos para enviar la solicitud');
+    toast('⚠️ Escribe tu nombre para enviar la solicitud');
     return;
   }
   window.open(waLink(waDraft()), '_blank');
+}
+
+/* Quita el aviso de "campo obligatorio" en cuanto el campo se completa */
+function quitarFalta(el: HTMLInputElement) {
+  el.classList.remove('border-[#c0392b]', 'campo-falta');
+  const s = el.nextElementSibling;
+  if (s && s.classList.contains('req-err')) s.remove();
 }
 
 /* ═══ FICHA RÁPIDA ═══ */
@@ -1221,7 +1268,11 @@ $('#grid')?.addEventListener('keydown', (e) => {
 });
 
 /* ═══ SOLICITUD DE ARRIENDO ═══ */
+/* Mientras esté en true, la sección de fechas se resalta como "el paso que sigue";
+   se apaga apenas el usuario elige el día de retiro. */
+let pedirFecha = false;
 function openReq() {
+  pedirFecha = true;
   renderReq();
   openModal('reqModal');
 }
@@ -1251,7 +1302,7 @@ function renderReq() {
       : `<div class="py-6 text-center text-ink2"><div class="text-[3rem]">🎭</div>Tu arriendo está esperando magia…</div>`
   }
   <div class="req-sec"><span>📅 Selecciona tus fechas de uso</span><span class="req-pill">Período 3 días</span></div>
-  <div class="datebox">
+  <div class="datebox${pedirFecha ? ' destacar' : ''}">
     <label class="dcell">Retiro en tienda<input type="date" id="rqRet" value="${state.req.retiro}" min="${firstRetiroISO()}" max="${maxISO(60)}" aria-label="Día de retiro en tienda"></label>
     <span class="darrow" aria-hidden="true">→</span>
     <div class="dcell">Devolución (auto)<b id="rqEntTxt">${fmtDate(state.req.entrega)}</b></div>
@@ -1259,7 +1310,8 @@ function renderReq() {
   <input type="date" id="rqEnt" value="${state.req.entrega}" readonly hidden>
   <p class="entnota">↩️ Eliges el retiro y la devolución queda 2 días después. Domingos cerrado: si eliges domingo, pasa al lunes.</p>
   <div class="req-sec"><span>👤 Tus datos</span><span class="req-pill">Para reservar tu disfraz</span></div>
-  <input id="rqNom" placeholder="Nombre" autocomplete="name" aria-label="Nombre y apellido" value="${esc(state.req.nombre)}" class="mt-1.5 w-full rounded-[10px] border-2 border-line p-2.5">
+  <input id="rqNom" placeholder="Nombre y apellido *" autocomplete="name" required aria-required="true" aria-label="Nombre y apellido (obligatorio)" value="${esc(state.req.nombre)}" class="mt-1.5 w-full rounded-[10px] border-2 border-line p-2.5">
+  <p class="mt-1 text-[.75rem] font-bold text-ink2">* Obligatorio: con tu nombre te confirmamos la reserva por WhatsApp.</p>
   <div class="totbox">
     <div class="trow"><span>Valor de arriendo por 3 días:</span><b>${clp(tot)}</b></div>
     <div class="trow"><span>Garantía reembolsable <button type="button" class="info-dot tip" data-tip="${esc(GAR)}" aria-label="Sobre la garantía">i</button>:</span><b>${clp(gar)}</b></div>
@@ -1306,6 +1358,11 @@ function renderReq() {
         setRetiro(el.value);
         el.value = state.req.retiro; // refleja la corrección si era domingo
         refreshDateRow(); // actualiza la fecha de devolución
+        // Ya eligió el día: el recordatorio verde del bloque de fechas se apaga
+        pedirFecha = false;
+        $('.datebox.destacar')?.classList.remove('destacar');
+      } else if (el.value.trim()) {
+        quitarFalta(el); // el nombre ya está: se va el aviso de campo obligatorio
       }
     });
   });
@@ -1344,9 +1401,30 @@ document.addEventListener('click', (e) => {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     ['quickModal', 'reqModal', 'condModal'].forEach(closeModal);
-    setFiltersOpen(false);
   }
 });
+
+/* ═══ BARRA DE FILTROS: se pega bajo el header y se expande a todo el ancho ═══
+   Se marca .pegada cuando el borde superior de la barra alcanza el header:
+   ahí el fondo oscuro se despliega de borde a borde (ver .fbar::before). */
+(() => {
+  const bar = $('#fbar');
+  const hdr = $('#header');
+  if (!bar) return;
+  let pegada = false;
+  const ver = () => {
+    // Pegada = la barra está clavada justo bajo el header (sin hueco). Si el
+    // usuario sigue de largo, la barra se corre con la sección y deja de estarlo.
+    const h = hdr?.offsetHeight ?? 64;
+    const v = Math.abs(bar.getBoundingClientRect().top - h) <= 1.5;
+    if (v === pegada) return;
+    pegada = v;
+    bar.classList.toggle('pegada', v);
+  };
+  ver();
+  addEventListener('scroll', ver, { passive: true });
+  addEventListener('resize', ver);
+})();
 
 /* ═══ CATEGORÍAS: el listado se despliega dentro de la barra de filtros ═══ */
 (() => {
@@ -1554,7 +1632,11 @@ $('#halloCTA')?.addEventListener('click', () => applyFilter({ tem: 'halloween-y-
     if (hdr) document.documentElement.style.setProperty('--hdr-h', `${hdr.offsetHeight}px`);
   };
   setH();
+  // El alto real cambia cuando cargan las tipografías (el menú deja de pasar a 2
+  // líneas): si --hdr-h queda viejo, la barra de filtros se pega con un hueco.
+  if (hdr) new ResizeObserver(setH).observe(hdr);
   addEventListener('resize', setH);
+  document.fonts?.ready.then(setH).catch(() => {});
 
   // Menú móvil: se cierra con Escape
   addEventListener('keydown', (e) => {

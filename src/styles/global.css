@@ -457,6 +457,50 @@ footer {
   color: var(--color-m600);
   font-weight: 800;
 }
+/* Recordatorio: la sección de fechas es el paso que sigue. Se marca con borde
+   verde y un pulso apenas se abre la solicitud; se apaga al elegir el retiro. */
+@keyframes fechapulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px rgb(12 122 86 / 0.16);
+  }
+  45% {
+    box-shadow: 0 0 0 10px rgb(12 122 86 / 0.02);
+  }
+}
+.datebox.destacar {
+  border-color: #0c7a56;
+  background: #f2fdf8;
+  box-shadow: 0 0 0 3px rgb(12 122 86 / 0.16);
+  animation: fechapulse 0.95s ease 2;
+}
+.datebox.destacar .dcell input {
+  border-color: #0c7a56;
+  box-shadow: 0 0 0 3px rgb(12 122 86 / 0.14);
+}
+/* El campo de nombre que falta: se sacude para pedir atención */
+@keyframes sacudir {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-5px);
+  }
+  40% {
+    transform: translateX(4px);
+  }
+  60% {
+    transform: translateX(-3px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
+}
+.campo-falta {
+  border-color: #c0392b;
+  animation: sacudir 0.42s ease;
+}
 /* Totales estilo maqueta */
 .totbox {
   margin-top: 14px;
@@ -1494,17 +1538,112 @@ nav [data-navsec].on::after {
   background: var(--color-rosa);
 }
 /* Barra de filtros: buscador + categorías + público + talla + filtros activos.
-   Queda pegada bajo el header al recorrer la grilla. */
-.cat-filters {
+   El contenedor .fbar es el que queda pegado bajo el header; vive fuera del
+   contenedor de la página para poder ocupar todo el ancho. */
+.fbar {
   position: sticky;
-  top: calc(var(--hdr-h, 64px) + 14px);
+  top: var(--hdr-h, 64px);
   z-index: 40;
-  margin-bottom: 14px;
+  margin-inline: -1rem; /* se sale del padding lateral de la sección */
+  padding-bottom: 14px;
+}
+/* Alinea el contenido con la grilla: 1220px + los 2rem del padding */
+.fbar-in {
+  max-width: 1252px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+/* Fondo oscuro a todo el ancho: aparece (y se despliega desde el centro) cuando
+   la barra queda pegada bajo el header. */
+.fbar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(120deg, #23094e 0%, #3c1481 45%, #4a1b96 100%);
+  box-shadow: 0 12px 28px rgb(35 9 78 / 0.28);
+  opacity: 0;
+  transform: scaleX(0.34);
+  transition: opacity 0.26s ease, transform 0.42s cubic-bezier(0.2, 0.8, 0.25, 1);
+}
+.fbar.pegada::before {
+  opacity: 1;
+  transform: none;
+}
+.cat-filters {
+  position: relative;
   padding: 9px 11px;
   border-radius: 18px;
   background: rgb(255 255 255 / 0.92);
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 14px rgba(90, 42, 156, 0.08);
+  transition: background 0.26s ease, box-shadow 0.26s ease, border-radius 0.26s ease;
+}
+/* Pegada al header: la tarjeta se disuelve y manda el fondo oscuro */
+.fbar.pegada .cat-filters {
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+.fbar.pegada .chip {
+  border-color: rgb(255 255 255 / 0.26);
+  background: rgb(255 255 255 / 0.12);
+  color: #fff;
+}
+.fbar.pegada .chip:hover {
+  background: rgb(255 255 255 / 0.22);
+  border-color: rgb(255 255 255 / 0.45);
+}
+.fbar.pegada .chip.on {
+  border-color: var(--color-ama);
+  background: var(--color-ama);
+  color: #3a1170;
+}
+.fbar.pegada .cat-pick-n {
+  background: var(--color-ama);
+  color: #3a1170;
+}
+.fbar.pegada .cat-pick-btn.on .cat-pick-n {
+  background: #fff;
+}
+.fbar.pegada .qf-title {
+  color: rgb(255 255 255 / 0.72);
+}
+.fbar.pegada .cf-line-2 .qf-group + .qf-group {
+  border-left-color: rgb(255 255 255 / 0.28);
+}
+.fbar.pegada #activeChips.has + .qf-group {
+  border-left-color: rgb(255 255 255 / 0.28);
+}
+.fbar.pegada .active-chips.has {
+  border-top-color: rgb(255 255 255 / 0.24);
+}
+.fbar.pegada .chip-clear {
+  border-color: rgb(255 255 255 / 0.5);
+  background: rgb(255 255 255 / 0.1);
+  color: #fff;
+}
+.fbar.pegada .chip-clear:hover {
+  background: rgb(255 255 255 / 0.22);
+}
+.fbar.pegada .cat-filters-main .searchbox {
+  border-color: rgb(255 255 255 / 0.28);
+  background: rgb(255 255 255 / 0.14);
+}
+.fbar.pegada .cat-filters-main .searchbox input {
+  color: #fff;
+}
+.fbar.pegada .cat-filters-main .searchbox input::placeholder {
+  color: rgb(255 255 255 / 0.6);
+}
+.fbar.pegada .cat-filters-main .searchbox:focus-within {
+  border-color: #fff;
+  background: rgb(255 255 255 / 0.2);
+}
+.fbar.pegada .cat-filters-main .searchbox-sm .sb-toggle:hover {
+  background: rgb(255 255 255 / 0.2);
 }
 .cat-filters-main {
   display: flex;
@@ -1679,8 +1818,11 @@ nav [data-navsec].on::after {
 .active-chips {
   display: none;
 }
+/* En escritorio ocupan su propia fila (la 2ª y última de la barra) */
 .active-chips.has {
   display: flex;
+  flex: 1 1 100%;
+  order: 8;
   flex-wrap: wrap;
   gap: 7px;
   margin-top: 9px;
@@ -1819,7 +1961,7 @@ body.drawer-lock {
   animation: mup 0.3s;
 }
 /* ═══ Barra de filtros en móvil y tablet: dos filas deslizables ═══
-   Fila 1: buscador + categorías + limpiar. Fila 2: público + talla. */
+   Fila 1: buscador + categorías + limpiar. Fila 2: filtros activos + público + talla. */
 @media (max-width: 899px) {
   .cat-filters-main {
     gap: 8px;
@@ -1850,13 +1992,63 @@ body.drawer-lock {
     flex: none;
     margin-left: auto;
   }
+  /* Los filtros activos viajan al principio de la 2ª fila (nunca una 3ª fila) */
   .active-chips.has {
+    order: 0;
+    flex: none;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
     flex-wrap: nowrap;
     overflow-x: auto;
     scrollbar-width: none;
   }
   .active-chips.has::-webkit-scrollbar {
     display: none;
+  }
+}
+
+/* ═══ Barra de filtros en escritorio (≥900px) ═══
+   En una fila van buscador + categorías + público + talla (+ limpiar) y en la
+   segunda los filtros activos. Si al medir no caben en 2 filas, site.ts agrega
+   .compacta y cada fila se vuelve una tira deslizable, igual que en móvil. */
+@media (min-width: 900px) {
+  #activeChips.has {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  .fbar.compacta .cat-filters-main {
+    gap: 8px;
+  }
+  .fbar.compacta .cf-line {
+    display: flex;
+    flex: 1 1 100%;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-m400, #b89af0) transparent;
+  }
+  .fbar.compacta .qf-group,
+  .fbar.compacta .qf-chips,
+  .fbar.compacta .cat-pick-btn,
+  .fbar.compacta .chip-clear {
+    flex: none;
+  }
+  .fbar.compacta .qf-chips {
+    flex-wrap: nowrap;
+  }
+  .fbar.compacta .chip-clear {
+    margin-left: auto;
+  }
+  .fbar.compacta .active-chips.has {
+    order: 0;
+    flex: none;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
   }
 }
 
@@ -2124,7 +2316,7 @@ body.drawer-lock {
 
 /* Chip "Limpiar filtros" */
 .chip-clear {
-  order: 9;
+  order: 7; /* antes de los filtros activos (order 8), para no empujar una 3ª fila */
   margin-left: auto;
   border: 1.5px dashed var(--color-m400, #b89af0);
   background: #fff;
@@ -2355,6 +2547,12 @@ body.drawer-lock {
     font-size: 0.74rem;
   }
   .cf-line-2 .qf-group + .qf-group {
+    border-left: 1.5px solid var(--color-line);
+    margin-left: 1px;
+    padding-left: 9px;
+  }
+  /* Los filtros activos también llevan separador: van antes de Público/Talla */
+  #activeChips.has + .qf-group {
     border-left: 1.5px solid var(--color-line);
     margin-left: 1px;
     padding-left: 9px;
