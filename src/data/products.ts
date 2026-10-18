@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   Catálogo — fuente de verdad: disfraces.json (51 disfraces reales)
+   Catálogo — fuente de verdad: disfraces.json (131 disfraces reales)
    Cada producto se construye desde el JSON: título, tallas,
    descripción, categorías, género y foto AVIF.
    ═══════════════════════════════════════════════════════════════ */
@@ -48,8 +48,7 @@ const PRICE_BY_CAT: Record<string, number> = {
   profesiones: 13000,
   'princesas-y-cuentos': 15000,
   musica: 15000,
-  halloween: 15000,
-  terror: 15000,
+  'halloween-y-terror': 15000,
   'epocas-e-historicos': 17000,
   'anime-y-videojuegos': 18000,
   'peliculas-y-series': 18000,
@@ -72,8 +71,7 @@ export const slug = (s: string): string =>
 
 /* ── Categorías del JSON (con icono y degradado propios) ── */
 export const CATS: Cat[] = [
-  { id: 'terror', n: 'Terror', i: '💀', g: ['#3c1481', '#ff7a1a'] },
-  { id: 'halloween', n: 'Halloween', i: '🎃', g: ['#1c0840', '#7a3a10'] },
+  { id: 'halloween-y-terror', n: 'Halloween y terror', i: '🎃', g: ['#3c1481', '#ff7a1a'] },
   { id: 'superheroes', n: 'Superhéroes', i: '⚡', g: ['#5a2a9c', '#ff5fa2'] },
   { id: 'peliculas-y-series', n: 'Películas y series', i: '🎬', g: ['#274b9c', '#7a4fd0'] },
   { id: 'anime-y-videojuegos', n: 'Anime y videojuegos', i: '🎮', g: ['#4a1b96', '#0fae9f'] },
@@ -95,7 +93,7 @@ export const displayTalla = (t: string): string =>
 /* ── Celebraciones derivadas de las categorías del JSON ── */
 function ocasiones(cats: string[]): string[] {
   const oc = new Set<string>();
-  if (cats.includes('halloween') || cats.includes('terror')) oc.add('halloween');
+  if (cats.includes('halloween-y-terror')) oc.add('halloween');
   if (cats.includes('princesas-y-cuentos')) {
     oc.add('cumple');
     oc.add('gradua');

@@ -1500,7 +1500,7 @@ document.addEventListener('click', (e) => {
   $('#waChatClose')?.addEventListener('click', () => chat?.classList.remove('open'));
 })();
 
-$('#halloCTA')?.addEventListener('click', () => applyFilter({ tem: 'halloween' }));
+$('#halloCTA')?.addEventListener('click', () => applyFilter({ tem: 'halloween-y-terror' }));
 
 /* ═══ REVEAL AL HACER SCROLL ═══ */
 (() => {
