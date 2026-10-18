@@ -19,3 +19,6 @@ pnpm-debug.log*
 .vscode/
 .idea/
 .DS_Store
+
+# fotos de trabajo (no van al sitio ni al repo)
+fotos/
