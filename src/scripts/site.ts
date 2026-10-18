@@ -1623,6 +1623,14 @@ let logoC = 0;
 let logoT: ReturnType<typeof setTimeout>;
 $('#logoBtn')?.addEventListener('click', () => {
   if (enCatalogo) return;
+  // En el celular no hay hover: el truco se dispara al tocar el logo
+  const b = $('#logoBtn');
+  if (b && matchMedia('(hover: none)').matches) {
+    b.classList.remove('truco');
+    void b.offsetWidth; // reinicia la animación si se toca de nuevo
+    b.classList.add('truco');
+    setTimeout(() => b.classList.remove('truco'), 1600);
+  }
   logoC++;
   clearTimeout(logoT);
   logoT = setTimeout(() => (logoC = 0), 1500);

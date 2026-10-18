@@ -44,10 +44,19 @@ const corto = (s: string) => CORTOS[s] ?? s;
       <!-- Logo -->
       <LogoTag
         id="logoBtn"
-        class="group flex shrink-0 cursor-pointer items-center border-0 bg-transparent p-0 text-left"
+        class="group relative flex shrink-0 cursor-pointer items-center border-0 bg-transparent p-0 text-left"
         href={enCat ? ir('/') : undefined}
         aria-label={enCat ? 'Volver al inicio' : 'Inicio, La Mágica Tienda de Disfraces'}
       >
+        {/* Truco del logo: al pasar el mouse sale un murciélago volando por
+            detrás del logo y titilan tres estrellitas. No ocupa lugar y sólo se
+            ve mientras dura la animación. */}
+        <span class="logo-truco" aria-hidden="true">
+          <i class="lt-bat">🦇</i>
+          <i class="lt-spark lt-s1">✨</i>
+          <i class="lt-spark lt-s2">✨</i>
+          <i class="lt-spark lt-s3">✨</i>
+        </span>
         <img
           class="logo-img group-hover:scale-[1.03]"
           src={`${import.meta.env.BASE_URL}/img/logo.png`.replace(/\/{2,}/g, '/')}
