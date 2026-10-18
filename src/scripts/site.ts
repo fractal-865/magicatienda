@@ -435,9 +435,6 @@ function renderGrid(reset = true) {
         ? `Mostrando ${shown.length} de ${L.length} disfraces`
         : `Mostrando ${shown.length} de ${L.length} disfraces · hay ${PRODUCTS.length} en total`;
   }
-  const rb = $('#resultsBtn');
-  if (rb) rb.textContent = `Ver ${L.length} resultados ✨`;
-
   // Paginación: 24 disfraces por carga
   const quedan = L.length - shown.length;
   const wrap = $('#loadWrap');
@@ -451,6 +448,7 @@ function renderGrid(reset = true) {
   const cc = $('#catClear');
   const activo = state.tem.size + state.oca.size + state.pub.size + state.tal.size > 0 || !!state.q || !!state.exFecha;
   cc?.classList.toggle('hidden', !activo);
+  $('#catFilters')?.classList.toggle('con-limpiar', activo);
 
   renderChips();
 }
@@ -465,6 +463,7 @@ function renderChips() {
   state.tal.forEach((v) => chips.push(['tal', v, 'Talla ' + v]));
   if (state.exFecha) chips.push(['exFecha', '1', '📅 ' + state.exFecha]);
   if (state.q) chips.push(['q', '1', '“' + state.q + '”']);
+  box.classList.toggle('has', chips.length > 0);
   box.innerHTML = chips
     .map(
       (c) =>
@@ -498,6 +497,7 @@ $<HTMLElement>('#catalogo')?.addEventListener('change', (e) => {
     const s = state[el.dataset.g as 'tem'];
     el.checked ? s.add(el.value) : s.delete(el.value);
   }
+  syncFilterUI();
   renderGrid();
   scrollToResults();
 });
@@ -528,9 +528,15 @@ function syncFilterUI() {
   });
   const cs = $<HTMLInputElement>('#catSearch');
   if (cs && document.activeElement !== cs) cs.value = state.q;
+  // Botón "Categorías": muestra cuántas hay activas
+  const cdN = $('#catDropN');
+  if (cdN) cdN.textContent = String(state.tem.size);
+  cdN?.classList.toggle('hidden', state.tem.size === 0);
+  $('#catDropBtn')?.classList.toggle('on', state.tem.size > 0);
   const cc = $('#catClear');
-  const hayFiltro = state.tem.size + state.oca.size + state.pub.size + state.tal.size > 0 || !!state.q;
+  const hayFiltro = state.tem.size + state.oca.size + state.pub.size + state.tal.size > 0 || !!state.q || !!state.exFecha;
   cc?.classList.toggle('hidden', !hayFiltro);
+  $('#catFilters')?.classList.toggle('con-limpiar', hayFiltro);
 }
 
 function clearAllFilters() {
@@ -632,6 +638,8 @@ $('#searchToggle')?.addEventListener('click', () => {
     box.classList.toggle('open', v);
     tog.setAttribute('aria-expanded', String(v));
     tog.setAttribute('aria-label', v ? 'Cerrar buscador' : 'Abrir buscador');
+    // En móvil la barra se desliza: el buscador vuelve al inicio de su fila
+    box.closest('.cf-line')?.scrollTo({ left: 0 });
     if (v) inp.focus();
     else {
       inp.value = '';
@@ -673,6 +681,8 @@ function closeAll() {
   $('#megaMenu')?.classList.remove('open');
   $('#drawer')?.classList.remove('open');
   $('#burger')?.classList.remove('x');
+  $('#catDrop')?.classList.remove('open');
+  $('#catDropBtn')?.setAttribute('aria-expanded', 'false');
   document.body.style.overflow = '';
 }
 function applyFilter(o: { q?: string; tem?: string; pub?: string; oca?: string }) {
@@ -1338,20 +1348,42 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-/* panel de filtros (móvil): en escritorio es la barra lateral siempre visible,
-   así que el estado inert solo aplica bajo 900px */
-const isMobileFilters = () => matchMedia('(max-width: 899px)').matches;
-function setFiltersOpen(v: boolean) {
-  const fp = $('#filterPanel');
-  if (!fp) return;
-  fp.classList.toggle('open', v);
-  if (isMobileFilters()) fp.toggleAttribute('inert', !v);
-  $('#fback')?.classList.toggle('on', v);
-}
-$('#filterOpen')?.addEventListener('click', () => setFiltersOpen(true));
-$('#fback')?.addEventListener('click', () => setFiltersOpen(false));
-$('#resultsBtn')?.addEventListener('click', () => setFiltersOpen(false));
-if (isMobileFilters()) $('#filterPanel')?.setAttribute('inert', '');
+/* ═══ CATEGORÍAS: el listado se despliega dentro de la barra de filtros ═══ */
+(() => {
+  const btn = $<HTMLButtonElement>('#catDropBtn');
+  const drop = $('#catDrop');
+  if (!btn || !drop) return;
+  let rt: ReturnType<typeof setTimeout>;
+  // El listado se abre hacia abajo; si no hay espacio, hacia arriba
+  const ubicar = () => {
+    const r = btn.getBoundingClientRect();
+    const abajo = window.innerHeight - r.bottom - 14;
+    const arriba = r.top - 14;
+    drop.style.setProperty('--drop-max', `${Math.max(170, Math.min(420, Math.max(abajo, arriba)))}px`);
+    drop.classList.toggle('arriba', abajo < 250 && arriba > abajo);
+  };
+  const ubicarLuego = () => {
+    clearTimeout(rt);
+    rt = setTimeout(ubicar, 130);
+  };
+  const setOpen = (v: boolean) => {
+    if (v) ubicar();
+    drop.classList.toggle('open', v);
+    btn.setAttribute('aria-expanded', String(v));
+  };
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setOpen(!drop.classList.contains('open'));
+  });
+  // Se cierra al tocar fuera; al marcar una categoría queda abierto para sumar más
+  document.addEventListener('click', (e) => {
+    const t = e.target as Node;
+    if (!drop.contains(t) && !btn.contains(t)) setOpen(false);
+  });
+  addEventListener('scroll', () => drop.classList.contains('open') && ubicarLuego(), { passive: true });
+  addEventListener('resize', () => drop.classList.contains('open') && ubicar());
+})();
 
 /* ═══ FECHAS ═══ */
 $('#fechasRow')?.addEventListener('click', (e) => {
@@ -1486,15 +1518,6 @@ document.addEventListener('click', (e) => {
 
 /* ═══ FLOTANTES DE CONTACTO ═══ */
 (() => {
-  const dial = $('#speedDial');
-  const tg = $<HTMLButtonElement>('#speedToggle');
-  const setDial = (v: boolean) => {
-    dial?.classList.toggle('open', v);
-    tg?.setAttribute('aria-expanded', String(v));
-    if (tg) tg.textContent = v ? '✕' : '＋';
-  };
-  tg?.addEventListener('click', () => setDial(!dial?.classList.contains('open')));
-
   const chat = $('#wspChat');
   $('#wspFloat')?.addEventListener('click', () => chat?.classList.toggle('open'));
   $('#waChatClose')?.addEventListener('click', () => chat?.classList.remove('open'));
