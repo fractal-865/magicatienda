@@ -1384,6 +1384,53 @@ $('#logoBtn')?.addEventListener('click', () => {
   setInterval(pintar, 60000);
 })();
 
+/* ═══ TOOLTIPS (la "i" de la garantía y la guía de tallas) ═══
+   El globito se dibuja en una capa fija colgada del <body>, fuera del modal:
+   dentro del panel con scroll quedaba recortado, y el texto de la garantía es
+   más ancho que la pantalla. Se sigue del elemento, se acomoda a los bordes y
+   si no cabe arriba se muestra debajo. */
+const tipPop = document.createElement('div');
+tipPop.className = 'tip-pop';
+document.body.appendChild(tipPop);
+
+function verTip(el: HTMLElement) {
+  const txt = el.dataset.tip;
+  if (!txt) return;
+  tipPop.textContent = txt;
+  const r = el.getBoundingClientRect();
+  const w = tipPop.offsetWidth;
+  const h = tipPop.offsetHeight;
+  const centro = Math.min(Math.max(r.left + r.width / 2, w / 2 + 10), window.innerWidth - w / 2 - 10);
+  const abajo = r.top - h - 9 < 8;
+  tipPop.classList.toggle('abajo', abajo);
+  tipPop.style.left = `${centro}px`;
+  tipPop.style.top = `${abajo ? r.bottom + 9 : r.top - 9}px`;
+  tipPop.classList.add('on');
+}
+function ocultarTip() {
+  tipPop.classList.remove('on');
+}
+
+const tipDe = (t: Event) =>
+  ((t.target as HTMLElement | null)?.closest?.('.tip') as HTMLElement | null) ?? null;
+document.addEventListener('pointerover', (e) => {
+  const el = tipDe(e);
+  if (el?.dataset.tip) verTip(el);
+  else ocultarTip();
+});
+document.addEventListener('pointerout', (e) => {
+  if (tipDe(e)) ocultarTip();
+});
+document.addEventListener('focusin', (e) => {
+  const el = tipDe(e);
+  if (el?.dataset.tip) verTip(el);
+});
+document.addEventListener('focusout', ocultarTip);
+document.addEventListener('pointerdown', ocultarTip);
+document.addEventListener('keydown', ocultarTip);
+window.addEventListener('scroll', ocultarTip, { capture: true, passive: true });
+window.addEventListener('resize', ocultarTip);
+
 /* ═══ CONTACTO / FAQ / NEWSLETTER ═══ */
 $('#cForm')?.addEventListener('submit', (e) => {
   e.preventDefault();

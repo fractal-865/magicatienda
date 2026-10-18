@@ -605,33 +605,37 @@ footer {
   color: var(--color-ink2);
 }
 
-/* ── Tooltips (guía de tallas) ── */
+/* ── Tooltips (la "i" de la garantía y la guía de tallas) ──
+   El globito vive en una capa fija sobre todo lo demás, y lo dibuja el JS con
+   el texto de data-tip. Antes era un ::after dentro del contenedor: dentro de
+   los modales el scroll del panel lo recortaba, y el texto de la garantía
+   (167 caracteres) medía 862 px de ancho, así que se salía de la pantalla. */
 .tip {
   position: relative;
 }
-.tip::after {
-  content: attr(data-tip);
-  position: absolute;
-  bottom: calc(100% + 7px);
-  left: 50%;
-  transform: translateX(-50%) translateY(4px);
-  z-index: 30;
-  padding: 6px 10px;
+.tip-pop {
+  position: fixed;
+  z-index: 210;
+  max-width: min(330px, calc(100vw - 26px));
+  padding: 7px 11px;
   border-radius: 10px;
   background: var(--color-m700, #2b0d5e);
   color: #fff;
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   font-weight: 800;
-  white-space: nowrap;
+  line-height: 1.35;
+  text-align: left;
   box-shadow: 0 6px 16px rgba(43, 13, 94, 0.3);
+  transform: translateX(-50%) translateY(-100%);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s, transform 0.2s;
+  transition: opacity 0.15s;
 }
-.tip:hover::after,
-.tip:focus-visible::after {
+.tip-pop.abajo {
+  transform: translateX(-50%);
+}
+.tip-pop.on {
   opacity: 1;
-  transform: translateX(-50%) translateY(0);
 }
 
 /* Fechas legibles: "lunes 19 de octubre" */
