@@ -362,13 +362,43 @@ function gnoticeHTML() {
   return `<div class="my-2.5 flex items-start gap-2 rounded-[14px] border-[1.5px] border-ama bg-[#fdf6d9] p-2.5 text-[.82rem] text-[#6b5200]">🛡️ <span><b>Garantía de $13.000 a $20.000 según el disfraz.</b> Se paga el día del retiro, en efectivo o transferencia, y se devuelve al entregar el disfraz en las mismas condiciones. <button class="glink cursor-pointer whitespace-nowrap border-0 bg-transparent p-0 text-[.82rem] font-extrabold text-m600 underline" data-opencond>Ver condiciones de garantía</button></span></div>`;
 }
 
+/* ── Encuadre de las fotos ──
+   Las fotos no vienen todas en 2:3 (el marco de la tarjeta). Con object-contain
+   se ve el disfraz completo, y para que el marco no quede con franjas planas se
+   rellena con una copia desenfocada de la propia foto (fondo morado continuo). */
+const RATIO_MARCO = 2 / 3;
+
+function ajustarFoto(img: HTMLImageElement) {
+  const marco = img.closest<HTMLElement>('.pimg, .qimg');
+  if (!marco || !img.naturalWidth) return;
+  const r = img.naturalWidth / img.naturalHeight;
+  if (Math.abs(r - RATIO_MARCO) <= 0.005) return; // 2:3 exacto: la foto llena el marco sola
+  marco.style.setProperty('--foto', `url("${img.currentSrc || img.src}")`);
+  marco.classList.add('desborda');
+}
+
+function encuadrarFotos() {
+  document.querySelectorAll<HTMLImageElement>('.pimg img, .qimg img').forEach((img) => {
+    if (img.complete) ajustarFoto(img);
+  });
+}
+
+document.addEventListener(
+  'load',
+  (e) => {
+    const t = e.target;
+    if (t instanceof HTMLImageElement) ajustarFoto(t);
+  },
+  true,
+);
+
 function cardHTML(c: Product, k: number) {
   const T = catById(c.t);
   const multiSize = c.tl.length > 1;
   const guia = (t: string) => TALLA_GUIA[t] ? `Estatura recomendada: ${TALLA_GUIA[t]}` : 'Sin referencia de estatura';
   return `<article class="pcard relative flex cursor-pointer flex-col rounded-[20px] border-[1.5px] border-line bg-white shadow-[0_8px_20px_rgba(90,42,156,.08)] transition duration-300 hover:-translate-y-[5px] hover:shadow-sh2" data-id="${c.id}" style="--d:${Math.min(k * 0.05, 0.4)}s" tabindex="0" aria-label="${esc(c.n)}, disfraz para adultos en arriendo">
   <div class="pimg relative aspect-[2/3] shrink-0 overflow-hidden" style="background:linear-gradient(135deg,${T.g[0]},${T.g[1]})">
-    <img src="${c.img}" alt="${esc(c.n)} para arriendo en Punta Arenas" loading="lazy" class="absolute inset-0 h-full w-full object-cover object-center transition duration-500">
+    <img src="${c.img}" alt="${esc(c.n)} para arriendo en Punta Arenas" loading="lazy" class="absolute inset-0 h-full w-full object-contain object-center transition duration-500">
   </div>
   <div class="flex flex-1 flex-col p-3.5 pb-4">
     <span class="block text-[.72rem] font-extrabold uppercase tracking-[.05em] text-m500">${T.i} ${T.n}</span>
@@ -394,6 +424,8 @@ function renderGrid(reset = true) {
   g.innerHTML = L.length
     ? shown.map(cardHTML).join('')
     : `<div class="col-span-full rounded-[20px] border-[1.5px] border-line bg-white p-10 text-center"><div class="text-[3rem]">🔮</div><b class="font-ft">Mmm… no encontramos eso</b><p class="mt-1.5 text-ink2">Prueba con <b>payaso</b>, <b>terror</b> o <b>Halloween</b> ✨</p></div>`;
+
+  encuadrarFotos();
 
   const cl = $('#countLabel');
   if (cl) {
@@ -1137,6 +1169,7 @@ function openQuick(id: number) {
     }
   });
   // Zoom que sigue el cursor: subes el mouse y ves la cabeza/cara; bajas y ves los pies
+  encuadrarFotos();
   const qimg = body.querySelector('.qimg') as HTMLElement | null;
   const qimEl = body.querySelector('.qimg img') as HTMLElement | null;
   if (qimg && qimEl) {

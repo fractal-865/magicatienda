@@ -2219,9 +2219,9 @@ body.drawer-lock {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 11px;
   }
-  /* Las fotos mantienen su proporción 2:3: nunca se cortan cabeza ni pies */
+  /* La foto completa siempre visible (object-contain): no se cortan cabeza ni pies */
   .pcard .pimg img {
-    object-position: center top;
+    object-position: center center;
   }
   .pcard .addbtn {
     font-size: 0.75rem;
@@ -2238,4 +2238,25 @@ body.drawer-lock {
   .quick-filters .qf-group {
     flex: none;
   }
+}
+
+/* ═══ Encuadre de las fotos de producto ═══
+   El marco de la tarjeta es 2:3 y las fotos no todas lo son. La foto se muestra
+   completa (object-contain) y, cuando su proporción no es 2:3, el marco se
+   rellena con una copia desenfocada de la propia foto: así nunca se cortan
+   cabeza ni pies y el fondo morado queda continuo entre tarjetas. */
+.pimg.desborda::before,
+.qimg.desborda::before {
+  content: '';
+  position: absolute;
+  inset: -16px;
+  background-image: var(--foto);
+  background-size: cover;
+  background-position: center;
+  filter: blur(16px) brightness(0.96) saturate(1.06);
+}
+
+.qimg.desborda::before {
+  inset: -26px;
+  filter: blur(26px) brightness(0.96) saturate(1.06);
 }
