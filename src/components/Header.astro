@@ -11,6 +11,11 @@ const sec = (h: string) => (enCat ? ir(`/${h}`) : h);
    sección de esta misma página. */
 const urlCat = enCat ? '#catalogo' : ir('/catalogo/');
 
+/* El logo es un botón en la portada (ahí el clic dispara la sorpresa del
+   confeti) y un enlace al inicio en la página del catálogo, donde el clic
+   tiene que llevar de vuelta. */
+const LogoTag = enCat ? 'a' : 'button';
+
 const count = (id: string) => PRODUCTS.filter((p) => p.cats.includes(id)).length;
 const destacados = [...PRODUCTS].sort((a, b) => a.pop - b.pop).slice(0, 3);
 
@@ -37,10 +42,11 @@ const corto = (s: string) => CORTOS[s] ?? s;
   <div class="mx-auto max-w-[1220px] px-4">
     <div class="hrow flex items-center gap-3 py-3 transition-all duration-300">
       <!-- Logo -->
-      <button
+      <LogoTag
         id="logoBtn"
         class="group flex shrink-0 cursor-pointer items-center border-0 bg-transparent p-0 text-left"
-        aria-label="Inicio, La Mágica Tienda de Disfraces"
+        href={enCat ? ir('/') : undefined}
+        aria-label={enCat ? 'Volver al inicio' : 'Inicio, La Mágica Tienda de Disfraces'}
       >
         <img
           class="logo-img group-hover:scale-[1.03]"
@@ -50,7 +56,7 @@ const corto = (s: string) => CORTOS[s] ?? s;
           height="300"
           decoding="async"
         />
-      </button>
+      </LogoTag>
 
       <!-- Navegación -->
       <nav class="hidden items-center gap-0.5 lg:flex" aria-label="Navegación principal">

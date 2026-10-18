@@ -20,18 +20,24 @@ const urlCatalogo = ir('/catalogo/');
   class="relative px-4 pb-[46px] pt-[30px]"
 >
   <div class="mx-auto max-w-[1220px]">
-    <div class="text-center"><span class="script rv">¡Elige y brilla!</span></div>
     {
       esCat ? (
-        <>
-          <h1 class="sec rv">🎭 {SEO_CAT.h1}</h1>
-          <p class="sec-sub rv">
-            {total} disfraces para arrendar · solo adultos · tallas S a XXL · 3 días (retiro, uso y entrega) ·
-            Cotiza por WhatsApp en 1 minuto.
+        /* Cabecera del catálogo: centrada, con los datos a la vista */
+        <div class="cat-hero">
+          <span class="script cat-hero-script">¡Elige y brilla!</span>
+          <h1 class="cat-hero-t">🎭 {SEO_CAT.h1}</h1>
+          <p class="cat-hero-sub">
+            <b>{total} disfraces</b> para arrendar en Punta Arenas · tallas S a XXL · por 3 días (retiro, uso y entrega).
           </p>
-        </>
+          <ul class="cat-hero-datos">
+            <li>👗 Solo adultos</li>
+            <li>💸 Garantía que se devuelve</li>
+            <li>📲 Cotizas por WhatsApp en 1 minuto</li>
+          </ul>
+        </div>
       ) : (
         <>
+          <div class="text-center"><span class="script rv">¡Elige y brilla!</span></div>
           <h2 class="sec rv">🎭 Elige tu disfraz en Punta Arenas</h2>
           <p class="sec-sub rv">
             Arriendo solo para adultos · 3 días (retiro, uso y entrega) · Cotiza por WhatsApp en 1 minuto.
@@ -40,9 +46,40 @@ const urlCatalogo = ir('/catalogo/');
       )
     }
 
-    <div class="rv mb-4 flex flex-wrap items-center gap-2.5">
-      <span id="countLabel" class="ml-auto text-[.85rem] font-bold text-ink2" aria-live="polite"></span>
-    </div>
+    {
+      esCat ? (
+        <div class="cat-cuenta-wrap">
+          <span id="countLabel" class="cat-cuenta" aria-live="polite" />
+        </div>
+      ) : (
+        <div class="rv mb-4 flex flex-wrap items-center gap-2.5">
+          <span id="countLabel" class="ml-auto text-[.85rem] font-bold text-ink2" aria-live="polite"></span>
+        </div>
+      )
+    }
+
+    {
+      esCat && (
+        /* Tarjetas de las categorías principales: al tocar una se filtra el catálogo */
+        <div id="catCards" class="cat-cards">
+          <p class="cat-cards-t">Explora por tipo de disfraz 🎭</p>
+          <div class="cat-cards-grid">
+            {CATS_ACTIVE.map((c, i) => (
+              <a
+                class="ct-card"
+                data-tem={c.id}
+                href={ir(`/catalogo/?tem=${c.id}`)}
+                style={`--c1:${c.g[0]};--c2:${c.g[1]};--d:${i * 60}ms`}
+              >
+                <span class="ct-emoji" aria-hidden="true">{c.i}</span>
+                <span class="ct-nombre">{c.n}</span>
+                <span class="ct-cuenta">{catCount(c.id)} disfraces</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )
+    }
   </div>
 
   <!-- Barra fija de filtros: buscador + categorías + público + talla + filtros activos.

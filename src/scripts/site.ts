@@ -459,7 +459,22 @@ function pintarBarra() {
   renderChips();
   ajustarFilasBarra();
   actualizarVerTodos();
+  marcarTarjetas();
   sincronizarURL();
+}
+
+/* Las tarjetas de categorías del catálogo se encienden cuando su temática
+   está filtrada, para que se vea de un vistazo qué está puesto. */
+function marcarTarjetas() {
+  const box = $('#catCards');
+  if (!box) return;
+  box.querySelectorAll<HTMLElement>('.ct-card').forEach((a) => {
+    const id = a.dataset.tem ?? '';
+    const on = !!id && state.tem.has(id);
+    a.classList.toggle('on', on);
+    if (on) a.setAttribute('aria-current', 'true');
+    else a.removeAttribute('aria-current');
+  });
 }
 
 const VACIO_HTML = `<div class="col-span-full rounded-[20px] border-[1.5px] border-line bg-white p-10 text-center"><div class="text-[3rem]">🔮</div><b class="font-ft">Mmm… no encontramos eso</b><p class="mt-1.5 text-ink2">Prueba con <b>payaso</b>, <b>terror</b> o <b>Halloween</b> ✨</p></div>`;
@@ -571,6 +586,16 @@ $('#activeChips')?.addEventListener('click', (e) => {
   else if (k === 'exFecha') state.exFecha = ''; else if (k && v && ['tem', 'oca', 'pub', 'tal'].includes(k)) state[k as 'tem'].delete(v);
   syncFilterUI();
   renderGrid();
+});
+
+/* Tarjetas de categorías del catálogo: filtran por esa temática.
+   Si no hay JS, el enlace lleva igual a /catalogo/?tem=… */
+$('#catCards')?.addEventListener('click', (e) => {
+  const a = (e.target as HTMLElement).closest('[data-tem]') as HTMLElement | null;
+  const id = a?.dataset.tem;
+  if (!id) return;
+  e.preventDefault();
+  applyFilter({ tem: id });
 });
 
 /* Paginación: el botón y la carga automática agregan la tanda siguiente */
@@ -808,6 +833,8 @@ function closeAll() {
   $('#catDropBtn')?.setAttribute('aria-expanded', 'false');
   document.body.style.overflow = '';
 }
+/* Al filtrar: en la portada baja hasta la sección del catálogo; ya en la página
+   del catálogo salta directo a las primeras tarjetas de resultado. */
 function applyFilter(o: { q?: string; tem?: string; pub?: string; oca?: string }) {
   (['tem', 'oca', 'pub', 'tal'] as const).forEach((k) => state[k].clear());
   state.exFecha = '';
@@ -817,7 +844,8 @@ function applyFilter(o: { q?: string; tem?: string; pub?: string; oca?: string }
   if (o.pub) state.pub.add(o.pub);
   syncFilterUI();
   renderGrid();
-  scrollToCat();
+  if (enCatalogo) scrollToResults();
+  else scrollToCat();
   closeAll();
 }
 
@@ -1565,10 +1593,11 @@ $('#fechasRow')?.addEventListener('click', (e) => {
   if (b) applyFilter({ tem: b.dataset.tem });
 });
 
-/* huevasco del logo */
+/* huevasco del logo (solo en la portada: en el catálogo el logo es un enlace) */
 let logoC = 0;
 let logoT: ReturnType<typeof setTimeout>;
 $('#logoBtn')?.addEventListener('click', () => {
+  if (enCatalogo) return;
   logoC++;
   clearTimeout(logoT);
   logoT = setTimeout(() => (logoC = 0), 1500);
