@@ -1,78 +1,233 @@
 ---
 import { CONFIG, waLink, ir } from '../data/site';
 
-const fLink = 'block py-1 text-[.9rem] text-[#4a3c78] no-underline hover:text-m800';
-const waFoot = waLink('¡Hola! Quiero cotizar el arriendo de disfraces para adultos en La Mágica Tienda.');
-
 /* En la página del catálogo las secciones viven en la portada. */
 const { pagina = 'inicio' } = Astro.props as { pagina?: 'inicio' | 'catalogo' };
 const enCat = pagina === 'catalogo';
 const sec = (h: string) => (enCat ? ir(`/${h}`) : h);
 /* "Catálogo" apunta a la página del catálogo completo */
 const urlCat = enCat ? '#catalogo' : ir('/catalogo/');
+const waFoot = waLink('¡Hola! Quiero cotizar el arriendo de disfraces para adultos en La Mágica Tienda.');
+
+const fLink = 'hf-a';
+
+/* ═══ Escenografía dibujada en el build ═══════════════════════════════════
+   Todo esto es decorativo (aria-hidden): no reemplaza ningún texto. */
+
+/* ── Zombi en pixel art (estilo Minecraft) ──
+   Cada pieza es un rectángulo sobre una rejilla de 12 × 20. */
+const C = {
+  piel: '#5aa63c',
+  pielO: '#356b26',
+  pielC: '#7ecf60',
+  ojo: '#0d1a0b',
+  boca: '#26441b',
+  camisa: '#2f7f9b',
+  camisaO: '#1d5670',
+  pant: '#333c7d',
+  pantO: '#1e2450',
+  baba: '#a8ff3e',
+};
+type Bloque = [number, number, number, number, string];
+const piezas: Bloque[] = [
+  /* cabeza */
+  [2, 0, 8, 8, C.piel],
+  [2, 0, 8, 1.6, C.pielO],
+  [2, 1.6, 1, 6.4, C.pielO],
+  [9, 1.6, 1, 6.4, C.pielO],
+  [3, 3, 2, 1.6, C.ojo],
+  [7, 3, 2, 1.6, C.ojo],
+  [3.3, 3.2, 0.7, 0.7, C.pielC],
+  [7.3, 3.2, 0.7, 0.7, C.pielC],
+  [4, 6, 4, 1, C.boca],
+  [5.4, 6.8, 1.2, 1.5, C.baba],
+  /* tronco */
+  [2, 8, 8, 6, C.camisa],
+  [2, 8, 8, 1, C.camisaO],
+  [2, 13, 8, 1, C.camisaO],
+  [4, 10, 3, 2, C.baba],
+  /* brazos */
+  [0, 8, 2, 5, C.camisa],
+  [10, 8, 2, 5, C.camisa],
+  [0, 13, 2, 2, C.piel],
+  [10, 13, 2, 2, C.piel],
+  /* piernas */
+  [2, 14, 4, 5, C.pant],
+  [6, 14, 4, 5, C.pant],
+  [2, 19, 4, 1, C.pantO],
+  [6, 19, 4, 1, C.pantO],
+  [3, 16, 1, 1, C.pantO],
+  [7, 17, 1, 1, C.pantO],
+];
+const zombi = `<svg class="hf-zsv" viewBox="0 0 12 20" aria-hidden="true">${piezas
+  .map(([x, y, w, h, c]) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${c}"/>`)
+  .join('')}</svg>`;
+
+/* ── Lápida ── */
+const lapida = (cruz: boolean) => `<svg class="hf-tomb-svg" viewBox="0 0 60 84" aria-hidden="true">
+  <path d="M1.5 84V30a28.5 28.5 0 0 1 57 0v54z" fill="currentColor"/>
+  <path d="M1.5 84V30a28.5 28.5 0 0 1 57 0v54z" fill="none" stroke="rgba(255,255,255,.10)" stroke-width="2"/>
+  ${
+    cruz
+      ? '<path d="M26 42h8v28h-8zM16 52h28v8H16z" fill="rgba(9,4,18,.5)"/>'
+      : '<path d="M11 58h38v3.5H11zM11 66h26v3H11z" fill="rgba(9,4,18,.4)"/>'
+  }
+</svg>`;
+
+/* ── Murciélago (silueta dibujada: el pie no suma ni una letra) ── */
+const murcielago = `<svg class="hf-bat-svg" viewBox="0 0 60 26" fill="currentColor" aria-hidden="true">
+  <path d="M26 9C17 3 8 3 1 8c6 2 8 4 10 7 2-3 4-3 6 1 3-3 6-4 9-1z"/>
+  <path d="M34 9c9-6 18-6 25-1-6 2-8 4-10 7-2-3-4-3-6 1-3-3-6-4-9-1z"/>
+  <ellipse cx="30" cy="13.5" rx="4.4" ry="6.1"/>
+  <path d="M27.2 8.2l-2-5.2 4 2.6zM32.8 8.2l2-5.2-4 2.6z"/>
+</svg>`;
+
+/* ── Árbol seco (ramas trazadas al estilo del sitio) ── */
+const arbol = `<svg class="hf-tree-svg" viewBox="0 0 120 170" fill="none" stroke="currentColor"
+  stroke-width="6" stroke-linecap="round" aria-hidden="true">
+  <path d="M60 170V86"/>
+  <path d="M60 120 26 88"/>
+  <path d="M60 106 98 76"/>
+  <path d="M60 96 40 58"/>
+  <path d="M60 92 88 50"/>
+  <path d="M26 88 15 70"/>
+  <path d="M98 76 111 58"/>
+  <path d="M40 58 30 38"/>
+  <path d="M88 50 98 30"/>
+  <path d="M60 86 58 52"/>
+</svg>`;
+
+/* ── Estrellas: posiciones fijas para que el sitio se arme igual siempre ── */
+const estrellas = [
+  [4, 16], [9, 62], [14, 10], [20, 44], [26, 96], [32, 28], [38, 74], [44, 12],
+  [51, 58], [57, 104], [63, 34], [69, 78], [75, 18], [81, 50], [87, 88], [92, 26], [96, 66],
+];
+
+/* ── Baba que gotea desde el borde de arriba ── */
+const gotas = [
+  { x: 3, w: 18, h: 40, d: '0s' },
+  { x: 11, w: 12, h: 26, d: '-1.4s' },
+  { x: 20, w: 22, h: 54, d: '-3.1s' },
+  { x: 32, w: 14, h: 32, d: '-2.2s' },
+  { x: 43, w: 20, h: 46, d: '-4.3s' },
+  { x: 56, w: 12, h: 24, d: '-0.8s' },
+  { x: 65, w: 24, h: 58, d: '-5.1s' },
+  { x: 78, w: 15, h: 34, d: '-2.7s' },
+  { x: 88, w: 20, h: 48, d: '-3.8s' },
+];
 ---
 
-<footer class="border-t-[1.5px] border-line bg-lav2 px-4 pb-[90px] pt-11 min-[900px]:pb-11">
-  <div class="mx-auto grid max-w-[1220px] grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-[26px]">
-    <div>
-      <img
-        class="footer-logo"
-        src={`${import.meta.env.BASE_URL}/img/logo.png`.replace(/\/{2,}/g, '/')}
-        alt="La Mágica Tienda de Disfraces"
-        width="380"
-        height="300"
-        loading="lazy"
-      />
-      <p class="my-2.5 text-[.88rem] text-[#4a3c78]">
-        Arriendo de disfraces solo para adultos en Punta Arenas, Región de Magallanes. #lamagicatienda
-      </p>
-      <div class="flex gap-2">
-        {
-          CONFIG.redes.map((r) => (
-            <a class="grid h-[34px] w-[34px] place-items-center rounded-full bg-white text-[.95rem] no-underline transition hover:-translate-y-[3px] hover:bg-ama" href={r.u} target="_blank" rel="noopener" aria-label={r.n}>
-              {r.i}
-            </a>
-          ))
-        }
-      </div>
-    </div>
+<footer class="hf-foot">
+  {/* ═══ Cielo, niebla, cementerio y baba (sólo decoración) ═══ */}
+  <div class="hf-bg" aria-hidden="true">
+    <span class="hf-moon"></span>
+    {
+      estrellas.map(([x, y], i) => (
+        <i class="hf-star" style={`left:${x}%;top:${y}px;animation-delay:${((i % 7) * 0.6).toFixed(1)}s`} />
+      ))
+    }
+    <i class="hf-bat hf-bat-1" style="animation-delay:0s" set:html={murcielago} />
+    <i class="hf-bat hf-bat-2" style="animation-delay:-4s" set:html={murcielago} />
+    <i class="hf-bat hf-bat-3" style="animation-delay:-7.5s" set:html={murcielago} />
 
-    <div>
-      <h4 class="mb-3 text-m600">Explora</h4>
-      <a class={fLink} href={urlCat}>Catálogo</a>
-      <a class={fLink} href={sec('#promos')}>Promos</a>
-      <a class={fLink} href={sec('#fechas')}>Fechas</a>
-      <a class={fLink} href={sec('#pagos')}>💳 Pagos</a>
-    </div>
+    <div class="hf-fog hf-fog-a"></div>
+    <div class="hf-fog hf-fog-b"></div>
+    <div class="hf-fog hf-fog-c"></div>
 
-    <div>
-      <h4 class="mb-3 text-m600">Arriendo</h4>
-      <button class="flink block w-full cursor-pointer border-0 bg-transparent py-1 text-left text-[.9rem] text-[#4a3c78] hover:text-m800" data-opencond>
-        🛡️ Condiciones
-      </button>
-      <a class={fLink} href={sec('#como')}>🪄 Cómo funciona</a>
-      <a class={fLink} href={sec('#faq')}>❓ Preguntas</a>
-    </div>
+    <span class="hf-tree hf-tree-l" set:html={arbol} />
+    <span class="hf-tree hf-tree-r" set:html={arbol} />
+    <span class="hf-tomb hf-tomb-1" set:html={lapida(true)} />
+    <span class="hf-tomb hf-tomb-2" set:html={lapida(false)} />
+    <span class="hf-tomb hf-tomb-3" set:html={lapida(true)} />
+    <span class="hf-tomb hf-tomb-4" set:html={lapida(false)} />
 
-    <div>
-      <h4 class="mb-3 text-m600">Horarios y contacto</h4>
-      <p class="text-[.9rem] leading-[1.8] text-[#4a3c78]">
-        <span data-horario>Lun–Sáb 15:00–20:30 · Dom cerrado</span> 😴
-      </p>
-      <a class={fLink} href={CONFIG.telHref}>📞 {CONFIG.tel}</a>
-      <a class={fLink} href="mailto:contacto@lamagicatienda.cl">✉️ contacto@lamagicatienda.cl</a>
-      <a class={fLink} href={waFoot} target="_blank" rel="noopener">💬 {CONFIG.waDisplay}</a>
+    <div class="hf-ground"></div>
+    <div class="hf-puddle hf-puddle-1"></div>
+    <div class="hf-puddle hf-puddle-2"></div>
+    <div class="hf-puddle hf-puddle-3"></div>
+
+    {/* La baba entra desde el borde de arriba, como si el fondo se derritiera */}
+    <div class="hf-slime">
+      {
+        gotas.map((g) => (
+          <i
+            class="hf-drip"
+            style={`left:${g.x}%;width:${g.w}px;height:${g.h}px;animation-delay:${g.d}`}
+          />
+        ))
+      }
     </div>
   </div>
 
-  <p class="mt-[30px] text-center text-[.8rem] text-ink2">
-    © 2026 La Mágica Tienda de Disfraces · Arriendo de disfraces para adultos · Punta Arenas
-  </p>
+  {/* ═══ Los zombis, de pie sobre el pasto ═══ */}
+  <span class="hf-z hf-z-1" aria-hidden="true" set:html={zombi} />
+  <span class="hf-z hf-z-2" aria-hidden="true" set:html={zombi} />
+  <span class="hf-z hf-z-3" aria-hidden="true" set:html={zombi} />
 
-  <p class="mt-4 text-center">
-    <a class="fhl-credit" href="https://fractalhost.cl" target="_blank" rel="nofollow noopener">
-      <span class="fhl-dot" aria-hidden="true"></span>
-      Sitio creado por <b>Fractalhost.cl</b>
-    </a>
-  </p>
+  <div class="hf-in mx-auto max-w-[1220px]">
+    <div class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-[26px]">
+      <div>
+        <span class="hf-placa">
+          <img
+            class="footer-logo"
+            src={`${import.meta.env.BASE_URL}/img/logo.png`.replace(/\/{2,}/g, '/')}
+            alt="La Mágica Tienda de Disfraces"
+            width="380"
+            height="300"
+            loading="lazy"
+          />
+        </span>
+        <p class="hf-p my-2.5">
+          Arriendo de disfraces solo para adultos en Punta Arenas, Región de Magallanes. #lamagicatienda
+        </p>
+        <div class="flex gap-2">
+          {
+            CONFIG.redes.map((r) => (
+              <a class="hf-soc" href={r.u} target="_blank" rel="noopener" aria-label={r.n}>
+                {r.i}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <div>
+        <h4 class="hf-h">Explora</h4>
+        <a class={fLink} href={urlCat}>Catálogo</a>
+        <a class={fLink} href={sec('#promos')}>Promos</a>
+        <a class={fLink} href={sec('#fechas')}>Fechas</a>
+        <a class={fLink} href={sec('#pagos')}>💳 Pagos</a>
+      </div>
+
+      <div>
+        <h4 class="hf-h">Arriendo</h4>
+        <button class="hf-a hf-btn" data-opencond>
+          🛡️ Condiciones
+        </button>
+        <a class={fLink} href={sec('#como')}>🪄 Cómo funciona</a>
+        <a class={fLink} href={sec('#faq')}>❓ Preguntas</a>
+      </div>
+
+      <div>
+        <h4 class="hf-h">Horarios y contacto</h4>
+        <p class="hf-p hf-p-horario">
+          <span data-horario>Lun–Sáb 15:00–20:30 · Dom cerrado</span> 😴
+        </p>
+        <a class={fLink} href={CONFIG.telHref}>📞 {CONFIG.tel}</a>
+        <a class={fLink} href="mailto:contacto@lamagicatienda.cl">✉️ contacto@lamagicatienda.cl</a>
+        <a class={fLink} href={waFoot} target="_blank" rel="noopener">💬 {CONFIG.waDisplay}</a>
+      </div>
+    </div>
+
+    <p class="hf-copy mt-[30px] text-center text-[.8rem]">
+      © 2026 La Mágica Tienda de Disfraces · Arriendo de disfraces para adultos · Punta Arenas
+    </p>
+
+    <p class="mt-4 text-center">
+      <a class="fhl-credit" href="https://fractalhost.cl" target="_blank" rel="nofollow noopener">
+        <span class="fhl-dot" aria-hidden="true"></span>
+        Sitio creado por <b>Fractalhost.cl</b>
+      </a>
+    </p>
+  </div>
 </footer>
