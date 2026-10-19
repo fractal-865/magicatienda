@@ -2,7 +2,7 @@
    La Mágica Tienda — interactividad del sitio
    Filtros + buscador + "Tu arriendo" (cotización) + modales
    ═══════════════════════════════════════════════════════════════ */
-import { PRODUCTS, CATS, PUBLICOS, OCASIONES, TALLAS, TALLA_GUIA, catById, clp, type Product } from '../data/products';
+import { PRODUCTS, CATS, PUBLICOS, OCASIONES, TALLAS, TALLA_GUIA, catById, clp, disfrazSlug, type Product } from '../data/products';
 import { GAR_SHORT, GAR, waLink, ACC, esTemporadaHalloween } from '../data/site';
 
 type Acc = { id: string; n: string; e: string };
@@ -408,8 +408,7 @@ function cardHTML(c: Product, k: number) {
   const T = catById(c.t);
   const multiSize = c.tl.length > 1;
   const guia = (t: string) => TALLA_GUIA[t] ? `Estatura recomendada: ${TALLA_GUIA[t]}` : 'Sin referencia de estatura';
-  const slug = `${c.id}-${c.n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}`;
-  const disfrazUrl = `/disfraz/${slug}/`;
+  const disfrazUrl = `/disfraz/${disfrazSlug(c)}/`;
   return `<article class="pcard relative flex cursor-pointer flex-col rounded-[20px] border-[1.5px] border-line bg-white shadow-[0_8px_20px_rgba(90,42,156,.08)] transition duration-300 hover:-translate-y-[5px] hover:shadow-sh2" data-id="${c.id}" style="--d:${Math.min(k * 0.05, 0.4)}s" tabindex="0" aria-label="${esc(c.n)}, disfraz para adultos en arriendo">
   <div class="pimg relative aspect-[2/3] shrink-0 overflow-hidden" style="background:linear-gradient(135deg,${T.g[0]},${T.g[1]})">
     <a href="${disfrazUrl}" class="absolute inset-0 z-[1]" aria-label="Ver ${esc(c.n)}">
@@ -1306,8 +1305,7 @@ function waDraft(): string {
     .map((i) => {
       const it = byId(i.id);
       if (!it || !isProduct(it)) return it ? `${i.qty}× ${it.n} (talla ${i.talla})` : '';
-      const slug = `${it.id}-${it.n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}`;
-      const link = `https://magicatienda.cl/disfraz/${slug}/`;
+      const link = `https://magicatienda.cl/disfraz/${disfrazSlug(it)}/`;
       return `${i.qty}× ${it.n} (#${String(it.id).padStart(3, '0')}) (talla ${i.talla}) — ${link}`;
     })
     .filter(Boolean)
@@ -1385,7 +1383,7 @@ function openQuick(id: number) {
   let talla = multi ? '' : c.tl[0]; // en multi-talla hay que elegir explícitamente
   const body = $('#qmBody');
   if (!body) return;
-  const slug = `${c.id}-${c.n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}`;
+  const slug = disfrazSlug(c);
   body.innerHTML = `<div class="qimg group relative h-[420px] cursor-zoom-in overflow-hidden rounded-2xl" style="background:linear-gradient(135deg,${T.g[0]},${T.g[1]})">
     <img src="${c.img}" alt="${esc(c.n)} para arriendo en Punta Arenas" class="absolute inset-0 h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[2]">
   </div>

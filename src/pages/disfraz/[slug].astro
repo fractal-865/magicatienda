@@ -1,18 +1,23 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { PRODUCTS, getDisfrazBySlug, getSimilares, clp, catById, displayTalla, TALLA_GUIA } from '../../data/products';
-import { CONFIG, waLink, url, ir } from '../../data/site';
+import { PRODUCTS, disfrazSlug, getSimilares, catById, displayTalla, TALLA_GUIA } from '../../data/products';
+import { waLink, url, ir } from '../../data/site';
 
+/* Los datos que usa el buscador de la cabecera. El slug viaja ya calculado:
+   el navegador no vuelve a derivarlo (así no puede diferir del de la página). */
 const disfracesJSON = JSON.stringify(PRODUCTS.map((p) => ({
   id: p.id,
   n: p.n,
   img: p.img,
   cat: catById(p.t).n,
+  slug: disfrazSlug(p),
 })));
 
+/* El slug sale de disfrazSlug() (en data/products.ts) para que las páginas, el
+   sitemap y los enlaces del buscador usen siempre la misma cadena. */
 export function getStaticPaths() {
   return PRODUCTS.map((p) => ({
-    params: { slug: `${p.id}-${p.n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}` },
+    params: { slug: disfrazSlug(p) },
     props: { product: p },
   }));
 }
@@ -21,7 +26,7 @@ const { product: c } = Astro.props;
 const T = catById(c.t);
 const similares = getSimilares(c, 6);
 const codigo = String(c.id).padStart(3, '0');
-const slug = `${c.id}-${c.n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}`;
+const slug = disfrazSlug(c);
 const pageUrl = url(`/disfraz/${slug}/`);
 const waMsg = `¡Hola! Quiero cotizar el arriendo del disfraz ${c.n} (#${codigo}) para adultos. ¿Está disponible? ${pageUrl}`;
 const waHref = waLink(waMsg);
@@ -205,7 +210,7 @@ const ogImage = url(c.img);
         <p class="sec-sub rv">Otros disfraces que te pueden gustar</p>
         <div class="flex gap-3 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
           {similares.map((s) => {
-            const sSlug = `${s.id}-${s.n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}`;
+            const sSlug = disfrazSlug(s);
             return (
               <a href={ir(`/disfraz/${sSlug}/`)} class="group block w-[160px] shrink-0 snap-start overflow-hidden rounded-2xl border-[1.5px] border-line bg-white shadow-sh transition hover:-translate-y-1 hover:shadow-sh2 min-[560px]:w-[200px]">
                 <div class="relative aspect-[2/3] overflow-hidden bg-[#f0eaff]">
@@ -403,16 +408,13 @@ const ogImage = url(c.img);
           return;
         }
 
-        resultsDiv.innerHTML = matches.map((d) => {
-          const slug = d.id + '-' + d.n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-          return `<a href="/disfraz/${slug}/" class="flex items-center gap-3 rounded-xl p-2 transition hover:bg-[#f0eaff]">
+        resultsDiv.innerHTML = matches.map((d) => `<a href="/disfraz/${d.slug}/" class="flex items-center gap-3 rounded-xl p-2 transition hover:bg-[#f0eaff]">
             <img src="${d.img}" alt="${d.n}" class="h-12 w-12 rounded-lg object-contain bg-[#f0eaff]" loading="lazy" />
             <div class="flex-1 min-w-0">
               <p class="text-[.85rem] font-semibold text-ink truncate">#${String(d.id).padStart(3, '0')} ${d.n}</p>
               <p class="text-[.75rem] text-ink2">${d.cat}</p>
             </div>
-          </a>`;
-        }).join('');
+          </a>`).join('');
       }
 
       searchToggle.addEventListener('click', (e) => {
