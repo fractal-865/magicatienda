@@ -1226,7 +1226,8 @@ mark {
   }
   .btn-rosa {
     background: var(--color-rosa);
-    color: #fff;
+    /* Texto oscuro: blanco sobre el rosa de marca no llega a 4.5:1. */
+    color: var(--color-m800);
   }
   .btn-mora {
     background: var(--color-m600);
@@ -2267,6 +2268,35 @@ body.drawer-lock {
   font-size: 0.7rem;
   font-weight: 700;
   cursor: pointer;
+}
+/* ── Aviso de talla ──
+   Cuando se agrega un disfraz con más de una talla, el selector de talla late
+   en verde unas cuantas veces para recordar que hay que elegirla. La clase
+   "talla-elegir" solo se pone si hay 2 o más tallas: los de talla única no
+   avisan nada. Se apaga solo (junto con el "justadded" de la tarjeta) o al
+   cambiar la talla. */
+.rent-card.justadded .rent-actions select.talla-elegir {
+  animation: tallaAviso 0.85s ease-in-out 3;
+}
+@keyframes tallaAviso {
+  0%,
+  100% {
+    background: #f4f1f9;
+    box-shadow: 0 0 0 0 rgb(12 122 86 / 0);
+  }
+  50% {
+    background: #c8efdc;
+    color: #0b6a4b;
+    box-shadow: 0 0 0 3px rgb(12 122 86 / 0.35);
+  }
+}
+/* Con "reducir movimiento" queda el verde fijo, sin latido. */
+@media (prefers-reduced-motion: reduce) {
+  .rent-card.justadded .rent-actions select.talla-elegir {
+    animation: none;
+    background: #d8f2e6;
+    box-shadow: 0 0 0 2px rgb(12 122 86 / 0.3);
+  }
 }
 .rent-qty {
   display: inline-flex;

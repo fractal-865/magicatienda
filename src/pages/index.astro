@@ -1,5 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getImage } from 'astro:assets';
+import promoGlobosImg from '../assets/img/promo-globos.png';
 import Urgencia from '../components/Urgencia.astro';
 import Promos from '../components/Promos.astro';
 import Catalogo from '../components/Catalogo.astro';
@@ -11,9 +13,26 @@ import Pagos from '../components/Pagos.astro';
 import Mapa from '../components/Mapa.astro';
 import Contacto from '../components/Contacto.astro';
 import Faq from '../components/Faq.astro';
+
+/* La foto del primer banner es el elemento más grande de la primera pantalla.
+   Se le pide al navegador que la empiece a bajar enseguida (preload), con las
+   mismas medidas y formato que produce el banner. Astro descarta las medidas
+   mayores que la foto original y agrega su ancho real; se replica esa misma
+   cuenta para que la pista apunte justo a los archivos que se van a usar. */
+const anchoBanner = promoGlobosImg.width;
+const anchosBanner = [...new Set([640, 960, 1280].filter((w) => w < anchoBanner).concat(anchoBanner))];
+const variantesBanner = await Promise.all(
+  anchosBanner.map((w) => getImage({ src: promoGlobosImg, width: w, format: 'avif' })),
+);
+const precarga = {
+  href: variantesBanner[0].src,
+  srcset: variantesBanner.map((v, k) => `${v.src} ${anchosBanner[k]}w`).join(', '),
+  sizes: '100vw',
+  type: 'image/avif',
+};
 ---
 
-<Layout>
+<Layout precarga={precarga}>
   <main id="main" class="relative z-[1]">
     <Urgencia />
     <Promos />

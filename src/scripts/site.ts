@@ -416,10 +416,7 @@ function cardHTML(c: Product, k: number) {
     <a href="${disfrazUrl}" class="absolute inset-0 z-[1]" aria-label="Ver ${esc(c.n)}">
       <img src="${c.img}" srcset="${thumbSrcset(c.img)}" sizes="(max-width: 600px) calc(50vw - 22px), 300px" data-full="${c.img}" onerror="${ONERROR_MINI}" alt="${esc(c.n)} para arriendo en Punta Arenas" loading="lazy" decoding="async" width="400" height="600" class="absolute inset-0 h-full w-full object-contain object-center transition duration-500">
     </a>
-    <span class="absolute left-2 top-2 z-[2] rounded-full bg-m600/90 px-2 py-0.5 text-[.65rem] font-extrabold text-white shadow-sh"> #${String(c.id).padStart(3, '0')}</span>
-    <a href="${disfrazUrl}" class="quick-view-btn absolute right-2 top-2 z-[2] grid h-9 w-9 place-items-center rounded-full bg-white/90 text-m600 shadow-sh transition hover:bg-m600 hover:text-white" aria-label="Ver ficha de ${esc(c.n)}" title="Ver ficha">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-    </a>
+    <span class="absolute left-2 top-2 z-[2] rounded-full bg-m600/90 px-2 py-0.5 text-[.65rem] font-extrabold text-white shadow-sh"> #${String(c.id).padStart(3, '0')}</span>
   </div>
   <div class="flex flex-1 flex-col p-3.5 pb-4">
     <span class="block text-[.72rem] font-extrabold uppercase tracking-[.05em] text-m500">${T.i} ${T.n}</span>
@@ -767,6 +764,11 @@ function syncFilterUI() {
   if (cdN) cdN.textContent = String(state.tem.size);
   cdN?.classList.toggle('hidden', state.tem.size === 0);
   $('#catDropBtn')?.classList.toggle('on', state.tem.size > 0);
+  // Igual que el carrito: el contador va oculto y el dato vive en la etiqueta.
+  $('#catDropBtn')?.setAttribute(
+    'aria-label',
+    `Categorías, ${state.tem.size} seleccionada${state.tem.size === 1 ? '' : 's'}`,
+  );
   const cc = $('#catClear');
   const hayFiltro = state.tem.size + state.oca.size + state.pub.size + state.tal.size > 0 || !!state.q || !!state.exFecha;
   cc?.classList.toggle('hidden', !hayFiltro);
@@ -1185,6 +1187,12 @@ function afterCart(srcEl?: Element | null, abrir = false) {
     void cc.offsetWidth;
     cc.classList.add('pop');
   }
+  // El globito va oculto a los lectores de pantalla; la cuenta se entrega en la
+  // etiqueta del botón, así el nombre accesible calza con lo que se ve.
+  $('#cartBtn')?.setAttribute(
+    'aria-label',
+    `Tu arriendo, ${n} ${n === 1 ? 'disfraz' : 'disfraces'}, ver solicitud`,
+  );
   if (srcEl && !reduced()) {
     fly(srcEl);
     Confetti.at(srcEl); // estallido visible al agregar
@@ -1273,7 +1281,7 @@ function renderMini() {
                 </div>
                 ${precio}
                 <div class="rent-actions">
-                  <select data-rt="${k}" aria-label="Talla de ${esc(it.n)}">${tls.map((x) => `<option ${x === i.talla ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>
+                  <select data-rt="${k}"${tls.length > 1 ? ' class="talla-elegir"' : ''} aria-label="Talla de ${esc(it.n)}">${tls.map((x) => `<option ${x === i.talla ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>
                   <span class="rent-qty">
                     <button type="button" data-rq="-" data-k="${k}" aria-label="Quitar una unidad de ${esc(it.n)}">−</button>
                     <span>${i.qty}</span>
@@ -1379,13 +1387,14 @@ function renderMini() {
   mc.querySelector('#rqSend')?.addEventListener('click', sendWA);
 
   // El destello de "recién agregado" se apaga solo, para que la tarjeta no
-  // quede marcada para siempre.
+  // quede marcada para siempre. El aviso de talla (3 latidos de 0.85 s) usa
+  // el mismo plazo, así alcanza a completarse.
   const added = state.lastAdd;
   if (added) {
     setTimeout(() => {
       if (state.lastAdd === added) state.lastAdd = null;
       mc.querySelector('.rent-card.justadded')?.classList.remove('justadded');
-    }, 1600);
+    }, 2600);
   }
 }
 

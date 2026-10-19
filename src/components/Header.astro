@@ -131,8 +131,10 @@ const corto = (s: string) => CORTOS[s] ?? s;
             aria-label="Tu arriendo, ver solicitud"
             aria-expanded="false"
           >
-            🛒<span
+            <span aria-hidden="true">🛒</span
+            ><span
               id="cartCount"
+              aria-hidden="true"
               class="absolute -right-1.5 -top-1.5 grid h-5 min-w-5 place-items-center rounded-full bg-rosa px-1 text-[.66rem] font-extrabold text-white"
               >0</span
             >

@@ -26,3 +26,6 @@ fotos/
 
 # artefacto de despliegue (se genera con el script de zip, no se versiona)
 magicatienda-cpanel.zip
+
+# informes de Lighthouse (análisis puntual, no van al repo)
+informe-*.json

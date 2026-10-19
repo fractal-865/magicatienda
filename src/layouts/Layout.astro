@@ -1,13 +1,15 @@
 ---
 import '../styles/global.css';
-/* Fuentes locales (sin CDN externo): Fredoka, Nunito y Caveat */
-import '@fontsource/fredoka/500.css';
-import '@fontsource/fredoka/600.css';
-import '@fontsource/fredoka/700.css';
-import '@fontsource/nunito/400.css';
-import '@fontsource/nunito/700.css';
-import '@fontsource/nunito/800.css';
-import '@fontsource/caveat/600.css';
+/* Fuentes locales (sin CDN externo): Fredoka, Nunito y Caveat.
+   Solo el subconjunto latino: el sitio está en español y así no se copian
+   (ni se declaran) cirílico, hebreo, vietnamita ni latino extendido. */
+import '@fontsource/fredoka/latin-500.css';
+import '@fontsource/fredoka/latin-600.css';
+import '@fontsource/fredoka/latin-700.css';
+import '@fontsource/nunito/latin-400.css';
+import '@fontsource/nunito/latin-700.css';
+import '@fontsource/nunito/latin-800.css';
+import '@fontsource/caveat/latin-600.css';
 import Header from '../components/Header.astro';
 import Drawer from '../components/Drawer.astro';
 import Footer from '../components/Footer.astro';
@@ -43,6 +45,9 @@ interface Props {
   conFaq?: boolean;
   /** Páginas que no deben quedar en Google (por ejemplo, la 404) */
   noIndex?: boolean;
+  /** Imagen que conviene bajar cuanto antes (la foto del primer banner).
+      Solo la portada la usa; en el resto no se pinta nada. */
+  precarga?: { href: string; srcset?: string; sizes?: string; type?: string } | null;
 }
 const {
   titulo = SEO.title,
@@ -56,6 +61,7 @@ const {
   esquema = [],
   conFaq = true,
   noIndex = false,
+  precarga = null,
 } = Astro.props;
 
 const canonical = url(ruta);
@@ -151,6 +157,31 @@ const datos = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {/* La foto del banner principal: se pide junto con el resto, sin esperar a
+        que el navegador termine de leer la página. Acelera la primera pintura. */}
+    {precarga && (
+      <link
+        rel="preload"
+        as="image"
+        href={precarga.href}
+        imagesrcset={precarga.srcset}
+        imagesizes={precarga.sizes}
+        type={precarga.type}
+        fetchpriority="high"
+      />
+    )}
+    <!-- Google tag (gtag.js) -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-4DXHLL94XV"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-4DXHLL94XV');
+    </script>
     <title>{titulo}</title>
     <meta name="description" content={descripcion} />
     <meta name="keywords" content="arriendo de disfraces punta arenas, disfraces punta arenas, arriendo disfraces adultos, disfraces halloween punta arenas, disfraces para fiestas" />
@@ -167,7 +198,7 @@ const datos = {
     <link rel="icon" href={url('/favicon.ico')} sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href={url('/favicon-32.png')} />
     <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} />
-    <link rel="manifest" href={url('/site.webmanifest')} />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#5a2a9c" />
     <meta name="apple-mobile-web-app-title" content="La Mágica Tienda" />
     <meta name="application-name" content="La Mágica Tienda de Disfraces" />
