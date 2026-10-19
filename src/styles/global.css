@@ -1672,7 +1672,6 @@ nav [data-navsec].on::after {
   top: var(--hdr-h, 64px);
   z-index: 40;
   margin-inline: -1rem; /* se sale del padding lateral de la sección */
-  padding-bottom: 14px;
 }
 /* Alinea el contenido con la grilla: 1220px + los 2rem del padding */
 .fbar-in {
