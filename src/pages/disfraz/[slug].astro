@@ -35,7 +35,8 @@ const fbShare = `https://www.facebook.com/sharer/sharer.php?u=${encodeURICompone
 
 const title = `${c.n} | Arriendo de disfraces en Punta Arenas`;
 const description = `${c.d.slice(0, 150)}. Arriendo de disfraces en Punta Arenas.`;
-const ogImage = url(c.img);
+const ogImage = url(`/img/og/${c.id}.jpg`);
+const ogImageAlt = `${c.n} en arriendo en Punta Arenas`;
 
 /* La descripción se parte en dos párrafos (como en la maqueta) cortando
    después de la primera frase. Si no hay un corte claro, queda uno solo. */
@@ -52,6 +53,8 @@ const descParrafos = (() => {
   descripcion={description}
   ogTitulo={title}
   ogDescripcion={description}
+  ogImage={ogImage}
+  ogImageAlt={ogImageAlt}
   ruta={`/disfraz/${slug}/`}
   conFaq={false}
 >

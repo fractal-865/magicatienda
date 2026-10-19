@@ -34,6 +34,9 @@ interface Props {
       'catalogo' y 'disfraz' = esas páginas no tienen las secciones, así que
       los enlaces del menú llevan a la portada. */
   pagina?: 'inicio' | 'catalogo' | 'disfraz';
+  /** Imagen para compartir (og:image). Por defecto, el logo del negocio. */
+  ogImage?: string;
+  ogImageAlt?: string;
   /** Nodos extra para el @graph (por ejemplo, las migas de pan) */
   esquema?: Record<string, unknown>[];
   /** Solo la portada tiene las preguntas frecuentes a la vista */
@@ -46,6 +49,8 @@ const {
   ogDescripcion = SEO.ogDescription,
   ruta = '/',
   pagina = 'inicio',
+  ogImage = url('/img/logo-og.jpg'),
+  ogImageAlt = 'Logo de La Mágica Tienda de Disfraces, arriendo para adultos en Punta Arenas',
   esquema = [],
   conFaq = true,
 } = Astro.props;
@@ -54,8 +59,6 @@ const canonical = url(ruta);
 /* La ficha del negocio se ancla siempre a la portada: así el catálogo no parte
    la entidad en dos direcciones distintas. */
 const raiz = url('/');
-const ogImage = url('/img/logo-og.jpg');
-const ogImageAlt = 'Logo de La Mágica Tienda de Disfraces, arriendo para adultos en Punta Arenas';
 
 /* ── Datos para los buscadores (schema.org) ──
    Le dicen a Google que es una tienda local de Punta Arenas: nombre, dirección,
@@ -72,7 +75,7 @@ const datos = {
       alternateName: 'La Mágica Tienda',
       description: SEO.description,
       url: raiz,
-      image: ogImage,
+      image: url('/img/logo-og.jpg'),
       logo: url('/img/logo.png'),
       telephone: CONFIG.tel,
       /* Sin email a propósito: los buscadores lo leen del JSON-LD y las
