@@ -1519,9 +1519,9 @@ function renderReq() {
   <input id="rqNom" placeholder="Nombre y apellido *" autocomplete="name" required aria-required="true" aria-label="Nombre y apellido (obligatorio)" value="${esc(state.req.nombre)}" class="mt-1.5 w-full rounded-[10px] border-2 border-line p-2.5">
   <p class="mt-1 text-[.75rem] font-bold text-ink2">* Obligatorio: con tu nombre te confirmamos la reserva por WhatsApp.</p>
   <div class="totbox">
-    <div class="trow"><span>Valor de arriendo por 3 días:</span><b>Desde $15.000</b></div>
-    <div class="trow"><span>Garantía reembolsable <button type="button" class="info-dot tip" data-tip="${esc(GAR)}" aria-label="Sobre la garantía">i</button>:</span><b>$15.000 o $20.000</b></div>
-    <div class="trow total"><span>Total estimado en sucursal:</span><b>Desde $30.000</b></div>
+    <div class="trow total"><span>Valor de arriendo por 3 días:</span><b>Desde ${clp(15000 * (state.cart.reduce((a, i) => a + i.qty, 0) || 1))}</b></div>
+    <div class="trow"><span class="text-[.75rem] text-ink2">Garantía reembolsable <button type="button" class="info-dot tip" data-tip="${esc(GAR)}" aria-label="Sobre la garantía">i</button>:</span><b class="text-[.75rem] text-ink2">$15.000 o $20.000 por disfraz</b></div>
+    <div class="trow total mt-1.5 border-t border-line pt-1.5"><span>Total estimado en sucursal:</span><b>Desde ${clp(30000 * (state.cart.reduce((a, i) => a + i.qty, 0) || 1))}</b></div>
   </div>
   <p class="totnote">Es solo una cotización: el valor del arriendo y la garantía se revisan y confirman en la tienda al reservar.</p>
   <button class="btn btn-wsp btn-lg mt-2.5 w-full" id="rqSend">💬 Enviar solicitud por WhatsApp</button>
