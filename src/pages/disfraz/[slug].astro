@@ -404,7 +404,7 @@ const ogImage = url(c.img);
         }
 
         resultsDiv.innerHTML = matches.map((d) => {
-          const slug = d.id + '-' + d.n.toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+          const slug = d.id + '-' + d.n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
           return `<a href="/disfraz/${slug}/" class="flex items-center gap-3 rounded-xl p-2 transition hover:bg-[#f0eaff]">
             <img src="${d.img}" alt="${d.n}" class="h-12 w-12 rounded-lg object-contain bg-[#f0eaff]" loading="lazy" />
             <div class="flex-1 min-w-0">

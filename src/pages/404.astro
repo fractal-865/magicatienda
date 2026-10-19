@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { ir } from '../data/site';
+
+const title = 'Página no encontrada | La Mágica Tienda de Disfraces';
+const description = 'La página que buscas no existe. Vuelve al inicio o explora el catálogo de disfraces en Punta Arenas.';
+---
+
+<Layout
+  pagina="inicio"
+  titulo={title}
+  descripcion={description}
+  ruta="/404/"
+  conFaq={false}
+>
+  <main class="min-h-screen bg-[#faf8ff] flex items-center justify-center px-4">
+    <div class="text-center max-w-[600px]">
+      <div class="text-[8rem] leading-none mb-4">🎭</div>
+      <h1 class="font-ft text-[2.5rem] text-ink mb-2">¡Ups! Página no encontrada</h1>
+      <p class="text-[1rem] text-ink2 mb-6">
+        La página que buscas no existe o fue movida. Pero no te preocupes, tenemos más de 150 disfraces esperándote.
+      </p>
+      <div class="flex flex-col gap-3 min-[480px]:flex-row justify-center">
+        <a href={ir('/')} class="btn btn-mora btn-lg">
+          🏠 Volver al inicio
+        </a>
+        <a href={ir('/catalogo/')} class="btn btn-ghost btn-lg">
+          🎭 Ver catálogo de disfraces
+        </a>
+      </div>
+      <p class="mt-8 text-[.85rem] text-ink2">
+        ¿Buscabas un disfraz específico? <a href={ir('/catalogo/')} class="text-m600 font-bold hover:underline">Explora el catálogo completo</a> o <a href="https://api.whatsapp.com/send?phone=56984330378&text=%C2%A1Hola!%20Busco%20un%20disfraz%20espec%C3%ADfico." target="_blank" rel="noopener" class="text-m600 font-bold hover:underline">cotiza por WhatsApp</a>.
+      </p>
+    </div>
+  </main>
+</Layout>
