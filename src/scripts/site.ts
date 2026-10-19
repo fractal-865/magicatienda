@@ -519,15 +519,21 @@ function cargarMas() {
   pintarBarra();
 }
 
-/* Al cargar solas se enciende el girador, pero solo si la tanda tarda lo
-   suficiente: como todo está en el navegador, si no, el giro parpadearía un
-   frame y se vería como un fallo. */
-function avisarCarga() {
+/* Al cargar solas se enciende el girador. La carga es instantánea (todo está
+   en el navegador), así que si se hiciera al tiro el giro duraría un frame y
+   no se vería nunca. Por eso la tanda se difiere un instante: el texto dice
+   "cargando", y recién después llegan las tarjetas y el contador se actualiza. */
+const MIN_MOSTRAR = 450;
+function avisarCarga(hacer: () => void) {
   const prog = $('#loadProg');
-  if (!prog) return;
+  const info = $('#loadInfo');
+  if (!prog) return hacer();
   prog.classList.add('cargando');
-  clearTimeout(avisarCarga.t);
-  avisarCarga.t = setTimeout(() => prog.classList.remove('cargando'), 260);
+  if (info) info.textContent = 'Cargando más disfraces…';
+  setTimeout(() => {
+    prog.classList.remove('cargando');
+    hacer();
+  }, MIN_MOSTRAR);
 }
 
 /* ── Dirección de la página del catálogo ──
@@ -658,10 +664,7 @@ $('#catCards')?.addEventListener('click', (e) => {
 });
 
 /* Paginación: el botón y la carga automática agregan la tanda siguiente */
-$('#loadMore')?.addEventListener('click', () => {
-  avisarCarga();
-  cargarMas();
-});
+$('#loadMore')?.addEventListener('click', () => avisarCarga(cargarMas));
 
 /* Al cruzar el punto de quiebre (girar el teléfono, redimensionar la ventana)
    la tanda cambia de 20 a 12 o al revés: se repinta la grilla para que el
@@ -2064,18 +2067,19 @@ renderSticky();
 if (enCatalogo) {
   const wrap = $('#loadWrap');
   if (wrap) {
-    let cargando = false;
+    let ocupado = false;
     new IntersectionObserver(
       (entradas) => {
-        if (!entradas.some((e) => e.isIntersecting) || cargando) return;
+        if (!entradas.some((e) => e.isIntersecting) || ocupado) return;
         // Quedan disfraces por cargar: si no, el observador seguiría pidiendo
         // tanda una y otra vez al final de la lista.
         const L = filtered();
         if (state.page * paso() >= L.length) return;
-        cargando = true;
-        avisarCarga();
-        cargarMas();
-        cargando = false;
+        ocupado = true;
+        avisarCarga(() => {
+          cargarMas();
+          ocupado = false;
+        });
       },
       { rootMargin: '0px 0px 420px 0px' },
     ).observe(wrap);
