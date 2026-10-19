@@ -3,7 +3,7 @@
    Filtros + buscador + "Tu arriendo" (cotización) + modales
    ═══════════════════════════════════════════════════════════════ */
 import { PRODUCTS, CATS, PUBLICOS, OCASIONES, TALLAS, TALLA_GUIA, catById, clp, disfrazSlug, type Product } from '../data/products';
-import { GAR_SHORT, GAR, waLink, ACC, esTemporadaHalloween } from '../data/site';
+import { GAR_SHORT, waLink, ACC, esTemporadaHalloween } from '../data/site';
 
 type Acc = { id: string; n: string; e: string };
 type Item = Product | Acc;
@@ -35,6 +35,10 @@ const enCatalogo = document.body.dataset.page === 'catalogo';
 const RAIZ = import.meta.env.BASE_URL.replace(/\/$/, ''); // '/magicatienda'
 const byId = (id: string | number): Item | undefined =>
   PRODUCTS.find((p) => p.id === Number(id)) ?? ACC.find((a) => a.id === String(id));
+const irADisfraz = (id: string | number) => {
+  const p = PRODUCTS.find((x) => x.id === Number(id));
+  if (p) location.href = `/disfraz/${disfrazSlug(p)}/`;
+};
 const pubLabel = (id: string) => PUBLICOS.find((p) => p.id === id)?.n ?? id;
 const hay = (c: Product) =>
   norm(
@@ -55,6 +59,15 @@ function fmtDate(iso: string): string {
   const dt = new Date(iso + 'T12:00:00');
   if (isNaN(dt.getTime())) return '—';
   return `${DIAS[dt.getDay()]} ${dt.getDate()} de ${MESES[dt.getMonth()]}`;
+}
+/* Fecha compacta como en el panel: "Mié 21 de Octubre" */
+function fmtDateCap(iso: string): string {
+  if (!iso) return '—';
+  const dt = new Date(iso + 'T12:00:00');
+  if (isNaN(dt.getTime())) return '—';
+  const dia = DIAS[dt.getDay()].slice(0, 3);
+  const mes = MESES[dt.getMonth()];
+  return `${dia.charAt(0).toUpperCase()}${dia.slice(1)} ${dt.getDate()} de ${mes.charAt(0).toUpperCase()}${mes.slice(1)}`;
 }
 /* Fecha de hoy en formato YYYY-MM-DD (para precargar y bloquear días pasados) */
 function todayISO(d = new Date()): string {
@@ -392,7 +405,6 @@ document.addEventListener(
 
 function cardHTML(c: Product, k: number) {
   const T = catById(c.t);
-  const multiSize = c.tl.length > 1;
   const guia = (t: string) => TALLA_GUIA[t] ? TALLA_GUIA[t] : 'Sin referencia de estatura';
   const disfrazUrl = `/disfraz/${disfrazSlug(c)}/`;
   return `<article class="pcard relative flex cursor-pointer flex-col rounded-[20px] border-[1.5px] border-line bg-white shadow-[0_8px_20px_rgba(90,42,156,.08)] transition duration-300 hover:-translate-y-[5px] hover:shadow-sh2" data-id="${c.id}" style="--d:${Math.min(k * 0.05, 0.4)}s" tabindex="0" aria-label="${esc(c.n)}, disfraz para adultos en arriendo">
@@ -401,9 +413,9 @@ function cardHTML(c: Product, k: number) {
       <img src="${c.img}" alt="${esc(c.n)} para arriendo en Punta Arenas" loading="lazy" class="absolute inset-0 h-full w-full object-contain object-center transition duration-500">
     </a>
     <span class="absolute left-2 top-2 z-[2] rounded-full bg-m600/90 px-2 py-0.5 text-[.65rem] font-extrabold text-white shadow-sh"> #${String(c.id).padStart(3, '0')}</span>
-    <button type="button" class="quick-view-btn absolute right-2 top-2 z-[2] grid h-9 w-9 place-items-center rounded-full bg-white/90 text-m600 shadow-sh transition hover:bg-m600 hover:text-white" data-quick="${c.id}" aria-label="Vista rápida de ${esc(c.n)}" title="Vista rápida">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-    </button>
+    <a href="${disfrazUrl}" class="quick-view-btn absolute right-2 top-2 z-[2] grid h-9 w-9 place-items-center rounded-full bg-white/90 text-m600 shadow-sh transition hover:bg-m600 hover:text-white" aria-label="Ver ficha de ${esc(c.n)}" title="Ver ficha">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    </a>
   </div>
   <div class="flex flex-1 flex-col p-3.5 pb-4">
     <span class="block text-[.72rem] font-extrabold uppercase tracking-[.05em] text-m500">${T.i} ${T.n}</span>
@@ -417,7 +429,7 @@ function cardHTML(c: Product, k: number) {
           <button type="button" class="info-dot tip cursor-help" data-tip="Valor según el disfraz. Cotiza por WhatsApp para conocer el precio exacto." aria-label="Sobre los precios">?</button>
         </span>
       </div>
-      <button class="addbtn w-full cursor-pointer rounded-xl border-0 bg-[linear-gradient(135deg,var(--color-m600),var(--color-m500))] px-2 py-2.5 font-ft text-[.84rem] font-bold text-white shadow-[0_4px_12px_rgba(90,42,156,.3)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_18px_rgba(90,42,156,.45)] active:scale-[.9]" data-act="add">${multiSize ? '📏 Elegir talla y arrendar' : '🎭 Arrendar disfraz'}</button>
+      <button class="addbtn w-full cursor-pointer rounded-xl border-0 bg-[linear-gradient(135deg,var(--color-m600),var(--color-m500))] px-2 py-2.5 font-ft text-[.84rem] font-bold text-white shadow-[0_4px_12px_rgba(90,42,156,.3)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_18px_rgba(90,42,156,.45)] active:scale-[.9]" data-act="add">🛒 Agregar a mi arriendo</button>
     </div>
   </div>
 </article>`;
@@ -609,25 +621,8 @@ function hidratarDesdeURL() {
     const id = Number(addId);
     const prod = PRODUCTS.find((x) => x.id === id);
     if (prod) {
-      const talla = addTalla || (prod.tl.length === 1 ? prod.tl[0] : '');
-      if (talla) {
-        addItem(id, 'd', talla, 1);
-        // Limpiar la URL
-        history.replaceState(null, '', location.pathname);
-        } else {
-        // Si no hay talla, abrir la ficha rápida
-        openQuick(id);
-        nudgeSize();
-      }
-    }
-  }
-
-  // Procesar parámetro de vista rápida
-  const quickId = p.get('quick');
-  if (quickId) {
-    const id = Number(quickId);
-    if (PRODUCTS.find((x) => x.id === id)) {
-      openQuick(id);
+      const talla = addTalla && prod.tl.includes(addTalla) ? addTalla : prod.tl[0];
+      addItem(id, 'd', talla, 1);
       history.replaceState(null, '', location.pathname);
     }
   }
@@ -865,7 +860,7 @@ function bindSearch(id: string, sugId?: string) {
       items.forEach((x, k) => x.classList.toggle('act', k === a));
     } else if (e.key === 'Enter') {
       if (a >= 0 && items[a]) {
-        openQuick(Number((items[a] as HTMLElement).dataset.id));
+        irADisfraz((items[a] as HTMLElement).dataset.id!);
         sug?.classList.remove('open');
       } else {
         sug?.classList.remove('open');
@@ -878,7 +873,7 @@ function bindSearch(id: string, sugId?: string) {
     sug.addEventListener('pointerdown', (e) => {
       const it = (e.target as HTMLElement).closest('.sug-item') as HTMLElement | null;
       if (it) {
-        openQuick(Number(it.dataset.id));
+        irADisfraz(it.dataset.id!);
         sug.classList.remove('open');
       }
     });
@@ -1054,7 +1049,7 @@ function applyFilter(o: { q?: string; tem?: string; pub?: string; oca?: string }
     }
     const qv = t.closest('[data-qv]') as HTMLElement | null;
     if (qv) {
-      openQuick(Number(qv.dataset.qv));
+      irADisfraz(qv.dataset.qv!);
       open(false);
       return;
     }
@@ -1114,7 +1109,7 @@ function applyFilter(o: { q?: string; tem?: string; pub?: string; oca?: string }
   });
   ($('#drawerReq') as HTMLButtonElement | null)?.addEventListener('click', () => {
     open(false);
-    openReq();
+    openMini();
   });
 })();
 
@@ -1132,15 +1127,17 @@ document.addEventListener('click', (e) => {
 const cartQty = () => state.cart.reduce((a, i) => a + i.qty, 0);
 const disfQty = () => state.cart.filter((i) => i.tipo === 'd').reduce((a, i) => a + i.qty, 0);
 
+/* Valores de referencia ("desde") mientras se cargan los precios definitivos
+   por disfraz. El arriendo parte en $15.000 y la garantía en $15.000. */
+const PRECIO_DESDE = 15000;
+const GAR_DESDE = 15000;
+
 /* ── Cálculo de precios (arriendo + garantía) ── */
 function rentalSubtotal(): number {
   return state.cart.reduce((a, i) => {
     const it = byId(i.id);
     return a + (it && isProduct(it) ? it.price * i.qty : 0);
   }, 0);
-}
-function rentalTotal(): number {
-  return rentalSubtotal();
 }
 function guaranteeTotal(): number {
   return state.cart.reduce((a, i) => {
@@ -1163,42 +1160,6 @@ function setRetiro(v: string) {
   state.req.uso = addDays(v, 1);
   state.req.entrega = addDays(v, 2);
 }
-/* refresca la fila de fechas legibles ("lunes 19 de octubre") */
-function refreshDateRow() {
-  const row = $('.daterow');
-  if (row) row.innerHTML = `<span>📦 Retiro: <b>${fmtDate(state.req.retiro)}</b></span><span>↩️ Entrega: <b>${fmtDate(state.req.entrega)}</b></span>`;
-  const entTxt = $('#rqEntTxt');
-  if (entTxt) entTxt.textContent = fmtDate(state.req.entrega);
-  const ent = $<HTMLInputElement>('#rqEnt');
-  if (ent) ent.value = state.req.entrega;
-}
-
-/* ── bloque de totales (arriendo + garantía), compartido ── */
-function totalsHTML(conPagoDia = true): string {
-  const sub = rentalSubtotal();
-  const tot = rentalTotal();
-  const gar = guaranteeTotal();
-  const pagoDia = tot + gar;
-  return `<div class="det mt-3 rounded-2xl border-2 border-line bg-[#f9f6ff] p-3 text-[.85rem]">
-    <div class="flex items-baseline justify-between gap-2">
-      <span class="font-ft text-[.95rem] font-bold text-m600">Total a pagar por el arriendo</span>
-      <b class="flex items-baseline gap-1 font-ft text-[1.3rem] leading-none text-m600"><small class="font-sans text-[.62rem] font-bold uppercase tracking-[.02em] text-ink2">Desde</small>$15.000</b>
-    </div>
-    <p class="mt-1 text-[.75rem] text-ink2">Arriendo por 3 días (retiro, uso y entrega)</p>
-  </div>
-  <span class="gchip">🛡️ Garantía de $15.000 o $20.000 reintegrable</span>
-  ${
-    conPagoDia
-      ? `<div class="paynote">
-    <span class="pn-label">El día del retiro pagarás</span>
-    <b class="pn-total">Desde $30.000</b>
-    <small>Arriendo desde $15.000 + garantía de $15.000 o $20.000. La garantía se te devuelve completa al entregar el disfraz en las mismas condiciones.</small>
-  </div>`
-      : ''
-  }`;
-}
-const thumb = (it: Item) =>
-  `<span class="me">${'img' in it && it.img ? `<img src="${it.img}" alt="">` : it.e}</span>`;
 
 function addItem(id: string | number, tipo: 'd' | 'a' = 'd', talla?: string, qty = 1, srcEl?: Element | null) {
   const item = byId(id);
@@ -1229,10 +1190,8 @@ function afterCart(srcEl?: Element | null, abrir = false) {
   }
   renderMini();
   renderSticky();
-  if ($('#reqModal')?.classList.contains('open')) renderReq();
-  // El panel lateral se abre siempre al agregar un disfraz (salvo detrás del
-  // modal de solicitud, que ya ocupa toda la pantalla).
-  if (abrir && !$('#reqModal')?.classList.contains('open')) openMini();
+  // El único panel lateral se abre siempre al agregar un disfraz.
+  if (abrir) openMini();
 }
 
 function fly(el: Element) {
@@ -1256,28 +1215,174 @@ function fly(el: Element) {
 function renderMini() {
   const mc = $('#miniCart');
   if (!mc) return;
-  const head = `<div class="cart-head"><b class="font-ft text-[1.05rem] text-ink">🛒 Tu arriendo</b><span class="cart-n">${cartQty()} prenda(s)</span><button class="cart-close" data-act="close" aria-label="Cerrar panel">✕</button></div>`;
+  const prevBody = mc.querySelector('.cart-body') as HTMLElement | null;
+  const scrollTop = prevBody?.scrollTop ?? 0;
+  const n = cartQty();
+  const nd = disfQty();
+  const desdeArriendo = nd * PRECIO_DESDE;
+  const desdeGarantia = nd * GAR_DESDE;
+  const head = `<div class="cart-head">
+    <span class="cart-bag" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 11V7a4 4 0 0 0-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+    </span>
+    <div class="cart-title">
+      <div class="cart-title-row"><b>Tu solicitud</b><span class="cart-n">${n} ${n === 1 ? 'prenda' : 'prendas'}</span></div>
+      <p>Cotización inmediata para coordinar en tienda</p>
+    </div>
+    <button class="cart-close" data-act="close" aria-label="Cerrar panel">✕</button>
+  </div>`;
+
   if (!state.cart.length) {
-    mc.innerHTML = head + `<div class="cart-body"><div class="py-8 text-center text-ink2"><span class="mb-2 block text-[2.8rem]">🎭✨</span><b class="font-ft">Tu arriendo está esperando magia</b><p class="mt-1.5 text-[.85rem]">Agrega disfraces de adultos y te vamos apuntando todo aquí.</p></div></div><div class="cart-foot"><button class="btn btn-ghost w-full" data-act="gocat">← Seguir viendo disfraces</button></div>`;
+    mc.innerHTML =
+      head +
+      `<div class="cart-body"><div class="cart-empty"><span>🎭✨</span><b>Tu arriendo está esperando magia</b><p>Agrega disfraces de adultos y los vamos sumando aquí.</p></div></div>
+      <div class="cart-foot">
+        <button class="btn btn-ghost w-full" data-act="gocat">← Seguir viendo disfraces</button>
+        <p class="cart-notes">Garantía en local <i>•</i> Retiro Lun a Sáb <i>•</i> <button data-opencond>Términos y arriendo</button></p>
+      </div>`;
     return;
   }
+
+  const color = (i: Item) => (isProduct(i) ? catById(i.t).g : ['#f0eaff', '#e2d4ff']);
   mc.innerHTML =
     head +
-    `<div class="cart-body">` +
-    state.cart
-      .map((i) => {
-        const it = byId(i.id)!;
-        const nuevo = state.lastAdd && state.lastAdd.id === i.id && state.lastAdd.talla === i.talla && state.lastAdd.tipo === i.tipo;
-        return `<div class="mc-item${nuevo ? ' justadded' : ''}">${thumb(it)}<span class="mn">${esc(it.n)}${nuevo ? ' <b class="justbadge">✨ ¡Agregado!</b>' : ''}<br><small>Talla ${i.talla}</small></span><span class="qty inline-flex items-center gap-2"><button data-mc="-" data-id="${i.id}" data-t="${esc(i.talla)}" aria-label="Menos">−</button>${i.qty}<button data-mc="+" data-id="${i.id}" data-t="${esc(i.talla)}" aria-label="Más">+</button></span></div>`;
-      })
-      .join('') +
-    `</div>` +
-    `<div class="cart-foot">
-      ${totalsHTML(false)}
-      <button class="btn btn-wsp w-full" data-act="req">Continuar con mi cotización 💬</button>
-      <button class="btn btn-ghost w-full" data-act="gocat">← Seguir comprando</button>
-      <p class="payline text-center">Pagos por depósito o transferencia: ver <button data-opencond>Condiciones de arriendo</button>.</p>
+    `<div class="cart-body">
+      <section class="cart-sec">
+        <div class="cart-sec-head"><span>Prendas en arriendo</span><span>Período base de 3 días</span></div>
+        ${state.cart
+          .map((i, k) => {
+            const it = byId(i.id)!;
+            const tls = isProduct(it) ? it.tl : ['único'];
+            const nuevo = state.lastAdd && state.lastAdd.id === i.id && state.lastAdd.talla === i.talla && state.lastAdd.tipo === i.tipo;
+            const g = color(it);
+            const precio = isProduct(it)
+              ? `<p class="rent-price"><em class="desde">Desde</em> ${clp(PRECIO_DESDE)} <span>/ 3 días</span></p>`
+              : `<p class="rent-price">A cotizar</p>`;
+            return `<article class="rent-card${nuevo ? ' justadded' : ''}">
+              <div class="rent-thumb" style="background:linear-gradient(135deg,${g[0]},${g[1]})">${'img' in it && it.img ? `<img src="${it.img}" alt="">` : `<span>${it.e}</span>`}</div>
+              <div class="rent-info">
+                <div class="rent-top">
+                  <h2 class="rent-name">${esc(it.n)}</h2>
+                  <button type="button" class="rent-del" data-rm="${k}" aria-label="Eliminar ${esc(it.n)}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7l-.867 12.142A2 2 0 0 1 16.138 21H7.862a2 2 0 0 1-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v3M4 7h16"/></svg>
+                  </button>
+                </div>
+                ${precio}
+                <div class="rent-actions">
+                  <select data-rt="${k}" aria-label="Talla de ${esc(it.n)}">${tls.map((x) => `<option ${x === i.talla ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>
+                  <span class="rent-qty">
+                    <button type="button" data-rq="-" data-k="${k}" aria-label="Quitar una unidad de ${esc(it.n)}">−</button>
+                    <span>${i.qty}</span>
+                    <button type="button" data-rq="+" data-k="${k}" aria-label="Agregar otra talla de ${esc(it.n)}">+</button>
+                  </span>
+                </div>
+              </div>
+            </article>`;
+          })
+          .join('')}
+      </section>
+
+      <section class="rent-panel">
+        <label class="rent-label" for="rqNom"><span>Tu nombre completo <b>*</b></span><small>Para reservar disfraz</small></label>
+        <input id="rqNom" class="rent-input" placeholder="Ej. Constanza Silva" autocomplete="name" required aria-required="true" aria-label="Nombre y apellido (obligatorio)" value="${esc(state.req.nombre)}">
+        <div class="rent-period">
+          <div class="period-head">
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z"/></svg> Período de uso</span>
+            <span class="period-badge">3 días corridos</span>
+          </div>
+          <div class="period-grid">
+            <label class="period-cell">
+              <span>1. Retiro en local</span>
+              <input type="date" id="rqRet" value="${state.req.retiro}" min="${firstRetiroISO()}" max="${maxISO(60)}" aria-label="Día de retiro en tienda">
+            </label>
+            <div class="period-cell auto">
+              <span>2. Devolución (auto)</span>
+              <b id="rqEntTxt">${fmtDateCap(state.req.entrega)}</b>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sum-panel">
+        <h3 class="sum-title">Resumen de valores</h3>
+        <div class="sum-row"><span>Arriendo (${nd} ${nd === 1 ? 'disfraz' : 'disfraces'} × 3 días)</span><b><em class="desde">Desde</em> ${clp(desdeArriendo)}</b></div>
+        <div class="sum-row"><span>Garantía en tienda</span><b><em class="desde">Desde</em> ${clp(desdeGarantia)}</b></div>
+        <div class="sum-note"><span class="sum-check">✓</span><p><b>Garantía 100% reembolsable</b> al devolver las prendas a tiempo y en óptimo estado.</p></div>
+        <div class="sum-total"><div><span>Total a pagar al retirar</span><small>Arriendo + Garantía incluida</small></div><b><em class="desde">Desde</em> ${clp(desdeArriendo + desdeGarantia)}</b></div>
+        <p class="sum-hint">Es una cotización aproximada: los valores se confirman y revisan por WhatsApp al reservar.</p>
+      </section>
+    </div>
+    <div class="cart-foot">
+      <button class="btn btn-wsp btn-lg w-full" id="rqSend">💬 Enviar solicitud por WhatsApp</button>
+      <button class="cart-gocat" data-act="gocat">← Seguir explorando disfraces</button>
+      <p class="cart-notes">Garantía en local <i>•</i> Retiro Lun a Sáb <i>•</i> <button data-opencond>Términos y arriendo</button></p>
     </div>`;
+
+  // Conserva la posición de lectura al cambiar talla o cantidad
+  const bodyNow = mc.querySelector('.cart-body') as HTMLElement | null;
+  if (bodyNow) bodyNow.scrollTop = scrollTop;
+
+  // Controles del carrito (se re-renderizan con cada cambio)
+  mc.querySelectorAll<HTMLButtonElement>('[data-rq]').forEach((b) =>
+    b.addEventListener('click', () => {
+      const it = state.cart[Number(b.dataset.k)];
+      if (!it) return;
+      if (b.dataset.rq === '+') {
+        // Nueva línea con el mismo disfraz, para poder elegir otra talla
+        const prod = byId(it.id);
+        const talla = isProduct(prod) ? (prod.tl[0] ?? 'único') : 'único';
+        state.cart.splice(Number(b.dataset.k) + 1, 0, { id: it.id, tipo: it.tipo, talla, qty: 1 });
+      } else {
+        it.qty--;
+        if (it.qty < 1) state.cart.splice(Number(b.dataset.k), 1);
+      }
+      afterCart();
+    }),
+  );
+  mc.querySelectorAll<HTMLButtonElement>('[data-rm]').forEach((b) =>
+    b.addEventListener('click', () => {
+      state.cart.splice(Number(b.dataset.rm), 1);
+      afterCart();
+    }),
+  );
+  mc.querySelectorAll<HTMLSelectElement>('[data-rt]').forEach((s) =>
+    s.addEventListener('change', () => {
+      const it = state.cart[Number(s.dataset.rt)];
+      if (it) it.talla = s.value;
+      afterCart();
+    }),
+  );
+  const nom = mc.querySelector<HTMLInputElement>('#rqNom');
+  nom?.addEventListener('input', () => {
+    state.req.nombre = nom.value;
+    if (nom.value.trim()) quitarFalta(nom);
+  });
+  const ret = mc.querySelector<HTMLInputElement>('#rqRet');
+  ret?.addEventListener('input', () => {
+    setRetiro(ret.value);
+    ret.value = state.req.retiro; // refleja la corrección si era domingo
+    const ent = mc.querySelector('#rqEntTxt');
+    if (ent) ent.textContent = fmtDateCap(state.req.entrega);
+  });
+  ret?.addEventListener('click', () => {
+    const pick = ret as HTMLInputElement & { showPicker?: () => void };
+    try {
+      pick.showPicker?.();
+    } catch {
+      /* si el navegador no lo permite, queda el icono del calendario */
+    }
+  });
+  mc.querySelector('#rqSend')?.addEventListener('click', sendWA);
+
+  // El destello de "recién agregado" se apaga solo, para que la tarjeta no
+  // quede marcada para siempre.
+  const added = state.lastAdd;
+  if (added) {
+    setTimeout(() => {
+      if (state.lastAdd === added) state.lastAdd = null;
+      mc.querySelector('.rent-card.justadded')?.classList.remove('justadded');
+    }, 1600);
+  }
 }
 
 $('#miniCart')?.addEventListener('click', (e) => {
@@ -1287,27 +1392,12 @@ $('#miniCart')?.addEventListener('click', (e) => {
     return;
   }
   const act = t.closest('[data-act]') as HTMLElement | null;
-  if (act) {
-    if (act.dataset.act === 'close') closeMini();
-    else if (act.dataset.act === 'gocat') {
-      closeMini();
-      scrollToCat();
-    } else if (act.dataset.act === 'req') {
-      closeMini();
-      openReq();
-    } else if (act.dataset.act === 'wa') sendWA();
-    return;
-  }
-  const b = t.closest('[data-mc]') as HTMLButtonElement | null;
-  if (!b) return;
-  const it = state.cart.find((i) => i.id === b.dataset.id && i.talla === b.dataset.t);
-  if (!it) return;
-  if (b.dataset.mc === '+') it.qty++;
-  else {
-    it.qty--;
-    if (it.qty < 1) state.cart = state.cart.filter((x) => x !== it);
-  }
-  afterCart();
+  if (!act) return;
+  if (act.dataset.act === 'close') closeMini();
+  else if (act.dataset.act === 'gocat') {
+    closeMini();
+    scrollToCat();
+  } else if (act.dataset.act === 'wa') sendWA();
 });
 
 function openMini() {
@@ -1316,7 +1406,7 @@ function openMini() {
   mc?.removeAttribute('inert');
   $('#cartBackdrop')?.classList.add('open');
   document.body.classList.add('drawer-lock');
-  ($('#cartBtn') as HTMLButtonElement | null)?.focus();
+  ($('#miniCart .cart-close') as HTMLButtonElement | null)?.focus();
 }
 function closeMini() {
   const mc = $('#miniCart');
@@ -1324,6 +1414,7 @@ function closeMini() {
   mc?.setAttribute('inert', '');
   $('#cartBackdrop')?.classList.remove('open');
   document.body.classList.remove('drawer-lock');
+  ($('#cartBtn') as HTMLButtonElement | null)?.focus();
 }
 (() => {
   $('#cartBtn')?.addEventListener('click', () => {
@@ -1344,7 +1435,7 @@ function renderSticky() {
     if (st) st.textContent = `Tu arriendo (${cartQty()})`;
   } else sb.classList.remove('show');
 }
-$('#stickySend')?.addEventListener('click', () => openReq());
+$('#stickySend')?.addEventListener('click', () => openMini());
 
 /* Mensaje de WhatsApp: se arma solo, con lo que el cliente elige en la solicitud.
    Va sin emojis a propósito: los caracteres de 4 bytes UTF-8 (los emojis) se
@@ -1408,114 +1499,9 @@ function quitarFalta(el: HTMLInputElement) {
   if (s && s.classList.contains('req-err')) s.remove();
 }
 
-/* ═══ FICHA RÁPIDA ═══ */
-/* resalta la sección de talla + tooltip, si aún no se elige */
-function nudgeSize() {
-  const wrap = $('#qmSizeWrap');
-  if (wrap) {
-    wrap.scrollIntoView({ block: 'center', behavior: reduced() ? 'auto' : 'smooth' });
-    wrap.classList.remove('nudge');
-    void wrap.offsetWidth;
-    wrap.classList.add('nudge');
-  }
-  const tip = $('#qmTtip');
-  if (tip) {
-    tip.classList.add('show');
-    setTimeout(() => tip.classList.remove('show'), 2600);
-  }
-}
-
-function openQuick(id: number) {
-  const c = PRODUCTS.find((p) => p.id === id);
-  if (!c) return;
-  const T = catById(c.t);
-  const multi = c.tl.length > 1;
-  let talla = multi ? '' : c.tl[0]; // en multi-talla hay que elegir explícitamente
-  const body = $('#qmBody');
-  if (!body) return;
-  const slug = disfrazSlug(c);
-  body.innerHTML = `<div class="qimg group relative h-[420px] cursor-zoom-in overflow-hidden rounded-2xl" style="background:linear-gradient(135deg,${T.g[0]},${T.g[1]})">
-    <img src="${c.img}" alt="${esc(c.n)} para arriendo en Punta Arenas" class="absolute inset-0 h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[2]">
-  </div>
-  <span class="mt-3 block text-[.8rem] font-extrabold text-m500">${T.i} ${T.n} · solo adultos · ${pubLabel(c.pub)}</span>
-  <h3 class="my-1 text-[1.45rem]">${esc(c.n)}</h3>
-  <p class="text-ink2">${esc(c.d)}</p>
-  <div class="mt-3 flex flex-wrap items-center gap-2.5 rounded-2xl border-2 border-line bg-[#f9f6ff] p-3">
-    <span class="flex items-baseline gap-1.5">
-      <small class="text-[.64rem] font-bold uppercase tracking-[.02em] text-ink2">Desde</small>
-      <b class="font-ft text-[1.5rem] font-bold leading-none text-m600">$15.000</b>
-    </span>
-    <button type="button" class="info-dot tip cursor-help" data-tip="Valor según el disfraz. Cotiza por WhatsApp para conocer el precio exacto." aria-label="Sobre los precios">?</button>
-    <span class="text-[.78rem] font-bold text-ink2">arriendo 3 días (retiro, uso y entrega)</span>
-  </div>
-  <div id="qmSizeWrap" class="relative rounded-2xl">
-    <b class="my-3 block">📏 Elige tu talla:</b>
-    <div class="tsel" id="qmTallas">${c.tl.map((t) => `<button class="tip ${!multi && t === talla ? 'on' : ''}" data-t="${esc(t)}" data-tip="${esc(TALLA_GUIA[t] ? TALLA_GUIA[t] : 'Sin referencia de estatura')}">${esc(t)}</button>`).join('')}</div>
-    <span id="qmTtip" class="sizetip" role="status">👆 Selecciona una talla para continuar</span>
-  </div>
-  <span class="gchip">🛡️ Garantía de $15.000 o $20.000 reintegrable</span>
-  <div class="mt-5 flex flex-col gap-2.5">
-    <button class="btn btn-mora w-full" id="qmAdd">🛒 Agregar a mi cotización →</button>
-    <a class="btn btn-blanco w-full" id="qmWa" target="_blank" rel="noopener" href="${waLink(`¡Hola! Quiero cotizar el arriendo del disfraz ${c.n} para adultos. ¿Está disponible?`)}">💬 Cotizar solo este disfraz por WhatsApp</a>
-    <a class="btn btn-ghost w-full" href="/disfraz/${slug}/">📄 Ver ficha completa</a>
-    <p class="text-center text-[.76rem] leading-[1.4] text-ink2">
-      <b>Agregar</b> lo suma a tu lista para cotizar varios · <b>Cotizar directo</b> es solo por <b>este</b> disfraz, al tiro.
-    </p>
-  </div>
-  <p class="payline mt-3">Al agregarlo queda en tu lista de cotización; lo envías por WhatsApp con tus datos. Pagos: ver <button data-opencond>Condiciones de arriendo</button></p>`;
-
-  $('#qmTallas')?.addEventListener('click', (e) => {
-    const b = (e.target as HTMLElement).closest('[data-t]') as HTMLButtonElement | null;
-    if (!b) return;
-    talla = b.dataset.t!;
-    $$('#qmTallas button').forEach((x) => x.classList.toggle('on', x === b));
-    $('#qmTtip')?.classList.remove('show');
-    $('#qmSizeWrap')?.classList.remove('nudge');
-  });
-  $('#qmAdd')?.addEventListener('click', (e) => {
-    if (!talla) {
-      nudgeSize();
-      return;
-    }
-    addItem(id, 'd', talla, 1, e.target as Element);
-    closeModal('quickModal');
-  });
-  // Si no se eligió talla, no abre WhatsApp: resalta y avisa
-  $('#qmWa')?.addEventListener('click', (ev) => {
-    if (!talla) {
-      ev.preventDefault();
-      nudgeSize();
-    }
-  });
-  // Zoom que sigue el cursor: subes el mouse y ves la cabeza/cara; bajas y ves los pies
-  encuadrarFotos();
-  const qimg = body.querySelector('.qimg') as HTMLElement | null;
-  const qimEl = body.querySelector('.qimg img') as HTMLElement | null;
-  if (qimg && qimEl) {
-    qimg.addEventListener('mousemove', (ev: MouseEvent) => {
-      const r = qimg.getBoundingClientRect();
-      const x = Math.max(0, Math.min(100, ((ev.clientX - r.left) / r.width) * 100));
-      const y = Math.max(0, Math.min(100, ((ev.clientY - r.top) / r.height) * 100));
-      qimEl.style.transformOrigin = `${x}% ${y}%`;
-    });
-    qimg.addEventListener('mouseleave', () => {
-      qimEl.style.transformOrigin = 'center';
-    });
-  }
-  openModal('quickModal');
-}
-
 /* clics en la grilla */
 $('#grid')?.addEventListener('click', (e) => {
   const target = e.target as HTMLElement;
-  // Vista rápida: abre el popup
-  const quickBtn = target.closest('[data-quick]') as HTMLElement | null;
-  if (quickBtn) {
-    e.preventDefault();
-    e.stopPropagation();
-    openQuick(Number(quickBtn.dataset.quick));
-    return;
-  }
   // Si se hizo clic en un enlace, dejar que navegue normalmente
   if (target.closest('a')) return;
   const card = target.closest('.pcard') as HTMLElement | null;
@@ -1524,12 +1510,7 @@ $('#grid')?.addEventListener('click', (e) => {
   const act = target.closest('[data-act]') as HTMLElement | null;
   if (act?.dataset.act === 'add') {
     const p = PRODUCTS.find((x) => x.id === id);
-    // Si hay más de una talla, abrir la ficha y llevar/resaltar la sección de talla
-    if (p && p.tl.length > 1) {
-      openQuick(id);
-      nudgeSize(); // el modal ya quedó abierto; resalta la talla al instante
-      return;
-    }
+    // Se agrega con la primera talla disponible; en el panel se puede cambiar.
     addItem(id, 'd', p?.tl[0], 1, act);
     return;
   }
@@ -1539,129 +1520,11 @@ $('#grid')?.addEventListener('click', (e) => {
 });
 $('#grid')?.addEventListener('keydown', (e) => {
   const t = e.target as HTMLElement;
-  if (e.key === 'Enter' && t.classList.contains('pcard')) openQuick(Number(t.dataset.id));
-});
-
-/* ═══ SOLICITUD DE ARRIENDO ═══ */
-/* Mientras esté en true, la sección de fechas se resalta como "el paso que sigue";
-   se apaga apenas el usuario elige el día de retiro. */
-let pedirFecha = false;
-function openReq() {
-  pedirFecha = true;
-  renderReq();
-  openModal('reqModal');
-}
-function renderReq() {
-  const rb = $('#reqBody');
-  if (!rb) return;
-  const tot = rentalTotal();
-  const gar = guaranteeTotal();
-  rb.innerHTML = `<div class="mb-2 flex flex-wrap items-center gap-2"><h3 class="m-0 text-[1.5rem]">🛒 Tu solicitud de arriendo</h3><span class="req-pill green">💬 Se envía por WhatsApp</span></div>
-  <p class="totnote mb-3">Es solo una cotización: los valores se confirman y revisan por WhatsApp al reservar.</p>
-  ${
-    state.cart.length
-      ? state.cart
-          .map((i, k) => {
-            const it = byId(i.id)!;
-            const tls = isProduct(it) ? it.tl : ['único'];
-            return `<div class="req-card"><span class="re">${'img' in it && it.img ? `<img src="${it.img}" alt="">` : it.e}</span><span class="rn">${esc(it.n)}<br><small class="font-normal text-ink2">${isProduct(it) ? `Talla ${i.talla}` : 'Arriendo por 3 días'}</small></span>
-  <select data-rt="${k}" aria-label="Talla de ${esc(it.n)}">${tls.map((x) => `<option ${x === i.talla ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>
-  <span class="qty inline-flex items-center gap-2"><button data-rq="-" data-k="${k}" aria-label="Quitar una unidad de ${esc(it.n)}">−</button>${i.qty}<button data-rq="+" data-k="${k}" aria-label="Agregar otro ${esc(it.n)} con otra talla">+</button></span>
-  <span class="ml-1 min-w-[70px] text-right text-[.85rem] font-bold text-ink2">Desde $15.000</span>
-  <button data-rm="${k}" class="border-0 bg-transparent text-[1.1rem] text-[#c33]" aria-label="Eliminar ${esc(it.n)}">🗑</button></div>`;
-          })
-          .join('')
-      : `<div class="py-6 text-center text-ink2"><div class="text-[3rem]">🎭</div>Tu arriendo está esperando magia…</div>`
+  if (e.key === 'Enter' && t.classList.contains('pcard')) {
+    const p = PRODUCTS.find((x) => x.id === Number(t.dataset.id));
+    if (p) addItem(p.id, 'd', p.tl[0], 1, t);
   }
-  <div class="req-sec"><span>👤 Tu nombre</span><span class="req-pill">Para reservar tu disfraz</span></div>
-  <input id="rqNom" placeholder="Nombre y apellido *" autocomplete="name" required aria-required="true" aria-label="Nombre y apellido (obligatorio)" value="${esc(state.req.nombre)}" class="mt-1.5 w-full rounded-[10px] border-2 border-line p-2.5">
-  <p class="mt-1 text-[.75rem] font-bold text-ink2">* Obligatorio: con tu nombre te confirmamos la reserva por WhatsApp.</p>
-
-  <div class="req-sec"><span>📅 Selecciona tus fechas de uso</span><span class="req-pill">Período 3 días</span></div>
-  <div class="datebox${pedirFecha ? ' destacar' : ''}">
-    <label class="dcell">Retiro en tienda<input type="date" id="rqRet" value="${state.req.retiro}" min="${firstRetiroISO()}" max="${maxISO(60)}" aria-label="Día de retiro en tienda"></label>
-    <span class="darrow" aria-hidden="true">→</span>
-    <div class="dcell">Devolución (auto)<b id="rqEntTxt">${fmtDate(state.req.entrega)}</b></div>
-  </div>
-  <input type="date" id="rqEnt" value="${state.req.entrega}" readonly hidden>
-
-  <div class="totbox">
-    <div class="trow total">
-      <span>Costo del disfraz (arriendo 3 días):</span>
-      <b class="font-ft text-[1.3rem] leading-none text-m600">Desde ${clp(15000 * (state.cart.reduce((a, i) => a + i.qty, 0) || 1))}</b>
-    </div>
-    <div class="trow total mt-1.5 border-t border-line pt-1.5">
-      <span>Total a pagar en el local:</span>
-      <b class="text-[#4a4034] text-[.95rem] font-normal">Desde ${clp(30000 * (state.cart.reduce((a, i) => a + i.qty, 0) || 1))}</b>
-    </div>
-    <p class="mt-1 text-right text-[.7rem] leading-[1.4] text-ink2">
-      <span class="font-bold text-[#6b6152]">Incluye ${clp(15000 * (state.cart.reduce((a, i) => a + i.qty, 0) || 1))} de garantía reembolsable</span> — se devuelve si no hay daños.
-    </p>
-  </div>
-  <button class="btn btn-wsp btn-lg mt-2.5 w-full" id="rqSend">💬 Enviar solicitud por WhatsApp</button>
-  <p class="mt-2.5 text-center text-[.8rem] font-bold text-ink2">✓ Garantía 100% reembolsable <span class="mx-1 opacity-40">·</span> 🕐 Lun a Sáb</p>
-  <p class="payline text-center">Pagos por depósito o transferencia: ver datos en <button data-opencond>Condiciones de arriendo</button>. Sin pagos en línea en esta demo.</p>`;
-
-  rb.querySelectorAll<HTMLButtonElement>('[data-rq]').forEach((b) =>
-    b.addEventListener('click', () => {
-      const it = state.cart[Number(b.dataset.k)];
-      if (!it) return;
-      if (b.dataset.rq === '+') {
-        // Añade una línea nueva con el mismo disfraz para poder elegir otra talla
-        const prod = byId(it.id);
-        const talla = isProduct(prod) ? (prod.tl[0] ?? 'único') : 'único';
-        state.cart.splice(Number(b.dataset.k) + 1, 0, { id: it.id, tipo: it.tipo, talla, qty: 1 });
-      } else {
-        it.qty--;
-        if (it.qty < 1) state.cart.splice(Number(b.dataset.k), 1);
-      }
-      afterCart();
-    }),
-  );
-  rb.querySelectorAll<HTMLButtonElement>('[data-rm]').forEach((b) =>
-    b.addEventListener('click', () => {
-      state.cart.splice(Number(b.dataset.rm), 1);
-      afterCart();
-    }),
-  );
-  rb.querySelectorAll<HTMLSelectElement>('[data-rt]').forEach((s) =>
-    s.addEventListener('change', () => {
-      const it = state.cart[Number(s.dataset.rt)];
-      if (it) it.talla = s.value;
-      afterCart();
-    }),
-  );
-
-  // El mensaje de WhatsApp se arma al enviarlo (waDraft), ya con el nombre y las fechas
-  const map: Record<string, string> = { rqRet: 'retiro', rqNom: 'nombre' };
-  Object.keys(map).forEach((id) => {
-    const el = $<HTMLInputElement>('#' + id);
-    el?.addEventListener('input', () => {
-      (state.req as Record<string, string>)[map[id]] = el.value;
-      if (id === 'rqRet') {
-        setRetiro(el.value);
-        el.value = state.req.retiro; // refleja la corrección si era domingo
-        refreshDateRow(); // actualiza la fecha de devolución
-        // Ya eligió el día: el recordatorio verde del bloque de fechas se apaga
-        pedirFecha = false;
-        $('.datebox.destacar')?.classList.remove('destacar');
-      } else if (el.value.trim()) {
-        quitarFalta(el); // el nombre ya está: se va el aviso de campo obligatorio
-      }
-    });
-  });
-  $('#rqSend')?.addEventListener('click', sendWA);
-  // Al tocar cualquier parte del campo (día, mes o año) se abre el calendario
-  const ret = $<HTMLInputElement>('#rqRet');
-  ret?.addEventListener('click', () => {
-    const pick = ret as HTMLInputElement & { showPicker?: () => void };
-    try {
-      pick.showPicker?.();
-    } catch {
-      /* si el navegador no lo permite, queda el icono del calendario */
-    }
-  });
-}
+});
 
 /* ═══ MODALES ═══ */
 function openModal(id: string) {
@@ -1684,7 +1547,7 @@ document.addEventListener('click', (e) => {
 });
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
-    ['quickModal', 'reqModal', 'condModal'].forEach(closeModal);
+    ['condModal'].forEach(closeModal);
   }
 });
 
@@ -2124,7 +1987,7 @@ if (enCatalogo) {
 
 /* Exponer funciones para paginas individuales */
 (window as any).addItemToCart = (id, talla) => addItem(id, 'd', talla, 1);
-(window as any).openCartModal = () => openReq();
+(window as any).openCartModal = () => openMini();
 (window as any).openMiniCart = () => openMini();
 
 

@@ -1,5 +1,5 @@
 ---
-/* Modales: ficha rápida, solicitud de arriendo y condiciones */
+/* Modal de condiciones de arriendo y reserva */
 const paycards = `
 <div class="grid gap-3.5 min-[560px]:grid-cols-2 mt-2.5">
   <div class="rounded-2xl border-2 border-l-[6px] border-line border-l-m400 bg-white p-[18px] shadow-[0_6px_16px_rgba(90,42,156,.07)]">
@@ -47,28 +47,6 @@ const condiciones: [string, string[]][] = [
   ]],
 ];
 ---
-
-<!-- Ficha rápida del disfraz -->
-<div class="modal" id="quickModal" role="dialog" aria-modal="true" aria-label="Ficha del disfraz">
-  <div class="mback absolute inset-0 bg-[rgb(40,15,80/.55)] backdrop-blur-[3px]" data-close="quickModal"></div>
-  <div class="mpanel relative mx-auto max-h-[92dvh] w-[min(680px,94vw)] overflow-auto rounded-[22px] bg-white p-6 text-ink shadow-sh2">
-    <div class="mclose-bar">
-      <button class="mclose grid h-10 w-10 cursor-pointer place-items-center rounded-full border-0 bg-[#f0eaff] text-[1.1rem] font-extrabold text-m600 transition hover:bg-m600 hover:text-white" data-close="quickModal" aria-label="Cerrar">✕</button>
-    </div>
-    <div id="qmBody"></div>
-  </div>
-</div>
-
-<!-- Solicitud de arriendo -->
-<div class="modal" id="reqModal" role="dialog" aria-modal="true" aria-label="Tu solicitud de arriendo">
-  <div class="mback absolute inset-0 bg-[rgb(40,15,80/.55)] backdrop-blur-[3px]" data-close="reqModal"></div>
-  <div class="mpanel wide relative mx-auto max-h-[92dvh] w-[min(820px,94vw)] overflow-auto rounded-[22px] bg-white p-6 text-ink shadow-sh2">
-    <div class="mclose-bar">
-      <button class="mclose grid h-10 w-10 cursor-pointer place-items-center rounded-full border-0 bg-[#f0eaff] text-[1.1rem] font-extrabold text-m600 transition hover:bg-m600 hover:text-white" data-close="reqModal" aria-label="Cerrar">✕</button>
-    </div>
-    <div id="reqBody"></div>
-  </div>
-</div>
 
 <!-- Condiciones de arriendo y reserva -->
 <div class="modal" id="condModal" role="dialog" aria-modal="true" aria-label="Condiciones de arriendo y reserva">
