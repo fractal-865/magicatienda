@@ -75,7 +75,9 @@ const datos = {
       image: ogImage,
       logo: url('/img/logo.png'),
       telephone: CONFIG.tel,
-      email: CONFIG.email1,
+      /* Sin email a propósito: los buscadores lo leen del JSON-LD y las
+         raspadoras de spam lo ocultan menos. El contacto es por WhatsApp
+         y teléfono. */
       address: {
         '@type': 'PostalAddress',
         streetAddress: 'Hermann Wiegartt 01194',

@@ -7,7 +7,7 @@ export const CONFIG = {
   waDisplay: '+56 9 8433 0378',
   tel: '+56 9 8433 0378',
   telHref: 'tel:+56984330378',
-  email1: 'contacto@lamagicatienda.cl',
+  /* No hay email: el sitio se contacta por WhatsApp y teléfono. */
   dir: 'Hermann Wiegartt 01194, Punta Arenas, Región de Magallanes',
   horario: {
     1: ['15:00', '20:30'],
@@ -25,9 +25,8 @@ export const CONFIG = {
 };
 
 /* ── Dirección pública del sitio ──
-   Hoy el sitio vive en GitHub Pages. Cuando lamagicatienda.cl quede en línea,
-   basta con cambiar ORIGIN: el canónico, el sitemap, el robots y la imagen
-   para compartir se rearman solos. */
+   Todo lo absoluto sale de acá: canónico, sitemap, robots y la imagen para
+   compartir. Cambiar ORIGIN basta para mudar de dominio. */
 export const ORIGIN = 'https://magicatienda.cl';
 export const BASE = ''; // raíz del dominio magicatienda.cl
 export const url = (p = '/'): string => `${ORIGIN}${BASE}${p}`;

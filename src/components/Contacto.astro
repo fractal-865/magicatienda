@@ -5,7 +5,6 @@ const waCard = waLink('¡Hola! Quiero cotizar el arriendo de un disfraz para adu
 const cards = [
   { c: '#25D366', i: '💬', t: 'WhatsApp', s: `${CONFIG.waDisplay}<br>Cotizaciones en minutos`, href: waCard, blank: true },
   { c: '#FF5FA2', i: '📞', t: 'Teléfono', s: CONFIG.tel, href: CONFIG.telHref },
-  { c: '#e8a200', i: '✉️', t: 'Email', s: 'contacto@lamagicatienda.cl', href: 'mailto:contacto@lamagicatienda.cl' },
   { c: '#0fae9f', i: '📍', t: 'Dirección', s: CONFIG.dir, href: '#mapa' },
   { c: '#7a4fd0', i: '🕐', t: 'Horarios', s: '<span data-horario>Lun–Sáb 15:00–20:30 · Dom cerrado</span>' },
 ];
@@ -16,7 +15,7 @@ const cards = [
     <h2 class="sec-sm rv">📞 Contáctanos como quieras</h2>
     <p class="sec-sub rv">Estamos para ayudarte a elegir el disfraz perfecto para tu evento.</p>
 
-    <div class="rv grid gap-3.5 min-[960px]:grid-cols-3 min-[1200px]:grid-cols-5" id="ccards">
+    <div class="rv grid gap-3.5 min-[960px]:grid-cols-2 min-[1200px]:grid-cols-4" id="ccards">
       {
         cards.map((c) => (
           c.href ? (
