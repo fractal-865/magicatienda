@@ -1549,6 +1549,10 @@ function renderReq() {
           .join('')
       : `<div class="py-6 text-center text-ink2"><div class="text-[3rem]">🎭</div>Tu arriendo está esperando magia…</div>`
   }
+  <div class="req-sec"><span>👤 Tu nombre</span><span class="req-pill">Para reservar tu disfraz</span></div>
+  <input id="rqNom" placeholder="Nombre y apellido *" autocomplete="name" required aria-required="true" aria-label="Nombre y apellido (obligatorio)" value="${esc(state.req.nombre)}" class="mt-1.5 w-full rounded-[10px] border-2 border-line p-2.5">
+  <p class="mt-1 text-[.75rem] font-bold text-ink2">* Obligatorio: con tu nombre te confirmamos la reserva por WhatsApp.</p>
+
   <div class="req-sec"><span>📅 Selecciona tus fechas de uso</span><span class="req-pill">Período 3 días</span></div>
   <div class="datebox${pedirFecha ? ' destacar' : ''}">
     <label class="dcell">Retiro en tienda<input type="date" id="rqRet" value="${state.req.retiro}" min="${firstRetiroISO()}" max="${maxISO(60)}" aria-label="Día de retiro en tienda"></label>
@@ -1556,10 +1560,7 @@ function renderReq() {
     <div class="dcell">Devolución (auto)<b id="rqEntTxt">${fmtDate(state.req.entrega)}</b></div>
   </div>
   <input type="date" id="rqEnt" value="${state.req.entrega}" readonly hidden>
-  
-  <div class="req-sec"><span>👤 Tus datos</span><span class="req-pill">Para reservar tu disfraz</span></div>
-  <input id="rqNom" placeholder="Nombre y apellido *" autocomplete="name" required aria-required="true" aria-label="Nombre y apellido (obligatorio)" value="${esc(state.req.nombre)}" class="mt-1.5 w-full rounded-[10px] border-2 border-line p-2.5">
-  <p class="mt-1 text-[.75rem] font-bold text-ink2">* Obligatorio: con tu nombre te confirmamos la reserva por WhatsApp.</p>
+
   <div class="totbox">
     <div class="trow total"><span>Valor de arriendo por 3 días:</span><b>Desde ${clp(15000 * (state.cart.reduce((a, i) => a + i.qty, 0) || 1))}</b></div>
     <div class="trow"><span class="text-[.75rem] text-ink2">Garantía reembolsable <button type="button" class="info-dot tip" data-tip="${esc(GAR)}" aria-label="Sobre la garantía">i</button>:</span><b class="text-[.75rem] text-ink2">$15.000 o $20.000 por disfraz</b></div>
@@ -1655,13 +1656,6 @@ document.addEventListener('keydown', (e) => {
 
 /* La barra del botón de cerrar lleva su propio borde cuando el panel ya se
    desplazó (en el móvil, al bajar). Se marca desde el scroll del panel. */
-$$('.mpanel').forEach((p) => {
-  const bar = p.querySelector('.mclose-bar');
-  if (!bar) return;
-  const ver = () => bar.classList.toggle('stuck', p.scrollTop > 4);
-  p.addEventListener('scroll', ver, { passive: true });
-  ver();
-});
 
 /* ═══ BARRA DE FILTROS: se pega bajo el header y se expande a todo el ancho ═══
    Se marca .pegada cuando el borde superior de la barra alcanza el header:
