@@ -1,0 +1,204 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { PRODUCTS, getDisfrazBySlug, getSimilares, clp, catById, displayTalla, TALLA_GUIA } from '../../data/products';
+import { CONFIG, waLink, url, ir } from '../../data/site';
+
+export function getStaticPaths() {
+  return PRODUCTS.map((p) => ({
+    params: { slug: `${p.id}-${p.n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}` },
+    props: { product: p },
+  }));
+}
+
+const { product: c } = Astro.props;
+const T = catById(c.t);
+const similares = getSimilares(c, 6);
+const codigo = String(c.id).padStart(3, '0');
+const slug = `${c.id}-${c.n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}`;
+const pageUrl = url(`/disfraz/${slug}/`);
+const waMsg = `¡Hola! Quiero cotizar el arriendo del disfraz ${c.n} (#${codigo}) para adultos. ¿Está disponible? ${pageUrl}`;
+const waHref = waLink(waMsg);
+
+const title = `${c.n} | Arriendo de disfraces en Punta Arenas`;
+const description = `${c.d.slice(0, 150)}. Arriendo de disfraces en Punta Arenas.`;
+const ogImage = url(c.img);
+---
+
+<Layout
+  pagina="catalogo"
+  titulo={title}
+  descripcion={description}
+  ogTitulo={title}
+  ogDescripcion={description}
+  ruta={`/disfraz/${slug}/`}
+  conFaq={false}
+>
+  <main class="min-h-screen bg-[#faf8ff]">
+    <!-- Breadcrumb -->
+    <nav class="mx-auto max-w-[1220px] px-4 py-3 text-[.85rem] text-ink2" aria-label="Migas de pan">
+      <a href={ir('/')} class="hover:text-m600">Inicio</a>
+      <span class="mx-1.5 opacity-40">›</span>
+      <a href={ir('/catalogo/')} class="hover:text-m600">Catálogo</a>
+      <span class="mx-1.5 opacity-40">›</span>
+      <span class="font-semibold text-ink">{c.n}</span>
+    </nav>
+
+    <!-- Ficha del disfraz -->
+    <section class="mx-auto max-w-[1220px] px-4 pb-10">
+      <div class="grid gap-8 min-[900px]:grid-cols-2">
+        <!-- Imagen -->
+        <div class="relative">
+          <div class="overflow-hidden rounded-3xl border-2 border-line bg-white shadow-sh">
+            <img
+              src={c.img}
+              alt={`${c.n} para arriendo en Punta Arenas`}
+              class="h-full w-full object-contain transition-transform duration-500 hover:scale-105"
+              loading="eager"
+              width="600"
+              height="900"
+            />
+          </div>
+          <!-- Código badge -->
+          <span class="absolute left-4 top-4 rounded-full bg-m600 px-3 py-1 text-[.75rem] font-extrabold text-white shadow-sh">
+            Disfraz #{codigo}
+          </span>
+        </div>
+
+        <!-- Info -->
+        <div class="flex flex-col gap-4">
+          <div>
+            <span class="text-[.75rem] font-extrabold uppercase tracking-[.05em] text-m500">{T.i} {T.n}</span>
+            <h1 class="mt-1 font-ft text-[2rem] leading-tight text-ink min-[900px]:text-[2.4rem]">{c.n}</h1>
+          </div>
+
+          <p class="text-[.95rem] leading-[1.6] text-ink2">{c.d}</p>
+
+          <!-- Categorías -->
+          <div class="flex flex-wrap gap-2">
+            {c.cats.map((catId) => {
+              const cat = catById(catId);
+              return (
+                <a href={ir(`/catalogo/?cat=${catId}`)} class="rounded-full border-[1.5px] border-line bg-white px-3 py-1 text-[.75rem] font-bold text-m600 transition hover:border-m400 hover:bg-mist">
+                  {cat.i} {cat.n}
+                </a>
+              );
+            })}
+          </div>
+
+          <!-- Tallas -->
+          <div>
+            <b class="block text-[.9rem] text-ink">📏 Tallas disponibles:</b>
+            <div class="mt-2 flex flex-wrap gap-2">
+              {c.tl.map((t) => (
+                <span class="rounded-lg bg-[#f0eaff] px-3 py-1.5 text-[.8rem] font-extrabold text-m600" title={TALLA_GUIA[t] ? `Estatura recomendada: ${TALLA_GUIA[t]}` : 'Sin referencia de estatura'}>
+                  {displayTalla(t)}
+                </span>
+              ))}
+            </div>
+            <p class="mt-1 text-[.75rem] text-ink2">
+              {c.pub === 'mujer' ? '👩 Mujer' : c.pub === 'hombre' ? '👨 Hombre' : '🧑 Unisex'} · Solo adultos
+            </p>
+          </div>
+
+          <!-- Garantía -->
+          <div class="rounded-2xl border-[1.5px] border-ama bg-[#fdf6d9] p-4">
+            <b class="font-ft text-[1rem] text-[#6b5200]">🛡️ Garantía reintegrable</b>
+            <p class="mt-1 text-[.85rem] text-[#6b5200]">
+              $15.000 o $20.000 según el disfraz. Se paga el día del retiro en efectivo o transferencia y se devuelve al entregar en las mismas condiciones.
+            </p>
+          </div>
+
+          <!-- Valor -->
+          <div class="rounded-2xl border-2 border-line bg-[#f9f6ff] p-4">
+            <div class="flex items-baseline gap-2">
+              <span class="font-ft text-[1.8rem] font-bold leading-none text-m600">Desde $15.000</span>
+              <span class="text-[.8rem] font-bold text-ink2">arriendo por 3 días (retiro, uso y entrega)</span>
+            </div>
+            <p class="mt-1 text-[.75rem] text-ink2">El valor exacto se confirma en tu cotización por WhatsApp.</p>
+          </div>
+
+          <!-- Acciones -->
+          <div class="flex flex-col gap-3 min-[560px]:flex-row">
+            <a
+              href={waHref}
+              target="_blank"
+              rel="noopener"
+              class="btn btn-wsp btn-lg flex-1 text-center"
+            >
+              💬 Cotizar por WhatsApp
+            </a>
+            <button
+              type="button"
+              class="btn btn-ghost flex items-center justify-center gap-2"
+              id="copyLinkBtn"
+              data-url={pageUrl}
+            >
+              🔗 Copiar enlace
+            </button>
+            <a
+              href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`Mira este disfraz: ${c.n} — ${pageUrl}`)}`}
+              target="_blank"
+              rel="noopener"
+              class="btn btn-ghost flex items-center justify-center gap-2"
+            >
+              📲 Compartir
+            </a>
+          </div>
+
+          <p class="text-[.75rem] text-ink2">
+            Arriendo por 3 días: retiro, uso y entrega. Tallas S a XXL. Solo adultos.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Disfraces similares -->
+    {similares.length > 0 && (
+      <section class="mx-auto max-w-[1220px] px-4 pb-12">
+        <h2 class="sec-sm rv">🎭 Disfraces similares</h2>
+        <p class="sec-sub rv">Otros disfraces que te pueden gustar</p>
+        <div class="grid gap-4 min-[560px]:grid-cols-2 min-[900px]:grid-cols-3">
+          {similares.map((s) => {
+            const sSlug = `${s.id}-${s.n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}`;
+            return (
+              <a href={ir(`/disfraz/${sSlug}/`)} class="group block overflow-hidden rounded-2xl border-[1.5px] border-line bg-white shadow-sh transition hover:-translate-y-1 hover:shadow-sh2">
+                <div class="relative aspect-[2/3] overflow-hidden bg-[#f0eaff]">
+                  <img src={s.img} alt={s.n} class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+                  <span class="absolute left-2 top-2 rounded-full bg-m600/90 px-2 py-0.5 text-[.65rem] font-extrabold text-white">#{String(s.id).padStart(3, '0')}</span>
+                </div>
+                <div class="p-3">
+                  <h3 class="text-[.9rem] font-semibold text-ink line-clamp-2">{s.n}</h3>
+                  <span class="mt-1 block text-[.75rem] font-bold text-m500">{catById(s.t).i} {catById(s.t).n}</span>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </section>
+    )}
+  </main>
+
+  <script is:inline>
+    document.getElementById('copyLinkBtn')?.addEventListener('click', async function () {
+      const url = this.dataset.url;
+      try {
+        await navigator.clipboard.writeText(url);
+        this.textContent = '✅ Copiado';
+        setTimeout(() => { this.textContent = '🔗 Copiar enlace'; }, 2000);
+      } catch {
+        this.textContent = '❌ Error';
+        setTimeout(() => { this.textContent = '🔗 Copiar enlace'; }, 2000);
+      }
+    });
+  </script>
+</Layout>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
+---<|end|><|start|>write to=assistant<|channel|>analysis<|message|>Created file successfully: src/pages/disfraz/[slug].astro

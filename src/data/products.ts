@@ -88,6 +88,30 @@ export const CATS: Cat[] = [
 
 export const catById = (id: string): Cat => CATS.find((c) => c.id === id) ?? CATS[0];
 
+/* ── Helpers para páginas individuales de disfraces ── */
+
+/** Genera el slug para la URL de un disfraz: "1-disfraz-de-akatsuki-de-naruto" */
+export const disfrazSlug = (p: Product): string => `${p.id}-${slug(p.n)}`;
+
+/** Busca un disfraz por su slug */
+export const getDisfrazBySlug = (slugParam: string): Product | undefined => {
+  const id = parseInt(slugParam.split('-')[0], 10);
+  return PRODUCTS.find((p) => p.id === id);
+};
+
+/** Devuelve hasta 6 disfraces similares (categorías compartidas, excluyendo el actual) */
+export const getSimilares = (p: Product, max = 6): Product[] => {
+  const cats = new Set(p.cats);
+  return PRODUCTS
+    .filter((x) => x.id !== p.id && x.cats.some((c) => cats.has(c)))
+    .sort((a, b) => {
+      const aShared = a.cats.filter((c) => cats.has(c)).length;
+      const bShared = b.cats.filter((c) => cats.has(c)).length;
+      return bShared - aShared;
+    })
+    .slice(0, max);
+};
+
 /* ── Tallas presentes en el catálogo ── */
 const TALLA_LABEL = 'talla sin especificar';
 const orderTallas = ['XS', 'S', 'M', 'L', 'L-XL', 'XL', 'XXL', 'Sin especificar'];

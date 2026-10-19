@@ -38,7 +38,7 @@ const byId = (id: string | number): Item | undefined =>
 const pubLabel = (id: string) => PUBLICOS.find((p) => p.id === id)?.n ?? id;
 const hay = (c: Product) =>
   norm(
-    [c.n, c.cats.map((x) => catById(x).n).join(' '), c.pub, c.tl.join(' '), c.oc.join(' ')].join(' '),
+    [String(c.id), c.n, c.cats.map((x) => catById(x).n).join(' '), c.pub, c.tl.join(' '), c.oc.join(' ')].join(' '),
   );
 
 /* Orden aleatorio fijo por visita: así el catálogo se ve distinto cada vez
@@ -408,13 +408,20 @@ function cardHTML(c: Product, k: number) {
   const T = catById(c.t);
   const multiSize = c.tl.length > 1;
   const guia = (t: string) => TALLA_GUIA[t] ? `Estatura recomendada: ${TALLA_GUIA[t]}` : 'Sin referencia de estatura';
+  const slug = `${c.id}-${c.n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}`;
+  const disfrazUrl = `/disfraz/${slug}/`;
   return `<article class="pcard relative flex cursor-pointer flex-col rounded-[20px] border-[1.5px] border-line bg-white shadow-[0_8px_20px_rgba(90,42,156,.08)] transition duration-300 hover:-translate-y-[5px] hover:shadow-sh2" data-id="${c.id}" style="--d:${Math.min(k * 0.05, 0.4)}s" tabindex="0" aria-label="${esc(c.n)}, disfraz para adultos en arriendo">
   <div class="pimg relative aspect-[2/3] shrink-0 overflow-hidden" style="background:linear-gradient(135deg,${T.g[0]},${T.g[1]})">
-    <img src="${c.img}" alt="${esc(c.n)} para arriendo en Punta Arenas" loading="lazy" class="absolute inset-0 h-full w-full object-contain object-center transition duration-500">
+    <a href="${disfrazUrl}" class="absolute inset-0 z-[1]" aria-label="Ver ${esc(c.n)}">
+      <img src="${c.img}" alt="${esc(c.n)} para arriendo en Punta Arenas" loading="lazy" class="absolute inset-0 h-full w-full object-contain object-center transition duration-500">
+    </a>
+    <button type="button" class="quick-view-btn absolute right-2 top-2 z-[2] grid h-9 w-9 place-items-center rounded-full bg-white/90 text-m600 shadow-sh transition hover:bg-m600 hover:text-white" data-quick="${c.id}" aria-label="Vista rápida de ${esc(c.n)}" title="Vista rápida">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+    </button>
   </div>
   <div class="flex flex-1 flex-col p-3.5 pb-4">
     <span class="block text-[.72rem] font-extrabold uppercase tracking-[.05em] text-m500">${T.i} ${T.n}</span>
-    <h3 class="mb-1 min-h-[2.55rem] text-[1.02rem] font-semibold leading-[1.25] text-ink">${hl(c.n, state.q)}</h3>
+    <a href="${disfrazUrl}" class="mb-1 min-h-[2.55rem] text-[1.02rem] font-semibold leading-[1.25] text-ink hover:text-m600">${hl(c.n, state.q)}</a>
     <div class="mb-2.5 flex min-h-[1.6rem] flex-wrap gap-1">${c.tl.map((t) => `<span class="tip cursor-help rounded-[7px] bg-[#f0eaff] px-[7px] py-[3px] text-[.64rem] font-extrabold text-m600" data-tip="${esc(guia(t))}" tabindex="0">${esc(t)}</span>`).join('')}</div>
     <div class="mt-auto">
       <div class="mb-2.5 flex items-baseline justify-between gap-2">
@@ -1249,7 +1256,10 @@ function waDraft(): string {
   const pedido = state.cart
     .map((i) => {
       const it = byId(i.id);
-      return it ? `${i.qty}× ${it.n} (talla ${i.talla})` : '';
+      if (!it || !isProduct(it)) return it ? `${i.qty}× ${it.n} (talla ${i.talla})` : '';
+      const slug = `${it.id}-${it.n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}`;
+      const link = `https://magicatienda.cl/disfraz/${slug}/`;
+      return `${i.qty}× ${it.n} (#${String(it.id).padStart(3, '0')}) (talla ${i.talla}) — ${link}`;
     })
     .filter(Boolean)
     .join(' · ');
@@ -1326,6 +1336,7 @@ function openQuick(id: number) {
   let talla = multi ? '' : c.tl[0]; // en multi-talla hay que elegir explícitamente
   const body = $('#qmBody');
   if (!body) return;
+  const slug = `${c.id}-${c.n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}`;
   body.innerHTML = `<div class="qimg group relative h-[420px] cursor-zoom-in overflow-hidden rounded-2xl" style="background:linear-gradient(135deg,${T.g[0]},${T.g[1]})">
     <img src="${c.img}" alt="${esc(c.n)} para arriendo en Punta Arenas" class="absolute inset-0 h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[2]">
   </div>
@@ -1346,6 +1357,7 @@ function openQuick(id: number) {
   <div class="mt-5 flex flex-col gap-2.5">
     <button class="btn btn-mora w-full" id="qmAdd">🛒 Agregar a mi cotización →</button>
     <a class="btn btn-blanco w-full" id="qmWa" target="_blank" rel="noopener" href="${waLink(`¡Hola! Quiero cotizar el arriendo del disfraz ${c.n} para adultos. ¿Está disponible?`)}">💬 Cotizar solo este disfraz por WhatsApp</a>
+    <a class="btn btn-ghost w-full" href="/disfraz/${slug}/">📄 Ver ficha completa</a>
     <p class="text-center text-[.76rem] leading-[1.4] text-ink2">
       <b>Agregar</b> lo suma a tu lista para cotizar varios · <b>Cotizar directo</b> es solo por <b>este</b> disfraz, al tiro.
     </p>
@@ -1395,10 +1407,21 @@ function openQuick(id: number) {
 
 /* clics en la grilla */
 $('#grid')?.addEventListener('click', (e) => {
-  const card = (e.target as HTMLElement).closest('.pcard') as HTMLElement | null;
+  const target = e.target as HTMLElement;
+  // Vista rápida: abre el popup
+  const quickBtn = target.closest('[data-quick]') as HTMLElement | null;
+  if (quickBtn) {
+    e.preventDefault();
+    e.stopPropagation();
+    openQuick(Number(quickBtn.dataset.quick));
+    return;
+  }
+  // Si se hizo clic en un enlace, dejar que navegue normalmente
+  if (target.closest('a')) return;
+  const card = target.closest('.pcard') as HTMLElement | null;
   if (!card) return;
   const id = Number(card.dataset.id);
-  const act = (e.target as HTMLElement).closest('[data-act]') as HTMLElement | null;
+  const act = target.closest('[data-act]') as HTMLElement | null;
   if (act?.dataset.act === 'add') {
     const p = PRODUCTS.find((x) => x.id === id);
     // Si hay más de una talla, abrir la ficha y llevar/resaltar la sección de talla
@@ -1410,7 +1433,9 @@ $('#grid')?.addEventListener('click', (e) => {
     addItem(id, 'd', p?.tl[0], 1, act);
     return;
   }
-  openQuick(id);
+  // Clic en la tarjeta (fuera de enlace) → ir a la página individual
+  const link = card.querySelector('a') as HTMLAnchorElement | null;
+  if (link) window.location.href = link.href;
 });
 $('#grid')?.addEventListener('keydown', (e) => {
   const t = e.target as HTMLElement;
