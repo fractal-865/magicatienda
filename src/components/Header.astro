@@ -4,8 +4,9 @@ import { ir } from '../data/site';
 
 /* En la página del catálogo los enlaces a secciones vuelven a la portada; en la
    portada siguen siendo anclas internas, como siempre. */
-const { pagina = 'inicio' } = Astro.props as { pagina?: 'inicio' | 'catalogo' };
+const { pagina = 'inicio' } = Astro.props as { pagina?: 'inicio' | 'catalogo' | 'disfraz' };
 const enCat = pagina === 'catalogo';
+const enDisfraz = pagina === 'disfraz';
 const sec = (h: string) => (enCat ? ir(`/${h}`) : h);
 /* "Catálogo" lleva a la página del catálogo completo; ya estando ahí, a la
    sección de esta misma página. */
@@ -14,7 +15,7 @@ const urlCat = enCat ? '#catalogo' : ir('/catalogo/');
 /* El logo es un botón en la portada (ahí el clic dispara la sorpresa del
    confeti) y un enlace al inicio en la página del catálogo, donde el clic
    tiene que llevar de vuelta. */
-const LogoTag = enCat ? 'a' : 'button';
+const LogoTag = (enCat || enDisfraz) ? 'a' : 'button';
 
 const count = (id: string) => PRODUCTS.filter((p) => p.cats.includes(id)).length;
 const destacados = [...PRODUCTS].sort((a, b) => a.pop - b.pop).slice(0, 3);
@@ -45,8 +46,8 @@ const corto = (s: string) => CORTOS[s] ?? s;
       <LogoTag
         id="logoBtn"
         class="group relative flex shrink-0 cursor-pointer items-center border-0 bg-transparent p-0 text-left"
-        href={enCat ? ir('/') : undefined}
-        aria-label={enCat ? 'Volver al inicio' : 'Inicio, La Mágica Tienda de Disfraces'}
+        href={(enCat || enDisfraz) ? ir('/') : undefined}
+        aria-label={(enCat || enDisfraz) ? 'Volver al inicio' : 'Inicio, La Mágica Tienda de Disfraces'}
       >
         {/* Truco del logo: al pasar el mouse sale un murciélago volando por
             detrás del logo y titilan tres estrellitas. No ocupa lugar y sólo se
@@ -72,7 +73,11 @@ const corto = (s: string) => CORTOS[s] ?? s;
         class="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-0.5 lg:flex"
         aria-label="Navegación principal"
       >
-        <button id="topHome" class={nlink} aria-label="Ir al inicio">🏠</button>
+        {enDisfraz ? (
+          <a id="topHome" class={nlink} href={ir('/')} aria-label="Ir al inicio">🏠</a>
+        ) : (
+          <button id="topHome" class={nlink} aria-label="Ir al inicio">🏠</button>
+        )}
         <!-- "Catálogo" abre la página del catálogo completo (donde están todos
              los disfraces) y, al pasar el mouse, despliega el menú de temáticas -->
         <a
