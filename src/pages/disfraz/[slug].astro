@@ -332,7 +332,8 @@ const ogImage = url(c.img);
 
     document.getElementById('addCartBtn')?.addEventListener('click', function () {
       const id = Number(this.dataset.id);
-      if (!selectedTalla && tallas && tallas.length > 0) {
+      const talla = selectedTalla || (tallas && tallas.length === 1 ? tallas[0].textContent.trim() : '');
+      if (!talla && tallas && tallas.length > 0) {
         // Resaltar la sección de tallas
         if (tallaSection) {
           tallaSection.classList.add('ring-2', 'ring-[#c0392b]', 'ring-offset-2', 'rounded-xl', 'bg-[#fdecea]', 'p-3');
@@ -344,11 +345,11 @@ const ogImage = url(c.img);
         }
         return;
       }
-      const talla = selectedTalla || (tallas && tallas.length === 1 ? tallas[0].textContent.trim() : '');
-      if (talla) {
-        window.location.href = '/catalogo/?add=' + id + '&talla=' + encodeURIComponent(talla);
-      } else {
-        window.location.href = '/catalogo/?quick=' + id;
+      if (talla && window.addItemToCart) {
+        window.addItemToCart(id, talla);
+      }
+      if (window.openCartModal) {
+        window.openCartModal();
       }
     });
   </script>
