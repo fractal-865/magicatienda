@@ -23,3 +23,6 @@ preview.log
 
 # fotos de trabajo (no van al sitio ni al repo)
 fotos/
+
+# artefacto de despliegue (se genera con el script de zip, no se versiona)
+magicatienda-cpanel.zip
