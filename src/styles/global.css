@@ -1258,16 +1258,19 @@ mark {
   }
 
   /* ═══ CTA "Disfraces" del header ═══
-     Tres estilos en comparación, a la espera de elegir uno (se borran los
-     otros dos cuando se decida). Todos miden lo mismo y van a /catalogo/. */
+     Estilo contorno: discreto, se mezcla con la barra sin competir con el
+     logo. El texto se oculta en pantallas muy chicas (solo el emoji) para que
+     la fila del header no desborde en el móvil. */
   .cta-disfraz {
     display: inline-flex;
     flex: none;
     align-items: center;
     gap: 7px;
     padding: 8px 15px;
-    border: 2px solid transparent;
+    border: 2px solid var(--color-m400);
     border-radius: 13px;
+    background: #fff;
+    color: var(--color-m600);
     font-family: var(--font-ft, inherit);
     font-size: 0.92rem;
     font-weight: 700;
@@ -1278,48 +1281,11 @@ mark {
     transition: 0.2s;
   }
   .cta-disfraz:hover {
+    background: #f0eaff;
     transform: translateY(-2px);
   }
-  /* A · Sólido: llama la atención, para el que no conoce la tienda */
-  .cta-disfraz-a {
-    background: var(--color-m600);
-    color: #fff;
-    box-shadow: 0 4px 12px rgb(90 42 156 / 0.28);
-  }
-  .cta-disfraz-a:hover {
-    background: var(--color-m700, #2b0d5e);
-  }
-  /* Sin el texto ("Disfraces") en pantallas muy chicas, el botón queda como
-     solo el emoji: es lo que hace que la barra no desborde en el móvil. */
   .cta-disfraz .cta-ico {
     display: inline-flex;
-  }
-  /* B · Contorno: discreto, se mixes con la barra */
-  .cta-disfraz-b {
-    background: #fff;
-    border-color: var(--color-m400);
-    color: var(--color-m600);
-  }
-  .cta-disfraz-b:hover {
-    background: #f0eaff;
-  }
-  /* C · Suave: fondo claro con el emoji en un círculo */
-  .cta-disfraz-c {
-    background: #f0eaff;
-    color: var(--color-m600);
-  }
-  .cta-disfraz-c .cta-ico {
-    display: inline-grid;
-    place-items: center;
-    width: 22px;
-    height: 22px;
-    border-radius: 999px;
-    background: var(--color-m600);
-    font-size: 0.78rem;
-    line-height: 1;
-  }
-  .cta-disfraz-c:hover {
-    background: #e6d9ff;
   }
 
   .chip {

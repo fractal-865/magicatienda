@@ -98,7 +98,7 @@ const corto = (s: string) => CORTOS[s] ?? s;
 
       <!-- Buscador + CTA de disfraces -->
       <div class="ml-auto flex items-center gap-2">
-        <a href={urlCat} class="cta-disfraz cta-disfraz-a" aria-label="Ver los disfraces">
+        <a href={urlCat} class="cta-disfraz cta-disfraz-b" aria-label="Ver los disfraces">
           <span class="cta-ico" aria-hidden="true">🎭</span>
           <span class="hidden min-[460px]:inline">Disfraces</span>
         </a>
@@ -222,34 +222,6 @@ const corto = (s: string) => CORTOS[s] ?? s;
     </div>
   </div>
 </header>
-
-<!-- ═══ TEMPORAL: comparar los 3 estilos del CTA "Disfraces" ═══
-     Se borra este bloque y las dos clases que queden sin usar cuando se elija. -->
-{
-  pagina === 'inicio' && (
-    <div class="border-b-[1.5px] border-dashed border-line bg-[#fffdf5] px-4 py-3">
-      <div class="mx-auto flex max-w-[1220px] flex-wrap items-center gap-x-6 gap-y-3">
-        <span class="text-[.72rem] font-extrabold uppercase tracking-[.06em] text-m500">
-          Prueba el CTA ↓
-        </span>
-        <span class="flex items-center gap-2">
-          <a href={urlCat} class="cta-disfraz cta-disfraz-a">🎭 Disfraces</a>
-          <small class="text-[.72rem] font-bold text-ink2">A · sólido</small>
-        </span>
-        <span class="flex items-center gap-2">
-          <a href={urlCat} class="cta-disfraz cta-disfraz-b">🎭 Disfraces</a>
-          <small class="text-[.72rem] font-bold text-ink2">B · contorno</small>
-        </span>
-        <span class="flex items-center gap-2">
-          <a href={urlCat} class="cta-disfraz cta-disfraz-c">
-            <i class="cta-ico" aria-hidden="true">🎭</i>Disfraces
-          </a>
-          <small class="text-[.72rem] font-bold text-ink2">C · suave</small>
-        </span>
-      </div>
-    </div>
-  )
-}
 
 <!-- Panel lateral del carrito (deslizable) + fondo -->
 <div id="cartBackdrop" class="cart-backdrop" aria-hidden="true"></div>
