@@ -1945,3 +1945,4 @@ if (enCatalogo) {
 /* Exponer funciones para paginas individuales */
 (window as any).addItemToCart = (id, talla) => addItem(id, 'd', talla, 1);
 (window as any).openCartModal = () => openReq();
+(window as any).openMiniCart = () => openMini();
