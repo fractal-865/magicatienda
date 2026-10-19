@@ -702,8 +702,22 @@ matchMedia(PANTALLA_CHICA).addEventListener('change', () => {
 $<HTMLElement>('#catalogo')?.addEventListener('change', (e) => {
   const el = e.target as HTMLInputElement;
   if (el.dataset.g) {
-    const s = state[el.dataset.g as 'tem'];
-    el.checked ? s.add(el.value) : s.delete(el.value);
+    const g = el.dataset.g as 'tem' | 'oca' | 'pub' | 'tal';
+    const s = state[g];
+
+    // En la portada los filtros no filtran acá: redirigen al catálogo.
+    if (!enCatalogo) {
+      if (el.checked) location.assign(`${RAIZ}/catalogo/?${g}=${encodeURIComponent(el.value)}`);
+      return;
+    }
+
+    // Público y talla: selección única.
+    if (g === 'pub' || g === 'tal') {
+      s.clear();
+      if (el.checked) s.add(el.value);
+    } else {
+      el.checked ? s.add(el.value) : s.delete(el.value);
+    }
   }
   syncFilterUI();
   renderGrid();
@@ -714,16 +728,20 @@ $<HTMLElement>('#catalogo')?.addEventListener('click', (e) => {
   if (!b) return;
   const g = b.dataset.g as 'pub' | 'tal';
   const s = state[g];
-  if (g === 'pub') {
-    // Público: selección única (como radio). Clickea otra y cambia; la activa la quita.
-    const wasOn = s.has(b.dataset.v!);
-    s.clear();
-    if (!wasOn) s.add(b.dataset.v!);
-    syncFilterUI();
-  } else {
-    s.has(b.dataset.v!) ? s.delete(b.dataset.v!) : s.add(b.dataset.v!);
-    b.classList.toggle('on');
+  const v = b.dataset.v!;
+
+  // En la portada los filtros no filtran acá: redirigen al catálogo con el
+  // filtro puesto, para que se vean todos los disfraces de esa selección.
+  if (!enCatalogo) {
+    location.assign(`${RAIZ}/catalogo/?${g}=${encodeURIComponent(v)}`);
+    return;
   }
+
+  // Público y talla: selección única (como radio). Clic en la activa la quita.
+  const wasOn = s.has(v);
+  s.clear();
+  if (!wasOn) s.add(v);
+  syncFilterUI();
   renderGrid();
   scrollToResults();
 });
@@ -2084,3 +2102,5 @@ if (enCatalogo) {
 (window as any).addItemToCart = (id, talla) => addItem(id, 'd', talla, 1);
 (window as any).openCartModal = () => openReq();
 (window as any).openMiniCart = () => openMini();
+
+
