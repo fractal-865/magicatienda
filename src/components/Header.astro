@@ -21,7 +21,11 @@ const count = (id: string) => PRODUCTS.filter((p) => p.cats.includes(id)).length
 const destacados = [...PRODUCTS].sort((a, b) => a.pop - b.pop).slice(0, 3);
 
 const nlink =
-  'inline-flex cursor-pointer items-center gap-1.5 rounded-xl px-3 py-2 font-ft text-[.92rem] font-semibold text-ink transition hover:bg-[#f0eaff] hover:text-m600';
+  'inline-flex cursor-pointer items-center gap-1.5 rounded-xl px-3 py-2 font-ft text-[.92rem] font-semibold text-white/90 transition hover:bg-white/10 hover:text-white';
+
+/* En la portada el logo es un botón (dispara el truco del murciélago); en las
+   demás páginas es un enlace. El logo en blanco se logra con filter. */
+const logoClase = 'logo-img group-hover:scale-[1.03] brightness-0 invert';
 
 /* Nombres abreviados para el mega menú: máximo 2 palabras */
 const CORTOS: Record<string, string> = {
@@ -38,7 +42,8 @@ const corto = (s: string) => CORTOS[s] ?? s;
 
 <header
   id="header"
-  class="sticky top-0 z-[60] border-b border-line/50 bg-white/80 backdrop-blur-xl transition-all duration-300"
+  class="sticky top-0 z-[60] border-b border-white/10 backdrop-blur-xl transition-all duration-300"
+  style="background:linear-gradient(120deg,#1a0f2e 0%,#2b1a44 100%);box-shadow:0 8px 24px rgba(20,8,40,0.35)"
 >
   <div class="mx-auto max-w-[1220px] px-4">
     <div class="hrow relative flex items-center gap-3 py-3 transition-all duration-300">
@@ -59,7 +64,7 @@ const corto = (s: string) => CORTOS[s] ?? s;
           <i class="lt-spark lt-s3">✨</i>
         </span>
         <img
-          class="logo-img group-hover:scale-[1.03]"
+          class={logoClase}
           src={`${import.meta.env.BASE_URL}/img/logo.png`.replace(/\/{2,}/g, '/')}
           alt="La Mágica Tienda de Disfraces"
           width="380"
@@ -99,7 +104,7 @@ const corto = (s: string) => CORTOS[s] ?? s;
       <!-- CTA de disfraces. El buscador ya no vive acá: quedó dentro del mega
            menú (escritorio) y del cajón (móvil y tablet). -->
       <div class="ml-auto flex items-center gap-2">
-        <a href={urlCat} class="cta-disfraz cta-disfraz-b" aria-label="Ver los disfraces">
+        <a href={urlCat} class="cta-disfraz cta-disfraz-b cta-on-dark" aria-label="Ver los disfraces">
           <span class="cta-ico" aria-hidden="true">🎭</span>
           <span>Disfraces</span>
         </a>
@@ -109,7 +114,7 @@ const corto = (s: string) => CORTOS[s] ?? s;
       <div class="flex items-center gap-2">
         <button
           id="burger"
-          class="grid h-11 w-11 cursor-pointer place-items-center rounded-2xl border-[1.5px] border-line bg-[#f4eeff] min-[1024px]:hidden"
+          class="grid h-11 w-11 cursor-pointer place-items-center rounded-2xl border-[1.5px] border-white/20 bg-white/10 text-white min-[1024px]:hidden transition hover:bg-white/20"
           aria-label="Abrir menú"
           aria-expanded="false"
         >
@@ -119,7 +124,7 @@ const corto = (s: string) => CORTOS[s] ?? s;
         <div id="cartWrap" class="relative">
           <button
             id="cartBtn"
-            class="relative grid h-11 w-11 cursor-pointer place-items-center rounded-2xl border-[1.5px] border-line bg-[#f4eeff] text-[1.2rem] transition hover:bg-[#e6d9ff]"
+            class="relative grid h-11 w-11 cursor-pointer place-items-center rounded-2xl border-[1.5px] border-white/20 bg-white/10 text-[1.2rem] text-white transition hover:bg-white/20"
             aria-label="Tu arriendo, ver cotización"
             aria-expanded="false"
           >
