@@ -1594,8 +1594,11 @@ function renderReq() {
     </div>
     <div class="trow total mt-1.5 border-t border-line pt-1.5">
       <span>Total a pagar en el local:</span>
-      <b class="text-[#0c7a56]">Desde ${clp(30000 * (state.cart.reduce((a, i) => a + i.qty, 0) || 1))}</b>
+      <b class="text-[#0c7a56] text-[1.1rem]">Desde ${clp(30000 * (state.cart.reduce((a, i) => a + i.qty, 0) || 1))}</b>
     </div>
+    <p class="mt-1 text-[.7rem] leading-[1.4] text-ink2">
+      <span class="font-bold text-[#6b6152]">Incluye ${clp(15000 * (state.cart.reduce((a, i) => a + i.qty, 0) || 1))} de garantía reembolsable</span> — se devuelve si no hay daños.
+    </p>
   </div>
   <p class="totnote">Es solo una cotización: el valor del arriendo y la garantía se revisan y confirman en la tienda al reservar.</p>
   <button class="btn btn-wsp btn-lg mt-2.5 w-full" id="rqSend">💬 Enviar solicitud por WhatsApp</button>
