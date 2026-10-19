@@ -90,7 +90,7 @@ const ogImage = url(c.img);
             <b class="block text-[.9rem] text-ink">📏 Tallas disponibles:</b>
             <div class="mt-2 flex flex-wrap gap-2">
               {c.tl.map((t) => (
-                <span class="rounded-lg bg-[#f0eaff] px-3 py-1.5 text-[.8rem] font-extrabold text-m600" title={TALLA_GUIA[t] ? `Estatura recomendada: ${TALLA_GUIA[t]}` : 'Sin referencia de estatura'}>
+                <span class="tip cursor-help rounded-lg bg-[#f0eaff] px-3 py-1.5 text-[.8rem] font-extrabold text-m600" data-tip={TALLA_GUIA[t] ? `Estatura recomendada: ${TALLA_GUIA[t]}` : 'Sin referencia de estatura'} tabindex="0">
                   {displayTalla(t)}
                 </span>
               ))}
@@ -117,32 +117,82 @@ const ogImage = url(c.img);
             <p class="mt-1 text-[.75rem] text-ink2">El valor exacto se confirma en tu cotización por WhatsApp.</p>
           </div>
 
-          <!-- Acciones -->
-          <div class="flex flex-col gap-3 min-[560px]:flex-row">
+          <!-- Botón principal: Añadir a la cotización -->
+          <button
+            type="button"
+            class="btn btn-mora btn-lg w-full"
+            id="addToCartBtn"
+            data-id={c.id}
+            data-talla={c.tl.length === 1 ? c.tl[0] : ''}
+          >
+            {c.tl.length > 1 ? '📏 Elegir talla y arrendar' : '🎭 Arrendar disfraz'}
+          </button>
+
+          <!-- Acciones secundarias (más pequeñas) -->
+          <div class="flex flex-wrap gap-2">
             <a
               href={waHref}
               target="_blank"
               rel="noopener"
-              class="btn btn-wsp btn-lg flex-1 text-center"
+              class="btn btn-wsp btn-sm flex items-center gap-1.5"
             >
-              💬 Cotizar por WhatsApp
+              💬 Cotizar
             </a>
             <button
               type="button"
-              class="btn btn-ghost flex items-center justify-center gap-2"
+              class="btn btn-ghost btn-sm flex items-center gap-1.5"
               id="copyLinkBtn"
               data-url={pageUrl}
             >
-              🔗 Copiar enlace
+              🔗 Copiar
             </button>
-            <a
-              href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`Mira este disfraz: ${c.n} — ${pageUrl}`)}`}
-              target="_blank"
-              rel="noopener"
-              class="btn btn-ghost flex items-center justify-center gap-2"
-            >
-              📲 Compartir
-            </a>
+            <div class="relative">
+              <button
+                type="button"
+                class="btn btn-ghost btn-sm flex items-center gap-1.5"
+                id="shareBtn"
+                aria-expanded="false"
+                aria-haspopup="true"
+              >
+                📲 Compartir
+              </button>
+              <div
+                id="shareMenu"
+                class="absolute left-0 top-full z-50 mt-1 hidden min-w-[180px] rounded-xl border-2 border-line bg-white p-2 shadow-sh2"
+              >
+                <a
+                  href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${c.n} — ${pageUrl}`)}`}
+                  target="_blank"
+                  rel="noopener"
+                  class="flex items-center gap-2 rounded-lg px-3 py-2 text-[.85rem] font-bold text-ink transition hover:bg-mist"
+                >
+                  💬 WhatsApp
+                </a>
+                <a
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`}
+                  target="_blank"
+                  rel="noopener"
+                  class="flex items-center gap-2 rounded-lg px-3 py-2 text-[.85rem] font-bold text-ink transition hover:bg-mist"
+                >
+                  👍 Facebook
+                </a>
+                <a
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${c.n}`)}&url=${encodeURIComponent(pageUrl)}`}
+                  target="_blank"
+                  rel="noopener"
+                  class="flex items-center gap-2 rounded-lg px-3 py-2 text-[.85rem] font-bold text-ink transition hover:bg-mist"
+                >
+                  🐦 X (Twitter)
+                </a>
+                <button
+                  type="button"
+                  class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-[.85rem] font-bold text-ink transition hover:bg-mist"
+                  id="nativeShareBtn"
+                >
+                  📤 Más opciones
+                </button>
+              </div>
+            </div>
           </div>
 
           <p class="text-[.75rem] text-ink2">
@@ -179,15 +229,60 @@ const ogImage = url(c.img);
   </main>
 
   <script is:inline>
+    // Copiar enlace
     document.getElementById('copyLinkBtn')?.addEventListener('click', async function () {
       const url = this.dataset.url;
       try {
         await navigator.clipboard.writeText(url);
         this.textContent = '✅ Copiado';
-        setTimeout(() => { this.textContent = '🔗 Copiar enlace'; }, 2000);
+        setTimeout(() => { this.textContent = '🔗 Copiar'; }, 2000);
       } catch {
         this.textContent = '❌ Error';
-        setTimeout(() => { this.textContent = '🔗 Copiar enlace'; }, 2000);
+        setTimeout(() => { this.textContent = '🔗 Copiar'; }, 2000);
+      }
+    });
+
+    // Menú de compartir
+    const shareBtn = document.getElementById('shareBtn');
+    const shareMenu = document.getElementById('shareMenu');
+    shareBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = shareMenu?.classList.contains('hidden');
+      shareMenu?.classList.toggle('hidden', !open);
+      shareBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    document.addEventListener('click', (e) => {
+      if (!shareMenu?.contains(e.target) && e.target !== shareBtn) {
+        shareMenu?.classList.add('hidden');
+        shareBtn?.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Compartir nativo (Web Share API)
+    document.getElementById('nativeShareBtn')?.addEventListener('click', async () => {
+      const url = window.location.href;
+      const title = document.title;
+      if (navigator.share) {
+        try {
+          await navigator.share({ title, url });
+        } catch {}
+      } else {
+        try {
+          await navigator.clipboard.writeText(url);
+          alert('Enlace copiado al portapapeles');
+        } catch {}
+      }
+      shareMenu?.classList.add('hidden');
+    });
+
+    // Añadir a la cotización
+    document.getElementById('addToCartBtn')?.addEventListener('click', function () {
+      const id = Number(this.dataset.id);
+      const talla = this.dataset.talla;
+      if (talla) {
+        window.location.href = '/catalogo/?add=' + id + '&talla=' + encodeURIComponent(talla);
+      } else {
+        window.location.href = '/catalogo/?quick=' + id;
       }
     });
   </script>
@@ -199,6 +294,29 @@ const ogImage = url(c.img);
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+  /* Tooltip CSS-only para tallas */
+  .tip {
+    position: relative;
+    cursor: help;
+  }
+  .tip:hover::after,
+  .tip:focus::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 6px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: #2b0d5e;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    white-space: nowrap;
+    z-index: 100;
+    pointer-events: none;
   }
 </style>
 ---<|end|><|start|>write to=assistant<|channel|>analysis<|message|>Created file successfully: src/pages/disfraz/[slug].astro
