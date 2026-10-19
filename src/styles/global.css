@@ -1764,6 +1764,11 @@ nav [data-navsec].on::after {
   border-color: #ddd0b6;
   background: #fff;
   color: #38312a;
+  font-weight: 800;
+}
+.fbar.pegada .chip-clear-count {
+  background: var(--color-m600);
+  color: #fff;
 }
 .fbar.pegada .chip-clear:hover {
   background: #faf6ee;
@@ -2566,9 +2571,24 @@ body.drawer-lock {
 .chip-clear {
   order: 7; /* antes de los filtros activos (order 8), para no empujar una 3ª fila */
   margin-left: auto;
+  gap: 6px;
   border: 1.5px dashed var(--color-m400, #b89af0);
   background: #fff;
   color: var(--color-m600);
+  font-weight: 800;
+}
+.chip-clear-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--color-m600);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
 }
 /* En móvil el chip se acorta para que la fila completa entre */
 .chip-clear .corto {

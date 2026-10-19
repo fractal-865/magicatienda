@@ -459,8 +459,11 @@ function pintarInfo(L: Product[], mostrados: number) {
 
   // Botón "Limpiar filtros": solo aparece cuando hay algo activo
   const cc = $('#catClear');
-  const activo = state.tem.size + state.oca.size + state.pub.size + state.tal.size > 0 || !!state.q || !!state.exFecha;
+  const ccCount = $('#catClearCount');
+  const nFiltros = state.tem.size + state.oca.size + state.pub.size + state.tal.size + (state.q ? 1 : 0) + (state.exFecha ? 1 : 0);
+  const activo = nFiltros > 0;
   cc?.classList.toggle('hidden', !activo);
+  if (ccCount) ccCount.textContent = String(nFiltros);
   $('#catFilters')?.classList.toggle('con-limpiar', activo);
 }
 

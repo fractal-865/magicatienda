@@ -123,25 +123,22 @@ const urlCatalogo = ir('/catalogo/');
               <i class="cat-pick-c" aria-hidden="true"></i>
             </button>
 
-            <button id="catClear" class="chip chip-clear hidden">
-              🧹 <span class="largo">Limpiar filtros</span><span class="corto">Limpiar</span>
+            <button id="catClear" class="chip chip-clear hidden" aria-label="Limpiar todos los filtros">
+              <span class="chip-clear-count" id="catClearCount">0</span>
+              Limpiar
             </button>
           </div>
 
           <!-- Fila 2: filtros activos + público + talla. El celular nunca pasa de 2 filas:
                los filtros activos entran aquí, al principio de la fila. -->
           <div class="cf-line cf-line-2">
-            <div id="activeChips" class="active-chips" aria-label="Filtros activos"></div>
-
             <div class="qf-group">
-              <span class="qf-title">Público</span>
               <div class="qf-chips">
                 {PUBLICOS.map((p) => <button class="chip fchip" data-g="pub" data-v={p.id}>{p.i} {p.n}</button>)}
               </div>
             </div>
 
             <div class="qf-group">
-              <span class="qf-title">Talla</span>
               <div class="qf-chips">
                 {TALLAS.map((t) => <button class="chip fchip" data-g="tal" data-v={t}>{t}</button>)}
               </div>
