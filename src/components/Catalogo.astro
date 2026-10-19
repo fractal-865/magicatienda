@@ -1,5 +1,5 @@
 ---
-import { CATS_ACTIVE, PUBLICOS, TALLAS, PRODUCTS } from '../data/products';
+import { CATS_ACTIVE, PUBLICOS, TALLAS, PRODUCTS, TALLA_GUIA } from '../data/products';
 import { ir, SEO_CAT } from '../data/site';
 
 /* Dos modos del mismo componente:
@@ -140,7 +140,7 @@ const urlCatalogo = ir('/catalogo/');
 
             <div class="qf-group">
               <div class="qf-chips">
-                {TALLAS.map((t) => <button class="chip fchip" data-g="tal" data-v={t}>{t}</button>)}
+                {TALLAS.map((t) => <button class="chip fchip tip" data-g="tal" data-v={t} data-tip={TALLA_GUIA[t] ? TALLA_GUIA[t] : 'Sin referencia de estatura'}>{t}</button>)}
               </div>
             </div>
           </div>

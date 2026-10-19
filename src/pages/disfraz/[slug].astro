@@ -108,7 +108,7 @@ const ogImage = url(c.img);
             <b class="block text-[.9rem] text-ink">📏 Tallas disponibles:</b>
             <div class="mt-2 flex flex-wrap gap-2">
               {c.tl.map((t) => (
-                <span class="tip cursor-help rounded-lg bg-[#f0eaff] px-3 py-1.5 text-[.8rem] font-extrabold text-m600" data-tip={TALLA_GUIA[t] ? `Estatura recomendada: ${TALLA_GUIA[t]}` : 'Sin referencia de estatura'} tabindex="0">
+                <span class="tip cursor-help rounded-lg bg-[#f0eaff] px-3 py-1.5 text-[.8rem] font-extrabold text-m600" data-tip={TALLA_GUIA[t] ? TALLA_GUIA[t] : 'Sin referencia de estatura'} tabindex="0">
                   {displayTalla(t)}
                 </span>
               ))}

@@ -393,7 +393,7 @@ document.addEventListener(
 function cardHTML(c: Product, k: number) {
   const T = catById(c.t);
   const multiSize = c.tl.length > 1;
-  const guia = (t: string) => TALLA_GUIA[t] ? `Estatura recomendada: ${TALLA_GUIA[t]}` : 'Sin referencia de estatura';
+  const guia = (t: string) => TALLA_GUIA[t] ? TALLA_GUIA[t] : 'Sin referencia de estatura';
   const disfrazUrl = `/disfraz/${disfrazSlug(c)}/`;
   return `<article class="pcard relative flex cursor-pointer flex-col rounded-[20px] border-[1.5px] border-line bg-white shadow-[0_8px_20px_rgba(90,42,156,.08)] transition duration-300 hover:-translate-y-[5px] hover:shadow-sh2" data-id="${c.id}" style="--d:${Math.min(k * 0.05, 0.4)}s" tabindex="0" aria-label="${esc(c.n)}, disfraz para adultos en arriendo">
   <div class="pimg relative aspect-[2/3] shrink-0 overflow-hidden" style="background:linear-gradient(135deg,${T.g[0]},${T.g[1]})">
@@ -1450,7 +1450,7 @@ function openQuick(id: number) {
   </div>
   <div id="qmSizeWrap" class="relative rounded-2xl">
     <b class="my-3 block">📏 Elige tu talla:</b>
-    <div class="tsel" id="qmTallas">${c.tl.map((t) => `<button class="tip ${!multi && t === talla ? 'on' : ''}" data-t="${esc(t)}" data-tip="${esc(TALLA_GUIA[t] ? 'Estatura recomendada: ' + TALLA_GUIA[t] : 'Sin referencia de estatura')}">${esc(t)}</button>`).join('')}</div>
+    <div class="tsel" id="qmTallas">${c.tl.map((t) => `<button class="tip ${!multi && t === talla ? 'on' : ''}" data-t="${esc(t)}" data-tip="${esc(TALLA_GUIA[t] ? TALLA_GUIA[t] : 'Sin referencia de estatura')}">${esc(t)}</button>`).join('')}</div>
     <span id="qmTtip" class="sizetip" role="status">👆 Selecciona una talla para continuar</span>
   </div>
   <span class="gchip">🛡️ Garantía de $15.000 o $20.000 reintegrable</span>
