@@ -565,6 +565,14 @@ function hidratarDesdeURL() {
     t2?.setAttribute('aria-expanded', 'true');
     t2?.setAttribute('aria-label', 'Cerrar buscador');
   }
+  // Si viene ?buscar=1 (desde página individual), abrir el buscador
+  if (p.get('buscar') === '1') {
+    $('#catFilters .searchbox')?.classList.add('open');
+    const t2 = $('#searchToggle2');
+    t2?.setAttribute('aria-expanded', 'true');
+    t2?.setAttribute('aria-label', 'Cerrar buscador');
+    setTimeout(() => $<HTMLInputElement>('#catSearch')?.focus(), reduced() ? 0 : 300);
+  }
   syncFilterUI();
 
   // Procesar parámetros de añadir al carrito desde página de disfraz
@@ -832,6 +840,11 @@ bindSearch('catSearch', 'sugCat');
 
 /* ── Buscador único: en la cabecera solo la lupa, que baja al buscador del catálogo ── */
 $('#searchToggle')?.addEventListener('click', () => {
+  if (!enCatalogo) {
+    // En páginas individuales, redirigir al catálogo con el buscador abierto
+    window.location.href = '/catalogo/?buscar=1';
+    return;
+  }
   const sb = $('#catFilters .searchbox');
   if (sb && !sb.classList.contains('open')) sb.classList.add('open');
   scrollToCat();
