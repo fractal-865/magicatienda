@@ -1,10 +1,11 @@
 ---
-import { CONFIG, waLink, ir } from '../data/site';
+import { CONFIG, waLink, ir, sec as secEnlace } from '../data/site';
 
-/* En la página del catálogo las secciones viven en la portada. */
-const { pagina = 'inicio' } = Astro.props as { pagina?: 'inicio' | 'catalogo' };
+/* Las secciones viven en la portada: desde el catálogo o la ficha de un
+   disfraz los enlaces tienen que apuntar allá, no a un ancla local. */
+const { pagina = 'inicio' } = Astro.props as { pagina?: 'inicio' | 'catalogo' | 'disfraz' };
 const enCat = pagina === 'catalogo';
-const sec = (h: string) => (enCat ? ir(`/${h}`) : h);
+const sec = (h: string) => secEnlace(h, pagina);
 /* "Catálogo" apunta a la página del catálogo completo */
 const urlCat = enCat ? '#catalogo' : ir('/catalogo/');
 const waFoot = waLink('¡Hola! Quiero cotizar el arriendo de disfraces para adultos en La Mágica Tienda.');

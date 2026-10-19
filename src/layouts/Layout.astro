@@ -13,7 +13,7 @@ import Drawer from '../components/Drawer.astro';
 import Footer from '../components/Footer.astro';
 import Floaters from '../components/Floaters.astro';
 import Modals from '../components/Modals.astro';
-import { CONFIG, FAQS, SEO, url } from '../data/site';
+import { CONFIG, FAQS, SEO, url, ir } from '../data/site';
 
 /* ── Página actual ──
    La portada y el catálogo comparten el mismo armazón (menú, pie, modales).
@@ -29,8 +29,11 @@ interface Props {
   ogDescripcion?: string;
   /** Ruta canónica dentro del sitio, con barra final: '/catalogo/' */
   ruta?: string;
-  /** En qué página estamos: ajusta los enlaces del menú, el cajón y el pie */
-  pagina?: 'inicio' | 'catalogo';
+  /** En qué página estamos: ajusta los enlaces del menú, el cajón y el pie.
+      'inicio' = portada (las secciones son anclas internas),
+      'catalogo' y 'disfraz' = esas páginas no tienen las secciones, así que
+      los enlaces del menú llevan a la portada. */
+  pagina?: 'inicio' | 'catalogo' | 'disfraz';
   /** Nodos extra para el @graph (por ejemplo, las migas de pan) */
   esquema?: Record<string, unknown>[];
   /** Solo la portada tiene las preguntas frecuentes a la vista */
@@ -181,8 +184,11 @@ const datos = {
     <script is:inline>document.documentElement.classList.add('js');</script>
   </head>
   <body class="min-h-screen" {...pagina === 'catalogo' ? { 'data-page': 'catalogo' } : pagina === 'disfraz' ? { 'data-page': 'disfraz' } : {}}>
+    {/* Enlace de salto (teclado y lectores de pantalla). En la portada y el
+        catálogo el catálogo es un ancla de esta misma página; en la ficha de un
+        disfraz no existe, así que se lleva a la página del catálogo. */}
     <a
-      href="#catalogo"
+      href={pagina === 'inicio' ? '#catalogo' : ir('/catalogo/')}
       class="absolute -left-[999px] top-0 z-[200] rounded-br-xl bg-m600 px-4 py-2.5 font-extrabold text-white focus:left-0"
     >
       Ir al catálogo

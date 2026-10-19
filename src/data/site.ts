@@ -35,6 +35,14 @@ export const url = (p = '/'): string => `${ORIGIN}${BASE}${p}`;
    en GitHub Pages (/magicatienda/catalogo/) y el día del dominio propio. */
 export const ir = (p = '/'): string => `${BASE}${p.startsWith('/') ? p : `/${p}`}`;
 
+/* ── Enlaces a las secciones de la portada ──
+   La portada y el catálogo son las únicas páginas donde esos bloques existen:
+   allí `#tarifas` es un ancla interna, pero desde el catálogo o desde la ficha
+   de un disfraz hay que volver a la portada. `sec()` lo resuelve en un lugar
+   para que el header, el cajón y el pie no puedan quedar descuadrados. */
+export const sec = (h: string, pagina: 'inicio' | 'catalogo' | 'disfraz'): string =>
+  pagina === 'inicio' ? h : ir(`/${h}`);
+
 /* ── Textos para Google y para compartir ──
    Título bajo 60 caracteres y descripción bajo 155, para que Google no los
    corte. Se prioriza la búsqueda local: "arriendo de disfraces en Punta Arenas". */

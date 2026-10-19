@@ -1,11 +1,12 @@
 ---
 import { CATS_ACTIVE, PUBLICOS, OCASIONES } from '../data/products';
-import { CONFIG, waLink, ir } from '../data/site';
+import { CONFIG, waLink, ir, sec as secEnlace } from '../data/site';
 
-/* En la página del catálogo los enlaces a secciones vuelven a la portada. */
-const { pagina = 'inicio' } = Astro.props as { pagina?: 'inicio' | 'catalogo' };
+/* Los enlaces a las secciones solo son anclas internas en la portada; en el
+   catálogo y en la ficha de un disfraz llevan a la portada. */
+const { pagina = 'inicio' } = Astro.props as { pagina?: 'inicio' | 'catalogo' | 'disfraz' };
 const enCat = pagina === 'catalogo';
-const sec = (h: string) => (enCat ? ir(`/${h}`) : h);
+const sec = (h: string) => secEnlace(h, pagina);
 const urlCat = enCat ? '#catalogo' : ir('/catalogo/');
 
 const waDrawer = waLink('¡Hola! Quiero cotizar el arriendo de disfraces para adultos en La Mágica Tienda.');
@@ -54,7 +55,7 @@ const corto = (s: string) => CORTOS[s] ?? s;
             Temática <span class="arr ml-auto text-m500 transition">›</span>
           </summary>
           <div class="sub">
-            {CATS_ACTIVE.map((c) => <a class={sublink} href="#catalogo" data-tem={c.id}>{c.i} {corto(c.n)}</a>)}
+            {CATS_ACTIVE.map((c) => <a class={sublink} href={urlCat} data-tem={c.id}>{c.i} {corto(c.n)}</a>)}
           </div>
         </details>
         <details class="dacc">
@@ -62,7 +63,7 @@ const corto = (s: string) => CORTOS[s] ?? s;
             Público <span class="arr ml-auto text-m500 transition">›</span>
           </summary>
           <div class="sub">
-            {PUBLICOS.map((p) => <a class={sublink} href="#catalogo" data-pub={p.id}>{p.i} {p.n}</a>)}
+            {PUBLICOS.map((p) => <a class={sublink} href={urlCat} data-pub={p.id}>{p.i} {p.n}</a>)}
           </div>
         </details>
         <details class="dacc">
@@ -70,7 +71,7 @@ const corto = (s: string) => CORTOS[s] ?? s;
             Celebración <span class="arr ml-auto text-m500 transition">›</span>
           </summary>
           <div class="sub">
-            {OCASIONES.slice(0, 6).map((o) => <a class={sublink} href="#catalogo" data-oca={o.id}>{o.i} {corto(o.n)}</a>)}
+            {OCASIONES.slice(0, 6).map((o) => <a class={sublink} href={urlCat} data-oca={o.id}>{o.i} {corto(o.n)}</a>)}
           </div>
         </details>
       </div>

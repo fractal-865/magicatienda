@@ -1,13 +1,13 @@
 ---
 import { CATS_ACTIVE, PUBLICOS, OCASIONES, PRODUCTS } from '../data/products';
-import { ir } from '../data/site';
+import { ir, sec as secEnlace } from '../data/site';
 
-/* En la página del catálogo los enlaces a secciones vuelven a la portada; en la
-   portada siguen siendo anclas internas, como siempre. */
+/* Los enlaces a las secciones solo son anclas internas en la portada. En el
+   catálogo y en la ficha de un disfraz apuntan a la portada (ver `sec`). */
 const { pagina = 'inicio' } = Astro.props as { pagina?: 'inicio' | 'catalogo' | 'disfraz' };
 const enCat = pagina === 'catalogo';
 const enDisfraz = pagina === 'disfraz';
-const sec = (h: string) => (enCat ? ir(`/${h}`) : h);
+const sec = (h: string) => secEnlace(h, pagina);
 /* "Catálogo" lleva a la página del catálogo completo; ya estando ahí, a la
    sección de esta misma página. */
 const urlCat = enCat ? '#catalogo' : ir('/catalogo/');
@@ -143,7 +143,7 @@ const corto = (s: string) => CORTOS[s] ?? s;
         {
           CATS_ACTIVE.map((c) => (
             <li>
-              <a role="menuitem" data-tem={c.id} href="#catalogo" class="flex cursor-pointer items-center gap-2 rounded-[10px] px-2 py-[7px] text-[.9rem] text-[#4a3c78] no-underline transition hover:translate-x-1 hover:bg-[#f3edff] hover:text-m600">
+              <a role="menuitem" data-tem={c.id} href={urlCat} class="flex cursor-pointer items-center gap-2 rounded-[10px] px-2 py-[7px] text-[.9rem] text-[#4a3c78] no-underline transition hover:translate-x-1 hover:bg-[#f3edff] hover:text-m600">
                 {c.i} {corto(c.n)}
                 <small class="ml-auto rounded-full bg-[#e2f7ec] px-[7px] py-[2px] text-[.68rem] font-extrabold text-[#0c7a56]">{count(c.id)}</small>
               </a>
@@ -169,7 +169,7 @@ const corto = (s: string) => CORTOS[s] ?? s;
         {
           PUBLICOS.map((p) => (
             <li>
-              <a role="menuitem" data-pub={p.id} href="#catalogo" class="flex cursor-pointer items-center gap-2 rounded-[10px] px-2 py-[7px] text-[.9rem] text-[#4a3c78] no-underline transition hover:translate-x-1 hover:bg-[#f3edff] hover:text-m600">
+              <a role="menuitem" data-pub={p.id} href={urlCat} class="flex cursor-pointer items-center gap-2 rounded-[10px] px-2 py-[7px] text-[.9rem] text-[#4a3c78] no-underline transition hover:translate-x-1 hover:bg-[#f3edff] hover:text-m600">
                 {p.i} {p.n}
               </a>
             </li>
@@ -184,7 +184,7 @@ const corto = (s: string) => CORTOS[s] ?? s;
         {
           OCASIONES.slice(0, 6).map((o) => (
             <li>
-              <a role="menuitem" data-oca={o.id} href="#catalogo" class="flex cursor-pointer items-center gap-2 rounded-[10px] px-2 py-[7px] text-[.9rem] text-[#4a3c78] no-underline transition hover:translate-x-1 hover:bg-[#f3edff] hover:text-m600">
+              <a role="menuitem" data-oca={o.id} href={urlCat} class="flex cursor-pointer items-center gap-2 rounded-[10px] px-2 py-[7px] text-[.9rem] text-[#4a3c78] no-underline transition hover:translate-x-1 hover:bg-[#f3edff] hover:text-m600">
                 {o.i} {corto(o.n)}
               </a>
             </li>
