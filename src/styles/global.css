@@ -1582,18 +1582,32 @@ mark {
   border-top: 1.5px solid var(--color-line);
   border-radius: 3px;
 }
-/* Buscador del header: solo lupa + popup */
+/* Buscador del header: solo lupa + popup.
+   La caja se ve de 38px para no competir en espacio con el menú y el carrito,
+   pero el área sensible sigue siendo de 44px (mínimo accesible al tacto)
+   gracias al pseudoelemento que va por debajo. */
 .searchToggle {
+  position: relative;
   display: grid;
+  flex: none; /* en una fila apretada no debe comprimirse */
   place-items: center;
-  width: 44px;
-  height: 44px;
+  width: 38px;
+  height: 38px;
   cursor: pointer;
   border: 1.5px solid var(--color-line);
-  border-radius: 14px;
+  border-radius: 12px;
   background: #f4eeff;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   transition: 0.2s;
+}
+.searchToggle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  translate: -50% -50%;
 }
 .searchToggle:hover,
 .searchToggle[aria-expanded='true'] {

@@ -82,13 +82,15 @@ function firstRetiroISO(): string {
   return isSunday(t) ? nextMondayISO(t) : t;
 }
 
-/* ── estado ── */
-/* Cuántos disfraces se ven de una vez. En la portada el escaparate muestra 25
-   (cinco filas de cinco en pantalla grande, sin dejar una tarjeta suelta) y en
-   /catalogo/ las tandas de "cargar más" van de 26. */
-const PAGE_PORTADA = 25;
-const PAGE_CATALOGO = 26;
-const PASO = enCatalogo ? PAGE_CATALOGO : PAGE_PORTADA;
+/* ── estado ──
+   Cuántos disfraces se ven por tanda. En escritorio son 20 (cuatro filas de
+   cinco) y en tablet y móvil 12, que es lo que entra cómodo antes del pliegue.
+   Es una función, no una constante, para que al girar el teléfono o redimensionar
+   la ventana la grilla se vuelva a dibujar con la tanda que corresponde. */
+const PANTALLA_CHICA = '(max-width: 899px)';
+const PASO_ESCRITORIO = 20;
+const PASO_MOVIL = 12;
+const paso = () => (matchMedia(PANTALLA_CHICA).matches ? PASO_MOVIL : PASO_ESCRITORIO);
 
 const state = {
   q: '',
@@ -430,7 +432,7 @@ function pintarInfo(L: Product[], mostrados: number) {
         ? `Mostrando ${mostrados} de ${L.length} disfraces`
         : `Mostrando ${mostrados} de ${L.length} disfraces · hay ${PRODUCTS.length} en total`;
   }
-  // Paginación: PASO disfraces por carga
+  // Paginación: una tanda por carga
   const quedan = L.length - mostrados;
   const wrap = $('#loadWrap');
   const more = $<HTMLButtonElement>('#loadMore');
@@ -476,7 +478,7 @@ function renderGrid(reset = true) {
   const g = $('#grid');
   if (!g) return;
   const L = filtered();
-  const mostrados = Math.min(L.length, state.page * PASO);
+  const mostrados = Math.min(L.length, state.page * paso());
   g.innerHTML = L.length ? L.slice(0, mostrados).map((c, k) => cardHTML(c, k)).join('') : VACIO_HTML;
 
   encuadrarFotos();
@@ -491,8 +493,8 @@ function cargarMas() {
   const g = $('#grid');
   if (!g) return;
   const L = filtered();
-  const ini = state.page * PASO;
-  const nuevas = L.slice(ini, ini + PASO);
+  const ini = state.page * paso();
+  const nuevas = L.slice(ini, ini + paso());
   if (!nuevas.length) return;
   state.page += 1;
   g.insertAdjacentHTML('beforeend', nuevas.map((c, k) => cardHTML(c, ini + k)).join(''));
@@ -630,6 +632,13 @@ $('#catCards')?.addEventListener('click', (e) => {
 
 /* Paginación: el botón y la carga automática agregan la tanda siguiente */
 $('#loadMore')?.addEventListener('click', cargarMas);
+
+/* Al cruzar el punto de quiebre (girar el teléfono, redimensionar la ventana)
+   la tanda cambia de 20 a 12 o al revés: se repinta la grilla para que el
+   número de disfraces a la vista sea el de esa pantalla. */
+matchMedia(PANTALLA_CHICA).addEventListener('change', () => {
+  if ($('#grid')) renderGrid();
+});
 
 /* Carrusel de categorías: las flechas corren una pantalla y se apagan en los
    extremos (en el celular no hay flechas: se arrastra con el dedo) */
