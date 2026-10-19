@@ -189,13 +189,21 @@ const urlCatalogo = ir('/catalogo/');
           <p id="loadInfo" class="mt-2 text-[.8rem] font-bold text-ink2"></p>
         </div>
       ) : (
-        /* Portada: escaparate de 26. Todo el catálogo vive en /catalogo/ y el
-           enlace se lleva los filtros que tengas puestos. */
-        <div class="mt-6 text-center">
-          <a id="verTodos" class="btn btn-mora" href={urlCatalogo}>
-            Ver todos los disfraces 🎭
+        /* Portada: solo se ven 20 disfraces (12 en móvil); el resto vive en
+           /catalogo/. El enlace es la salida al catálogo completo, así que
+           va grande, con borde deemphasis y un halo al pasar el mouse. */
+        <div class="mt-8 text-center">
+          <a
+            id="verTodos"
+            href={urlCatalogo}
+            class="inline-flex items-center justify-center gap-2.5 rounded-2xl px-8 py-5 font-ft text-[1.15rem] font-bold text-white no-underline transition duration-200 hover:-translate-y-1"
+            style="background:linear-gradient(135deg,var(--color-m600),var(--color-m500));box-shadow:0 10px 26px rgb(90 42 156 / .32),0 0 0 4px rgb(122 79 208 / .12)"
+          >
+            <span class="text-[1.35rem] leading-none" aria-hidden="true">🎭</span>
+            Ver todos los disfraces
+            <span class="text-[1.05rem] leading-none opacity-80" aria-hidden="true">→</span>
           </a>
-          <p id="loadInfo" class="mt-2 text-[.8rem] font-bold text-ink2"></p>
+          <p id="loadInfo" class="mt-2.5 text-[.82rem] font-bold text-ink2"></p>
         </div>
       )
     }

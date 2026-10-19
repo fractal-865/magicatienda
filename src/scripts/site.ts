@@ -410,10 +410,12 @@ function cardHTML(c: Product, k: number) {
     <a href="${disfrazUrl}" class="mb-1 min-h-[2.55rem] text-[1.02rem] font-semibold leading-[1.25] text-ink hover:text-m600">${hl(c.n, state.q)}</a>
     <div class="mb-2.5 flex min-h-[1.6rem] flex-wrap gap-1">${c.tl.map((t) => `<span class="tip cursor-help rounded-[7px] bg-[#f0eaff] px-[7px] py-[3px] text-[.64rem] font-extrabold text-m600" data-tip="${esc(guia(t))}" tabindex="0">${esc(t)}</span>`).join('')}</div>
     <div class="mt-auto">
-      <div class="mb-2.5 flex items-baseline justify-between gap-2">
-        <span class="font-ft text-[1.3rem] font-bold leading-none text-m600">Desde $15.000</span>
-        <button type="button" class="info-dot tip cursor-help" data-tip="Valor según el disfraz. Cotiza por WhatsApp para conocer el precio exacto." aria-label="Sobre los precios">?</button>
-        <span class="text-[.68rem] font-bold text-ink2">arriendo 3 días</span>
+      <div class="mb-2.5 flex items-baseline gap-2">
+        <span class="flex items-baseline gap-1.5">
+          <small class="text-[.62rem] font-bold uppercase tracking-[.02em] text-ink2">Desde</small>
+          <b class="font-ft text-[1.3rem] font-bold leading-none text-m600">$15.000</b>
+          <button type="button" class="info-dot tip cursor-help" data-tip="Valor según el disfraz. Cotiza por WhatsApp para conocer el precio exacto." aria-label="Sobre los precios">?</button>
+        </span>
       </div>
       <button class="addbtn w-full cursor-pointer rounded-xl border-0 bg-[linear-gradient(135deg,var(--color-m600),var(--color-m500))] px-2 py-2.5 font-ft text-[.84rem] font-bold text-white shadow-[0_4px_12px_rgba(90,42,156,.3)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_18px_rgba(90,42,156,.45)] active:scale-[.9]" data-act="add">${multiSize ? '📏 Elegir talla y arrendar' : '🎭 Arrendar disfraz'}</button>
     </div>
@@ -1122,7 +1124,7 @@ function totalsHTML(conPagoDia = true): string {
   return `<div class="det mt-3 rounded-2xl border-2 border-line bg-[#f9f6ff] p-3 text-[.85rem]">
     <div class="flex items-baseline justify-between gap-2">
       <span class="font-ft text-[.95rem] font-bold text-m600">Total a pagar por el arriendo</span>
-      <b class="font-ft text-[1.3rem] leading-none text-m600">Desde $15.000</b>
+      <b class="flex items-baseline gap-1 font-ft text-[1.3rem] leading-none text-m600"><small class="font-sans text-[.62rem] font-bold uppercase tracking-[.02em] text-ink2">Desde</small>$15.000</b>
     </div>
     <p class="mt-1 text-[.75rem] text-ink2">Arriendo por 3 días (retiro, uso y entrega)</p>
   </div>
@@ -1381,7 +1383,10 @@ function openQuick(id: number) {
   <h3 class="my-1 text-[1.45rem]">${esc(c.n)}</h3>
   <p class="text-ink2">${esc(c.d)}</p>
   <div class="mt-3 flex flex-wrap items-center gap-2.5 rounded-2xl border-2 border-line bg-[#f9f6ff] p-3">
-    <span class="font-ft text-[1.5rem] font-bold leading-none text-m600">Desde $15.000</span>
+    <span class="flex items-baseline gap-1.5">
+      <small class="text-[.64rem] font-bold uppercase tracking-[.02em] text-ink2">Desde</small>
+      <b class="font-ft text-[1.5rem] font-bold leading-none text-m600">$15.000</b>
+    </span>
     <button type="button" class="info-dot tip cursor-help" data-tip="Valor según el disfraz. Cotiza por WhatsApp para conocer el precio exacto." aria-label="Sobre los precios">?</button>
     <span class="text-[.78rem] font-bold text-ink2">arriendo 3 días (retiro, uso y entrega)</span>
   </div>

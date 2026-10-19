@@ -1680,16 +1680,21 @@ nav [data-navsec].on::after {
   margin-inline: auto;
   padding-inline: 1rem;
 }
-/* Fondo oscuro a todo el ancho: aparece (y se despliega desde el centro) cuando
-   la barra queda pegada bajo el header. */
+/* Fondo a todo el ancho: aparece (y se despliega desde el centro) cuando la
+   barra queda pegada bajo el header.
+   Es un crema cálido, no morado: el sitio está lleno de morados (botones,
+   tarjetas, chips) y la barra se perdía entre ellos. Al ser claro, el texto
+   va en oscuro y se lee sin esfuerzo; antes, sobre el morado, varios controles
+   —los botones de categoría, la lupa— quedaban en morado oscuro sobre morado
+   oscuro, casi ilegibles. */
 .fbar::before {
   content: '';
   position: absolute;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: linear-gradient(120deg, #23094e 0%, #3c1481 45%, #4a1b96 100%);
-  box-shadow: 0 12px 28px rgb(35 9 78 / 0.28);
+  background: linear-gradient(120deg, #fdfaf4 0%, #f8f3e9 50%, #f3ecdf 100%);
+  box-shadow: 0 10px 26px rgb(120 96 60 / 0.14);
   opacity: 0;
   transform: scaleX(0.34);
   transition: opacity 0.26s ease, transform 0.42s cubic-bezier(0.2, 0.8, 0.25, 1);
@@ -1714,19 +1719,27 @@ nav [data-navsec].on::after {
   box-shadow: none;
   backdrop-filter: none;
 }
+/* Pegada: barra clara, así que los textos van en oscuro. Cada control tiene su
+   regla aquí; si falta alguna, queda en morado sobre crema y no se lee. */
 .fbar.pegada .chip {
-  border-color: rgb(255 255 255 / 0.26);
-  background: rgb(255 255 255 / 0.12);
-  color: #fff;
+  border-color: #e6dcc8;
+  background: #fff;
+  color: var(--color-ink);
 }
 .fbar.pegada .chip:hover {
-  background: rgb(255 255 255 / 0.22);
-  border-color: rgb(255 255 255 / 0.45);
+  background: #faf6ee;
+  border-color: var(--color-m400);
 }
 .fbar.pegada .chip.on {
   border-color: var(--color-ama);
   background: var(--color-ama);
   color: #3a1170;
+}
+.fbar.pegada .cat-pick-btn {
+  color: var(--color-ink);
+}
+.fbar.pegada .cat-pick-btn:hover {
+  background: #faf6ee;
 }
 .fbar.pegada .cat-pick-n {
   background: var(--color-ama);
@@ -1736,41 +1749,45 @@ nav [data-navsec].on::after {
   background: #fff;
 }
 .fbar.pegada .qf-title {
-  color: rgb(255 255 255 / 0.72);
+  color: #38312a;
 }
 .fbar.pegada .cf-line-2 .qf-group + .qf-group {
-  border-left-color: rgb(255 255 255 / 0.28);
+  border-left-color: #e0d5be;
 }
 .fbar.pegada #activeChips.has + .qf-group {
-  border-left-color: rgb(255 255 255 / 0.28);
+  border-left-color: #e0d5be;
 }
 .fbar.pegada .active-chips.has {
-  border-top-color: rgb(255 255 255 / 0.24);
+  border-top-color: #e6dcc8;
 }
 .fbar.pegada .chip-clear {
-  border-color: rgb(255 255 255 / 0.5);
-  background: rgb(255 255 255 / 0.1);
-  color: #fff;
+  border-color: #ddd0b6;
+  background: #fff;
+  color: #38312a;
 }
 .fbar.pegada .chip-clear:hover {
-  background: rgb(255 255 255 / 0.22);
+  background: #faf6ee;
 }
 .fbar.pegada .cat-filters-main .searchbox {
-  border-color: rgb(255 255 255 / 0.28);
-  background: rgb(255 255 255 / 0.14);
+  border-color: #e6dcc8;
+  background: #fff;
 }
 .fbar.pegada .cat-filters-main .searchbox input {
-  color: #fff;
+  color: var(--color-ink);
 }
 .fbar.pegada .cat-filters-main .searchbox input::placeholder {
-  color: rgb(255 255 255 / 0.6);
+  color: #a89c88;
 }
 .fbar.pegada .cat-filters-main .searchbox:focus-within {
-  border-color: #fff;
-  background: rgb(255 255 255 / 0.2);
+  border-color: var(--color-m400);
+  background: #fff;
+}
+.fbar.pegada .cat-filters-main .searchbox-sm .sb-toggle {
+  color: #38312a;
 }
 .fbar.pegada .cat-filters-main .searchbox-sm .sb-toggle:hover {
-  background: rgb(255 255 255 / 0.2);
+  background: #f0eaff;
+  color: var(--color-m600);
 }
 .cat-filters-main {
   display: flex;

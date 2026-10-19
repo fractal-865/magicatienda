@@ -123,10 +123,12 @@ const ogImage = url(c.img);
           <!-- Valor -->
           <div class="rounded-2xl border-2 border-line bg-[#f9f6ff] p-4">
             <div class="flex items-baseline gap-2">
-              <span class="font-ft text-[1.8rem] font-bold leading-none text-m600">Desde $15.000</span>
+              <span class="flex items-baseline gap-1.5">
+                <small class="text-[.66rem] font-bold uppercase tracking-[.02em] text-ink2">Desde</small>
+                <b class="font-ft text-[1.8rem] font-bold leading-none text-m600">$15.000</b>
+              </span>
               <span class="text-[.8rem] font-bold text-ink2">arriendo por 3 días (retiro, uso y entrega)</span>
             </div>
-            <p class="mt-1 text-[.75rem] text-ink2">El valor exacto se confirma en tu cotización por WhatsApp.</p>
           </div>
 
           <!-- Botón principal: Añadir al carrito -->
@@ -441,84 +443,6 @@ const ogImage = url(c.img);
         window.openMiniCart();
       }
     });
-    // Buscador funcional en página individual
-    (function () {
-      const searchToggle = document.getElementById('searchToggle');
-      if (!searchToggle) return;
-
-      // Crear overlay de búsqueda
-      const overlay = document.createElement('div');
-      overlay.id = 'searchOverlay';
-      overlay.className = 'fixed inset-0 z-[200] hidden bg-black/50 backdrop-blur-sm';
-      overlay.innerHTML = `
-        <div class="mx-auto mt-20 w-[min(600px,92vw)] rounded-2xl bg-white p-4 shadow-sh2">
-          <div class="flex items-center gap-2">
-            <input type="search" id="disfrazSearch" placeholder="Buscar disfraz por nombre o código..." class="w-full rounded-xl border-2 border-line bg-[#f9f6ff] px-4 py-3 text-ink outline-none focus:border-m400" autocomplete="off" />
-            <button type="button" id="closeSearchOverlay" class="grid h-10 w-10 place-items-center rounded-xl border-2 border-line bg-[#f0eaff] text-m600 transition hover:bg-m600 hover:text-white" aria-label="Cerrar buscador">✕</button>
-          </div>
-          <div id="searchResults" class="mt-3 max-h-[60vh] overflow-y-auto"></div>
-        </div>
-      `;
-      document.body.appendChild(overlay);
-
-      const searchInput = overlay.querySelector('#disfrazSearch');
-      const resultsDiv = overlay.querySelector('#searchResults');
-      const closeBtn = overlay.querySelector('#closeSearchOverlay');
-
-      // Cargar datos de disfraces (inyectados en la página)
-      const disfracesData = window.__DISFRACES__ || [];
-
-      function renderResults(q) {
-        if (!resultsDiv) return;
-        const query = (q || '').trim().toLowerCase();
-        if (!query) {
-          resultsDiv.innerHTML = '<p class="py-4 text-center text-[.85rem] text-ink2">Escribe para buscar un disfraz...</p>';
-          return;
-        }
-        const matches = disfracesData.filter((d) => {
-          const num = String(d.id);
-          const name = d.n.toLowerCase();
-          return num.includes(query) || name.includes(query) || num.padStart(3, '0').includes(query);
-        }).slice(0, 20);
-
-        if (matches.length === 0) {
-          resultsDiv.innerHTML = '<p class="py-4 text-center text-[.85rem] text-ink2">No se encontraron disfraces.</p>';
-          return;
-        }
-
-        resultsDiv.innerHTML = matches.map((d) => `<a href="/disfraz/${d.slug}/" class="flex items-center gap-3 rounded-xl p-2 transition hover:bg-[#f0eaff]">
-            <img src="${d.img}" alt="${d.n}" class="h-12 w-12 rounded-lg object-contain bg-[#f0eaff]" loading="lazy" />
-            <div class="flex-1 min-w-0">
-              <p class="text-[.85rem] font-semibold text-ink truncate">#${String(d.id).padStart(3, '0')} ${d.n}</p>
-              <p class="text-[.75rem] text-ink2">${d.cat}</p>
-            </div>
-          </a>`).join('');
-      }
-
-      searchToggle.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        overlay.classList.remove('hidden');
-        searchInput?.focus();
-        renderResults('');
-      });
-
-      closeBtn?.addEventListener('click', () => {
-        overlay.classList.add('hidden');
-      });
-
-      overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) overlay.classList.add('hidden');
-      });
-
-      searchInput?.addEventListener('input', (e) => {
-        renderResults(e.target.value);
-      });
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') overlay.classList.add('hidden');
-      });
-    })();
   </script>
 </Layout>
 
@@ -529,28 +453,7 @@ const ogImage = url(c.img);
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  /* Tooltip CSS-only para tallas */
-  .tip {
-    position: relative;
-    cursor: help;
-  }
-  .tip:hover::after,
-  .tip:focus::after {
-    content: attr(data-tip);
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-bottom: 6px;
-    padding: 6px 10px;
-    border-radius: 8px;
-    background: #2b0d5e;
-    color: #fff;
-    font-size: 0.7rem;
-    font-weight: 700;
-    white-space: nowrap;
-    z-index: 100;
-    pointer-events: none;
-  }
+  /* El globito de las tallas lo dibuja site.ts (la capa .tip-pop): antes había
+     además un ::after en CSS y al pasar el mouse se veían los dos textos. */
 </style>
 ---<|end|><|start|>write to=assistant<|channel|>analysis<|message|>Created file successfully: src/pages/disfraz/[slug].astro
