@@ -415,6 +415,7 @@ function cardHTML(c: Product, k: number) {
     <a href="${disfrazUrl}" class="absolute inset-0 z-[1]" aria-label="Ver ${esc(c.n)}">
       <img src="${c.img}" alt="${esc(c.n)} para arriendo en Punta Arenas" loading="lazy" class="absolute inset-0 h-full w-full object-contain object-center transition duration-500">
     </a>
+    <span class="absolute left-2 top-2 z-[2] rounded-full bg-m600/90 px-2 py-0.5 text-[.65rem] font-extrabold text-white shadow-sh"> #${String(c.id).padStart(3, '0')}</span>
     <button type="button" class="quick-view-btn absolute right-2 top-2 z-[2] grid h-9 w-9 place-items-center rounded-full bg-white/90 text-m600 shadow-sh transition hover:bg-m600 hover:text-white" data-quick="${c.id}" aria-label="Vista rápida de ${esc(c.n)}" title="Vista rápida">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
     </button>
