@@ -1566,6 +1566,7 @@ function renderReq() {
             return `<div class="req-card"><span class="re">${'img' in it && it.img ? `<img src="${it.img}" alt="">` : it.e}</span><span class="rn">${esc(it.n)}<br><small class="font-normal text-ink2">${isProduct(it) ? `Talla ${i.talla}` : 'Arriendo por 3 días'}</small></span>
   <select data-rt="${k}" aria-label="Talla de ${esc(it.n)}">${tls.map((x) => `<option ${x === i.talla ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>
   <span class="qty inline-flex items-center gap-2"><button data-rq="-" data-k="${k}" aria-label="Quitar una unidad de ${esc(it.n)}">−</button>${i.qty}<button data-rq="+" data-k="${k}" aria-label="Agregar otro ${esc(it.n)} con otra talla">+</button></span>
+  <span class="ml-1 min-w-[70px] text-right text-[.85rem] font-bold text-ink2">Desde $15.000</span>
   <button data-rm="${k}" class="border-0 bg-transparent text-[1.1rem] text-[#c33]" aria-label="Eliminar ${esc(it.n)}">🗑</button></div>`;
           })
           .join('')
@@ -1588,15 +1589,11 @@ function renderReq() {
       <span>Costo del disfraz (arriendo 3 días):</span>
       <b class="font-ft text-[1.3rem] leading-none text-m600">Desde ${clp(15000 * (state.cart.reduce((a, i) => a + i.qty, 0) || 1))}</b>
     </div>
-    <div class="trow">
-      <span class="text-[.75rem] text-ink2">Costo de la garantía <button type="button" class="info-dot tip" data-tip="${esc(GAR)}" aria-label="Sobre la garantía">i</button>:</span>
-      <b class="text-[.75rem] text-ink2">$15.000 o $20.000 por disfraz</b>
-    </div>
     <div class="trow total mt-1.5 border-t border-line pt-1.5">
       <span>Total a pagar en el local:</span>
-      <b class="text-[#0c7a56] text-[1.1rem]">Desde ${clp(30000 * (state.cart.reduce((a, i) => a + i.qty, 0) || 1))}</b>
+      <b class="text-[#6b6152] text-[1.05rem] font-normal">Desde ${clp(30000 * (state.cart.reduce((a, i) => a + i.qty, 0) || 1))}</b>
     </div>
-    <p class="mt-1 text-[.7rem] leading-[1.4] text-ink2">
+    <p class="mt-1 text-right text-[.7rem] leading-[1.4] text-ink2">
       <span class="font-bold text-[#6b6152]">Incluye ${clp(15000 * (state.cart.reduce((a, i) => a + i.qty, 0) || 1))} de garantía reembolsable</span> — se devuelve si no hay daños.
     </p>
   </div>
