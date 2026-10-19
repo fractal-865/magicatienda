@@ -593,6 +593,12 @@ function hidratarDesdeURL() {
   }
   syncFilterUI();
 
+  // Si llegamos con un filtro puesto (desde la portada u otra página), se
+  // baja al bloque de los disfraces para que se vean de inmediato, en vez de
+  // quedarse arriba en el hero.
+  const tieneFiltro = !!(state.q || state.tem.size || state.oca.size || state.pub.size || state.tal.size || state.exFecha);
+  if (tieneFiltro) (window as any).__scrollAGrid = true;
+
   // Procesar parámetros de añadir al carrito desde página de disfraz
   const addId = p.get('add');
   const addTalla = p.get('talla');
@@ -2071,6 +2077,14 @@ hidratarDesdeURL();
 renderGrid();
 renderMini();
 renderSticky();
+
+// Si llegamos con un filtro puesto, baja suavemente al bloque de disfraces.
+if ((window as any).__scrollAGrid) {
+  delete (window as any).__scrollAGrid;
+  requestAnimationFrame(() => {
+    setTimeout(() => scrollToResults(), 120);
+  });
+}
 
 /* ── Catálogo completo ──
    Al llegar al final de la lista se carga la tanda siguiente sola, para no
