@@ -4,40 +4,17 @@ import { waLink } from '../data/site';
 const waChat = waLink('¡Hola! Quiero cotizar el arriendo de disfraces para adultos en La Mágica Tienda.');
 ---
 
-<!-- Navegación inferior móvil -->
-<nav
-  id="bottomNav"
-  class="fixed inset-x-0 bottom-0 z-[85] grid grid-cols-5 border-t-[1.5px] border-line bg-white px-1 pt-1.5 pb-[calc(6px+env(safe-area-inset-bottom))] shadow-[0_-6px_20px_rgba(90,42,156,.08)] min-[900px]:hidden"
-  aria-label="Navegación móvil"
->
-  <button data-nav="top" class="flex min-h-12 cursor-pointer flex-col items-center gap-[3px] border-0 bg-transparent py-1.5 text-[.62rem] font-extrabold text-ink2 active:text-m600">
-    <i class="text-[1.25rem] not-italic">🏠</i>Inicio
-  </button>
-  <button data-nav="cat" class="flex min-h-12 cursor-pointer flex-col items-center gap-[3px] border-0 bg-transparent py-1.5 text-[.62rem] font-extrabold text-ink2 active:text-m600">
-    <i class="text-[1.25rem] not-italic">🎭</i>Disfraces
-  </button>
-  <button data-nav="fecha" class="flex min-h-12 cursor-pointer flex-col items-center gap-[3px] border-0 bg-transparent py-1.5 text-[.62rem] font-extrabold text-ink2 active:text-m600">
-    <i class="text-[1.25rem] not-italic">📆</i>Fechas
-  </button>
-  <button data-nav="req" class="flex min-h-12 cursor-pointer flex-col items-center gap-[3px] border-0 bg-transparent py-1.5 text-[.62rem] font-extrabold text-ink2 active:text-m600">
-    <i class="text-[1.25rem] not-italic">🛒</i>Arriendo
-  </button>
-  <button data-nav="menu" class="flex min-h-12 cursor-pointer flex-col items-center gap-[3px] border-0 bg-transparent py-1.5 text-[.62rem] font-extrabold text-ink2 active:text-m600">
-    <i class="text-[1.25rem] not-italic">☰</i>Menú
-  </button>
-</nav>
-
 <!-- Barra pegajosa de arriendo -->
 <div
   id="stickyBar"
-  class="fixed bottom-[72px] left-2.5 right-[86px] z-[84] items-center gap-2.5 rounded-2xl border-2 border-ama bg-white px-3.5 py-2.5 text-[.85rem] font-extrabold text-ink shadow-sh2 min-[900px]:bottom-5"
+  class="fixed bottom-5 left-2.5 right-[86px] z-[84] items-center gap-2.5 rounded-2xl border-2 border-ama bg-white px-3.5 py-2.5 text-[.85rem] font-extrabold text-ink shadow-sh2"
 >
   <span id="stickyTxt"></span>
   <button class="btn btn-wsp ml-auto px-3 py-2 text-[.8rem]" id="stickySend">Cotizar 💬</button>
 </div>
 
 <!-- Flotante de WhatsApp -->
-<div id="wspZone" class="fixed right-3.5 bottom-[76px] z-[88] flex flex-col items-end gap-2.5 min-[900px]:bottom-5">
+<div id="wspZone" class="fixed bottom-5 right-3.5 z-[88] flex flex-col items-end gap-2.5">
   <button
     id="wspFloat"
     class="relative grid h-[54px] w-[54px] cursor-pointer place-items-center rounded-full border-0 bg-[linear-gradient(135deg,#2ecb6e,#128f4a)] text-white shadow-[0_10px_26px_rgba(37,211,102,.4)]"

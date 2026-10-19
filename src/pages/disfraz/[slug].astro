@@ -60,7 +60,7 @@ const ogImage = url(c.img);
       <div class="grid gap-8 min-[900px]:grid-cols-2">
         <!-- Imagen con zoom -->
         <div class="relative">
-          <div class="zoom-container overflow-hidden rounded-3xl border-2 border-line bg-white shadow-sh cursor-zoom-in" id="zoomContainer" style="touch-action: none;">
+          <div class="zoom-container overflow-hidden rounded-3xl border-2 border-line bg-white shadow-sh cursor-zoom-in" id="zoomContainer" style="touch-action: pan-y;">
             <img
               id="zoomImage"
               src={c.img}
@@ -76,7 +76,10 @@ const ogImage = url(c.img);
           <span class="absolute left-4 top-4 rounded-full bg-m600 px-3 py-1 text-[.75rem] font-extrabold text-white shadow-sh">
             Disfraz #{codigo}
           </span>
-
+          <p class="mt-2 text-center text-[.75rem] text-ink2">
+            <span class="min-[900px]:hidden">🔍 Pellizca con dos dedos para ampliar</span>
+            <span class="hidden min-[900px]:inline">🔍 Pasa el mouse para ampliar</span>
+          </p>
         </div>
 
         <!-- Info -->
@@ -268,32 +271,47 @@ const ogImage = url(c.img);
         resetTransform();
       });
 
-      // Mobile/Tablet: touch
-      let touchActive = false;
+      // Mobile/Tablet: el zoom se hace con DOS dedos (pellizco).
+      // Con un dedo solo la página se desplaza normal: antes un dedo hacía zoom
+      // y, como el panel tenía touch-action:none, no se podía seguir bajando.
+      let pinch = null;
+      const dist = (t) => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+      const centro = (t) => ({
+        x: (t[0].clientX + t[1].clientX) / 2,
+        y: (t[0].clientY + t[1].clientY) / 2,
+      });
+
       container.addEventListener('touchstart', (e) => {
-        touchActive = true;
-        img.style.transition = 'transform 0.1s ease-out';
-        const touch = e.touches[0];
-        const rect = container.getBoundingClientRect();
-        const x = ((touch.clientX - rect.left) / rect.width) * 100;
-        const y = ((touch.clientY - rect.top) / rect.height) * 100;
-        setTransform(x, y);
+        if (e.touches.length !== 2) return; // un dedo: que la página se desplace
+        pinch = { d0: dist(e.touches), s0: ZOOM, c0: centro(e.touches) };
+        img.style.transition = 'none';
+        isZoomed = true;
       }, { passive: true });
 
       container.addEventListener('touchmove', (e) => {
-        if (!touchActive) return;
-        const touch = e.touches[0];
+        if (!pinch || e.touches.length !== 2) return;
+        e.preventDefault(); // con dos dedos sí bloqueamos el gestos del navegador
+        const factor = dist(e.touches) / pinch.d0;
+        const escala = Math.min(Math.max(pinch.s0 * factor, 1), 4);
+        const c = centro(e.touches);
         const rect = container.getBoundingClientRect();
-        const x = ((touch.clientX - rect.left) / rect.width) * 100;
-        const y = ((touch.clientY - rect.top) / rect.height) * 100;
-        setTransform(x, y);
-      }, { passive: true });
+        // El punto medio del pellizco queda fijo: se compensa con el desplazamiento
+        const dx = c.x - pinch.c0.x;
+        const dy = c.y - pinch.c0.y;
+        img.style.transformOrigin = '0 0';
+        img.style.transform =
+          `translate(${dx}px, ${dy}px) scale(${escala}) translate(${-((pinch.c0.x - rect.left) / rect.width) * 100}%, ${-((pinch.c0.y - rect.top) / rect.height) * 100}%)`;
+      }, { passive: false });
 
-      container.addEventListener('touchend', () => {
-        touchActive = false;
+      const finPellizco = (e) => {
+        if (!pinch || e.touches.length >= 1) return;
+        pinch = null;
         img.style.transition = 'transform 0.3s ease-out';
+        isZoomed = false;
         resetTransform();
-      });
+      };
+      container.addEventListener('touchend', finPellizco, { passive: true });
+      container.addEventListener('touchcancel', finPellizco, { passive: true });
     })();
 
     // Copiar enlace

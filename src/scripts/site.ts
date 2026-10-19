@@ -586,8 +586,7 @@ function hidratarDesdeURL() {
         addItem(id, 'd', talla, 1);
         // Limpiar la URL
         history.replaceState(null, '', location.pathname);
-        toast(`✅ ${prod.n} añadido a tu cotización`);
-      } else {
+        } else {
         // Si no hay talla, abrir la ficha rápida
         openQuick(id);
         nudgeSize();
@@ -1075,22 +1074,6 @@ document.addEventListener('click', (e) => {
   }
 });
 
-/* navegación inferior móvil. En /catalogo/, Inicio y Fechas viven en la portada. */
-$('#bottomNav')?.addEventListener('click', (e) => {
-  const b = (e.target as HTMLElement).closest('[data-nav]') as HTMLElement | null;
-  if (!b) return;
-  const n = b.dataset.nav;
-  if (n === 'top') {
-    if (enCatalogo) location.assign(`${RAIZ}/`);
-    else scrollTo({ top: 0, behavior: 'smooth' });
-  } else if (n === 'cat') scrollToCat();
-  else if (n === 'fecha') {
-    if (enCatalogo) location.assign(`${RAIZ}/#fechas`);
-    else $('#fechas')?.scrollIntoView({ behavior: 'smooth' });
-  } else if (n === 'req') openReq();
-  else ($('#burger') as HTMLButtonElement | null)?.click();
-});
-
 /* ═══ TU ARRIENDO (CARRITO) ═══ */
 const cartQty = () => state.cart.reduce((a, i) => a + i.qty, 0);
 const disfQty = () => state.cart.filter((i) => i.tipo === 'd').reduce((a, i) => a + i.qty, 0);
@@ -1172,7 +1155,6 @@ function addItem(id: string | number, tipo: 'd' | 'a' = 'd', talla?: string, qty
   else state.cart.push({ id: String(id), tipo, talla, qty });
   state.lastAdd = { id: String(id), tipo, talla };
   afterCart(srcEl, true);
-  toast(`${item.e} <b>${esc(item.n)}</b> agregado a tu arriendo (talla ${talla})`);
 }
 
 function afterCart(srcEl?: Element | null, abrir = false) {
@@ -1544,7 +1526,7 @@ function renderReq() {
     <div class="dcell">Devolución (auto)<b id="rqEntTxt">${fmtDate(state.req.entrega)}</b></div>
   </div>
   <input type="date" id="rqEnt" value="${state.req.entrega}" readonly hidden>
-  <p class="entnota">↩️ Eliges el retiro y la devolución queda 2 días después. Domingos cerrado: si eliges domingo, pasa al lunes.</p>
+  
   <div class="req-sec"><span>👤 Tus datos</span><span class="req-pill">Para reservar tu disfraz</span></div>
   <input id="rqNom" placeholder="Nombre y apellido *" autocomplete="name" required aria-required="true" aria-label="Nombre y apellido (obligatorio)" value="${esc(state.req.nombre)}" class="mt-1.5 w-full rounded-[10px] border-2 border-line p-2.5">
   <p class="mt-1 text-[.75rem] font-bold text-ink2">* Obligatorio: con tu nombre te confirmamos la reserva por WhatsApp.</p>
@@ -1552,7 +1534,7 @@ function renderReq() {
     <div class="trow total"><span>Valor de arriendo por 3 días:</span><b>Desde ${clp(15000 * (state.cart.reduce((a, i) => a + i.qty, 0) || 1))}</b></div>
     <div class="trow"><span class="text-[.75rem] text-ink2">Garantía reembolsable <button type="button" class="info-dot tip" data-tip="${esc(GAR)}" aria-label="Sobre la garantía">i</button>:</span><b class="text-[.75rem] text-ink2">$15.000 o $20.000 por disfraz</b></div>
     <div class="trow total mt-1.5 border-t border-line pt-1.5"><span>Total estimado en sucursal:</span><b class="text-[#0c7a56]">Desde ${clp(30000 * (state.cart.reduce((a, i) => a + i.qty, 0) || 1))}</b></div>
-    <p class="mt-1 text-[.7rem] text-ink2">Incluye garantía reembolsable (se devuelve al entregar el disfraz en las mismas condiciones).</p>
+    
   </div>
   <p class="totnote">Es solo una cotización: el valor del arriendo y la garantía se revisan y confirman en la tienda al reservar.</p>
   <button class="btn btn-wsp btn-lg mt-2.5 w-full" id="rqSend">💬 Enviar solicitud por WhatsApp</button>
@@ -1639,6 +1621,16 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     ['quickModal', 'reqModal', 'condModal'].forEach(closeModal);
   }
+});
+
+/* La barra del botón de cerrar lleva su propio borde cuando el panel ya se
+   desplazó (en el móvil, al bajar). Se marca desde el scroll del panel. */
+$$('.mpanel').forEach((p) => {
+  const bar = p.querySelector('.mclose-bar');
+  if (!bar) return;
+  const ver = () => bar.classList.toggle('stuck', p.scrollTop > 4);
+  p.addEventListener('scroll', ver, { passive: true });
+  ver();
 });
 
 /* ═══ BARRA DE FILTROS: se pega bajo el header y se expande a todo el ancho ═══

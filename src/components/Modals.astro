@@ -51,8 +51,10 @@ const condiciones: [string, string[]][] = [
 <!-- Ficha rápida del disfraz -->
 <div class="modal" id="quickModal" role="dialog" aria-modal="true" aria-label="Ficha del disfraz">
   <div class="mback absolute inset-0 bg-[rgb(40,15,80/.55)] backdrop-blur-[3px]" data-close="quickModal"></div>
-  <div class="mpanel relative mx-auto max-h-[90vh] w-[min(680px,94vw)] overflow-auto rounded-[22px] bg-white p-6 text-ink shadow-sh2">
-    <button class="mclose absolute right-3 top-3 z-[2] grid h-10 w-10 cursor-pointer place-items-center rounded-full border-0 bg-[#f0eaff] text-[1.1rem] font-extrabold text-m600" data-close="quickModal" aria-label="Cerrar">✕</button>
+  <div class="mpanel relative mx-auto max-h-[92dvh] w-[min(680px,94vw)] overflow-auto rounded-[22px] bg-white p-6 text-ink shadow-sh2">
+    <div class="mclose-bar">
+      <button class="mclose grid h-10 w-10 cursor-pointer place-items-center rounded-full border-0 bg-[#f0eaff] text-[1.1rem] font-extrabold text-m600 transition hover:bg-m600 hover:text-white" data-close="quickModal" aria-label="Cerrar">✕</button>
+    </div>
     <div id="qmBody"></div>
   </div>
 </div>
@@ -60,8 +62,10 @@ const condiciones: [string, string[]][] = [
 <!-- Solicitud de arriendo -->
 <div class="modal" id="reqModal" role="dialog" aria-modal="true" aria-label="Tu solicitud de arriendo">
   <div class="mback absolute inset-0 bg-[rgb(40,15,80/.55)] backdrop-blur-[3px]" data-close="reqModal"></div>
-  <div class="mpanel wide relative mx-auto max-h-[90vh] w-[min(820px,94vw)] overflow-auto rounded-[22px] bg-white p-6 text-ink shadow-sh2">
-    <button class="mclose absolute right-3 top-3 z-[2] grid h-10 w-10 cursor-pointer place-items-center rounded-full border-0 bg-[#f0eaff] text-[1.1rem] font-extrabold text-m600" data-close="reqModal" aria-label="Cerrar">✕</button>
+  <div class="mpanel wide relative mx-auto max-h-[92dvh] w-[min(820px,94vw)] overflow-auto rounded-[22px] bg-white p-6 text-ink shadow-sh2">
+    <div class="mclose-bar">
+      <button class="mclose grid h-10 w-10 cursor-pointer place-items-center rounded-full border-0 bg-[#f0eaff] text-[1.1rem] font-extrabold text-m600 transition hover:bg-m600 hover:text-white" data-close="reqModal" aria-label="Cerrar">✕</button>
+    </div>
     <div id="reqBody"></div>
   </div>
 </div>
@@ -69,8 +73,10 @@ const condiciones: [string, string[]][] = [
 <!-- Condiciones de arriendo y reserva -->
 <div class="modal" id="condModal" role="dialog" aria-modal="true" aria-label="Condiciones de arriendo y reserva">
   <div class="mback absolute inset-0 bg-[rgb(40,15,80/.55)] backdrop-blur-[3px]" data-close="condModal"></div>
-  <div class="mpanel relative mx-auto max-h-[90vh] w-[min(680px,94vw)] overflow-auto rounded-[22px] bg-white p-6 text-ink shadow-sh2">
-    <button class="mclose absolute right-3 top-3 z-[2] grid h-10 w-10 cursor-pointer place-items-center rounded-full border-0 bg-[#f0eaff] text-[1.1rem] font-extrabold text-m600" data-close="condModal" aria-label="Cerrar">✕</button>
+  <div class="mpanel relative mx-auto max-h-[92dvh] w-[min(680px,94vw)] overflow-auto rounded-[22px] bg-white p-6 text-ink shadow-sh2">
+    <div class="mclose-bar">
+      <button class="mclose grid h-10 w-10 cursor-pointer place-items-center rounded-full border-0 bg-[#f0eaff] text-[1.1rem] font-extrabold text-m600 transition hover:bg-m600 hover:text-white" data-close="condModal" aria-label="Cerrar">✕</button>
+    </div>
     <div class="cond">
       <h3 class="mb-1.5 text-[1.4rem]">🛡️ Condiciones de arriendo y reserva</h3>
       {

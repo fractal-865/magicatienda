@@ -2337,6 +2337,35 @@ body.drawer-lock {
 .mpanel {
   animation: mup 0.3s;
 }
+
+/* ── Barra con el botón de cerrar de los modales ──
+   El panel es el que se desplaza (max-h + overflow-auto), así que un botón
+   "absolute" se iba de vista al bajar y en el celular, con el panel más alto
+   que la pantalla, quedaba fuera de alcance. Va pegado al borde superior del
+   panel: con position:sticky acompaña el desplazamiento y siempre se ve. */
+.mclose-bar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: flex-end;
+  margin: -1.5rem -1.5rem 0;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+.mclose-bar.stuck {
+  border-bottom-color: var(--color-line, #ece7f7);
+}
+@media (min-width: 640px) {
+  .mclose-bar {
+    background: transparent;
+    backdrop-filter: none;
+    margin-bottom: -2.75rem; /* el botón flota sobre el contenido, sin empujarlo */
+  }
+}
 #wspChat.open,
 #stickyBar.show {
   animation: mup 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.3);
