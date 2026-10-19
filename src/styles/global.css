@@ -808,10 +808,54 @@ footer {
   scroll-snap-align: center;
 }
 
-/* En el celular las tarjetas ocupan casi todo el ancho, así que se muestran
-   de a una. El carrusel solo avanza solo en ese caso (ver promoRotar). */
-.promo-track > .promo-card + .promo-card {
-  margin-left: 0;
+/* ── Flechas del carrusel de promos ──
+   Solo en móvil y tablet, donde las tarjetas se ven de a una; en escritorio
+   se ven las tres juntas y las flechas sobrarían. */
+.promo-nav {
+  display: none;
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  translate: 0 -50%;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1.5px solid var(--color-line, #e6dcf7);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.92);
+  color: var(--color-m600, #5a2a9c);
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgb(90 42 156 / 0.18);
+  backdrop-filter: blur(4px);
+  transition: 0.2s;
+}
+.promo-nav:hover {
+  background: var(--color-m600, #5a2a9c);
+  color: #fff;
+}
+.promo-nav:active {
+  scale: 0.92;
+}
+.promo-prev {
+  left: -8px;
+}
+.promo-next {
+  right: -8px;
+}
+@media (max-width: 899px) {
+  .promo-nav {
+    display: grid;
+  }
+  /* En pantallas chicas las flechas se posan sobre el borde del banner */
+  .promo-prev {
+    left: 6px;
+  }
+  .promo-next {
+    right: 6px;
+  }
 }
 
 /* ═══ Pasos "Cómo funciona" ═══ */

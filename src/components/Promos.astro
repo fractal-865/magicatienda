@@ -14,7 +14,8 @@ const benefits = [
 <section id="promos" class="relative px-4 py-[46px]">
   <div class="mx-auto max-w-[1220px]">
     <!-- Slide de banners: la tarjeta de Halloween aparece primero -->
-    <div id="promoTrack" class="promo-track">
+    <div class="promo-wrap relative">
+      <div id="promoTrack" class="promo-track">
       <!-- Banner principal: primera pantalla con la promesa única (H1) -->
       <div class="promo-card rv relative flex min-h-[310px] flex-col justify-center gap-2.5 overflow-hidden rounded-3xl bg-[linear-gradient(120deg,#2B0D5E,#5A2A9C)] p-7 text-white shadow-sh2">
         <img
@@ -82,6 +83,26 @@ const benefits = [
           <a class="btn btn-ama" href="#mapa">Ver en el mapa 🗺️</a>
         </div>
       </div>
+      </div>
+
+      <!-- Flechas: solo en móvil y tablet, donde las tarjetas van de a una.
+           Sin puntos ni paginación: dos botones que saltan de banner. -->
+      <button
+        type="button"
+        class="promo-nav promo-prev"
+        id="promoPrev"
+        aria-label="Banner anterior"
+      >
+        ‹
+      </button>
+      <button
+        type="button"
+        class="promo-nav promo-next"
+        id="promoNext"
+        aria-label="Banner siguiente"
+      >
+        ›
+      </button>
     </div>
 
     <!-- Beneficios -->
@@ -106,26 +127,54 @@ const benefits = [
        varios a la vez y el carrusel no hace falta. Se detiene cuando la
        persona toca la tira, para no pelearse con su dedo. */
     const track = document.getElementById('promoTrack');
+    const btnPrev = document.getElementById('promoPrev');
+    const btnNext = document.getElementById('promoNext');
     if (track) {
       const movido = matchMedia('(max-width: 899px)');
       // Este script va en su propio módulo: no alcanza el `reduced()` de site.ts.
       const sinMovimiento = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const cards = () => [...track.querySelectorAll<HTMLElement>('.promo-card')];
       let i = 0;
       let timer: number | undefined;
 
-      const card = () => track.querySelector<HTMLElement>('.promo-card');
-      const total = () => track.querySelectorAll('.promo-card').length;
-
+      /* Centra la tarjeta n en la tira. Antes esto usaba siempre la primera
+         tarjeta, así que el avance se quedaba quieto en el banner 1. */
       const irA = (n: number) => {
-        const c = card();
-        if (!c) return;
-        i = (n + total()) % total();
+        const t = cards();
+        if (!t.length) return;
+        i = (n + t.length) % t.length;
+        const c = t[i];
         track.scrollTo({ left: c.offsetLeft - (track.clientWidth - c.clientWidth) / 2, behavior: 'smooth' });
+      };
+
+      /* Al terminar el desplazamiento suave, el índice real puede haber
+         cambiado (el usuario arrastró la tira): se vuelve a leer de la
+         posición para que la flecha siga desde donde quedó. */
+      let ReadIndex: number | undefined;
+      const leerIndice = () => {
+        const t = cards();
+        if (!t.length) return;
+        let mejor = 0;
+        let dist = Infinity;
+        for (const [k, c] of t.entries()) {
+          const centro = c.offsetLeft + c.clientWidth / 2;
+          const d = Math.abs(centro - (track.scrollLeft + track.clientWidth / 2));
+          if (d < dist) {
+            dist = d;
+            mejor = k;
+          }
+        }
+        i = mejor;
       };
 
       const parar = () => {
         if (timer) clearInterval(timer);
         timer = undefined;
+      };
+      let reanudarT: number | undefined;
+      const reanudar = () => {
+        if (reanudarT) clearTimeout(reanudarT);
+        reanudarT = window.setTimeout(girar, 6000);
       };
       const girar = () => {
         parar();
@@ -133,12 +182,29 @@ const benefits = [
         timer = window.setInterval(() => irA(i + 1), 5000);
       };
 
+      const tocar = (delta: number) => {
+        parar();
+        irA(i + delta);
+        // Tras una pausa sin tocar, el carrusel vuelve a arrancar solo.
+        reanudar();
+      };
+
+      btnPrev?.addEventListener('click', () => tocar(-1));
+      btnNext?.addEventListener('click', () => tocar(1));
+
       girar();
       movido.addEventListener('change', girar);
-      // Tocar o rueda sobre la tira: es el usuario al mando, no el temporizador.
-      track.addEventListener('touchstart', parar, { passive: true });
-      track.addEventListener('wheel', parar, { passive: true });
-      // Volver al inicio del documento reactiva el bucle.
+      // Arrastrar la tira a mano manda sobre el temporizador, pero no lo mata:
+      // se lee en qué banner quedó y el bucle sigue desde ahí.
+      const alTocar = () => {
+        parar();
+        reanudar();
+      };
+      track.addEventListener('touchstart', alTocar, { passive: true });
+      track.addEventListener('wheel', alTocar, { passive: true });
+      track.addEventListener('scroll', () => {
+        if (timer) leerIndice();
+      }, { passive: true });
       document.addEventListener('visibilitychange', girar);
     }
   </script>

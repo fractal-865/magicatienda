@@ -96,8 +96,12 @@ const corto = (s: string) => CORTOS[s] ?? s;
         <a class={nlink} href={sec('#contacto')} data-navsec="contacto">Contacto</a>
       </nav>
 
-      <!-- Buscador: un solo botón que lleva al buscador del catálogo -->
-      <div class="ml-auto">
+      <!-- Buscador + CTA de disfraces (el CTA solo en móvil y tablet: en escritorio
+           ya está el enlace "Catálogo" del menú) -->
+      <div class="ml-auto flex items-center gap-2">
+        <a href={urlCat} class="btn btn-ama btn-sm min-[1024px]:hidden" aria-label="Ver los disfraces">
+          🎭 Disfraces
+        </a>
         <button id="searchToggle" class="searchToggle" aria-label="Ir al buscador del catálogo">🔍</button>
       </div>
 

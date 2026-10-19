@@ -1682,11 +1682,14 @@ $('#fechasRow')?.addEventListener('click', (e) => {
   if (b) applyFilter({ tem: b.dataset.tem });
 });
 
-/* huevasco del logo (solo en la portada: en el catálogo el logo es un enlace) */
+/* Logo: en la portada lleva al inicio de la página; el huevasco del murciélago
+   y el confeti secreto se conservan como recompensa de los 5 clics. */
 let logoC = 0;
 let logoT: ReturnType<typeof setTimeout>;
 $('#logoBtn')?.addEventListener('click', () => {
   if (enCatalogo) return;
+  // Ir al inicio de la portada
+  scrollTo({ top: 0, behavior: reduced() ? 'auto' : 'smooth' });
   // En el celular no hay hover: el truco se dispara al tocar el logo
   const b = $('#logoBtn');
   if (b && matchMedia('(hover: none)').matches) {
