@@ -293,18 +293,28 @@ const ogImage = url(c.img);
       };
 
       // ── Ratón: al pasar el mouse se amplía hacia el puntero ──
-      box.addEventListener('mouseenter', () => { img.style.transition = 'transform .12s ease-out'; });
-      box.addEventListener('mouseleave', () => {
-        img.style.transition = 'transform .3s ease-out';
-        s = 1; tx = 0; ty = 0;
-        pintar();
-      });
-      box.addEventListener('mousemove', (e) => {
-        if (matchMedia('(hover: none)').matches) return;
-        const r = medidas();
-        fijar(2.5, e.clientX - r.left, e.clientY - r.top);
-      });
-
+      // (solo en dispositivos con mouse real; en táctil el zoom es con pellizco).
+      // Va por transform-origin para que el punto bajo el cursor se quede
+      // quieto y el mouse recorra la foto de la cabeza a los pies.
+      if (matchMedia('(hover: hover)').matches) {
+        const ZOOM_PC = 4;
+        box.addEventListener('mouseenter', () => {
+          img.style.transition = 'transform 0.06s linear';
+          img.style.transformOrigin = '50% 50%';
+          img.style.transform = `scale(${ZOOM_PC})`;
+        });
+        box.addEventListener('mousemove', (e) => {
+          const r = medidas();
+          const x = ((e.clientX - r.left) / r.width) * 100;
+          const y = ((e.clientY - r.top) / r.height) * 100;
+          img.style.transformOrigin = `${x}% ${y}%`;
+        });
+        box.addEventListener('mouseleave', () => {
+          img.style.transition = 'transform 0.3s ease-out';
+          img.style.transform = 'scale(1)';
+          img.style.transformOrigin = '50% 50%';
+        });
+      }
       // ── Táctil ──
       box.addEventListener('touchstart', (e) => {
         img.style.transition = 'none';
