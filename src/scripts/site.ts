@@ -840,8 +840,12 @@ bindSearch('catSearch', 'sugCat');
 
 /* ── Buscador único: en la cabecera solo la lupa, que baja al buscador del catálogo ── */
 $('#searchToggle')?.addEventListener('click', () => {
+  if (document.body.dataset.page === 'disfraz') {
+    // En páginas individuales, no redirigir (el buscador local se encarga)
+    return;
+  }
   if (!enCatalogo) {
-    // En páginas individuales, redirigir al catálogo con el buscador abierto
+    // En otras páginas, redirigir al catálogo con el buscador abierto
     window.location.href = '/catalogo/?buscar=1';
     return;
   }

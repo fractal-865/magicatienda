@@ -417,6 +417,7 @@ const ogImage = url(c.img);
 
       searchToggle.addEventListener('click', (e) => {
         e.preventDefault();
+        e.stopPropagation();
         overlay.classList.remove('hidden');
         searchInput?.focus();
         renderResults('');

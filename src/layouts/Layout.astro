@@ -180,7 +180,7 @@ const datos = {
     <script type="application/ld+json" set:html={JSON.stringify(datos)} />
     <script is:inline>document.documentElement.classList.add('js');</script>
   </head>
-  <body class="min-h-screen" {...pagina === 'catalogo' ? { 'data-page': 'catalogo' } : {}}>
+  <body class="min-h-screen" {...pagina === 'catalogo' ? { 'data-page': 'catalogo' } : pagina === 'disfraz' ? { 'data-page': 'disfraz' } : {}}>
     <a
       href="#catalogo"
       class="absolute -left-[999px] top-0 z-[200] rounded-br-xl bg-m600 px-4 py-2.5 font-extrabold text-white focus:left-0"
