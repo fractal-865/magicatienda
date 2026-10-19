@@ -297,7 +297,7 @@ const ogImage = url(c.img);
       // Va por transform-origin para que el punto bajo el cursor se quede
       // quieto y el mouse recorra la foto de la cabeza a los pies.
       if (matchMedia('(hover: hover)').matches) {
-        const ZOOM_PC = 4;
+        const ZOOM_PC = 2.5;
         box.addEventListener('mouseenter', () => {
           img.style.transition = 'transform 0.06s linear';
           img.style.transformOrigin = '50% 50%';
