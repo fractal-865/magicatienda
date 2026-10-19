@@ -916,7 +916,20 @@ function closeAll() {
 }
 /* Al filtrar: en la portada baja hasta la sección del catálogo; ya en la página
    del catálogo salta directo a las primeras tarjetas de resultado. */
+/* Un filtro del menú (Temática, Público, Celebración) sobre una página que no
+   es el catálogo —la ficha de un disfraz— no tiene cuadrícula que filtrar, así
+   que el clic se lleva al catálogo con el filtro puesto en la URL. */
+function irAlCatalogoCon(o: { q?: string; tem?: string; pub?: string; oca?: string }) {
+  const p = new URLSearchParams();
+  if (o.q) p.set('q', o.q);
+  if (o.tem) p.set('tem', o.tem);
+  if (o.pub) p.set('pub', o.pub);
+  if (o.oca) p.set('oca', o.oca);
+  location.assign(`${RAIZ}/catalogo/${p.toString() ? `?${p}` : ''}`);
+}
+
 function applyFilter(o: { q?: string; tem?: string; pub?: string; oca?: string }) {
+  if (!enCatalogo) return irAlCatalogoCon(o);
   (['tem', 'oca', 'pub', 'tal'] as const).forEach((k) => state[k].clear());
   state.exFecha = '';
   state.q = o.q || '';
@@ -998,8 +1011,9 @@ function applyFilter(o: { q?: string; tem?: string; pub?: string; oca?: string }
     }
     if (t.closest('[data-mgo]')) {
       open(false);
-      // El mapa vive en la portada: si estamos en /catalogo/, volvemos allá
-      if (enCatalogo) location.assign(`${RAIZ}/#mapa`);
+      // El mapa vive en la portada. Solo el ancla existe en la portada, así que
+      // desde el catálogo o la ficha de un disfraz se vuelve a ella.
+      if (enCatalogo || !$('#mapa')) location.assign(`${RAIZ}/#mapa`);
       else $('#mapa')?.scrollIntoView({ behavior: 'smooth' });
     }
   });
