@@ -180,13 +180,13 @@ export const TALLAS: string[] = orderTallas.filter(
 
 /* Guía de tallas (adultos): estatura recomendada para cada talla */
 export const TALLA_GUIA: Record<string, string> = {
-  XS: '150 a 160 cm',
-  S: '160 a 168 cm',
-  M: '168 a 175 cm',
-  L: '175 a 182 cm',
-  'L-XL': '175 a 185 cm',
-  XL: '182 cm o más',
-  XXL: '185 cm o más',
+  XS: '1,50 a 1,60 mts',
+  S: '1,60 a 1,68 mts',
+  M: '1,68 a 1,75 mts',
+  L: '1,75 a 1,82 mts',
+  'L-XL': '1,75 a 1,85 mts',
+  XL: '1,82 mts o más',
+  XXL: '1,85 mts o más',
   'Sin especificar': 'Sin referencia de estatura',
 };
 
