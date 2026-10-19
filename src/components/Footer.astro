@@ -1,5 +1,7 @@
 ---
 import { CONFIG, waLink, ir, sec as secEnlace } from '../data/site';
+import { Picture } from 'astro:assets';
+import logoImg from '../assets/img/logo.png';
 
 /* Las secciones viven en la portada: desde el catálogo o la ficha de un
    disfraz los enlaces tienen que apuntar allá, no a un ancla local. */
@@ -259,12 +261,13 @@ const gotas = [
     <div class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-[26px]">
       <div>
         <span class="hf-placa">
-          <img
+<Picture
             class="footer-logo"
-            src={`${import.meta.env.BASE_URL}/img/logo.png`.replace(/\/{2,}/g, '/')}
+            src={logoImg}
             alt="La Mágica Tienda de Disfraces"
-            width="380"
-            height="300"
+            widths={[128, 256, 384]}
+            sizes="200px"
+            formats={['avif', 'webp']}
             loading="lazy"
           />
         </span>

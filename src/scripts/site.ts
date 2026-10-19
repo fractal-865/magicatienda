@@ -410,7 +410,7 @@ function cardHTML(c: Product, k: number) {
   return `<article class="pcard relative flex cursor-pointer flex-col rounded-[20px] border-[1.5px] border-line bg-white shadow-[0_8px_20px_rgba(90,42,156,.08)] transition duration-300 hover:-translate-y-[5px] hover:shadow-sh2" data-id="${c.id}" style="--d:${Math.min(k * 0.05, 0.4)}s" tabindex="0" aria-label="${esc(c.n)}, disfraz para adultos en arriendo">
   <div class="pimg relative aspect-[2/3] shrink-0 overflow-hidden" style="background:linear-gradient(135deg,${T.g[0]},${T.g[1]})">
     <a href="${disfrazUrl}" class="absolute inset-0 z-[1]" aria-label="Ver ${esc(c.n)}">
-      <img src="${c.img}" alt="${esc(c.n)} para arriendo en Punta Arenas" loading="lazy" class="absolute inset-0 h-full w-full object-contain object-center transition duration-500">
+      <img src="${c.img}" alt="${esc(c.n)} para arriendo en Punta Arenas" loading="lazy" decoding="async" width="400" height="600" class="absolute inset-0 h-full w-full object-contain object-center transition duration-500">
     </a>
     <span class="absolute left-2 top-2 z-[2] rounded-full bg-m600/90 px-2 py-0.5 text-[.65rem] font-extrabold text-white shadow-sh"> #${String(c.id).padStart(3, '0')}</span>
     <a href="${disfrazUrl}" class="quick-view-btn absolute right-2 top-2 z-[2] grid h-9 w-9 place-items-center rounded-full bg-white/90 text-m600 shadow-sh transition hover:bg-m600 hover:text-white" aria-label="Ver ficha de ${esc(c.n)}" title="Ver ficha">
@@ -832,7 +832,7 @@ function bindSearch(id: string, sugId?: string) {
     sug.innerHTML = L.length
       ? L.map(
           (c) =>
-            `<div class="sug-item" data-id="${c.id}" role="option"><span class="se"><img src="${c.img}" alt=""></span><span class="flex-1"><span class="sn">${hl(c.n, inp.value.trim())}</span><br><small>${catById(c.t).n} · adultos</small></span><span class="sp">Garantía<br>${GAR_SHORT}</span></div>`,
+            `<div class="sug-item" data-id="${c.id}" role="option"><span class="se"><img src="${c.img}" alt="" width="44" height="44" decoding="async" loading="lazy"></span><span class="flex-1"><span class="sn">${hl(c.n, inp.value.trim())}</span><br><small>${catById(c.t).n} · adultos</small></span><span class="sp">Garantía<br>${GAR_SHORT}</span></div>`,
         ).join('')
       : `<div class="sug-empty">😅 Sin resultados… prueba con “Halloween” o “payaso”.</div>`;
     sug.classList.add('open');
@@ -1259,7 +1259,7 @@ function renderMini() {
               ? `<p class="rent-price"><em class="desde">Desde</em> ${clp(PRECIO_DESDE)} <span>/ 3 días</span></p>`
               : `<p class="rent-price">A cotizar</p>`;
             return `<article class="rent-card${nuevo ? ' justadded' : ''}">
-              <div class="rent-thumb" style="background:linear-gradient(135deg,${g[0]},${g[1]})">${'img' in it && it.img ? `<img src="${it.img}" alt="">` : `<span>${it.e}</span>`}</div>
+              <div class="rent-thumb" style="background:linear-gradient(135deg,${g[0]},${g[1]})">${'img' in it && it.img ? `<img src="${it.img}" alt="" width="64" height="64" decoding="async" loading="lazy">` : `<span>${it.e}</span>`}</div>
               <div class="rent-info">
                 <div class="rent-top">
                   <h2 class="rent-name">${esc(it.n)}</h2>

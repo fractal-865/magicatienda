@@ -1,5 +1,8 @@
 ---
 import { waLink } from '../data/site';
+import { Picture, Image } from 'astro:assets';
+import promoGlobosImg from '../assets/img/promo-globos.png';
+import halloweenImg from '../assets/img/halloween-grupo.svg';
 
 const waPromo = waLink('¡Hola! Quiero cotizar el arriendo de disfraces para adultos en La Mágica Tienda.');
 
@@ -18,10 +21,13 @@ const benefits = [
       <div id="promoTrack" class="promo-track">
       <!-- Banner principal: primera pantalla con la promesa única (H1) -->
       <div class="promo-card rv relative flex min-h-[310px] flex-col justify-center gap-2.5 overflow-hidden rounded-3xl bg-[linear-gradient(120deg,#2B0D5E,#5A2A9C)] p-7 text-white shadow-sh2">
-        <img
+<Picture
           class="absolute inset-0 h-full w-full object-cover"
-          src={`${import.meta.env.BASE_URL}/img/promo-globos.png`.replace(/\/{2,}/g, '/')}
+          src={promoGlobosImg}
           alt="Fiesta de adultos con globos y disfraces"
+          widths={[640, 960, 1280]}
+          sizes="100vw"
+          formats={['avif', 'webp']}
           loading="eager"
           fetchpriority="high"
           onerror="this.closest('.promo-card').classList.add('imgfail');this.style.display='none'"
@@ -48,10 +54,12 @@ const benefits = [
         style="--d:.1s"
       >
         <!-- Amigos disfrazados de Halloween celebrando -->
-        <img
+<Image
           class="absolute inset-0 h-full w-full object-cover object-[70%_center]"
-          src={`${import.meta.env.BASE_URL}/img/halloween-grupo.svg`.replace(/\/{2,}/g, '/')}
+          src={halloweenImg}
           alt="Grupo de amigos disfrazados de Halloween celebrando"
+          width={1200}
+          height={600}
           loading="lazy"
           onerror="this.style.display='none'"
         />

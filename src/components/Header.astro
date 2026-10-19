@@ -1,6 +1,8 @@
 ---
 import { CATS_ACTIVE, PUBLICOS, OCASIONES, PRODUCTS } from '../data/products';
 import { ir, sec as secEnlace } from '../data/site';
+import { Picture } from 'astro:assets';
+import logoImg from '../assets/img/logo.png';
 
 /* Los enlaces a las secciones solo son anclas internas en la portada. En el
    catálogo y en la ficha de un disfraz apuntan a la portada (ver `sec`). */
@@ -63,12 +65,13 @@ const corto = (s: string) => CORTOS[s] ?? s;
           <i class="lt-spark lt-s2">✨</i>
           <i class="lt-spark lt-s3">✨</i>
         </span>
-        <img
+<Picture
           class={logoClase}
-          src={`${import.meta.env.BASE_URL}/img/logo.png`.replace(/\/{2,}/g, '/')}
+          src={logoImg}
           alt="La Mágica Tienda de Disfraces"
-          width="380"
-          height="300"
+          widths={[128, 256, 384]}
+          sizes="200px"
+          formats={['avif', 'webp']}
           decoding="async"
         />
       </LogoTag>
@@ -234,7 +237,7 @@ const corto = (s: string) => CORTOS[s] ?? s;
         {
           destacados.map((c) => (
             <button data-qv={c.id} class="ms-card flex cursor-pointer items-center gap-2.5 whitespace-nowrap rounded-[14px] border-[1.5px] border-line bg-[#f7f2ff] px-3.5 py-2 pl-2 text-ink transition hover:-translate-y-0.5 hover:border-ama">
-              <img src={c.img} alt="" class="h-11 w-11 rounded-[10px] bg-[#efe8ff] object-cover" loading="lazy" />
+              <img src={c.img} alt="" class="h-11 w-11 rounded-[10px] bg-[#efe8ff] object-cover" loading="lazy" decoding="async" width="44" height="44" />
               <span class="text-left text-[.8rem]">{c.n}<br /><b class="text-[.75rem] text-m600">Tallas {c.tl.join(' · ')}</b></span>
             </button>
           ))
