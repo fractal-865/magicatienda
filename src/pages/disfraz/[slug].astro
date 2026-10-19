@@ -86,7 +86,7 @@ const ogImage = url(c.img);
           </div>
 
           <!-- Tallas -->
-          <div>
+          <div id="tallasSection">
             <b class="block text-[.9rem] text-ink">📏 Tallas disponibles:</b>
             <div class="mt-2 flex flex-wrap gap-2">
               {c.tl.map((t) => (
@@ -98,15 +98,12 @@ const ogImage = url(c.img);
             <p class="mt-1 text-[.75rem] text-ink2">
               {c.pub === 'mujer' ? '👩 Mujer' : c.pub === 'hombre' ? '👨 Hombre' : '🧑 Unisex'} · Solo adultos
             </p>
-          </div>
-
-          <!-- Garantía -->
-          <div class="rounded-2xl border-[1.5px] border-ama bg-[#fdf6d9] p-4">
-            <b class="font-ft text-[1rem] text-[#6b5200]">🛡️ Garantía reintegrable</b>
-            <p class="mt-1 text-[.85rem] text-[#6b5200]">
-              $15.000 o $20.000 según el disfraz. Se paga el día del retiro en efectivo o transferencia y se devuelve al entregar en las mismas condiciones.
+            <p class="mt-1 text-[.75rem] font-extrabold text-m500">
+              Código: #{codigo}
             </p>
           </div>
+
+
 
           <!-- Valor -->
           <div class="rounded-2xl border-2 border-line bg-[#f9f6ff] p-4">
@@ -184,13 +181,6 @@ const ogImage = url(c.img);
                 >
                   🐦 X (Twitter)
                 </a>
-                <button
-                  type="button"
-                  class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-[.85rem] font-bold text-ink transition hover:bg-mist"
-                  id="nativeShareBtn"
-                >
-                  📤 Más opciones
-                </button>
               </div>
             </div>
           </div>
@@ -207,11 +197,11 @@ const ogImage = url(c.img);
       <section class="mx-auto max-w-[1220px] px-4 pb-12">
         <h2 class="sec-sm rv">🎭 Disfraces similares</h2>
         <p class="sec-sub rv">Otros disfraces que te pueden gustar</p>
-        <div class="grid gap-4 min-[560px]:grid-cols-2 min-[900px]:grid-cols-3">
+        <div class="flex gap-3 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
           {similares.map((s) => {
             const sSlug = `${s.id}-${s.n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}`;
             return (
-              <a href={ir(`/disfraz/${sSlug}/`)} class="group block overflow-hidden rounded-2xl border-[1.5px] border-line bg-white shadow-sh transition hover:-translate-y-1 hover:shadow-sh2">
+              <a href={ir(`/disfraz/${sSlug}/`)} class="group block w-[160px] shrink-0 snap-start overflow-hidden rounded-2xl border-[1.5px] border-line bg-white shadow-sh transition hover:-translate-y-1 hover:shadow-sh2 min-[560px]:w-[200px]">
                 <div class="relative aspect-[2/3] overflow-hidden bg-[#f0eaff]">
                   <img src={s.img} alt={s.n} class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105" loading="lazy" />
                   <span class="absolute left-2 top-2 rounded-full bg-m600/90 px-2 py-0.5 text-[.65rem] font-extrabold text-white">#{String(s.id).padStart(3, '0')}</span>
@@ -258,32 +248,34 @@ const ogImage = url(c.img);
       }
     });
 
-    // Compartir nativo (Web Share API)
-    document.getElementById('nativeShareBtn')?.addEventListener('click', async () => {
-      const url = window.location.href;
-      const title = document.title;
-      if (navigator.share) {
-        try {
-          await navigator.share({ title, url });
-        } catch {}
-      } else {
-        try {
-          await navigator.clipboard.writeText(url);
-          alert('Enlace copiado al portapapeles');
-        } catch {}
-      }
-      shareMenu?.classList.add('hidden');
-    });
-
-    // Añadir a la cotización
+    // Añadir a la cotización:: resaltar tallas
     document.getElementById('addToCartBtn')?.addEventListener('click', function () {
-      const id = Number(this.dataset.id);
-      const talla = this.dataset.talla;
-      if (talla) {
-        window.location.href = '/catalogo/?add=' + id + '&talla=' + encodeURIComponent(talla);
-      } else {
-        window.location.href = '/catalogo/?quick=' + id;
+      const tallaSection = document.getElementById('tallasSection');
+      if (tallaSection) {
+        tallaSection.classList.add('ring-2', 'ring-[#0c7a56]', 'ring-offset-2', 'rounded-xl', 'bg-[#e2f7ec]', 'p-3');
+        tallaSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
+      // Mostrar botón de añadir al carrito si hay una talla seleccionada
+      const tallas = tallaSection?.querySelectorAll('.tip');
+      tallas?.forEach((t) => {
+        t.addEventListener('click', function () {
+          const selectedTalla = this.textContent.trim();
+          // Mostrar botón de añadir
+          let addBtn = document.getElementById('addSelectedBtn');
+          if (!addBtn) {
+            addBtn = document.createElement('button');
+            addBtn.id = 'addSelectedBtn';
+            addBtn.className = 'btn btn-mora btn-lg w-full mt-2';
+            addBtn.textContent = '🛒 Añadir al carrito';
+            tallaSection?.appendChild(addBtn);
+            addBtn.addEventListener('click', function () {
+              const id = Number(document.getElementById('addToCartBtn')?.dataset.id);
+              window.location.href = '/catalogo/?add=' + id + '&talla=' + encodeURIComponent(selectedTalla);
+            });
+          }
+          addBtn.textContent = `🛒 Añadir (talla ${selectedTalla})`;
+        });
+      });
     });
   </script>
 </Layout>
