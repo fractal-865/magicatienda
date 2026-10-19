@@ -1557,6 +1557,7 @@ function renderReq() {
   const tot = rentalTotal();
   const gar = guaranteeTotal();
   rb.innerHTML = `<div class="mb-2 flex flex-wrap items-center gap-2"><h3 class="m-0 text-[1.5rem]">🛒 Tu solicitud de arriendo</h3><span class="req-pill green">💬 Se envía por WhatsApp</span></div>
+  <p class="totnote mb-3">Es solo una cotización: el valor del arriendo y la garantía se revisan y confirman en la tienda al reservar.</p>
   ${
     state.cart.length
       ? state.cart
@@ -1591,13 +1592,12 @@ function renderReq() {
     </div>
     <div class="trow total mt-1.5 border-t border-line pt-1.5">
       <span>Total a pagar en el local:</span>
-      <b class="text-[#6b6152] text-[1.05rem] font-normal">Desde ${clp(30000 * (state.cart.reduce((a, i) => a + i.qty, 0) || 1))}</b>
+      <b class="text-[#4a4034] text-[.95rem] font-normal">Desde ${clp(30000 * (state.cart.reduce((a, i) => a + i.qty, 0) || 1))}</b>
     </div>
     <p class="mt-1 text-right text-[.7rem] leading-[1.4] text-ink2">
       <span class="font-bold text-[#6b6152]">Incluye ${clp(15000 * (state.cart.reduce((a, i) => a + i.qty, 0) || 1))} de garantía reembolsable</span> — se devuelve si no hay daños.
     </p>
   </div>
-  <p class="totnote">Es solo una cotización: el valor del arriendo y la garantía se revisan y confirman en la tienda al reservar.</p>
   <button class="btn btn-wsp btn-lg mt-2.5 w-full" id="rqSend">💬 Enviar solicitud por WhatsApp</button>
   <p class="mt-2.5 text-center text-[.8rem] font-bold text-ink2">✓ Garantía 100% reembolsable <span class="mx-1 opacity-40">·</span> 🕐 Lun a Sáb</p>
   <p class="payline text-center">Pagos por depósito o transferencia: ver datos en <button data-opencond>Condiciones de arriendo</button>. Sin pagos en línea en esta demo.</p>`;
