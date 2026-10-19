@@ -565,6 +565,37 @@ function hidratarDesdeURL() {
     t2?.setAttribute('aria-label', 'Cerrar buscador');
   }
   syncFilterUI();
+
+  // Procesar parámetros de añadir al carrito desde página de disfraz
+  const addId = p.get('add');
+  const addTalla = p.get('talla');
+  if (addId) {
+    const id = Number(addId);
+    const prod = PRODUCTS.find((x) => x.id === id);
+    if (prod) {
+      const talla = addTalla || (prod.tl.length === 1 ? prod.tl[0] : '');
+      if (talla) {
+        addItem(id, 'd', talla, 1);
+        // Limpiar la URL
+        history.replaceState(null, '', location.pathname);
+        toast(`✅ ${prod.n} añadido a tu cotización`);
+      } else {
+        // Si no hay talla, abrir la ficha rápida
+        openQuick(id);
+        nudgeSize();
+      }
+    }
+  }
+
+  // Procesar parámetro de vista rápida
+  const quickId = p.get('quick');
+  if (quickId) {
+    const id = Number(quickId);
+    if (PRODUCTS.find((x) => x.id === id)) {
+      openQuick(id);
+      history.replaceState(null, '', location.pathname);
+    }
+  }
 }
 
 function renderChips() {

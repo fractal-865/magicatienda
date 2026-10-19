@@ -117,15 +117,14 @@ const ogImage = url(c.img);
             <p class="mt-1 text-[.75rem] text-ink2">El valor exacto se confirma en tu cotización por WhatsApp.</p>
           </div>
 
-          <!-- Botón principal: Añadir a la cotización -->
+          <!-- Botón principal: Añadir al carrito -->
           <button
             type="button"
             class="btn btn-mora btn-lg w-full"
-            id="addToCartBtn"
+            id="addCartBtn"
             data-id={c.id}
-            data-talla={c.tl.length === 1 ? c.tl[0] : ''}
           >
-            🛒 Añadir a la cotización
+            🛒 Añadir al carrito
           </button>
 
           <!-- Acciones secundarias (más pequeñas) -->
@@ -315,39 +314,41 @@ const ogImage = url(c.img);
       }
     });
 
-    // Añadir a la cotización:: resaltar tallas
-    document.getElementById('addToCartBtn')?.addEventListener('click', function () {
-      const tallaSection = document.getElementById('tallasSection');
-      if (tallaSection) {
-        tallaSection.classList.add('ring-2', 'ring-[#0c7a56]', 'ring-offset-2', 'rounded-xl', 'bg-[#e2f7ec]', 'p-3');
-        tallaSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-      // Mostrar botón de añadir al carrito si hay una talla seleccionada
-      const tallas = tallaSection?.querySelectorAll('.tip');
-      tallas?.forEach((t) => {
-        t.addEventListener('click', function () {
-          const selectedTalla = this.textContent.trim();
-          // Resaltar la talla seleccionada
-          tallas.forEach((x) => x.classList.remove('ring-2', 'ring-m600'));
-          this.classList.add('ring-2', 'ring-m600');
-          // Mostrar botón de añadir
-          let addBtn = document.getElementById('addSelectedBtn');
-          if (!addBtn) {
-            addBtn = document.createElement('button');
-            addBtn.id = 'addSelectedBtn';
-            addBtn.className = 'btn btn-mora btn-lg w-full mt-2';
-            tallaSection?.appendChild(addBtn);
-          }
-          addBtn.textContent = `🛒 Añadir al carrito (talla ${selectedTalla})`;
-          addBtn.onclick = function () {
-            const id = Number(document.getElementById('addToCartBtn')?.dataset.id);
-            window.location.href = '/catalogo/?add=' + id + '&talla=' + encodeURIComponent(selectedTalla);
-          };
-        });
+    // Añadir al carrito
+    let selectedTalla = '';
+    const tallaSection = document.getElementById('tallasSection');
+    const tallas = tallaSection?.querySelectorAll('.tip');
+    tallas?.forEach((t) => {
+      t.addEventListener('click', function () {
+        selectedTalla = this.textContent.trim();
+        tallas.forEach((x) => x.classList.remove('ring-2', 'ring-m600', 'bg-m600', 'text-white'));
+        this.classList.add('ring-2', 'ring-m600', 'bg-m600', 'text-white');
       });
-      // Si solo hay una talla, seleccionarla automáticamente
-      if (tallas && tallas.length === 1) {
-        tallas[0].click();
+    });
+    // Si solo hay una talla, seleccionarla automáticamente
+    if (tallas && tallas.length === 1) {
+      tallas[0].click();
+    }
+
+    document.getElementById('addCartBtn')?.addEventListener('click', function () {
+      const id = Number(this.dataset.id);
+      if (!selectedTalla && tallas && tallas.length > 0) {
+        // Resaltar la sección de tallas
+        if (tallaSection) {
+          tallaSection.classList.add('ring-2', 'ring-[#c0392b]', 'ring-offset-2', 'rounded-xl', 'bg-[#fdecea]', 'p-3');
+          tallaSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setTimeout(() => {
+            tallaSection.classList.remove('ring-[#c0392b]', 'bg-[#fdecea]');
+            tallaSection.classList.add('ring-[#0c7a56]', 'bg-[#e2f7ec]');
+          }, 1500);
+        }
+        return;
+      }
+      const talla = selectedTalla || (tallas && tallas.length === 1 ? tallas[0].textContent.trim() : '');
+      if (talla) {
+        window.location.href = '/catalogo/?add=' + id + '&talla=' + encodeURIComponent(talla);
+      } else {
+        window.location.href = '/catalogo/?quick=' + id;
       }
     });
   </script>
