@@ -46,22 +46,25 @@ const ogImage = url(c.img);
     <!-- Ficha del disfraz -->
     <section class="mx-auto max-w-[1220px] px-4 pb-10">
       <div class="grid gap-8 min-[900px]:grid-cols-2">
-        <!-- Imagen -->
+        <!-- Imagen con zoom -->
         <div class="relative">
-          <div class="overflow-hidden rounded-3xl border-2 border-line bg-white shadow-sh">
+          <div class="zoom-container overflow-hidden rounded-3xl border-2 border-line bg-white shadow-sh cursor-zoom-in" id="zoomContainer" style="touch-action: none;">
             <img
+              id="zoomImage"
               src={c.img}
               alt={`${c.n} para arriendo en Punta Arenas`}
-              class="h-full w-full object-contain transition-transform duration-500 hover:scale-105"
+              class="h-full w-full object-contain transition-transform duration-200 ease-out"
               loading="eager"
               width="600"
               height="900"
+              draggable="false"
             />
           </div>
           <!-- Código badge -->
           <span class="absolute left-4 top-4 rounded-full bg-m600 px-3 py-1 text-[.75rem] font-extrabold text-white shadow-sh">
             Disfraz #{codigo}
           </span>
+          <p class="mt-2 text-center text-[.75rem] text-ink2">🔍 Pasa el mouse o toca para hacer zoom</p>
         </div>
 
         <!-- Info -->
@@ -219,6 +222,70 @@ const ogImage = url(c.img);
   </main>
 
   <script is:inline>
+    // Zoom de imagen
+    (function () {
+      const container = document.getElementById('zoomContainer');
+      const img = document.getElementById('zoomImage');
+      if (!container || !img) return;
+
+      const ZOOM = 2.5;
+      let isZoomed = false;
+
+      function setTransform(x, y) {
+        img.style.transform = `scale(${ZOOM})`;
+        img.style.transformOrigin = `${x}% ${y}%`;
+      }
+
+      function resetTransform() {
+        img.style.transform = 'scale(1)';
+        img.style.transformOrigin = 'center center';
+      }
+
+      // Desktop: mousemove
+      container.addEventListener('mousemove', (e) => {
+        const rect = container.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        setTransform(x, y);
+      });
+      container.addEventListener('mouseenter', () => {
+        isZoomed = true;
+        img.style.transition = 'transform 0.1s ease-out';
+      });
+      container.addEventListener('mouseleave', () => {
+        isZoomed = false;
+        img.style.transition = 'transform 0.3s ease-out';
+        resetTransform();
+      });
+
+      // Mobile/Tablet: touch
+      let touchActive = false;
+      container.addEventListener('touchstart', (e) => {
+        touchActive = true;
+        img.style.transition = 'transform 0.1s ease-out';
+        const touch = e.touches[0];
+        const rect = container.getBoundingClientRect();
+        const x = ((touch.clientX - rect.left) / rect.width) * 100;
+        const y = ((touch.clientY - rect.top) / rect.height) * 100;
+        setTransform(x, y);
+      }, { passive: true });
+
+      container.addEventListener('touchmove', (e) => {
+        if (!touchActive) return;
+        const touch = e.touches[0];
+        const rect = container.getBoundingClientRect();
+        const x = ((touch.clientX - rect.left) / rect.width) * 100;
+        const y = ((touch.clientY - rect.top) / rect.height) * 100;
+        setTransform(x, y);
+      }, { passive: true });
+
+      container.addEventListener('touchend', () => {
+        touchActive = false;
+        img.style.transition = 'transform 0.3s ease-out';
+        resetTransform();
+      });
+    })();
+
     // Copiar enlace
     document.getElementById('copyLinkBtn')?.addEventListener('click', async function () {
       const url = this.dataset.url;
