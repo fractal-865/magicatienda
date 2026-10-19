@@ -794,7 +794,7 @@ function medirFilasBarra(): number {
   if (!main) return 0;
   const hijos = [...main.children]
     .flatMap((e) => (getComputedStyle(e).display === 'contents' ? [...e.children] : [e]))
-    .filter((e) => e.offsetWidth > 0 && e.offsetHeight > 0)
+    .filter((e) => (e as HTMLElement).offsetWidth > 0 && (e as HTMLElement).offsetHeight > 0)
     .map((e) => {
       const r = e.getBoundingClientRect();
       return [r.top, r.bottom] as [number, number];
@@ -1334,7 +1334,7 @@ function renderMini() {
       if (b.dataset.rq === '+') {
         // Nueva línea con el mismo disfraz, para poder elegir otra talla
         const prod = byId(it.id);
-        const talla = isProduct(prod) ? (prod.tl[0] ?? 'único') : 'único';
+        const talla = prod && isProduct(prod) ? (prod.tl[0] ?? 'único') : 'único';
         state.cart.splice(Number(b.dataset.k) + 1, 0, { id: it.id, tipo: it.tipo, talla, qty: 1 });
       } else {
         it.qty--;
@@ -1990,7 +1990,7 @@ if (enCatalogo) {
 }
 
 /* Exponer funciones para paginas individuales */
-(window as any).addItemToCart = (id, talla) => addItem(id, 'd', talla, 1);
+(window as any).addItemToCart = (id: string, talla: string) => addItem(id, 'd', talla, 1);
 (window as any).openCartModal = () => openMini();
 (window as any).openMiniCart = () => openMini();
 
