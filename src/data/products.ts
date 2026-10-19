@@ -93,6 +93,18 @@ export const catById = (id: string): Cat => CATS.find((c) => c.id === id) ?? CAT
 /** Genera el slug para la URL de un disfraz: "1-disfraz-de-akatsuki-de-naruto" */
 export const disfrazSlug = (p: Product): string => `${p.id}-${slug(p.n)}`;
 
+/* Ruta de una miniatura generada por scripts/generar-thumbs.mjs.
+   Se deriva por convención de nombre, sin tocar disfraces.json:
+     thumb('/img/13-disfraz-de-cardenal.avif', 400)
+       → '/img/thumbs/13-disfraz-de-cardenal-400.avif'
+   Si la miniatura no existiera, el <img> cae solo a `img` (la original). */
+export const thumb = (img: string, ancho: number): string =>
+  img.replace('/img/', '/img/thumbs/').replace(/\.avif$/i, `-${ancho}.avif`);
+
+/** srcset de las dos miniaturas (400 y 560 px) listo para un <img>. */
+export const thumbSrcset = (img: string): string =>
+  `${thumb(img, 400)} 400w, ${thumb(img, 560)} 560w`;
+
 /** Busca un disfraz por su slug */
 export const getDisfrazBySlug = (slugParam: string): Product | undefined => {
   const id = parseInt(slugParam.split('-')[0], 10);

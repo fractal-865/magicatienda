@@ -8,7 +8,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "og": "node scripts/generar-og.mjs"
+    "og": "node scripts/generar-og.mjs",
+    "thumbs": "node scripts/generar-thumbs.mjs"
   },
   "dependencies": {
     "@fontsource/caveat": "^5.3.0",
