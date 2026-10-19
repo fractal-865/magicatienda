@@ -30,6 +30,8 @@ const slug = disfrazSlug(c);
 const pageUrl = url(`/disfraz/${slug}/`);
 const waMsg = `¡Hola! Quiero cotizar el arriendo del disfraz ${c.n} (#${codigo}) para adultos. ¿Está disponible? ${pageUrl}`;
 const waHref = waLink(waMsg);
+const waShare = `https://api.whatsapp.com/send?text=${encodeURIComponent(`${c.n} — ${pageUrl}`)}`;
+const fbShare = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
 
 const title = `${c.n} | Arriendo de disfraces en Punta Arenas`;
 const description = `${c.d.slice(0, 150)}. Arriendo de disfraces en Punta Arenas.`;
@@ -187,7 +189,14 @@ const descParrafos = (() => {
             <div class="mt-4 flex items-center justify-center gap-3 border-t border-line pt-4 text-[.75rem] font-semibold text-ink2">
               <button type="button" class="link-mini" id="copyLinkBtn" data-url={pageUrl}>🔗 Copiar enlace</button>
               <span class="opacity-40">•</span>
-              <button type="button" class="link-mini" id="shareBtn">📲 Compartir</button>
+              <div class="relative">
+                <button type="button" class="link-mini" id="shareBtn" aria-expanded="false" aria-haspopup="true">📲 Compartir</button>
+                <div id="shareMenu" class="share-menu hidden" role="menu" aria-label="Compartir por">
+                  <a class="share-item" role="menuitem" href={waShare} target="_blank" rel="noopener">💬 WhatsApp</a>
+                  <a class="share-item" role="menuitem" href={fbShare} target="_blank" rel="noopener">👍 Facebook</a>
+                  <button type="button" class="share-item" role="menuitem" data-net="instagram">📸 Instagram</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -380,28 +389,103 @@ const descParrafos = (() => {
       pintar();
     })();
 
-    // Copiar enlace
-    const pageUrl = document.getElementById('copyLinkBtn')?.dataset.url || location.href;
-    document.getElementById('copyLinkBtn')?.addEventListener('click', async function () {
-      const url = this.dataset.url || location.href;
-      try {
-        await navigator.clipboard.writeText(url);
-        this.textContent = '✅ ¡Enlace copiado!';
-        setTimeout(() => { this.textContent = '🔗 Copiar enlace'; }, 2000);
-      } catch {
-        this.textContent = '❌ No se pudo copiar';
-        setTimeout(() => { this.textContent = '🔗 Copiar enlace'; }, 2000);
+    // ── Copiar al portapapeles (con respaldo si la API no está disponible) ──
+    function copiarTexto(texto) {
+      return new Promise(function (resolve) {
+        function respaldo(t) {
+          try {
+            const ta = document.createElement('textarea');
+            ta.value = t;
+            ta.setAttribute('readonly', '');
+            ta.style.position = 'fixed';
+            ta.style.top = '-1000px';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            ta.setSelectionRange(0, t.length);
+            const ok = document.execCommand('copy');
+            document.body.removeChild(ta);
+            return ok;
+          } catch (e) {
+            return false;
+          }
+        }
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(texto).then(
+            function () { resolve(true); },
+            function () { resolve(respaldo(texto)); }
+          );
+        } else {
+          resolve(respaldo(texto));
+        }
+      });
+    }
+
+    function avisar(msg) {
+      let t = document.getElementById('__aviso');
+      if (!t) {
+        t = document.createElement('div');
+        t.id = '__aviso';
+        t.className = 'aviso-flotante';
+        document.body.appendChild(t);
       }
+      t.textContent = msg;
+      void t.offsetWidth;
+      t.classList.add('on');
+      clearTimeout(t.__t);
+      t.__t = setTimeout(function () { t.classList.remove('on'); }, 2400);
+    }
+
+    const enlaceFicha = document.getElementById('copyLinkBtn')?.dataset.url || location.href;
+
+    document.getElementById('copyLinkBtn')?.addEventListener('click', async function () {
+      const ok = await copiarTexto(this.dataset.url || location.href);
+      this.textContent = ok ? '✅ ¡Enlace copiado!' : '❌ No se pudo copiar';
+      avisar(ok ? 'Enlace copiado al portapapeles' : 'No se pudo copiar el enlace');
+      setTimeout(() => { this.textContent = '🔗 Copiar enlace'; }, 2000);
     });
 
-    // Compartir: usa el menú nativo si existe; si no, WhatsApp
-    document.getElementById('shareBtn')?.addEventListener('click', async function () {
-      const data = { title: document.title, text: document.title, url: pageUrl };
-      if (navigator.share) {
-        try { await navigator.share(data); } catch { /* el usuario canceló */ }
-      } else {
-        window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(document.title + ' — ' + pageUrl), '_blank', 'noopener');
+    // ── Menú de compartir: WhatsApp · Facebook · Instagram ──
+    const shareBtn = document.getElementById('shareBtn');
+    const shareMenu = document.getElementById('shareMenu');
+    const cerrarShare = () => {
+      shareMenu?.classList.add('hidden');
+      shareBtn?.setAttribute('aria-expanded', 'false');
+    };
+    shareBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const abrir = shareMenu?.classList.contains('hidden');
+      if (abrir && shareMenu) {
+        // Abre hacia donde haya más espacio para que nunca quede cortado.
+        const r = shareBtn.getBoundingClientRect();
+        shareMenu.classList.toggle('arriba', window.innerHeight - r.bottom < 160);
       }
+      shareMenu?.classList.toggle('hidden', !abrir);
+      shareBtn.setAttribute('aria-expanded', abrir ? 'true' : 'false');
+    });
+    document.addEventListener('click', (e) => {
+      if (!shareMenu?.contains(e.target) && e.target !== shareBtn) cerrarShare();
+    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarShare(); });
+    shareMenu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', cerrarShare));
+
+    // Instagram no tiene enlace web para compartir: en el teléfono abrimos el
+    // menú nativo (donde aparece Instagram) y en escritorio copiamos el enlace
+    // y abrimos Instagram para pegarlo.
+    shareMenu?.querySelector('[data-net="instagram"]')?.addEventListener('click', async function () {
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: document.title, text: document.title, url: enlaceFicha });
+          cerrarShare();
+          return;
+        } catch (err) {
+          if (err && err.name === 'AbortError') { cerrarShare(); return; }
+        }
+      }
+      const ok = await copiarTexto(enlaceFicha);
+      avisar(ok ? 'Enlace copiado: pégalo en tu Instagram 📸' : 'Copia el enlace y pégalo en tu Instagram');
+      window.open('https://www.instagram.com/', '_blank', 'noopener');
+      cerrarShare();
     });
 
     // Añadir al arriendo con la talla elegida
@@ -462,17 +546,18 @@ const descParrafos = (() => {
       sync();
     })();
 
-    // La columna de datos sigue el scroll en escritorio. Si no cabe completa
-    // en pantalla, se le permite desplazarse por dentro (nunca queda cortada).
+    // La columna de datos sigue el scroll en escritorio cuando alcanza a
+    // caber completa en pantalla. Sin scroll interno: eso trababa el
+    // desplazamiento de la página al girar la rueda sobre la columna.
     (function () {
       const info = document.querySelector('.info-col');
       if (!info) return;
       const mq = window.matchMedia('(min-width: 900px)');
       const ajustar = () => {
-        info.classList.remove('is-scroll');
+        info.classList.remove('can-stick');
         if (!mq.matches) return;
-        const libre = window.innerHeight - 140; // header pegajoso + márgenes
-        if (info.offsetHeight > libre) info.classList.add('is-scroll');
+        const libre = window.innerHeight - 130; // header pegajoso + margen
+        if (info.offsetHeight <= libre) info.classList.add('can-stick');
       };
       ajustar();
       window.addEventListener('resize', ajustar);
@@ -594,22 +679,85 @@ const descParrafos = (() => {
     color: var(--color-m600);
   }
 
+  /* ── Ficha: menú de compartir ── */
+  .share-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    z-index: 70;
+    min-width: 190px;
+    padding: 0.4rem;
+    border: 1.5px solid var(--color-line);
+    border-radius: 0.9rem;
+    background: #fff;
+    box-shadow: 0 16px 40px rgb(90 42 156 / 0.22);
+    transform: translateX(-50%);
+  }
+  .share-menu.arriba {
+    top: auto;
+    bottom: calc(100% + 8px);
+  }
+  .share-menu.hidden {
+    display: none;
+  }
+  .share-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.5rem 0.65rem;
+    border: 0;
+    border-radius: 0.6rem;
+    background: transparent;
+    color: var(--color-ink);
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .share-item:hover {
+    background: #f6f1ff;
+  }
+
+  /* ── Aviso flotante (copia / compartir) ──
+     Es global porque el elemento lo crea el script en tiempo de ejecución
+     (los estilos con ámbito no lo alcanzarían). */
+  :global(.aviso-flotante) {
+    position: fixed;
+    left: 50%;
+    bottom: 26px;
+    z-index: 9999;
+    max-width: 90vw;
+    padding: 0.7rem 1.1rem;
+    border-radius: 999px;
+    background: #1d1230;
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    box-shadow: 0 12px 30px rgb(0 0 0 / 0.28);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 18px);
+    transition: opacity 0.25s, transform 0.25s;
+  }
+  :global(.aviso-flotante.on) {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
   /* ── Ficha: columna de datos pegajosa ──
-     Sigue el scroll en escritorio. Si no cabe completa en pantalla, se
-     vuelve desplazable por dentro para que nunca quede cortada. */
+     Sigue el scroll en escritorio. Nunca usa scroll interno (eso trababa el
+     desplazamiento de la página); si por excepción no cupiera completa en
+     pantalla, simplemente acompaña la página como un bloque normal. */
   @media (min-width: 900px) {
     .info-col {
       align-self: start;
+    }
+    .info-col.can-stick {
       position: sticky;
       top: 7.4rem;
-    }
-    .info-col.is-scroll {
-      max-height: calc(100dvh - 8.75rem);
-      overflow-y: auto;
-      overscroll-behavior: contain;
-      padding-right: 2px;
-      scrollbar-width: thin;
-      scrollbar-color: #d8ccef transparent;
     }
   }
 
