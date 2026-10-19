@@ -42,7 +42,10 @@
     font-family: var(--font-fb);
     color: var(--color-ink);
     background: linear-gradient(180deg, #f8f5ff 0%, #f2ecfb 100%);
-    overflow-x: hidden;
+    /* clip (en vez de hidden) evita el scroll horizontal sin crear un
+       contenedor de scroll: con hidden, position:sticky de las columnas
+       internas dejaba de funcionar. */
+    overflow-x: clip;
     min-height: 100vh;
   }
   h1,

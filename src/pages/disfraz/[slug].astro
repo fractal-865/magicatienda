@@ -34,6 +34,14 @@ const waHref = waLink(waMsg);
 const title = `${c.n} | Arriendo de disfraces en Punta Arenas`;
 const description = `${c.d.slice(0, 150)}. Arriendo de disfraces en Punta Arenas.`;
 const ogImage = url(c.img);
+
+/* La descripción se parte en dos párrafos (como en la maqueta) cortando
+   después de la primera frase. Si no hay un corte claro, queda uno solo. */
+const descParrafos = (() => {
+  const t = String(c.d).trim();
+  const m = t.match(/^([^.]{40,}?\.)\s+(.+)$/);
+  return m ? [m[1], m[2]] : [t];
+})();
 ---
 
 <Layout
@@ -83,127 +91,105 @@ const ogImage = url(c.img);
         </div>
 
         <!-- Info -->
-        <div class="flex flex-col gap-4">
-          <div>
-            <span class="text-[.75rem] font-extrabold uppercase tracking-[.05em] text-m500">{T.i} {T.n}</span>
-            <h1 class="mt-1 font-ft text-[2rem] leading-tight text-ink min-[900px]:text-[2.4rem]">{c.n}</h1>
-          </div>
-
-          <p class="text-[.95rem] leading-[1.6] text-ink2">{c.d}</p>
-
-          <!-- Categorías -->
-          <div class="flex flex-wrap gap-2">
-            {c.cats.map((catId) => {
-              const cat = catById(catId);
-              return (
-                <a href={ir(`/catalogo/?cat=${catId}`)} class="rounded-full border-[1.5px] border-line bg-white px-3 py-1 text-[.75rem] font-bold text-m600 transition hover:border-m400 hover:bg-mist">
-                  {cat.i} {cat.n}
-                </a>
-              );
-            })}
-          </div>
-
-          <!-- Tallas -->
-          <div id="tallasSection">
-            <b class="block text-[.9rem] text-ink">📏 Tallas disponibles:</b>
-            <div class="mt-2 flex flex-wrap gap-2">
-              {c.tl.map((t) => (
-                <span class="tip cursor-help rounded-lg bg-[#f0eaff] px-3 py-1.5 text-[.8rem] font-extrabold text-m600" data-tip={TALLA_GUIA[t] ? TALLA_GUIA[t] : 'Sin referencia de estatura'} tabindex="0">
-                  {displayTalla(t)}
-                </span>
-              ))}
+        <div class="info-col flex flex-col gap-3">
+          <!-- Categorías y género -->
+          <div class="space-y-3">
+            <div class="flex flex-wrap items-center gap-2">
+              {c.cats.map((catId, i) => {
+                const cat = catById(catId);
+                return (
+                  <a href={ir(`/catalogo/?cat=${catId}`)} class={`pill-cat ${i % 2 === 0 ? 'pill-cat-main' : 'pill-cat-alt'}`}>
+                    {cat.i} {cat.n}
+                  </a>
+                );
+              })}
+              <span class="pill-cat pill-cat-gen">
+                {c.pub === 'mujer' ? '👩 Mujer' : c.pub === 'hombre' ? '👤 Hombre' : '🧑 Unisex'} / Solo Adultos
+              </span>
             </div>
-            <p class="mt-1 text-[.75rem] text-ink2">
-              {c.pub === 'mujer' ? '👩 Mujer' : c.pub === 'hombre' ? '👨 Hombre' : '🧑 Unisex'} · Solo adultos
+            <h1 class="font-ft text-[2rem] leading-tight text-ink min-[900px]:text-[2.4rem]">{c.n}</h1>
+            <p class="text-[.85rem] font-medium text-ink2">
+              Código de inventario: <b class="text-m600">#{codigo}</b>
             </p>
           </div>
 
+          <!-- Descripción -->
+          <div class="space-y-3 rounded-2xl border-[1.5px] border-line bg-white p-4 shadow-sh">
+            {descParrafos.map((p) => (
+              <p class="text-[.92rem] leading-[1.65] text-ink2">{p}</p>
+            ))}
+          </div>
 
-
-          <!-- Valor -->
-          <div class="rounded-2xl border-2 border-line bg-[#f9f6ff] p-4">
-            <div class="flex items-baseline gap-2">
-              <span class="flex items-baseline gap-1.5">
-                <small class="text-[.66rem] font-bold uppercase tracking-[.02em] text-ink2">Desde</small>
-                <b class="font-ft text-[1.8rem] font-bold leading-none text-m600">$15.000</b>
-              </span>
-              <span class="text-[.8rem] font-bold text-ink2">arriendo por 3 días (retiro, uso y entrega)</span>
+          <!-- Tallas -->
+          <div id="tallasSection" class="space-y-3">
+            <b class="flex items-center gap-2 text-[.9rem] font-bold text-ink">🏷️ Tallas disponibles:</b>
+            <div class="grid grid-cols-3 gap-3">
+              {c.tl.map((t) => (
+                <button
+                  type="button"
+                  class="talla-btn"
+                  data-t={t}
+                  aria-label={`Talla ${displayTalla(t)}${TALLA_GUIA[t] ? ', estatura ' + TALLA_GUIA[t] : ''}`}
+                >
+                  <span class="talla-nom">Talla {displayTalla(t)}</span>
+                  <span class="talla-sub">{TALLA_GUIA[t] ? `Estatura ${TALLA_GUIA[t]}` : 'Estatura referencial'}</span>
+                </button>
+              ))}
             </div>
           </div>
 
-          <!-- Botón principal: Añadir al carrito -->
-          <button
-            type="button"
-            class="btn btn-mora btn-lg w-full"
-            id="addCartBtn"
-            data-id={c.id}
-          >
-            🛒 Agregar a mi arriendo
-          </button>
-
-          <!-- Acciones secundarias (más pequeñas) -->
-          <div class="flex flex-wrap gap-2">
-            <a
-              href={waHref}
-              target="_blank"
-              rel="noopener"
-              class="btn btn-wsp btn-sm flex items-center gap-1.5"
-            >
-              💬 Cotizar
-            </a>
-            <button
-              type="button"
-              class="btn btn-ghost btn-sm flex items-center gap-1.5"
-              id="copyLinkBtn"
-              data-url={pageUrl}
-            >
-              🔗 Copiar
-            </button>
-            <div class="relative">
-              <button
-                type="button"
-                class="btn btn-ghost btn-sm flex items-center gap-1.5"
-                id="shareBtn"
-                aria-expanded="false"
-                aria-haspopup="true"
-              >
-                📲 Compartir
-              </button>
-              <div
-                id="shareMenu"
-                class="absolute left-0 top-full z-50 mt-1 hidden min-w-[180px] rounded-xl border-2 border-line bg-white p-2 shadow-sh2"
-              >
-                <a
-                  href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${c.n} — ${pageUrl}`)}`}
-                  target="_blank"
-                  rel="noopener"
-                  class="flex items-center gap-2 rounded-lg px-3 py-2 text-[.85rem] font-bold text-ink transition hover:bg-mist"
-                >
-                  💬 WhatsApp
-                </a>
-                <a
-                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`}
-                  target="_blank"
-                  rel="noopener"
-                  class="flex items-center gap-2 rounded-lg px-3 py-2 text-[.85rem] font-bold text-ink transition hover:bg-mist"
-                >
-                  👍 Facebook
-                </a>
-                <a
-                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${c.n}`)}&url=${encodeURIComponent(pageUrl)}`}
-                  target="_blank"
-                  rel="noopener"
-                  class="flex items-center gap-2 rounded-lg px-3 py-2 text-[.85rem] font-bold text-ink transition hover:bg-mist"
-                >
-                  🐦 X (Twitter)
-                </a>
+          <!-- Tarjeta de arriendo: tarifa, garantía, limpieza y acciones -->
+          <div class="pricing-card rounded-2xl border-2 border-line p-4 shadow-sh">
+            <div class="flex flex-col gap-3 border-b border-line pb-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <span class="block text-[.7rem] font-extrabold uppercase tracking-[.08em] text-m500">Tarifa de arriendo</span>
+                <div class="flex items-baseline gap-2">
+                  <span class="font-ft text-[2.1rem] font-extrabold leading-none text-ink">$15.000</span>
+                  <span class="text-[.8rem] font-semibold text-ink2">CLP / período completo</span>
+                </div>
+              </div>
+              <div class="inline-flex items-center gap-2 self-start rounded-xl border border-line bg-white px-3 py-1.5 text-[.75rem] font-bold text-ink sm:self-auto">
+                <svg viewBox="0 0 24 24" class="h-4 w-4 text-m600" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z"/></svg>
+                Incluye 3 días (retiro, uso y entrega)
               </div>
             </div>
-          </div>
 
-          <p class="text-[.75rem] text-ink2">
-            Arriendo por 3 días: retiro, uso y entrega. Tallas S a XXL. Solo adultos.
-          </p>
+            <div class="space-y-2.5 py-3.5 text-[.8rem] text-ink2">
+              <div class="flex items-center justify-between gap-3">
+                <span class="flex items-center gap-1.5 font-medium"><i class="dot dot-green"></i> Garantía reembolsable:</span>
+                <b class="text-ink">$15.000 o $20.000 (se reintegra al devolver)</b>
+              </div>
+              <div class="flex items-center justify-between gap-3">
+                <span class="flex items-center gap-1.5 font-medium"><i class="dot dot-mora"></i> Limpieza y desinfección:</span>
+                <b class="text-[#0c7a56]">¡Incluida sin costo adicional!</b>
+              </div>
+            </div>
+
+            <div class="space-y-3 pt-1">
+              <button
+                type="button"
+                class="btn btn-mora btn-lg w-full"
+                id="addCartBtn"
+                data-id={c.id}
+              >
+                🛒 Agregar a mi arriendo
+              </button>
+              <a
+                href={waHref}
+                target="_blank"
+                rel="noopener"
+                class="btn btn-wsp btn-lg w-full"
+              >
+                💬 Consultar disponibilidad por WhatsApp
+              </a>
+            </div>
+
+            <div class="mt-4 flex items-center justify-center gap-3 border-t border-line pt-4 text-[.75rem] font-semibold text-ink2">
+              <button type="button" class="link-mini" id="copyLinkBtn" data-url={pageUrl}>🔗 Copiar enlace</button>
+              <span class="opacity-40">•</span>
+              <button type="button" class="link-mini" id="shareBtn">📲 Compartir</button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -213,22 +199,30 @@ const ogImage = url(c.img);
       <section class="mx-auto max-w-[1220px] px-4 pb-12">
         <h2 class="sec-sm rv">🎭 Disfraces similares</h2>
         <p class="sec-sub rv">Otros disfraces que te pueden gustar</p>
-        <div class="flex gap-3 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
-          {similares.map((s) => {
-            const sSlug = disfrazSlug(s);
-            return (
-              <a href={ir(`/disfraz/${sSlug}/`)} class="group block w-[160px] shrink-0 snap-start overflow-hidden rounded-2xl border-[1.5px] border-line bg-white shadow-sh transition hover:-translate-y-1 hover:shadow-sh2 min-[560px]:w-[200px]">
-                <div class="relative aspect-[2/3] overflow-hidden bg-[#f0eaff]">
-                  <img src={s.img} alt={s.n} class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105" loading="lazy" />
-                  <span class="absolute left-2 top-2 rounded-full bg-m600/90 px-2 py-0.5 text-[.65rem] font-extrabold text-white">#{String(s.id).padStart(3, '0')}</span>
-                </div>
-                <div class="p-3">
-                  <h3 class="text-[.9rem] font-semibold text-ink line-clamp-2">{s.n}</h3>
-                  <span class="mt-1 block text-[.75rem] font-bold text-m500">{catById(s.t).i} {catById(s.t).n}</span>
-                </div>
-              </a>
-            );
-          })}
+        <div class="relative">
+          <button type="button" id="simPrev" class="car-arrow car-arrow-l" aria-label="Ver disfraces anteriores" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button type="button" id="simNext" class="car-arrow car-arrow-r" aria-label="Ver más disfraces">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+          <div id="simTrack" class="flex gap-3 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+            {similares.map((s) => {
+              const sSlug = disfrazSlug(s);
+              return (
+                <a href={ir(`/disfraz/${sSlug}/`)} class="group block w-[160px] shrink-0 snap-start overflow-hidden rounded-2xl border-[1.5px] border-line bg-white shadow-sh transition hover:-translate-y-1 hover:shadow-sh2 min-[560px]:w-[200px]">
+                  <div class="relative aspect-[2/3] overflow-hidden bg-[#f0eaff]">
+                    <img src={s.img} alt={s.n} class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+                    <span class="absolute left-2 top-2 rounded-full bg-m600/90 px-2 py-0.5 text-[.65rem] font-extrabold text-white">#{String(s.id).padStart(3, '0')}</span>
+                  </div>
+                  <div class="p-3">
+                    <h3 class="text-[.9rem] font-semibold text-ink line-clamp-2">{s.n}</h3>
+                    <span class="mt-1 block text-[.75rem] font-bold text-m500">{catById(s.t).i} {catById(s.t).n}</span>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
         </div>
       </section>
     )}
@@ -387,43 +381,38 @@ const ogImage = url(c.img);
     })();
 
     // Copiar enlace
+    const pageUrl = document.getElementById('copyLinkBtn')?.dataset.url || location.href;
     document.getElementById('copyLinkBtn')?.addEventListener('click', async function () {
-      const url = this.dataset.url;
+      const url = this.dataset.url || location.href;
       try {
         await navigator.clipboard.writeText(url);
-        this.textContent = '✅ Copiado';
-        setTimeout(() => { this.textContent = '🔗 Copiar'; }, 2000);
+        this.textContent = '✅ ¡Enlace copiado!';
+        setTimeout(() => { this.textContent = '🔗 Copiar enlace'; }, 2000);
       } catch {
-        this.textContent = '❌ Error';
-        setTimeout(() => { this.textContent = '🔗 Copiar'; }, 2000);
+        this.textContent = '❌ No se pudo copiar';
+        setTimeout(() => { this.textContent = '🔗 Copiar enlace'; }, 2000);
       }
     });
 
-    // Menú de compartir
-    const shareBtn = document.getElementById('shareBtn');
-    const shareMenu = document.getElementById('shareMenu');
-    shareBtn?.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const open = shareMenu?.classList.contains('hidden');
-      shareMenu?.classList.toggle('hidden', !open);
-      shareBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-    document.addEventListener('click', (e) => {
-      if (!shareMenu?.contains(e.target) && e.target !== shareBtn) {
-        shareMenu?.classList.add('hidden');
-        shareBtn?.setAttribute('aria-expanded', 'false');
+    // Compartir: usa el menú nativo si existe; si no, WhatsApp
+    document.getElementById('shareBtn')?.addEventListener('click', async function () {
+      const data = { title: document.title, text: document.title, url: pageUrl };
+      if (navigator.share) {
+        try { await navigator.share(data); } catch { /* el usuario canceló */ }
+      } else {
+        window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(document.title + ' — ' + pageUrl), '_blank', 'noopener');
       }
     });
 
-    // Añadir al carrito
+    // Añadir al arriendo con la talla elegida
     let selectedTalla = '';
     const tallaSection = document.getElementById('tallasSection');
-    const tallas = tallaSection?.querySelectorAll('.tip');
+    const tallas = tallaSection?.querySelectorAll('.talla-btn');
     tallas?.forEach((t) => {
       t.addEventListener('click', function () {
-        selectedTalla = this.textContent.trim();
-        tallas.forEach((x) => x.classList.remove('ring-2', 'ring-m600', 'bg-m600', 'text-white'));
-        this.classList.add('ring-2', 'ring-m600', 'bg-m600', 'text-white');
+        selectedTalla = this.dataset.t;
+        tallas.forEach((x) => x.classList.remove('on'));
+        this.classList.add('on');
       });
     });
     // Si solo hay una talla, seleccionarla automáticamente
@@ -433,7 +422,7 @@ const ogImage = url(c.img);
 
     document.getElementById('addCartBtn')?.addEventListener('click', function () {
       const id = Number(this.dataset.id);
-      const talla = selectedTalla || (tallas && tallas.length === 1 ? tallas[0].textContent.trim() : '');
+      const talla = selectedTalla || (tallas && tallas.length === 1 ? tallas[0].dataset.t : '');
       if (!talla && tallas && tallas.length > 0) {
         // Resaltar la sección de tallas
         if (tallaSection) {
@@ -453,6 +442,42 @@ const ogImage = url(c.img);
         window.openMiniCart();
       }
     });
+
+    // Flechas del carrusel de disfraces similares
+    (function () {
+      const track = document.getElementById('simTrack');
+      const prev = document.getElementById('simPrev');
+      const next = document.getElementById('simNext');
+      if (!track || !prev || !next) return;
+      const paso = () => Math.max(200, Math.round(track.clientWidth * 0.8));
+      const sync = () => {
+        const max = track.scrollWidth - track.clientWidth - 1;
+        prev.disabled = track.scrollLeft <= 1;
+        next.disabled = track.scrollLeft >= max;
+      };
+      prev.addEventListener('click', () => track.scrollBy({ left: -paso(), behavior: 'smooth' }));
+      next.addEventListener('click', () => track.scrollBy({ left: paso(), behavior: 'smooth' }));
+      track.addEventListener('scroll', sync, { passive: true });
+      window.addEventListener('resize', sync);
+      sync();
+    })();
+
+    // La columna de datos sigue el scroll en escritorio. Si no cabe completa
+    // en pantalla, se le permite desplazarse por dentro (nunca queda cortada).
+    (function () {
+      const info = document.querySelector('.info-col');
+      if (!info) return;
+      const mq = window.matchMedia('(min-width: 900px)');
+      const ajustar = () => {
+        info.classList.remove('is-scroll');
+        if (!mq.matches) return;
+        const libre = window.innerHeight - 140; // header pegajoso + márgenes
+        if (info.offsetHeight > libre) info.classList.add('is-scroll');
+      };
+      ajustar();
+      window.addEventListener('resize', ajustar);
+      if (document.fonts?.ready) document.fonts.ready.then(ajustar);
+    })();
   </script>
 </Layout>
 
@@ -463,7 +488,166 @@ const ogImage = url(c.img);
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  /* El globito de las tallas lo dibuja site.ts (la capa .tip-pop): antes había
-     además un ::after en CSS y al pasar el mouse se veían los dos textos. */
+
+  /* ── Ficha: píldoras de categoría ── */
+  .pill-cat {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.26rem 0.72rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    font-size: 0.72rem;
+    font-weight: 800;
+    line-height: 1.5;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .pill-cat:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(74, 27, 150, 0.12);
+  }
+  .pill-cat-main {
+    background: #f0e6ff;
+    border-color: #e0cdff;
+    color: #4a1b96;
+  }
+  .pill-cat-alt {
+    background: #fdf3d9;
+    border-color: #f2e0a8;
+    color: #7a5b00;
+  }
+  .pill-cat-gen {
+    background: #f2f1f6;
+    border-color: #e6e4ee;
+    color: #4a4560;
+  }
+
+  /* ── Ficha: tarjeta de tarifa ── */
+  .pricing-card {
+    background: linear-gradient(160deg, #f6f1ff, #ffffff 72%);
+  }
+  .dot {
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    flex: none;
+  }
+  .dot-green {
+    background: #22c55e;
+  }
+  .dot-mora {
+    background: #8b5cf6;
+  }
+
+  /* ── Ficha: botones de talla ── */
+  .talla-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.15rem;
+    padding: 0.7rem 0.4rem;
+    border: 2px solid var(--color-line);
+    border-radius: 0.85rem;
+    background: #fff;
+    color: var(--color-ink);
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  }
+  .talla-btn:hover {
+    border-color: var(--color-m400);
+  }
+  .talla-btn .talla-nom {
+    font-size: 0.95rem;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+  .talla-btn .talla-sub {
+    font-size: 0.66rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--color-ink2);
+  }
+  .talla-btn.on {
+    border-color: var(--color-m600);
+    background: #f6f1ff;
+    box-shadow: 0 0 0 3px rgba(90, 42, 156, 0.14);
+  }
+  .talla-btn.on .talla-sub {
+    color: var(--color-m600);
+  }
+
+  /* ── Ficha: enlaces pequeños (copiar / compartir) ── */
+  .link-mini {
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .link-mini:hover {
+    color: var(--color-m600);
+  }
+
+  /* ── Ficha: columna de datos pegajosa ──
+     Sigue el scroll en escritorio. Si no cabe completa en pantalla, se
+     vuelve desplazable por dentro para que nunca quede cortada. */
+  @media (min-width: 900px) {
+    .info-col {
+      align-self: start;
+      position: sticky;
+      top: 7.4rem;
+    }
+    .info-col.is-scroll {
+      max-height: calc(100dvh - 8.75rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding-right: 2px;
+      scrollbar-width: thin;
+      scrollbar-color: #d8ccef transparent;
+    }
+  }
+
+  /* ── Flechas del carrusel de similares ── */
+  .car-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 5;
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border: 1.5px solid var(--color-line);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.96);
+    color: var(--color-m600);
+    box-shadow: 0 6px 16px rgba(74, 27, 150, 0.18);
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition: background 0.2s, color 0.2s, opacity 0.2s;
+  }
+  .car-arrow:hover {
+    background: var(--color-m600);
+    border-color: var(--color-m600);
+    color: #fff;
+  }
+  .car-arrow svg {
+    width: 20px;
+    height: 20px;
+  }
+  .car-arrow-l {
+    left: 4px;
+  }
+  .car-arrow-r {
+    right: 4px;
+  }
+  .car-arrow[disabled] {
+    opacity: 0;
+    pointer-events: none;
+  }
 </style>
----<|end|><|start|>write to=assistant<|channel|>analysis<|message|>Created file successfully: src/pages/disfraz/[slug].astro

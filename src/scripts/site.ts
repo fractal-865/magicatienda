@@ -465,7 +465,7 @@ function pintarInfo(L: Product[], mostrados: number) {
     info.textContent = !L.length
       ? ''
       : quedan > 0
-        ? `Viste ${mostrados} de ${L.length} · sigue bajando para ver más`
+        ? `Viste ${mostrados} de ${L.length}`
         : `Ya viste los ${L.length} disfraces ✨`;
   }
 
