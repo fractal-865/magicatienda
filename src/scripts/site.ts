@@ -1557,7 +1557,7 @@ function renderReq() {
   const tot = rentalTotal();
   const gar = guaranteeTotal();
   rb.innerHTML = `<div class="mb-2 flex flex-wrap items-center gap-2"><h3 class="m-0 text-[1.5rem]">🛒 Tu solicitud de arriendo</h3><span class="req-pill green">💬 Se envía por WhatsApp</span></div>
-  <p class="totnote mb-3">Es solo una cotización: el valor del arriendo y la garantía se revisan y confirman en la tienda al reservar.</p>
+  <p class="totnote mb-3">Es solo una cotización: los valores se confirman y revisan por WhatsApp al reservar.</p>
   ${
     state.cart.length
       ? state.cart
