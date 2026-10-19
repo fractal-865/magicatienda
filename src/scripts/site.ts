@@ -441,7 +441,21 @@ function pintarInfo(L: Product[], mostrados: number) {
   const info = $('#loadInfo');
   if (wrap) wrap.classList.toggle('hidden', quedan <= 0);
   if (more) more.textContent = `Cargar más disfraces (${quedan})`;
-  if (info) info.textContent = quedan > 0 ? `Te quedan ${quedan} por ver` : `Ya viste los ${L.length} disfraces ✨`;
+
+  /* Indicador de avance: la barrita va llenándose y el texto dice cuántos
+     llevas. Sin esto, con 156 disfraces y carga automática, la lista parece
+     no terminar nunca. */
+  const prog = $('#loadProg');
+  const fill = $('#loadFill');
+  if (prog) prog.classList.toggle('completo', quedan <= 0);
+  if (fill) fill.style.width = L.length ? `${Math.round((mostrados / L.length) * 100)}%` : '0%';
+  if (info) {
+    info.textContent = !L.length
+      ? ''
+      : quedan > 0
+        ? `Viste ${mostrados} de ${L.length} · sigue bajando para ver más`
+        : `Ya viste los ${L.length} disfraces ✨`;
+  }
 
   // Botón "Limpiar filtros": solo aparece cuando hay algo activo
   const cc = $('#catClear');
@@ -503,6 +517,17 @@ function cargarMas() {
   encuadrarFotos();
   pintarInfo(L, ini + nuevas.length);
   pintarBarra();
+}
+
+/* Al cargar solas se enciende el girador, pero solo si la tanda tarda lo
+   suficiente: como todo está en el navegador, si no, el giro parpadearía un
+   frame y se vería como un fallo. */
+function avisarCarga() {
+  const prog = $('#loadProg');
+  if (!prog) return;
+  prog.classList.add('cargando');
+  clearTimeout(avisarCarga.t);
+  avisarCarga.t = setTimeout(() => prog.classList.remove('cargando'), 260);
 }
 
 /* ── Dirección de la página del catálogo ──
@@ -633,7 +658,10 @@ $('#catCards')?.addEventListener('click', (e) => {
 });
 
 /* Paginación: el botón y la carga automática agregan la tanda siguiente */
-$('#loadMore')?.addEventListener('click', cargarMas);
+$('#loadMore')?.addEventListener('click', () => {
+  avisarCarga();
+  cargarMas();
+});
 
 /* Al cruzar el punto de quiebre (girar el teléfono, redimensionar la ventana)
    la tanda cambia de 20 a 12 o al revés: se repinta la grilla para que el
@@ -2036,9 +2064,18 @@ renderSticky();
 if (enCatalogo) {
   const wrap = $('#loadWrap');
   if (wrap) {
+    let cargando = false;
     new IntersectionObserver(
       (entradas) => {
-        if (entradas.some((e) => e.isIntersecting)) cargarMas();
+        if (!entradas.some((e) => e.isIntersecting) || cargando) return;
+        // Quedan disfraces por cargar: si no, el observador seguiría pidiendo
+        // tanda una y otra vez al final de la lista.
+        const L = filtered();
+        if (state.page * paso() >= L.length) return;
+        cargando = true;
+        avisarCarga();
+        cargarMas();
+        cargando = false;
       },
       { rootMargin: '0px 0px 420px 0px' },
     ).observe(wrap);

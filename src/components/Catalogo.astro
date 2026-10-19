@@ -185,8 +185,17 @@ const urlCatalogo = ir('/catalogo/');
         /* Catálogo completo: al llegar al final se cargan más por tandas (el botón
            queda como respaldo y el contador dice cuántos faltan por ver). */
         <div id="loadWrap" class="mt-6 hidden text-center">
-          <button id="loadMore" class="btn btn-mora">Cargar más disfraces</button>
-          <p id="loadInfo" class="mt-2 text-[.8rem] font-bold text-ink2"></p>
+          <!-- Barra de avance: con 156 disfraces y carga automática, sin esto
+               la lista parece no terminar nunca. Dice cuántos llevas y cuántos
+               quedan, y al cargar se pone en movimiento. -->
+          <div class="loadprog" id="loadProg" role="status" aria-live="polite">
+            <span class="loadprog-track"><span class="loadprog-fill" id="loadFill"></span></span>
+            <span class="loadprog-txt">
+              <span class="loadspin" id="loadSpin" aria-hidden="true"></span>
+              <span id="loadInfo"></span>
+            </span>
+          </div>
+          <button id="loadMore" class="btn btn-ghost btn-sm mt-3">Cargar más disfraces</button>
         </div>
       ) : (
         /* Portada: solo se ven 20 disfraces (12 en móvil); el resto vive en

@@ -2104,6 +2104,86 @@ body.drawer-lock {
   display: flex;
   animation: mup 0.3s;
 }
+/* ── Indicador de avance del catálogo ──
+   Con carga automática y 156 disfraces, sin esto la lista parece infinita.
+   Es deliberadamente discreto: una barrita delgada y una línea de texto. */
+.loadprog {
+  margin: 0 auto;
+  max-width: 420px;
+}
+.loadprog-track {
+  display: block;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgb(122 79 208 / 0.16);
+}
+.loadprog-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--color-m500), var(--color-m600));
+  transition: width 0.35s ease;
+}
+.loadprog-txt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 9px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-ink2);
+}
+/* El girador solo aparece si la tanda tarda: si sale en un frame, parpadea */
+.loadspin {
+  display: none;
+  width: 13px;
+  height: 13px;
+  flex: none;
+  border: 2px solid rgb(122 79 208 / 0.28);
+  border-top-color: var(--color-m600);
+  border-radius: 999px;
+  animation: loadgiro 0.7s linear infinite;
+}
+.loadprog.cargando .loadspin {
+  display: block;
+}
+.loadprog.cargando .loadprog-fill {
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgb(255 255 255 / 0.75) 50%,
+    transparent 100%
+  );
+  background-size: 60% 100%;
+  background-repeat: no-repeat;
+  animation: loadbarrido 1.1s ease-in-out infinite;
+}
+.loadprog.completo .loadprog-fill {
+  background: #0c7a56;
+}
+@keyframes loadgiro {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes loadbarrido {
+  0% {
+    background-position: -60% 0;
+  }
+  100% {
+    background-position: 160% 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loadspin,
+  .loadprog.cargando .loadprog-fill {
+    animation: none;
+  }
+}
+
 /* ═══ Barra de filtros en móvil y tablet: dos filas deslizables ═══
    Fila 1: buscador + categorías + limpiar. Fila 2: filtros activos + público + talla. */
 @media (max-width: 899px) {
