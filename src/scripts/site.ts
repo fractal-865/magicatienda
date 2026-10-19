@@ -829,22 +829,23 @@ function bindSearch(id: string, sugId?: string) {
 }
 bindSearch('catSearch', 'sugCat');
 
-/* ── Buscador único: en la cabecera solo la lupa, que baja al buscador del catálogo ── */
-$('#searchToggle')?.addEventListener('click', () => {
-  if (document.body.dataset.page === 'disfraz') {
-    // En páginas individuales, no redirigir (el buscador local se encarga)
-    return;
-  }
-  if (!enCatalogo) {
-    // En otras páginas, redirigir al catálogo con el buscador abierto
-    window.location.href = '/catalogo/?buscar=1';
-    return;
-  }
-  const sb = $('#catFilters .searchbox');
-  if (sb && !sb.classList.contains('open')) sb.classList.add('open');
-  scrollToCat();
-  setTimeout(() => $<HTMLInputElement>('#catSearch')?.focus(), reduced() ? 0 : 520);
-  setTimeout(ajustarFilasBarra, reduced() ? 0 : 420);
+/* ── Buscadores del menú ──
+   La lupa del header ya no está: ahora hay un campo dentro del mega menú
+   (escritorio) y otro en el cajón (móvil y tablet). Los dos escriben la
+   búsqueda en la URL y llevan al catálogo, que la aplica al llegar. */
+$$('[data-megasearch]').forEach((form) => {
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const inp = form.querySelector<HTMLInputElement>('input[type="search"]');
+    const q = inp?.value.trim() ?? '';
+    if (!q) return;
+    // Si ya estamos en el catálogo, se filtra en el sitio sin recargar la URL.
+    if (enCatalogo) {
+      applyFilter({ q });
+      return;
+    }
+    location.assign(`${RAIZ}/catalogo/?q=${encodeURIComponent(q)}`);
+  });
 });
 
 /* ── El buscador del catálogo empieza plegado (solo lupa) y se despliega al apretar ── */

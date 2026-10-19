@@ -96,13 +96,13 @@ const corto = (s: string) => CORTOS[s] ?? s;
         <a class={nlink} href={sec('#contacto')} data-navsec="contacto">Contacto</a>
       </nav>
 
-      <!-- Buscador + CTA de disfraces -->
+      <!-- CTA de disfraces. El buscador ya no vive acá: quedó dentro del mega
+           menú (escritorio) y del cajón (móvil y tablet). -->
       <div class="ml-auto flex items-center gap-2">
         <a href={urlCat} class="cta-disfraz cta-disfraz-b" aria-label="Ver los disfraces">
           <span class="cta-ico" aria-hidden="true">🎭</span>
-          <span class="hidden min-[460px]:inline">Disfraces</span>
+          <span>Disfraces</span>
         </a>
-        <button id="searchToggle" class="searchToggle" aria-label="Ir al buscador del catálogo">🔍</button>
       </div>
 
       <!-- Menú y carrito juntos, alineados a la derecha -->
@@ -141,6 +141,22 @@ const corto = (s: string) => CORTOS[s] ?? s;
     role="menu"
   >
     <span class="mega-arrow" aria-hidden="true"></span>
+    <!-- Buscador: ahora vive acá. Escribe y Enter lleva al catálogo filtrado. -->
+    <form
+      class="mega-search col-span-full -mt-1 flex items-center gap-2"
+      data-megasearch
+      role="search"
+    >
+      <label class="sr-only" for="megaSearchInput">Buscar disfraz por nombre o código</label>
+      <input
+        id="megaSearchInput"
+        type="search"
+        class="w-full rounded-[12px] border-[1.5px] border-line bg-[#f9f6ff] px-3.5 py-2.5 text-[.92rem] text-ink outline-none transition focus:border-m400"
+        placeholder="Buscar disfraz por nombre o código…"
+        autocomplete="off"
+      />
+      <button type="submit" class="btn btn-mora btn-sm shrink-0">Buscar</button>
+    </form>
     <div>
       <p class="mb-2.5 font-ft text-[.95rem] text-m600">🎭 Temática</p>
       <ul class="list-none">

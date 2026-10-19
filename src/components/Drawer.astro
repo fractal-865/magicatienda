@@ -77,6 +77,21 @@ const corto = (s: string) => CORTOS[s] ?? s;
       </div>
     </details>
 
+    <!-- Buscador: el del header ya no está. En móvil y tablet el mega menú no
+     existe (la barra de navegación solo aparece desde 1024px), así que el
+     buscador se replica acá, que es el menú que sí se abre en esas pantallas. -->
+<form class="drawer-search flex items-center gap-2 border-b border-line py-3.5" data-megasearch role="search">
+  <label class="sr-only" for="drawerSearchInput">Buscar disfraz por nombre o código</label>
+  <input
+    id="drawerSearchInput"
+    type="search"
+    class="w-full rounded-[12px] border-[1.5px] border-line bg-[#f9f6ff] px-3.5 py-2.5 text-[.92rem] text-ink outline-none transition focus:border-m400"
+    placeholder="Buscar disfraz…"
+    autocomplete="off"
+  />
+  <button type="submit" class="btn btn-mora btn-sm shrink-0">Buscar</button>
+</form>
+
     <a class="big flex items-center gap-2.5 border-b border-line px-1.5 py-3.5 font-ft text-[1.1rem] font-semibold text-ink no-underline" href={urlCat}>🪄 Catálogo completo</a>
     <a class="big flex items-center gap-2.5 border-b border-line px-1.5 py-3.5 font-ft text-[1.1rem] font-semibold text-ink no-underline" href={sec('#tarifas')}>💸 Tarifas</a>
     <a class="big flex items-center gap-2.5 border-b border-line px-1.5 py-3.5 font-ft text-[1.1rem] font-semibold text-ink no-underline" href={sec('#promos')}>🎈 Promos</a>

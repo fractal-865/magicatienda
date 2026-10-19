@@ -1645,6 +1645,11 @@ mark {
   background: #e6d9ff;
   border-color: var(--color-m400, #b89af0);
 }
+
+/* Buscador dentro del mega menú (el del header ya no existe) */
+.mega-search {
+  padding-bottom: 4px;
+}
 /* Estado activo del nav según la sección visible (scrollspy) */
 nav [data-navsec].on {
   color: var(--color-m600);
@@ -3344,15 +3349,16 @@ body.drawer-lock {
 }
 
 /* ── Baba: la banda de arriba y sus gotas ──
-   La banda respira (crece y mengua) y cada gota se estira y se suelta con su
-   propio ritmo: antes el movimiento era tan leve que costaba verlo. */
+   La banda respira y cada gota se estira y se suelta con su propio ritmo. Las
+   animaciones van lentas a propósito (la baba es pesada: si corre, parece
+   ruido); con "ease-in-out" el movimiento se siente de baba y no de rebote. */
 .hf-slime {
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
   height: 0;
-  animation: hfBabaRespirar 2.6s ease-in-out infinite;
+  animation: hfBabaRespirar 5.2s ease-in-out infinite;
 }
 .hf-slime::before {
   content: '';
@@ -3361,7 +3367,8 @@ body.drawer-lock {
   right: 0;
   top: 0;
   height: 14px;
-  border-radius: 0 0 45% 45% / 0 0 100% 100%;
+  /* Onda suave y continua, con las puntas más caídas que el centro */
+  border-radius: 0 0 60% 60% / 0 0 130% 130%;
   background: linear-gradient(180deg, #c6ff7a, #7fdd2e 42%, #3d8f10);
   box-shadow:
     0 8px 30px rgb(140 255 60 / 0.42),
@@ -3371,11 +3378,12 @@ body.drawer-lock {
 .hf-drip {
   position: absolute;
   top: 0;
-  border-radius: 0 0 60% 60% / 0 0 42% 42%;
+  /* Gota de verdad: ancha arriba, se afila hacia una punta redondeada abajo */
+  border-radius: 42% 42% 50% 50% / 20% 20% 80% 80%;
   background: linear-gradient(180deg, #b6ff4a 8%, #74d329 55%, #3a8a0f);
   box-shadow: 0 8px 22px rgb(120 230 60 / 0.35);
   transform-origin: top center;
-  animation: hfGoteo 2.2s ease-in-out infinite;
+  animation: hfGoteo 4.4s ease-in-out infinite;
 }
 .hf-drip::after {
   content: '';

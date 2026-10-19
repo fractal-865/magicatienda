@@ -77,7 +77,7 @@ const ogImage = url(c.img);
             Disfraz #{codigo}
           </span>
           <p class="mt-2 text-center text-[.75rem] text-ink2">
-            <span class="min-[900px]:hidden">🔍 Pellizca con dos dedos para ampliar</span>
+            <span class="min-[900px]:hidden">🔍 Pellizca para ampliar · doble toque para volver</span>
             <span class="hidden min-[900px]:inline">🔍 Pasa el mouse para ampliar</span>
           </p>
         </div>
@@ -235,83 +235,143 @@ const ogImage = url(c.img);
   <script is:inline set:html={`window.__DISFRACES__ = ${disfracesJSON};`} />
 
   <script is:inline>
-    // Zoom de imagen
+    // ═══ Zoom de la foto: pellizco con dos dedos + arrastre con uno ═══
+    // Se maneja con tres números (escala, desplazamiento x/y) en vez de
+    // transform-origin al tanto. Así el punto que queda bajo los dedos se
+    // mantiene quieto, el zoom se puede usar varias veces seguidas y, ya
+    // ampliado, un dedo mueve la foto en vez de bajar la página.
     (function () {
-      const container = document.getElementById('zoomContainer');
+      const box = document.getElementById('zoomContainer');
       const img = document.getElementById('zoomImage');
-      if (!container || !img) return;
+      if (!box || !img) return;
 
-      const ZOOM = 2.5;
-      let isZoomed = false;
+      const MIN = 1;
+      const MAX = 5;
+      const DOBLE = 2.6; // nivel del doble toque
+      let s = 1, tx = 0, ty = 0;
+      let pellizco = null;
+      let arrastre = null;
+      let ultimoToque = 0;
 
-      function setTransform(x, y) {
-        img.style.transform = `scale(${ZOOM})`;
-        img.style.transformOrigin = `${x}% ${y}%`;
+      const medidas = () => box.getBoundingClientRect();
+
+      /* La imagen no se sale del marco: si está más grande que la caja, el
+         desplazamiento queda entre los dos límites. */
+      function ajustar() {
+        const r = medidas();
+        const w = img.offsetWidth * s;
+        const h = img.offsetHeight * s;
+        tx = w <= r.width ? (r.width - w) / 2 : Math.min(0, Math.max(r.width - w, tx));
+        ty = h <= r.height ? (r.height - h) / 2 : Math.min(0, Math.max(r.height - h, ty));
       }
 
-      function resetTransform() {
-        img.style.transform = 'scale(1)';
-        img.style.transformOrigin = 'center center';
-      }
-
-      // Desktop: mousemove
-      container.addEventListener('mousemove', (e) => {
-        const rect = container.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width) * 100;
-        const y = ((e.clientY - rect.top) / rect.height) * 100;
-        setTransform(x, y);
-      });
-      container.addEventListener('mouseenter', () => {
-        isZoomed = true;
-        img.style.transition = 'transform 0.1s ease-out';
-      });
-      container.addEventListener('mouseleave', () => {
-        isZoomed = false;
-        img.style.transition = 'transform 0.3s ease-out';
-        resetTransform();
-      });
-
-      // Mobile/Tablet: el zoom se hace con DOS dedos (pellizco).
-      // Con un dedo solo la página se desplaza normal: antes un dedo hacía zoom
-      // y, como el panel tenía touch-action:none, no se podía seguir bajando.
-      let pinch = null;
-      const dist = (t) => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
-      const centro = (t) => ({
-        x: (t[0].clientX + t[1].clientX) / 2,
-        y: (t[0].clientY + t[1].clientY) / 2,
-      });
-
-      container.addEventListener('touchstart', (e) => {
-        if (e.touches.length !== 2) return; // un dedo: que la página se desplace
-        pinch = { d0: dist(e.touches), s0: ZOOM, c0: centro(e.touches) };
-        img.style.transition = 'none';
-        isZoomed = true;
-      }, { passive: true });
-
-      container.addEventListener('touchmove', (e) => {
-        if (!pinch || e.touches.length !== 2) return;
-        e.preventDefault(); // con dos dedos sí bloqueamos el gestos del navegador
-        const factor = dist(e.touches) / pinch.d0;
-        const escala = Math.min(Math.max(pinch.s0 * factor, 1), 4);
-        const c = centro(e.touches);
-        const rect = container.getBoundingClientRect();
-        // El punto medio del pellizco queda fijo: se compensa con el desplazamiento
-        const dx = c.x - pinch.c0.x;
-        const dy = c.y - pinch.c0.y;
+      function pintar() {
+        ajustar();
         img.style.transformOrigin = '0 0';
-        img.style.transform =
-          `translate(${dx}px, ${dy}px) scale(${escala}) translate(${-((pinch.c0.x - rect.left) / rect.width) * 100}%, ${-((pinch.c0.y - rect.top) / rect.height) * 100}%)`;
+        img.style.transform = 'translate3d(' + tx + 'px,' + ty + 'px,0) scale(' + s + ')';
+        // Con la foto ampliada el dedo tiene que mover la foto, no la página.
+        box.style.touchAction = s > 1.01 ? 'none' : 'pan-y';
+      }
+
+      const fijar = (nuevoS, cx, cy) => {
+        const r = medidas();
+        // Qué punto de la foto está bajo (cx, cy) antes de cambiar la escala
+        const ux = (cx - tx) / s;
+        const uy = (cy - ty) / s;
+        s = Math.min(Math.max(nuevoS, MIN), MAX);
+        tx = cx - ux * s;
+        ty = cy - uy * s;
+        pintar();
+      };
+
+      const distancia = (t) => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+      const enCaja = (t) => {
+        const r = medidas();
+        return { x: t.clientX - r.left, y: t.clientY - r.top };
+      };
+
+      // ── Ratón: al pasar el mouse se amplía hacia el puntero ──
+      box.addEventListener('mouseenter', () => { img.style.transition = 'transform .12s ease-out'; });
+      box.addEventListener('mouseleave', () => {
+        img.style.transition = 'transform .3s ease-out';
+        s = 1; tx = 0; ty = 0;
+        pintar();
+      });
+      box.addEventListener('mousemove', (e) => {
+        if (matchMedia('(hover: none)').matches) return;
+        const r = medidas();
+        fijar(2.5, e.clientX - r.left, e.clientY - r.top);
+      });
+
+      // ── Táctil ──
+      box.addEventListener('touchstart', (e) => {
+        img.style.transition = 'none';
+
+        // Dos dedos: pellizco. No cuenta para el doble toque —si lo contara,
+        // el dedo que viene después de cerrar el pellizco se leería como un
+        // doble toque y la foto volvería a su tamaño sin querer.
+        if (e.touches.length >= 2) {
+          const a = enCaja(e.touches[0]);
+          const b = enCaja(e.touches[1]);
+          pellizco = {
+            d0: distancia(e.touches),
+            s0: s,
+            // punto medio del pellizco, para que no se "resbale"
+            mx: (a.x + b.x) / 2,
+            my: (a.y + b.y) / 2,
+          };
+          arrastre = null;
+          return;
+        }
+
+        // Un dedo
+        const ahora = Date.now();
+        if (ahora - ultimoToque < 300) {
+          ultimoToque = 0;
+          if (s > 1.01) { s = 1; tx = 0; ty = 0; } else { s = DOBLE; }
+          img.style.transition = 'transform .25s ease-out';
+          pintar();
+          e.preventDefault();
+          return;
+        }
+        ultimoToque = ahora;
+
+        if (s > 1.01) {
+          // Ya está ampliada: el dedo mueve la foto en vez de bajar la página.
+          arrastre = { x: e.touches[0].clientX, y: e.touches[0].clientY, tx, ty };
+          pellizco = null;
+        }
       }, { passive: false });
 
-      const finPellizco = (e) => {
-        if (!pinch || e.touches.length >= 1) return;
-        pinch = null;
-        img.style.transition = 'transform 0.3s ease-out';
-        isZoomed = false;
-        resetTransform();
+      box.addEventListener('touchmove', (e) => {
+        if (pellizco && e.touches.length === 2) {
+          e.preventDefault();
+          const a = enCaja(e.touches[0]);
+          const b = enCaja(e.touches[1]);
+          const nuevoS = pellizco.s0 * (distancia(e.touches) / pellizco.d0);
+          // el punto medio se mantiene bajo los dedos: si además se movieron,
+          // se le suma el desplazamiento para que no "resbale"
+          fijar(nuevoS, pellizco.mx, pellizco.my);
+          pellizco.mx += (a.x + b.x) / 2 - pellizco.mx;
+          pellizco.my += (a.y + b.y) / 2 - pellizco.my;
+        } else if (arrastre && e.touches.length === 1) {
+          e.preventDefault();
+          tx = arrastre.tx + (e.touches[0].clientX - arrastre.x);
+          ty = arrastre.ty + (e.touches[0].clientY - arrastre.y);
+          pintar();
+        }
+      }, { passive: false });
+
+      const soltar = (e) => {
+        if (e.touches.length > 0) return;
+        pellizco = null;
+        arrastre = null;
+        img.style.transition = 'transform .25s ease-out';
       };
-      container.addEventListener('touchend', finPellizco, { passive: true });
-      container.addEventListener('touchcancel', finPellizco, { passive: true });
+      box.addEventListener('touchend', soltar, { passive: true });
+      box.addEventListener('touchcancel', soltar, { passive: true });
+
+      pintar();
     })();
 
     // Copiar enlace
