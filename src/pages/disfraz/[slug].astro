@@ -125,7 +125,7 @@ const ogImage = url(c.img);
             data-id={c.id}
             data-talla={c.tl.length === 1 ? c.tl[0] : ''}
           >
-            {c.tl.length > 1 ? '📏 Elegir talla y arrendar' : '🎭 Arrendar disfraz'}
+            🛒 Añadir a la cotización
           </button>
 
           <!-- Acciones secundarias (más pequeñas) -->
@@ -327,22 +327,28 @@ const ogImage = url(c.img);
       tallas?.forEach((t) => {
         t.addEventListener('click', function () {
           const selectedTalla = this.textContent.trim();
+          // Resaltar la talla seleccionada
+          tallas.forEach((x) => x.classList.remove('ring-2', 'ring-m600'));
+          this.classList.add('ring-2', 'ring-m600');
           // Mostrar botón de añadir
           let addBtn = document.getElementById('addSelectedBtn');
           if (!addBtn) {
             addBtn = document.createElement('button');
             addBtn.id = 'addSelectedBtn';
             addBtn.className = 'btn btn-mora btn-lg w-full mt-2';
-            addBtn.textContent = '🛒 Añadir al carrito';
             tallaSection?.appendChild(addBtn);
-            addBtn.addEventListener('click', function () {
-              const id = Number(document.getElementById('addToCartBtn')?.dataset.id);
-              window.location.href = '/catalogo/?add=' + id + '&talla=' + encodeURIComponent(selectedTalla);
-            });
           }
-          addBtn.textContent = `🛒 Añadir (talla ${selectedTalla})`;
+          addBtn.textContent = `🛒 Añadir al carrito (talla ${selectedTalla})`;
+          addBtn.onclick = function () {
+            const id = Number(document.getElementById('addToCartBtn')?.dataset.id);
+            window.location.href = '/catalogo/?add=' + id + '&talla=' + encodeURIComponent(selectedTalla);
+          };
         });
       });
+      // Si solo hay una talla, seleccionarla automáticamente
+      if (tallas && tallas.length === 1) {
+        tallas[0].click();
+      }
     });
   </script>
 </Layout>
