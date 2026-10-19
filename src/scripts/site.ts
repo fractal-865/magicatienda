@@ -273,18 +273,10 @@ const tickCd = () => {
 tickCd();
 setInterval(tickCd, 1000);
 
-/* ═══ BARRA DE URGENCIA (toggle manual) ═══ */
+/* ═══ BARRA DE URGENCIA (cuenta regresiva al próximo evento) ═══ */
 (() => {
   const urg = $('#urgencia');
   if (!urg) return;
-  const toggle = $('#urgToggle');
-  const panel = $('#urgPanel');
-  toggle?.addEventListener('click', () => {
-    const open = toggle.getAttribute('aria-expanded') === 'true';
-    toggle.setAttribute('aria-expanded', String(!open));
-    if (panel) panel.hidden = open;
-  });
-  // Conteo compacto de cada fecha de la barra
   const tickUrg = () => {
     $$<HTMLElement>('.urg-cd').forEach((el) => {
       const p = cdParts(nextDate(Number(el.dataset.m), Number(el.dataset.d)));
@@ -293,14 +285,6 @@ setInterval(tickCd, 1000);
   };
   tickUrg();
   setInterval(tickUrg, 30000);
-  // Clic en una fecha → filtra el catálogo por esa temática
-  $$<HTMLElement>('.urg-item').forEach((b) =>
-    b.addEventListener('click', () => {
-      if (panel) panel.hidden = true;
-      toggle?.setAttribute('aria-expanded', 'false');
-      applyFilter({ tem: b.dataset.tem });
-    }),
-  );
 })();
 
 /* ═══ COPIAR DATOS DE PAGO ═══ */
@@ -1721,32 +1705,112 @@ $('#logoBtn')?.addEventListener('click', () => {
   }
 });
 
-/* ═══ ZOMBIS DEL PIE: al tocarlos se caen y se desangran ═══
-   A los 11 s se vuelven a levantar solos, así se puede repetir. */
-$$('[data-zombi]').forEach((z) => {
-  let revive: ReturnType<typeof setTimeout>;
-  const nombre = z.getAttribute('aria-label') ?? 'Zombi';
-  z.addEventListener('click', () => {
-    if (z.classList.contains('muerto')) return;
-    clearTimeout(revive);
-    z.classList.remove('revive');
-    void z.offsetWidth;
-    z.classList.add('muerto');
-    z.setAttribute('aria-label', `${nombre} (muerto)`);
-    revive = setTimeout(
-      () => {
-        z.classList.remove('muerto');
-        z.setAttribute('aria-label', nombre);
-        void z.offsetWidth;
-        z.classList.add('revive');
-      },
-      reduced() ? 6000 : 11000,
-    );
+/* ═══ SONIDOS DE LOS ZOMBIS DEL PIE ═══
+   Se arman con la Web Audio API: ni un archivo de sonido que cargar y pesan
+   cero bytes. Cada sonido es un par de osciladores con la envolvente escrita a
+   mano —un quejido grave para el zombi, un chillido agudo para el perro.
+   El contexto se crea en el primer clic porque el navegador no deja sonar
+   nada hasta que el usuario interactúa con la página. */
+(() => {
+  let ctx: AudioContext | null = null;
+  const audio = () => (ctx ??= new (window.AudioContext || (window as never as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)());
+
+  /* Una nota con envolvente ADSR muy simple, más un filtro que abre y cierra. */
+  const nota = (
+    o: OscillatorType,
+    f0: number,
+    f1: number,
+    dur: number,
+    vol: number,
+    cutoff: number,
+  ) => {
+    const ac = audio();
+    const t0 = ac.currentTime;
+    const osc = ac.createOscillator();
+    const gain = ac.createGain();
+    const filtro = ac.createBiquadFilter();
+
+    osc.type = o;
+    osc.frequency.setValueAtTime(f0, t0);
+    osc.frequency.exponentialRampToValueAtTime(Math.max(f1, 1), t0 + dur);
+
+    filtro.type = 'lowpass';
+    filtro.frequency.setValueAtTime(cutoff, t0);
+    filtro.frequency.exponentialRampToValueAtTime(Math.max(cutoff * 0.25, 80), t0 + dur);
+    filtro.Q.value = 3;
+
+    gain.gain.setValueAtTime(0, t0);
+    gain.gain.linearRampToValueAtTime(vol, t0 + dur * 0.08);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+
+    osc.connect(filtro).connect(gain).connect(ac.destination);
+    osc.start(t0);
+    osc.stop(t0 + dur + 0.02);
+  };
+
+  /* Ruido blanco corto: el "estallido" al caer. */
+  const golpe = (vol: number, dur: number) => {
+    const ac = audio();
+    const t0 = ac.currentTime;
+    const n = Math.floor(ac.sampleRate * dur);
+    const buf = ac.createBuffer(1, n, ac.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n);
+    const src = ac.createBufferSource();
+    src.buffer = buf;
+    const gain = ac.createGain();
+    gain.gain.setValueAtTime(vol, t0);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    src.connect(gain).connect(ac.destination);
+    src.start(t0);
+  };
+
+  /* Un quejido grave y arrastrado: el zombi cayendo. */
+  const zombi = () => {
+    nota('sawtooth', 150, 42, 0.55, 0.16, 620);
+    nota('square', 96, 34, 0.7, 0.07, 380);
+    golpe(0.09, 0.16);
+  };
+  /* Un chillido agudo y corto: el perro. Sube, se quiebra y baja. */
+  const perro = () => {
+    nota('sawtooth', 780, 1650, 0.22, 0.13, 3200);
+    nota('sawtooth', 1500, 620, 0.3, 0.11, 2600);
+    golpe(0.05, 0.09);
+  };
+
+  /* ═══ ZOMBIS DEL PIE: al tocarlos se caen y se desangran ═══
+     A los 11 s se vuelven a levantar solos, así se puede repetir. */
+  $$('[data-zombi]').forEach((z) => {
+    let revive: ReturnType<typeof setTimeout>;
+    const nombre = z.getAttribute('aria-label') ?? 'Zombi';
+    z.addEventListener('click', () => {
+      if (z.classList.contains('muerto')) return;
+      // El audio arranca desde un clic, así que el navegador ya lo permite.
+      try {
+        (z.classList.contains('hf-perro') ? perro : zombi)();
+      } catch {
+        /* sin audio disponible: el zombi se cae igual */
+      }
+      clearTimeout(revive);
+      z.classList.remove('revive');
+      void z.offsetWidth;
+      z.classList.add('muerto');
+      z.setAttribute('aria-label', `${nombre} (muerto)`);
+      revive = setTimeout(
+        () => {
+          z.classList.remove('muerto');
+          z.setAttribute('aria-label', nombre);
+          void z.offsetWidth;
+          z.classList.add('revive');
+        },
+        reduced() ? 6000 : 11000,
+      );
+    });
+    z.addEventListener('animationend', (e) => {
+      if ((e as AnimationEvent).animationName.startsWith('hfZombiRevive')) z.classList.remove('revive');
+    });
   });
-  z.addEventListener('animationend', (e) => {
-    if ((e as AnimationEvent).animationName.startsWith('hfZombiRevive')) z.classList.remove('revive');
-  });
-});
+})();
 
 /* ═══ MAPA · HORARIO (con temporada Halloween dinámica) ═══ */
 (() => {

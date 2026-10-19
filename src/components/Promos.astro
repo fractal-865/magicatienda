@@ -99,4 +99,47 @@ const benefits = [
       }
     </div>
   </div>
+
+  <script>
+    /* En el móvil los banners se rotan solos: se avanza cada 5 s y al llegar
+       al último se vuelve al primero, en bucle. En pantallas grandes se ven
+       varios a la vez y el carrusel no hace falta. Se detiene cuando la
+       persona toca la tira, para no pelearse con su dedo. */
+    const track = document.getElementById('promoTrack');
+    if (track) {
+      const movido = matchMedia('(max-width: 899px)');
+      // Este script va en su propio módulo: no alcanza el `reduced()` de site.ts.
+      const sinMovimiento = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let i = 0;
+      let timer: number | undefined;
+
+      const card = () => track.querySelector<HTMLElement>('.promo-card');
+      const total = () => track.querySelectorAll('.promo-card').length;
+
+      const irA = (n: number) => {
+        const c = card();
+        if (!c) return;
+        i = (n + total()) % total();
+        track.scrollTo({ left: c.offsetLeft - (track.clientWidth - c.clientWidth) / 2, behavior: 'smooth' });
+      };
+
+      const parar = () => {
+        if (timer) clearInterval(timer);
+        timer = undefined;
+      };
+      const girar = () => {
+        parar();
+        if (!movido.matches || sinMovimiento) return;
+        timer = window.setInterval(() => irA(i + 1), 5000);
+      };
+
+      girar();
+      movido.addEventListener('change', girar);
+      // Tocar o rueda sobre la tira: es el usuario al mando, no el temporizador.
+      track.addEventListener('touchstart', parar, { passive: true });
+      track.addEventListener('wheel', parar, { passive: true });
+      // Volver al inicio del documento reactiva el bucle.
+      document.addEventListener('visibilitychange', girar);
+    }
+  </script>
 </section>

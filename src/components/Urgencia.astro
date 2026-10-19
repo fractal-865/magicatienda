@@ -1,5 +1,7 @@
 ---
-/* Barra de urgencia: próximo evento + fechas que vienen (toggle manual) */
+/* Barra de urgencia: solo la cuenta regresiva al próximo evento.
+   Antes también tenía un desplegable con las fechas; las mismas fechas están
+   en la sección "Fechas importantes", así que el panel era repetido. */
 import { FECHAS } from '../data/site';
 
 const nextDate = (m: number, d: number) => {
@@ -8,10 +10,7 @@ const nextDate = (m: number, d: number) => {
   if (t < n) t = new Date(n.getFullYear() + 1, m, d, 23, 59);
   return t;
 };
-const upcoming = FECHAS.map((f) => ({ ...f, dt: nextDate(f.m, f.d) }))
-  .sort((a, b) => a.dt - b.dt)
-  .slice(0, 5);
-const prox = upcoming[0];
+const prox = FECHAS.map((f) => ({ ...f, dt: nextDate(f.m, f.d) })).sort((a, b) => a.dt - b.dt)[0];
 ---
 
 <div id="urgencia" class="urgencia" data-m={prox.m} data-d={prox.d}>
@@ -20,29 +19,5 @@ const prox = upcoming[0];
       <span class="urg-pulse" aria-hidden="true"></span>
       ⏰ Próximo evento: <b>{prox.i} {prox.n}</b> · faltan <b class="urg-cd" data-m={prox.m} data-d={prox.d}>…</b>
     </span>
-    <button id="urgToggle" class="urg-toggle" aria-expanded="false" aria-controls="urgPanel">
-      Fechas que vienen <span class="urg-arrow">▾</span>
-    </button>
-  </div>
-
-  <div id="urgPanel" class="urg-panel" hidden>
-    <div class="mx-auto max-w-[1220px]">
-      <div class="urg-grid">
-        {
-          upcoming.map((f, k) => (
-            <button class="urg-item" data-tem={f.tem} style={`border-top-color:${f.c}`}>
-              <span class="urg-i">{f.i}</span>
-              <span class="urg-txt">
-                <b>{f.n}</b>
-                <small>{f.f}</small>
-              </span>
-              <span class="urg-cd urg-cd-b" data-m={f.m} data-d={f.d}>…</span>
-              {k === 0 && <span class="urg-badge">¡el que viene!</span>}
-            </button>
-          ))
-        }
-      </div>
-      <p class="urg-hint">Toca una fecha y te mostramos los disfraces ideales para tu evento. 🎭</p>
-    </div>
   </div>
 </div>

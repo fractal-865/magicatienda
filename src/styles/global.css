@@ -808,6 +808,12 @@ footer {
   scroll-snap-align: center;
 }
 
+/* En el celular las tarjetas ocupan casi todo el ancho, así que se muestran
+   de a una. El carrusel solo avanza solo en ese caso (ver promoRotar). */
+.promo-track > .promo-card + .promo-card {
+  margin-left: 0;
+}
+
 /* ═══ Pasos "Cómo funciona" ═══ */
 .steps-wrap {
   display: grid;
@@ -996,104 +1002,6 @@ footer {
   0% { box-shadow: 0 0 0 0 rgba(255, 95, 162, 0.7); }
   70% { box-shadow: 0 0 0 8px rgba(255, 95, 162, 0); }
   100% { box-shadow: 0 0 0 0 rgba(255, 95, 162, 0); }
-}
-.urg-toggle {
-  margin-left: auto;
-  flex: none;
-  cursor: pointer;
-  border: 1.5px solid rgba(255, 255, 255, 0.35);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-  padding: 5px 13px;
-  font-size: 0.78rem;
-  font-weight: 800;
-  transition: 0.2s;
-}
-.urg-toggle:hover {
-  background: rgba(255, 255, 255, 0.24);
-}
-.urg-arrow {
-  display: inline-block;
-  transition: transform 0.3s;
-}
-.urg-toggle[aria-expanded='true'] .urg-arrow {
-  transform: rotate(180deg);
-}
-.urg-panel {
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  background: #2b0d5e;
-  overflow: hidden;
-}
-.urg-panel[hidden] {
-  display: none;
-}
-.urg-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(178px, 1fr));
-  gap: 9px;
-  padding: 14px 0 4px;
-}
-.urg-item {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  cursor: pointer;
-  text-align: left;
-  border: 0;
-  border-top: 3px solid;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.07);
-  padding: 10px 12px;
-  color: #fff;
-  transition: 0.2s;
-}
-.urg-item:hover {
-  background: rgba(255, 255, 255, 0.16);
-  transform: translateY(-2px);
-}
-.urg-i {
-  font-size: 1.5rem;
-}
-.urg-txt {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  line-height: 1.2;
-}
-.urg-txt b {
-  font-size: 0.88rem;
-}
-.urg-txt small {
-  font-size: 0.7rem;
-  opacity: 0.8;
-}
-.urg-cd-b {
-  margin-left: auto;
-  flex: none;
-  font-size: 0.7rem;
-  font-weight: 800;
-  color: var(--color-ama, #ffd23f);
-  text-align: right;
-}
-.urg-badge {
-  position: absolute;
-  top: -9px;
-  right: 8px;
-  border-radius: 999px;
-  background: var(--color-rosa, #ff5fa2);
-  padding: 2px 8px;
-  font-size: 0.6rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-.urg-hint {
-  padding: 6px 0 14px;
-  font-size: 0.76rem;
-  opacity: 0.8;
-  text-align: center;
 }
 @media (max-width: 620px) {
   .urg-bar {
@@ -2660,21 +2568,6 @@ body.drawer-lock {
   .urg-next b {
     white-space: normal;
   }
-  .urg-toggle {
-    flex: 1 1 100%;
-    margin-left: 0;
-    text-align: center;
-    padding: 7px 13px;
-  }
-  .urg-grid {
-    grid-template-columns: 1fr;
-  }
-  .urg-item {
-    padding-right: 10px;
-  }
-  .urg-cd-b {
-    font-size: 0.72rem;
-  }
 
   #grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -3361,13 +3254,16 @@ body.drawer-lock {
   opacity: 0.8;
 }
 
-/* ── Baba: la banda de arriba y sus gotas ── */
+/* ── Baba: la banda de arriba y sus gotas ──
+   La banda respira (crece y mengua) y cada gota se estira y se suelta con su
+   propio ritmo: antes el movimiento era tan leve que costaba verlo. */
 .hf-slime {
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
   height: 0;
+  animation: hfBabaRespirar 2.6s ease-in-out infinite;
 }
 .hf-slime::before {
   content: '';
@@ -3375,20 +3271,22 @@ body.drawer-lock {
   left: 0;
   right: 0;
   top: 0;
-  height: 11px;
-  background: linear-gradient(180deg, #b6ff62, #78d92c 45%, #3d8f10);
+  height: 14px;
+  border-radius: 0 0 45% 45% / 0 0 100% 100%;
+  background: linear-gradient(180deg, #c6ff7a, #7fdd2e 42%, #3d8f10);
   box-shadow:
-    0 6px 24px rgb(140 255 60 / 0.3),
-    inset 0 -2px 0 rgb(0 0 0 / 0.15);
+    0 8px 30px rgb(140 255 60 / 0.42),
+    0 2px 10px rgb(168 255 62 / 0.5),
+    inset 0 -3px 0 rgb(0 0 0 / 0.18);
 }
 .hf-drip {
   position: absolute;
   top: 0;
   border-radius: 0 0 60% 60% / 0 0 42% 42%;
-  background: linear-gradient(180deg, #a8ff3e 8%, #74d329 55%, #3a8a0f);
-  box-shadow: 0 8px 20px rgb(120 230 60 / 0.22);
+  background: linear-gradient(180deg, #b6ff4a 8%, #74d329 55%, #3a8a0f);
+  box-shadow: 0 8px 22px rgb(120 230 60 / 0.35);
   transform-origin: top center;
-  animation: hfGoteo 7s ease-in-out infinite;
+  animation: hfGoteo 2.2s ease-in-out infinite;
 }
 .hf-drip::after {
   content: '';
@@ -3398,18 +3296,31 @@ body.drawer-lock {
   width: 22%;
   height: 60%;
   border-radius: 999px;
-  background: linear-gradient(180deg, rgb(255 255 255 / 0.6), rgb(255 255 255 / 0));
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.7), rgb(255 255 255 / 0));
 }
 @keyframes hfGoteo {
   0%,
   100% {
+    transform: scaleY(1) scaleX(1);
+  }
+  35% {
+    transform: scaleY(1.7) scaleX(0.88);
+  }
+  55% {
+    transform: scaleY(0.7) scaleX(1.1);
+  }
+  70% {
+    transform: scaleY(1.35) scaleX(0.95);
+  }
+}
+/* La baba de la banda: se estira y vuelve, más marcado que antes */
+@keyframes hfBabaRespirar {
+  0%,
+  100% {
     transform: scaleY(1);
   }
-  42% {
-    transform: scaleY(1.22);
-  }
-  68% {
-    transform: scaleY(1.05);
+  50% {
+    transform: scaleY(1.5);
   }
 }
 
@@ -3813,6 +3724,7 @@ body.drawer-lock {
   .hf-star,
   .hf-bat,
   .hf-fog,
+  .hf-slime,
   .hf-drip,
   .hf-spider,
   .hf-z {
