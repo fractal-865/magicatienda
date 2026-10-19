@@ -80,6 +80,11 @@ export function esTemporadaHalloween(d = new Date()) {
   return d >= ini && d <= fin;
 }
 
+/* Valor de referencia del arriendo por 3 días: es el mismo que muestra el sitio
+   y el que se declara a Google en la ficha de cada disfraz. El valor final se
+   confirma por WhatsApp. */
+export const PRECIO_DESDE = 15000;
+
 export const GAR_SHORT = '$15.000 o $20.000';
 export const GAR =
   'Garantía de $15.000 o $20.000 según el disfraz. Se paga el día del retiro, en efectivo o transferencia, y se devuelve al entregar el disfraz en las mismas condiciones.';

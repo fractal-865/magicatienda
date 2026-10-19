@@ -41,6 +41,8 @@ interface Props {
   esquema?: Record<string, unknown>[];
   /** Solo la portada tiene las preguntas frecuentes a la vista */
   conFaq?: boolean;
+  /** Páginas que no deben quedar en Google (por ejemplo, la 404) */
+  noIndex?: boolean;
 }
 const {
   titulo = SEO.title,
@@ -53,6 +55,7 @@ const {
   ogImageAlt = 'Logo de La Mágica Tienda de Disfraces, arriendo para adultos en Punta Arenas',
   esquema = [],
   conFaq = true,
+  noIndex = false,
 } = Astro.props;
 
 const canonical = url(ruta);
@@ -151,7 +154,7 @@ const datos = {
     <title>{titulo}</title>
     <meta name="description" content={descripcion} />
     <meta name="keywords" content="arriendo de disfraces punta arenas, disfraces punta arenas, arriendo disfraces adultos, disfraces halloween punta arenas, disfraces para fiestas" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="robots" content={noIndex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'} />
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang="es-cl" href={canonical} />
     <link rel="alternate" hreflang="x-default" href={canonical} />

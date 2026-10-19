@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Catalogo from '../components/Catalogo.astro';
-import { PRODUCTS } from '../data/products';
+import { PRODUCTS, disfrazSlug } from '../data/products';
 import { SEO_CAT, url } from '../data/site';
 
 /* ── El catálogo completo ──
@@ -34,7 +34,21 @@ const esquema = [
     isPartOf: { '@id': `${raiz}#sitio` },
     about: { '@id': `${raiz}#tienda` },
     breadcrumb: { '@id': `${canonical}#migas` },
-    mainEntity: { '@type': 'ItemList', numberOfItems: total, name: `${total} disfraces para arrendar en Punta Arenas` },
+    /* La lista nombra los 156 disfraces con su URL: le entrega a Google el
+       enlace a cada ficha sin depender de que ejecute el JavaScript del
+       catálogo (el grid se arma en el navegador). */
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: total,
+      name: `${total} disfraces para arrendar en Punta Arenas`,
+      itemListOrder: 'https://schema.org/ItemListOrderAscending',
+      itemListElement: PRODUCTS.map((p, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: p.n,
+        url: url(`/disfraz/${disfrazSlug(p)}/`),
+      })),
+    },
   },
 ];
 ---

@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { PRODUCTS, disfrazSlug, getSimilares, catById, displayTalla, TALLA_GUIA } from '../../data/products';
-import { waLink, url, ir } from '../../data/site';
+import { waLink, url, ir, PRECIO_DESDE } from '../../data/site';
 
 /* Los datos que usa el buscador de la cabecera. El slug viaja ya calculado:
    el navegador no vuelve a derivarlo (así no puede diferir del de la página). */
@@ -34,9 +34,67 @@ const waShare = `https://api.whatsapp.com/send?text=${encodeURIComponent(`${c.n}
 const fbShare = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
 
 const title = `${c.n} | Arriendo de disfraces en Punta Arenas`;
-const description = `${c.d.slice(0, 150)}. Arriendo de disfraces en Punta Arenas.`;
+
+/* Meta descripción: el texto de la ficha se corta en un límite de palabra
+   (nunca a mitad de palabra, como pasaba antes) y se le suma la frase de
+   marca. Así Google no recorta la frase a la mitad. */
+const description = (() => {
+  const cola = ' Arriendo por 3 días en Punta Arenas.';
+  const limpio = String(c.d).replace(/\s+/g, ' ').trim();
+  const tope = 158 - cola.length;
+  if (limpio.length <= tope) return limpio + cola;
+  const corte = limpio.slice(0, tope);
+  const espacio = corte.lastIndexOf(' ');
+  const base = (espacio > 60 ? corte.slice(0, espacio) : corte).replace(/[\s.,;:]+$/, '');
+  return `${base}…${cola}`;
+})();
+
 const ogImage = url(`/img/og/${c.id}.jpg`);
 const ogImageAlt = `${c.n} en arriendo en Punta Arenas`;
+
+/* ── Datos para Google (schema.org) ──
+   Las migas de pan (así Google muestra "Inicio › Catálogo › Disfraz" en el
+   resultado) y la ficha del producto. El precio declarado es el de referencia
+   que se ve en la página, por 3 días; el valor final se confirma por WhatsApp. */
+const esquema = [
+  {
+    '@type': 'BreadcrumbList',
+    '@id': `${pageUrl}#migas`,
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: url('/') },
+      { '@type': 'ListItem', position: 2, name: 'Catálogo', item: url('/catalogo/') },
+      { '@type': 'ListItem', position: 3, name: c.n, item: pageUrl },
+    ],
+  },
+  {
+    '@type': 'Product',
+    '@id': `${pageUrl}#producto`,
+    name: c.n,
+    description: c.d,
+    image: [ogImage],
+    url: pageUrl,
+    sku: `DISF-${codigo}`,
+    category: T.n,
+    brand: { '@type': 'Brand', name: 'La Mágica Tienda de Disfraces' },
+    audience: { '@type': 'PeopleAudience', suggestedMinAge: 18 },
+    offers: {
+      '@type': 'Offer',
+      '@id': `${pageUrl}#oferta`,
+      url: pageUrl,
+      priceCurrency: 'CLP',
+      price: PRECIO_DESDE,
+      availability: 'https://schema.org/InStock',
+      itemCondition: 'https://schema.org/UsedCondition',
+      seller: { '@id': `${url('/')}#tienda` },
+      priceSpecification: {
+        '@type': 'PriceSpecification',
+        price: PRECIO_DESDE,
+        priceCurrency: 'CLP',
+        description: 'Valor de referencia del arriendo por 3 días (retiro, uso y entrega). El valor final se confirma por WhatsApp.',
+      },
+    },
+  },
+];
 
 /* La descripción se parte en dos párrafos (como en la maqueta) cortando
    después de la primera frase. Si no hay un corte claro, queda uno solo. */
@@ -57,6 +115,7 @@ const descParrafos = (() => {
   ogImageAlt={ogImageAlt}
   ruta={`/disfraz/${slug}/`}
   conFaq={false}
+  esquema={esquema}
 >
   <main class="min-h-screen bg-[#faf8ff]">
     <!-- Breadcrumb -->
@@ -225,7 +284,7 @@ const descParrafos = (() => {
               return (
                 <a href={ir(`/disfraz/${sSlug}/`)} class="group block w-[160px] shrink-0 snap-start overflow-hidden rounded-2xl border-[1.5px] border-line bg-white shadow-sh transition hover:-translate-y-1 hover:shadow-sh2 min-[560px]:w-[200px]">
                   <div class="relative aspect-[2/3] overflow-hidden bg-[#f0eaff]">
-                    <img src={s.img} alt={s.n} class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" width="200" height="300" />
+                    <img src={s.img} alt={`${s.n} en arriendo en Punta Arenas`} class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" width="200" height="300" />
                     <span class="absolute left-2 top-2 rounded-full bg-m600/90 px-2 py-0.5 text-[.65rem] font-extrabold text-white">#{String(s.id).padStart(3, '0')}</span>
                   </div>
                   <div class="p-3">
