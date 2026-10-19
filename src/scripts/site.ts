@@ -1112,11 +1112,11 @@ function totalsHTML(conPagoDia = true): string {
   const gar = guaranteeTotal();
   const pagoDia = tot + gar;
   return `<div class="det mt-3 rounded-2xl border-2 border-line bg-[#f9f6ff] p-3 text-[.85rem]">
-    <div class="flex justify-between"><span>Arriendo 3 días</span><b>Desde $15.000</b></div>
-    <div class="mt-1.5 flex items-baseline justify-between gap-2 border-t border-line pt-1.5">
+    <div class="flex items-baseline justify-between gap-2">
       <span class="font-ft text-[.95rem] font-bold text-m600">Total a pagar por el arriendo</span>
       <b class="font-ft text-[1.3rem] leading-none text-m600">Desde $15.000</b>
     </div>
+    <p class="mt-1 text-[.75rem] text-ink2">Arriendo por 3 días (retiro, uso y entrega)</p>
   </div>
   <span class="gchip">🛡️ Garantía de $15.000 o $20.000 reintegrable</span>
   ${
