@@ -33,13 +33,13 @@ const opciones = [
       {
         opciones.map((o) => (
           <div class="rounded-2xl border-2 border-l-[6px] border-line border-l-m400 bg-white p-[18px] shadow-[0_6px_16px_rgba(90,42,156,.07)]">
-            <span class="mb-2 inline-block rounded-lg bg-m600 px-2.5 py-0.5 text-[.72rem] font-extrabold text-white">{o.t}</span>
+            <span class="mb-2 inline-block rounded-lg bg-m600 px-2.5 py-0.5 text-[.75rem] font-extrabold text-white">{o.t}</span>
             <br />
-            <b class="font-ft text-[1.02rem] text-ink">{o.b}</b>
-            <ul class="mt-2 list-none text-[.9rem] leading-[1.9] text-ink2">
+            <b class="font-ft text-[1.0625rem] text-ink">{o.b}</b>
+            <ul class="mt-2 list-none text-[1rem] leading-[1.9] text-ink2">
               {o.items.map(([k, v, cp]) => (
                 <li>
-                  <b class="text-[.9rem] text-ink">{k}</b> <span class="copyval">{v}</span>
+                  <b class="text-[1rem] text-ink">{k}</b> <span class="copyval">{v}</span>
                   <button class="copybtn" data-copy={cp} aria-label={`Copiar ${k}`} title="Copiar">📋</button>
                 </li>
               ))}
@@ -49,7 +49,7 @@ const opciones = [
       }
     </div>
 
-    <p class="rv mt-[18px] text-center text-[.9rem] text-ink2">
+    <p class="rv mt-[18px] text-center text-[1rem] text-ink2">
       Pagos por depósito o transferencia: estos son los únicos datos oficiales.
       <button class="glink cursor-pointer border-0 bg-transparent p-0 font-extrabold text-m600 underline" data-opencond>
         Ver condiciones de arriendo

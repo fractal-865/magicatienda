@@ -23,7 +23,7 @@ const count = (id: string) => PRODUCTS.filter((p) => p.cats.includes(id)).length
 const destacados = [...PRODUCTS].sort((a, b) => a.pop - b.pop).slice(0, 3);
 
 const nlink =
-  'inline-flex cursor-pointer items-center gap-1.5 rounded-xl px-3 py-2 font-ft text-[.92rem] font-semibold text-white/90 transition hover:bg-white/10 hover:text-white';
+  'inline-flex cursor-pointer items-center gap-1.5 rounded-xl px-3 py-2 font-ft text-[.875rem] font-semibold text-white/90 transition hover:bg-white/10 hover:text-white';
 
 /* En la portada el logo es un botón (dispara el truco del murciélago); en las
    demás páginas es un enlace. El logo en blanco se logra con filter. */
@@ -135,7 +135,7 @@ const corto = (s: string) => CORTOS[s] ?? s;
             ><span
               id="cartCount"
               aria-hidden="true"
-              class="absolute -right-1.5 -top-1.5 grid h-5 min-w-5 place-items-center rounded-full bg-rosa px-1 text-[.66rem] font-extrabold text-white"
+              class="absolute -right-1.5 -top-1.5 grid h-5 min-w-5 place-items-center rounded-full bg-rosa px-1 text-[.75rem] font-extrabold text-white tabular-nums"
               >0</span
             >
           </button>
@@ -161,21 +161,21 @@ const corto = (s: string) => CORTOS[s] ?? s;
       <input
         id="megaSearchInput"
         type="search"
-        class="w-full rounded-[12px] border-[1.5px] border-line bg-[#f9f6ff] px-3.5 py-2.5 text-[.92rem] text-ink outline-none transition focus:border-m400"
+        class="w-full rounded-[12px] border-[1.5px] border-line bg-[#f9f6ff] px-3.5 py-2.5 text-[1rem] text-ink outline-none transition focus:border-m400"
         placeholder="Buscar disfraz por nombre o código…"
         autocomplete="off"
       />
       <button type="submit" class="btn btn-mora btn-sm shrink-0">Buscar</button>
     </form>
     <div>
-      <p class="mb-2.5 font-ft text-[.95rem] text-m600">🎭 Temática</p>
+      <p class="mb-2.5 font-ft text-[1rem] text-m600">🎭 Temática</p>
       <ul class="list-none">
         {
           CATS_ACTIVE.map((c) => (
             <li>
-              <a role="menuitem" data-tem={c.id} href={urlCat} class="flex cursor-pointer items-center gap-2 rounded-[10px] px-2 py-[7px] text-[.9rem] text-[#4a3c78] no-underline transition hover:translate-x-1 hover:bg-[#f3edff] hover:text-m600">
+              <a role="menuitem" data-tem={c.id} href={urlCat} class="flex cursor-pointer items-center gap-2 rounded-[10px] px-2 py-[7px] text-[1rem] text-[#4a3c78] no-underline transition hover:translate-x-1 hover:bg-[#f3edff] hover:text-m600">
                 {c.i} {corto(c.n)}
-                <small class="ml-auto rounded-full bg-[#e2f7ec] px-[7px] py-[2px] text-[.68rem] font-extrabold text-[#0c7a56]">{count(c.id)}</small>
+                <small class="ml-auto rounded-full bg-[#e2f7ec] px-[7px] py-[2px] text-[.75rem] font-extrabold text-[#0c7a56] tabular-nums">{count(c.id)}</small>
               </a>
             </li>
           ))
@@ -185,7 +185,7 @@ const corto = (s: string) => CORTOS[s] ?? s;
         !enCat && (
           <a
             href={ir('/catalogo/')}
-            class="mt-2.5 flex items-center gap-2 rounded-[10px] bg-[#f3edff] px-2 py-[9px] text-[.9rem] font-extrabold text-m600 no-underline transition hover:translate-x-1 hover:bg-[#e6d9ff]"
+            class="mt-2.5 flex items-center gap-2 rounded-[10px] bg-[#f3edff] px-2 py-[9px] text-[1rem] font-extrabold text-m600 no-underline transition hover:translate-x-1 hover:bg-[#e6d9ff]"
           >
             🪄 Ver todo el catálogo ({PRODUCTS.length})
           </a>
@@ -194,12 +194,12 @@ const corto = (s: string) => CORTOS[s] ?? s;
     </div>
 
     <div>
-      <p class="mb-2.5 font-ft text-[.95rem] text-m600">🧑 Público</p>
+      <p class="mb-2.5 font-ft text-[1rem] text-m600">🧑 Público</p>
       <ul class="list-none">
         {
           PUBLICOS.map((p) => (
             <li>
-              <a role="menuitem" data-pub={p.id} href={urlCat} class="flex cursor-pointer items-center gap-2 rounded-[10px] px-2 py-[7px] text-[.9rem] text-[#4a3c78] no-underline transition hover:translate-x-1 hover:bg-[#f3edff] hover:text-m600">
+              <a role="menuitem" data-pub={p.id} href={urlCat} class="flex cursor-pointer items-center gap-2 rounded-[10px] px-2 py-[7px] text-[1rem] text-[#4a3c78] no-underline transition hover:translate-x-1 hover:bg-[#f3edff] hover:text-m600">
                 {p.i} {p.n}
               </a>
             </li>
@@ -209,12 +209,12 @@ const corto = (s: string) => CORTOS[s] ?? s;
     </div>
 
     <div>
-      <p class="mb-2.5 font-ft text-[.95rem] text-m600">🎉 Celebración</p>
+      <p class="mb-2.5 font-ft text-[1rem] text-m600">🎉 Celebración</p>
       <ul class="list-none">
         {
           OCASIONES.slice(0, 6).map((o) => (
             <li>
-              <a role="menuitem" data-oca={o.id} href={urlCat} class="flex cursor-pointer items-center gap-2 rounded-[10px] px-2 py-[7px] text-[.9rem] text-[#4a3c78] no-underline transition hover:translate-x-1 hover:bg-[#f3edff] hover:text-m600">
+              <a role="menuitem" data-oca={o.id} href={urlCat} class="flex cursor-pointer items-center gap-2 rounded-[10px] px-2 py-[7px] text-[1rem] text-[#4a3c78] no-underline transition hover:translate-x-1 hover:bg-[#f3edff] hover:text-m600">
                 {o.i} {corto(o.n)}
               </a>
             </li>
@@ -222,25 +222,25 @@ const corto = (s: string) => CORTOS[s] ?? s;
         }
       </ul>
       <div class="mt-3 border-t border-dashed border-line pt-2.5">
-        <a href="#" data-opencond class="flex items-center gap-2 rounded-[10px] px-2 py-1.5 text-[.88rem] font-extrabold text-m500 no-underline hover:bg-[#f3edff]">🛡️ Condiciones →</a>
+        <a href="#" data-opencond class="flex items-center gap-2 rounded-[10px] px-2 py-1.5 text-[.875rem] font-extrabold text-m500 no-underline hover:bg-[#f3edff]">🛡️ Condiciones →</a>
       </div>
     </div>
 
     <div class="relative flex min-h-[220px] flex-col justify-center gap-2 overflow-hidden rounded-[18px] bg-[linear-gradient(140deg,var(--color-rosa),var(--color-m600))] p-[18px] text-white">
       <span class="text-[2rem]">📍</span>
-      <b class="font-ft text-[1.25rem] [text-shadow:0_2px_8px_rgba(0,0,0,.4)]">Cómo llegar</b>
-      <span class="text-[.95rem]">Hermann Wiegartt 01194, a pasos del Mall Pionero en Punta Arenas.</span>
+      <b class="font-ft text-[length:var(--text-subhead)] [text-shadow:0_2px_8px_rgba(0,0,0,.4)]">Cómo llegar</b>
+      <span class="text-[1rem]">Hermann Wiegartt 01194, a pasos del Mall Pionero en Punta Arenas.</span>
       <button class="btn btn-ama btn-sm w-fit" data-mgo="mapa">Ver el mapa 🗺️</button>
     </div>
 
     <div class="thin-scroll col-span-full flex items-center gap-3.5 overflow-x-auto border-t border-line pb-[18px] pt-3.5">
-      <span class="whitespace-nowrap font-ft text-[.85rem] text-m600">🔥 Destacados del catálogo:</span>
+      <span class="whitespace-nowrap font-ft text-[.875rem] text-m600">🔥 Destacados del catálogo:</span>
       <span class="flex gap-2.5">
         {
           destacados.map((c) => (
             <button data-qv={c.id} class="ms-card flex cursor-pointer items-center gap-2.5 whitespace-nowrap rounded-[14px] border-[1.5px] border-line bg-[#f7f2ff] px-3.5 py-2 pl-2 text-ink transition hover:-translate-y-0.5 hover:border-ama">
               <img src={c.img} srcset={thumbSrcset(c.img)} sizes="44px" data-full={c.img} onerror="this.onerror=null;this.removeAttribute('srcset');this.src=this.dataset.full" alt="" class="h-11 w-11 rounded-[10px] bg-[#efe8ff] object-cover" loading="lazy" decoding="async" width="44" height="44" />
-              <span class="text-left text-[.8rem]">{c.n}<br /><b class="text-[.75rem] text-m600">Tallas {c.tl.join(' · ')}</b></span>
+              <span class="text-left text-[.875rem]">{c.n}<br /><b class="text-[.875rem] text-m600">Tallas {c.tl.join(' · ')}</b></span>
             </button>
           ))
         }

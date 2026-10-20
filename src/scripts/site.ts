@@ -124,7 +124,7 @@ function toast(m: string, ms = 2800) {
   const box = $('#toasts');
   if (!box) return;
   const t = document.createElement('div');
-  t.className = 'toast rounded-[14px] border-2 border-m400 bg-white px-[18px] py-3 text-center text-[.88rem] font-extrabold text-ink shadow-sh2 max-w-[92vw]';
+  t.className = 'toast rounded-[14px] border-2 border-m400 bg-white px-[18px] py-3 text-center text-[1rem] font-extrabold text-ink shadow-sh2 max-w-[92vw]';
   t.innerHTML = m;
   box.append(t);
   // rAF pinta el estado inicial antes de la transición; el setTimeout garantiza
@@ -364,13 +364,13 @@ function hl(name: string, q: string) {
 
 function rent3HTML() {
   return `<div class="my-3 grid gap-2 max-[560px]:grid-cols-1 min-[561px]:grid-cols-3" aria-label="El arriendo dura 3 días">
-  <div class="r3 relative rounded-[14px] border-[1.5px] border-dashed border-m400 bg-mist p-2.5 text-center"><span class="r3i block text-[1.5rem]">📦</span><b class="my-0.5 block font-ft text-[.85rem] text-m600">Día 1 · Retiro</b><small class="block text-[.72rem] leading-[1.35] text-ink2">Pagas la garantía (${GAR_SHORT}) en efectivo o transferencia</small></div>
-  <div class="r3 relative rounded-[14px] border-[1.5px] border-dashed border-m400 bg-mist p-2.5 text-center"><span class="r3i block text-[1.5rem]">🎉</span><b class="my-0.5 block font-ft text-[.85rem] text-m600">Día 2 · Uso</b><small class="block text-[.72rem] leading-[1.35] text-ink2">Tu fiesta o evento</small></div>
-  <div class="r3 relative rounded-[14px] border-[1.5px] border-dashed border-m400 bg-mist p-2.5 text-center"><span class="r3i block text-[1.5rem]">↩️</span><b class="my-0.5 block font-ft text-[.85rem] text-m600">Día 3 · Entrega</b><small class="block text-[.72rem] leading-[1.35] text-ink2">Devolución y reembolso de tu garantía</small></div></div>`;
+  <div class="r3 relative rounded-[14px] border-[1.5px] border-dashed border-m400 bg-mist p-2.5 text-center"><span class="r3i block text-[1.5rem]">📦</span><b class="my-0.5 block font-ft text-[1rem] text-m600">Día 1 · Retiro</b><small class="block text-[.875rem] leading-[1.4] text-ink2">Pagas la garantía (${GAR_SHORT}) en efectivo o transferencia</small></div>
+  <div class="r3 relative rounded-[14px] border-[1.5px] border-dashed border-m400 bg-mist p-2.5 text-center"><span class="r3i block text-[1.5rem]">🎉</span><b class="my-0.5 block font-ft text-[1rem] text-m600">Día 2 · Uso</b><small class="block text-[.875rem] leading-[1.4] text-ink2">Tu fiesta o evento</small></div>
+  <div class="r3 relative rounded-[14px] border-[1.5px] border-dashed border-m400 bg-mist p-2.5 text-center"><span class="r3i block text-[1.5rem]">↩️</span><b class="my-0.5 block font-ft text-[1rem] text-m600">Día 3 · Entrega</b><small class="block text-[.875rem] leading-[1.4] text-ink2">Devolución y reembolso de tu garantía</small></div></div>`;
 }
 
 function gnoticeHTML() {
-  return `<div class="my-2.5 flex items-start gap-2 rounded-[14px] border-[1.5px] border-ama bg-[#fdf6d9] p-2.5 text-[.82rem] text-[#6b5200]">🛡️ <span><b>Garantía de ${GAR_SHORT} según el disfraz.</b> Se paga el día del retiro, en efectivo o transferencia, y se devuelve al entregar el disfraz en las mismas condiciones. <button class="glink cursor-pointer whitespace-nowrap border-0 bg-transparent p-0 text-[.82rem] font-extrabold text-m600 underline" data-opencond>Ver condiciones de garantía</button></span></div>`;
+  return `<div class="my-2.5 flex items-start gap-2 rounded-[14px] border-[1.5px] border-ama bg-[#fdf6d9] p-2.5 text-[.875rem] text-[#6b5200]">🛡️ <span><b>Garantía de ${GAR_SHORT} según el disfraz.</b> Se paga el día del retiro, en efectivo o transferencia, y se devuelve al entregar el disfraz en las mismas condiciones. <button class="glink cursor-pointer whitespace-nowrap border-0 bg-transparent p-0 text-[.875rem] font-extrabold text-m600 underline" data-opencond>Ver condiciones de garantía</button></span></div>`;
 }
 
 /* ── Encuadre de las fotos ──
@@ -416,21 +416,21 @@ function cardHTML(c: Product, k: number) {
     <a href="${disfrazUrl}" class="absolute inset-0 z-[1]" aria-label="Ver ${esc(c.n)}">
       <img src="${c.img}" srcset="${thumbSrcset(c.img)}" sizes="(max-width: 600px) calc(50vw - 22px), 300px" data-full="${c.img}" onerror="${ONERROR_MINI}" alt="${esc(c.n)} para arriendo en Punta Arenas" loading="lazy" decoding="async" width="400" height="600" class="absolute inset-0 h-full w-full object-contain object-center transition duration-500">
     </a>
-    <span class="absolute left-2 top-2 z-[2] rounded-full bg-m600/90 px-2 py-0.5 text-[.65rem] font-extrabold text-white shadow-sh"> #${String(c.id).padStart(3, '0')}</span>
+    <span class="absolute left-2 top-2 z-[2] rounded-full bg-m600/90 px-2 py-0.5 text-[.75rem] font-extrabold text-white shadow-sh"> #${String(c.id).padStart(3, '0')}</span>
   </div>
   <div class="flex flex-1 flex-col p-3.5 pb-4">
-    <span class="block text-[.72rem] font-extrabold uppercase tracking-[.05em] text-m500">${T.i} ${T.n}</span>
-    <a href="${disfrazUrl}" class="mb-1 min-h-[2.55rem] text-[1.02rem] font-semibold leading-[1.25] text-ink hover:text-m600">${hl(c.n, state.q)}</a>
-    <div class="mb-2.5 flex min-h-[1.6rem] flex-wrap gap-1">${c.tl.map((t) => `<span class="tip cursor-help rounded-[7px] bg-[#f0eaff] px-[7px] py-[3px] text-[.64rem] font-extrabold text-m600" data-tip="${esc(guia(t))}" tabindex="0">${esc(t)}</span>`).join('')}</div>
+    <span class="block text-[.75rem] font-extrabold uppercase tracking-[.05em] text-m500">${T.i} ${T.n}</span>
+    <a href="${disfrazUrl}" class="mb-1 min-h-[2.55rem] text-[1.0625rem] font-semibold leading-[1.25] text-ink hover:text-m600">${hl(c.n, state.q)}</a>
+    <div class="mb-2.5 flex min-h-[1.6rem] flex-wrap gap-1">${c.tl.map((t) => `<span class="tip cursor-help rounded-[7px] bg-[#f0eaff] px-[7px] py-[3px] text-[.75rem] font-extrabold text-m600" data-tip="${esc(guia(t))}" tabindex="0">${esc(t)}</span>`).join('')}</div>
     <div class="mt-auto">
       <div class="mb-2.5 flex items-baseline gap-2">
         <span class="flex items-baseline gap-1.5">
-          <small class="text-[.62rem] font-bold uppercase tracking-[.02em] text-ink2">Desde</small>
-          <b class="font-ft text-[1.3rem] font-bold leading-none text-m600">$15.000</b>
+          <small class="text-[.75rem] font-bold uppercase tracking-[.02em] text-ink2">Desde</small>
+          <b class="font-ft text-[1.375rem] font-bold leading-none text-m600 tabular-nums">$15.000</b>
           <button type="button" class="info-dot tip cursor-help" data-tip="Valor según el disfraz. Cotiza por WhatsApp para conocer el precio exacto." aria-label="Sobre los precios">?</button>
         </span>
       </div>
-      <button class="addbtn w-full cursor-pointer rounded-xl border-0 bg-[linear-gradient(135deg,var(--color-m600),var(--color-m500))] px-2 py-2.5 font-ft text-[.84rem] font-bold text-white shadow-[0_4px_12px_rgba(90,42,156,.3)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_18px_rgba(90,42,156,.45)] active:scale-[.9]" data-act="add">🛒 Agregar a mi arriendo</button>
+      <button class="addbtn w-full cursor-pointer rounded-xl border-0 bg-[linear-gradient(135deg,var(--color-m600),var(--color-m500))] px-2 py-2.5 font-ft text-[.875rem] font-bold text-white shadow-[0_4px_12px_rgba(90,42,156,.3)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_18px_rgba(90,42,156,.45)] active:scale-[.9]" data-act="add">🛒 Agregar a mi arriendo</button>
     </div>
   </div>
 </article>`;

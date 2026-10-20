@@ -20,32 +20,97 @@ colors:
 typography:
   display:
     fontFamily: "Fredoka, system-ui, sans-serif"
-    fontSize: "clamp(1.5rem, 3.4vw, 2.3rem)"
+    fontSize: "clamp(1.75rem, 3.2vw, 2.5rem)"
     fontWeight: 700
     lineHeight: 1.15
+  display-compact:
+    fontFamily: "Fredoka, system-ui, sans-serif"
+    fontSize: "clamp(1.6rem, 2.8vw, 2.15rem)"
+    fontWeight: 700
+    lineHeight: 1.15
+  section:
+    fontFamily: "Fredoka, system-ui, sans-serif"
+    fontSize: "clamp(1.5rem, 3vw, 2rem)"
+    fontWeight: 700
+    lineHeight: 1.15
+  headline:
+    fontFamily: "Fredoka, system-ui, sans-serif"
+    fontSize: "clamp(2rem, 2.6vw, 2.4rem)"
+    fontWeight: 700
+    lineHeight: 1.15
+  plan-title:
+    fontFamily: "Fredoka, system-ui, sans-serif"
+    fontSize: "1.5rem"
+    fontWeight: 600
+    lineHeight: 1
+  subhead:
+    fontFamily: "Fredoka, system-ui, sans-serif"
+    fontSize: "1.25rem"
+    fontWeight: 600
+    lineHeight: 1.2
+  banner-display:
+    fontFamily: "Fredoka, system-ui, sans-serif"
+    fontSize: "3.1rem"
+    fontWeight: 700
+    lineHeight: 1
   title:
     fontFamily: "Fredoka, system-ui, sans-serif"
-    fontSize: "1.02rem"
+    fontSize: "1.0625rem"
     fontWeight: 600
     lineHeight: 1.25
+  lead:
+    fontFamily: "Nunito, system-ui, sans-serif"
+    fontSize: "1.125rem"
+    fontWeight: 400
+    lineHeight: 1.6
   body:
     fontFamily: "Nunito, system-ui, sans-serif"
-    fontSize: "0.95rem"
+    fontSize: "1rem"
     fontWeight: 400
     lineHeight: 1.6
   body-strong:
     fontFamily: "Nunito, system-ui, sans-serif"
-    fontSize: "0.95rem"
+    fontSize: "1rem"
     fontWeight: 800
     lineHeight: 1.5
+  small:
+    fontFamily: "Nunito, system-ui, sans-serif"
+    fontSize: "0.875rem"
+    fontWeight: 400
+    lineHeight: 1.6
   label:
     fontFamily: "Nunito, system-ui, sans-serif"
-    fontSize: "0.72rem"
+    fontSize: "0.75rem"
     fontWeight: 800
     letterSpacing: "0.06em"
+  price:
+    fontFamily: "Fredoka, system-ui, sans-serif"
+    fontSize: "1.375rem"
+    fontWeight: 700
+    lineHeight: 1
+  price-lg:
+    fontFamily: "Fredoka, system-ui, sans-serif"
+    fontSize: "clamp(1.75rem, 4vw, 2rem)"
+    fontWeight: 700
+    lineHeight: 1
+  price-plan:
+    fontFamily: "Fredoka, system-ui, sans-serif"
+    fontSize: "clamp(2.2rem, 4vw, 2.8rem)"
+    fontWeight: 700
+    lineHeight: 1
   script:
     fontFamily: "Caveat, cursive"
     fontSize: "1.6rem"
+    fontWeight: 600
+    lineHeight: 1
+  script-lg:
+    fontFamily: "Caveat, cursive"
+    fontSize: "1.8rem"
+    fontWeight: 600
+    lineHeight: 1
+  script-sm:
+    fontFamily: "Caveat, cursive"
+    fontSize: "1.5rem"
     fontWeight: 600
     lineHeight: 1
 rounded:
@@ -166,16 +231,27 @@ Paleta de fiesta nocturna: fondos lavanda claros, escenarios morados profundos y
 **Character:** Fredoka redondeada y amable da voz a marca y títulos; Nunito hace el trabajo pesado de lectura con buenos pesos; Caveat acentúa como letra pintada a mano. El trío evoca letreros de feria sin caer en fuente infantil: la adultez viene del cuerpo de texto y la jerarquía, no de endurecer las fuentes.
 
 ### Hierarchy
-- **Display** (Fredoka 700, `clamp(1.5rem,3.4vw,2.3rem)`, lh 1.15): títulos de sección (`h2.sec`), siempre con subrayado arcoíris de 92×6px debajo.
-- **Headline** (Fredoka 600–700, 1.4–2.8rem): precios grandes, títulos de banner y tarjetas de plan.
-- **Title** (Fredoka 600, ~1.02rem, lh 1.25): títulos de tarjetas de producto, pasos y acordeones.
-- **Body** (Nunito 400, 0.9–1.02rem, lh 1.5–1.6): descripciones y FAQ. Máx. ~70ch centrado en párrafos sueltos.
-- **Label** (Nunito 800, 0.66–0.85rem, uppercase, tracking 0.06–0.08em): categorías, tags de plan, "Día 1", títulos de grupo de filtros.
+La escala se organiza por rol, no por componente. Los tokens viven en `@theme` (`--text-display`, `--text-display-compact`, `--text-section`, `--text-section-sm`, `--text-headline`, `--text-plan-title`, `--text-subhead`, `--text-banner-display`, `--text-title`, `--text-lead`, `--text-body`, `--text-small`, `--text-micro`, `--text-price`, `--text-price-lg`, `--text-price-plan`, `--text-script-lg`, `--text-script-sm`); cualquier tamaño nuevo se agrega ahí.
+
+- **Display** (Fredoka 700, `clamp(1.75rem,3.2vw,2.5rem)`, lh 1.15): h1 de página y hero del catálogo. Siempre el titular más grande de su pantalla.
+- **Display compact** (Fredoka 700, `clamp(1.6rem,2.8vw,2.15rem)`): h1 del home y titulares de banners, para que el hero no compita con el resto de la página.
+- **Section** (Fredoka 700, `clamp(1.5rem,3vw,2rem)`): `h2.sec`, con subrayado arcoíris de 92×6px; `h2.sec-sm` usa `clamp(1.25rem,2.4vw,1.6rem)`. En móvil queda un paso bajo el h1 del hero.
+- **Headline** (Fredoka 700, `clamp(2rem,2.6vw,2.4rem)`): h1 de la ficha; `--text-price-lg` (`clamp(1.75rem,4vw,2rem)`) para el precio de la ficha y el total de la solicitud; `--text-price-plan` (`clamp(2.2rem,4vw,2.8rem)`) para el precio de los planes. Solo para nombres de producto y cifras.
+- **Title** (Fredoka 600, 1.0625rem, lh 1.25): títulos de tarjetas de producto, pasos, acordeones y `h3–h5`.
+- **Lead** (Nunito 400, 1.125rem, lh 1.6): entradilla de sección o bajada destacada; máximo un uso por bloque.
+- **Body** (Nunito 400, 1rem, lh 1.6): descripciones, FAQ, condiciones y respuestas. Medida máxima 68ch en párrafos sueltos.
+- **Small** (Nunito 400/700, 0.875rem, lh 1.6): metadatos, ayudas, notas legales y texto secundario. Es el piso para cualquier texto informativo.
+- **Label** (Nunito 800, 0.75rem, uppercase, tracking 0.06–0.08em): categorías, tags de plan, "Día 1", títulos de grupo de filtros, badges. Es el único rol que puede llegar a 12px.
+- **Price** (Fredoka 700, 1.375rem, `tabular-nums`): cifras en tarjetas y resúmenes; los importes alinean dígitos entre filas.
 - **Script** (Caveat 600, 1.6rem, rotate −3°): un grito por sección ("¡Elige y brilla!", "Sin letra chica"), siempre con subrayado rosa manuscrito.
 
 ### Named Rules
 **The One Script Rule.** Máximo un `.script` visible por sección; nunca en botones, precios ni información legal.
 **Uppercase is for Labels.** Mayúsculas solo en labels cortos (≤3 palabras); nunca en oraciones.
+**The 16px Floor Rule.** El cuerpo de texto nunca baja de 16px; metadatos y ayudas nunca bajan de 14px; solo los labels uppercase pueden usar 12px. Nada informativo por debajo de 12px.
+**The Heading Weight Rule.** `h1` y `h2` van en Fredoka 700; `h3–h5` en 600. Todos usan `text-wrap: balance` y nunca heredan 400.
+**The 68ch Rule.** Párrafos corridos se limitan a 68ch; los bloques centrados de sección, a 68ch como máximo.
+**The Input Zoom Rule.** `input`, `select` y `textarea` se renderizan a 16px para que iOS no haga zoom al enfocar.
 
 ## Layout
 
@@ -221,22 +297,22 @@ Lenguaje de esquinas redondeadas amable y consistente: 10px (inputs pequeños, c
 - **Focus:** global `outline: 3px solid #5a2a9c; outline-offset: 2px` en `:focus-visible`.
 
 ### Chips
-- **Filtro:** pill, blanco, borde 1.5px `#e8dff8`, Nunito 700 0.85rem; hover lavanda+lila; activo ámbar sobre texto violeta. Barra rápida (`qf-chips`) los usa a 0.76rem/800.
+- **Filtro:** pill, blanco, borde 1.5px `#e8dff8`, Nunito 700 0.875rem; hover lavanda+lila; activo ámbar sobre texto violeta. Barra rápida (`qf-chips`) los usa a 0.75rem/800.
 - **Activo del carrito de filtros (`#activeChips`):** fondo rosa chicle, texto blanco, ✕ con `aria-label`.
 
 ### Cards / Containers
-- **Tarjeta de producto (`pcard`):** 20px radius, borde lila, foto aspect 2:3 sobre degradado de categoría, categoría en label uppercase, título Fredoka con `min-height` antisalto, chips de talla con tooltip de estatura, precio Fredoka 1.5rem en morado y botón de arriendo degradado morado. Hover: lift 5px + sombra sh2.
+- **Tarjeta de producto (`pcard`):** 20px radius, borde lila, foto aspect 2:3 sobre degradado de categoría, categoría en label uppercase, título Fredoka con `min-height` antisalto, chips de talla con tooltip de estatura, precio Fredoka 1.375rem en morado con cifras tabulares y botón de arriendo degradado morado. Hover: lift 5px + sombra sh2.
 - **Banner promocional:** 24px radius, degradado morado con foto real cubierta por velo oscuro `linear-gradient(115deg, rgba(...) .92→.35)`, texto blanco, script ámbar y CTA ámbar/WhatsApp.
 - **Tarjeta de plan (tarifas):** 24px radius; la "hero" invierte a degradado morado con precio ámbar y badge rosa "Más popular".
 
 ### Inputs / Fields
-- **Style:** fondo `#f9f6ff`, borde 2px `#e8dff8`, radius 12px, Nunito 0.95rem.
+- **Style:** fondo `#f9f6ff`, borde 2px `#e8dff8`, radius 12px, Nunito 1rem (16px, evita el zoom de iOS).
 - **Focus:** borde lila + halo `0 0 0 4px rgba(122,79,208,.14)` (searchbox) o borde `#7a4fd0` (formularios).
 - **Disabled/readonly:** fondo `#f4f1fb`, texto tinta-media (fecha de entrega automática).
 
 ### Navigation
-- **Header sticky** **oscuro** en todos los tamaños: degradado `120deg #1a0f2e → #2b1a44` con texto blanco y logo blanco. Al pasar 40px de scroll cambia a blanco casi opaco (`#ffffffee`) con blur y sombra morada, y el texto pasa a tinta. Logo emoji 🎭 en cuadrado degradado morado→rosa; nav Fredoka 0.92rem con estado `.on` (lavanda + punto rosa vía scrollspy); mega menú desplegable por hover/teclado con 4 columnas y tarjeta "Cómo llegar".
-- **Móvil:** burger que abre drawer full-screen blanco con acordeones `details`; bottom nav de 5 ítems (emoji + label 0.62rem); barra sticky del arriendo sobre el bottom nav.
+- **Header sticky** **oscuro** en todos los tamaños: degradado `120deg #1a0f2e → #2b1a44` con texto blanco y logo blanco. Al pasar 40px de scroll cambia a blanco casi opaco (`#ffffffee`) con blur y sombra morada, y el texto pasa a tinta. Logo emoji 🎭 en cuadrado degradado morado→rosa; nav Fredoka 0.875rem con estado `.on` (lavanda + punto rosa vía scrollspy); mega menú desplegable por hover/teclado con 4 columnas y tarjeta "Cómo llegar".
+- **Móvil:** burger que abre drawer full-screen blanco con acordes `details` a 1rem; barra sticky del arriendo a 0.875rem con botón de 0.875rem; menú y carrito en botones de 44×44px.
 
 ### Signature Components
 - **`script` + subrayado manuscrito:** Caveat ámbar rotada −3° con pseudo-elemento de trazo rosa (border-bottom redondeado irregular). Marca la voz del dueño.

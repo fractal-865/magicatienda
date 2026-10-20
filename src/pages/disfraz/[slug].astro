@@ -119,7 +119,7 @@ const descParrafos = (() => {
 >
   <main class="min-h-screen bg-[#faf8ff]">
     <!-- Breadcrumb -->
-    <nav class="mx-auto max-w-[1220px] px-4 py-3 text-[.85rem] text-ink2" aria-label="Migas de pan">
+    <nav class="mx-auto max-w-[1220px] px-4 py-3 text-[.875rem] text-ink2" aria-label="Migas de pan">
       <a href={ir('/')} class="hover:text-m600">Inicio</a>
       <span class="mx-1.5 opacity-40">›</span>
       <a href={ir('/catalogo/')} class="hover:text-m600">Catálogo</a>
@@ -172,8 +172,8 @@ const descParrafos = (() => {
                 {c.pub === 'mujer' ? '👩 Mujer' : c.pub === 'hombre' ? '👤 Hombre' : '🧑 Unisex'} / Solo Adultos
               </span>
             </div>
-            <h1 class="font-ft text-[2rem] leading-tight text-ink min-[900px]:text-[2.4rem]">{c.n}</h1>
-            <p class="text-[.85rem] font-medium text-ink2">
+            <h1 class="font-ft text-[length:var(--text-headline)] font-bold leading-tight text-ink">{c.n}</h1>
+            <p class="text-[.875rem] font-medium text-ink2">
               Código de inventario: <b class="text-m600">#{codigo}</b>
             </p>
           </div>
@@ -181,13 +181,13 @@ const descParrafos = (() => {
           <!-- Descripción -->
           <div class="space-y-3 rounded-2xl border-[1.5px] border-line bg-white p-4 shadow-sh">
             {descParrafos.map((p) => (
-              <p class="text-[.92rem] leading-[1.65] text-ink2">{p}</p>
+              <p class="text-[1rem] leading-[1.65] text-ink2">{p}</p>
             ))}
           </div>
 
           <!-- Tallas -->
           <div id="tallasSection" class="space-y-3">
-            <b class="flex items-center gap-2 text-[.9rem] font-bold text-ink">🏷️ Tallas disponibles:</b>
+            <b class="flex items-center gap-2 text-[1rem] font-bold text-ink">🏷️ Tallas disponibles:</b>
             <div class="grid grid-cols-3 gap-3">
               {c.tl.map((t) => (
                 <button
@@ -206,11 +206,11 @@ const descParrafos = (() => {
           <div class="pricing-card rounded-2xl border-2 border-line p-4 shadow-sh">
             <div class="flex flex-col gap-3 border-b border-line pb-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <span class="block text-[.7rem] font-extrabold uppercase tracking-[.08em] text-m500">Tarifa de arriendo</span>
-                <div class="flex items-baseline gap-2">
-                  <small class="text-[.66rem] font-bold uppercase tracking-[.02em] text-ink2">Desde</small>
-                  <span class="font-ft text-[2.1rem] font-extrabold leading-none text-ink">{clp(PRECIO_DESDE)}</span>
-                  <span class="text-[.8rem] font-semibold text-ink2">CLP / período completo</span>
+                <span class="block text-[.75rem] font-extrabold uppercase tracking-[.08em] text-m500">Tarifa de arriendo</span>
+                <div class="flex flex-wrap items-baseline gap-2">
+                  <small class="text-[.75rem] font-bold uppercase tracking-[.02em] text-ink2">Desde</small>
+                  <span class="font-ft text-[length:var(--text-price-lg)] font-extrabold leading-none text-ink">{clp(PRECIO_DESDE)}</span>
+                  <span class="text-[.875rem] font-semibold text-ink2">CLP / período completo</span>
                 </div>
               </div>
               <div class="inline-flex items-center gap-2 self-start rounded-xl border border-line bg-white px-3 py-1.5 text-[.75rem] font-bold text-ink sm:self-auto">
@@ -219,7 +219,7 @@ const descParrafos = (() => {
               </div>
             </div>
 
-            <div class="space-y-2.5 py-3.5 text-[.8rem] text-ink2">
+            <div class="space-y-2.5 py-3.5 text-[.875rem] text-ink2">
               <div class="flex items-center justify-between gap-3">
                 <span class="flex items-center gap-1.5 font-medium"><i class="dot dot-green"></i> Garantía reembolsable:</span>
                 <b class="text-ink">{GAR_SHORT} (se reintegra al devolver)</b>
@@ -249,7 +249,7 @@ const descParrafos = (() => {
               </a>
             </div>
 
-            <div class="mt-4 flex items-center justify-center gap-3 border-t border-line pt-4 text-[.75rem] font-semibold text-ink2">
+            <div class="mt-4 flex items-center justify-center gap-3 border-t border-line pt-4 text-[.875rem] font-semibold text-ink2">
               <button type="button" class="link-mini" id="copyLinkBtn" data-url={pageUrl}>🔗 Copiar enlace</button>
               <span class="opacity-40">•</span>
               <div class="relative">
@@ -285,10 +285,10 @@ const descParrafos = (() => {
                 <a href={ir(`/disfraz/${sSlug}/`)} class="group block w-[160px] shrink-0 snap-start overflow-hidden rounded-2xl border-[1.5px] border-line bg-white shadow-sh transition hover:-translate-y-1 hover:shadow-sh2 min-[560px]:w-[200px]">
                   <div class="relative aspect-[2/3] overflow-hidden bg-[#f0eaff]">
                     <img src={s.img} srcset={thumbSrcset(s.img)} sizes="(max-width: 559px) 160px, 200px" data-full={s.img} onerror="this.onerror=null;this.removeAttribute('srcset');this.src=this.dataset.full" alt={`${s.n} en arriendo en Punta Arenas`} class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" width="200" height="300" />
-                    <span class="absolute left-2 top-2 rounded-full bg-m600/90 px-2 py-0.5 text-[.65rem] font-extrabold text-white">#{String(s.id).padStart(3, '0')}</span>
+                    <span class="absolute left-2 top-2 rounded-full bg-m600/90 px-2 py-0.5 text-[.75rem] font-extrabold text-white">#{String(s.id).padStart(3, '0')}</span>
                   </div>
                   <div class="p-3">
-                    <h3 class="text-[.9rem] font-semibold text-ink line-clamp-2">{s.n}</h3>
+                    <h3 class="text-[1rem] font-semibold text-ink line-clamp-2">{s.n}</h3>
                     <span class="mt-1 block text-[.75rem] font-bold text-m500">{catById(s.t).i} {catById(s.t).n}</span>
                   </div>
                 </a>
@@ -645,7 +645,7 @@ const descParrafos = (() => {
     padding: 0.26rem 0.72rem;
     border-radius: 999px;
     border: 1px solid transparent;
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     font-weight: 800;
     line-height: 1.5;
     transition: transform 0.15s, box-shadow 0.15s;
@@ -708,12 +708,12 @@ const descParrafos = (() => {
     border-color: var(--color-m400);
   }
   .talla-btn .talla-nom {
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 800;
     line-height: 1.2;
   }
   .talla-btn .talla-sub {
-    font-size: 0.66rem;
+    font-size: 0.75rem;
     font-weight: 600;
     line-height: 1.25;
     color: var(--color-ink2);
@@ -774,7 +774,7 @@ const descParrafos = (() => {
     background: transparent;
     color: var(--color-ink);
     font: inherit;
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     font-weight: 700;
     text-align: left;
     text-decoration: none;
@@ -797,7 +797,7 @@ const descParrafos = (() => {
     border-radius: 999px;
     background: #1d1230;
     color: #fff;
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     font-weight: 700;
     box-shadow: 0 12px 30px rgb(0 0 0 / 0.28);
     opacity: 0;

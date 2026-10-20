@@ -4,17 +4,17 @@ import { GAR_SHORT } from '../data/site';
 const paycards = `
 <div class="grid gap-3.5 min-[560px]:grid-cols-2 mt-2.5">
   <div class="rounded-2xl border-2 border-l-[6px] border-line border-l-m400 bg-white p-[18px] shadow-[0_6px_16px_rgba(90,42,156,.07)]">
-    <span class="mb-2 inline-block rounded-lg bg-m600 px-2.5 py-0.5 text-[.72rem] font-extrabold text-white">OPCIÓN 1</span><br>
-    <b class="font-ft text-[1.02rem] text-ink">🏦 Cuenta RUT, Banco Estado</b>
-    <ul class="mt-2 list-none text-[.9rem] leading-[1.8] text-ink2">
+    <span class="mb-2 inline-block rounded-lg bg-m600 px-2.5 py-0.5 text-[.75rem] font-extrabold text-white">OPCIÓN 1</span><br>
+    <b class="font-ft text-[1.0625rem] text-ink">🏦 Cuenta RUT, Banco Estado</b>
+    <ul class="mt-2 list-none text-[1rem] leading-[1.8] text-ink2">
       <li><b class="text-ink">Titular:</b> Sandra Vera Galindo</li>
       <li><b class="text-ink">RUT:</b> 10.086.234-4</li>
     </ul>
   </div>
   <div class="rounded-2xl border-2 border-l-[6px] border-line border-l-m400 bg-white p-[18px] shadow-[0_6px_16px_rgba(90,42,156,.07)]">
-    <span class="mb-2 inline-block rounded-lg bg-m600 px-2.5 py-0.5 text-[.72rem] font-extrabold text-white">OPCIÓN 2</span><br>
-    <b class="font-ft text-[1.02rem] text-ink">📲 Copec Pay, Chequera Electrónica</b>
-    <ul class="mt-2 list-none text-[.9rem] leading-[1.8] text-ink2">
+    <span class="mb-2 inline-block rounded-lg bg-m600 px-2.5 py-0.5 text-[.75rem] font-extrabold text-white">OPCIÓN 2</span><br>
+    <b class="font-ft text-[1.0625rem] text-ink">📲 Copec Pay, Chequera Electrónica</b>
+    <ul class="mt-2 list-none text-[1rem] leading-[1.8] text-ink2">
       <li><b class="text-ink">Titular:</b> Sandra Vera Galindo</li>
       <li><b class="text-ink">RUT:</b> 10.086.234-4</li>
       <li><b class="text-ink">N° de chequera electrónica:</b> 11008623401</li>
@@ -61,12 +61,12 @@ const condiciones: [string, string[]][] = [
       {
         condiciones.map(([title, items]) => (
           <>
-            <h4 class="my-4 mb-1.5 text-[1.02rem] text-m600">{title}</h4>
-            {items.map((p) => <p class="my-1 text-[.9rem] leading-[1.6] text-ink2">{p}</p>)}
+            <h4 class="my-4 mb-1.5 text-[1.0625rem] text-m600">{title}</h4>
+            {items.map((p) => <p class="my-1 text-[1rem] leading-[1.6] text-ink2">{p}</p>)}
           </>
         ))
       }
-      <h4 class="my-4 mb-1.5 text-[1.02rem] text-m600">6. Medios de pago por depósito o transferencia</h4>
+      <h4 class="my-4 mb-1.5 text-[1.0625rem] text-m600">6. Medios de pago por depósito o transferencia</h4>
       <Fragment set:html={paycards} />
     </div>
   </div>

@@ -78,26 +78,26 @@ const planes = [
             style={`--d:${(k * 0.1).toFixed(1)}s`}
           >
             {p.hero && (
-              <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-rosa px-3.5 py-1 text-[.68rem] font-extrabold uppercase tracking-[.06em] text-[#2b0d5e] shadow-sh">
+              <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-rosa px-3.5 py-1 text-[.75rem] font-extrabold uppercase tracking-[.06em] text-[#2b0d5e] shadow-sh">
                 Más popular
               </span>
             )}
             <span class:list={['text-[.75rem] font-extrabold uppercase tracking-[.08em]', p.hero ? 'text-lav2' : 'text-m500']}>
               {p.tag}
             </span>
-            <h3 class:list={['mt-1 font-ft text-[1.5rem] leading-none', p.hero ? 'text-white' : 'text-ink']}>{p.n}</h3>
+            <h3 class:list={['mt-1 font-ft text-[length:var(--text-plan-title)] leading-none', p.hero ? 'text-white' : 'text-ink']}>{p.n}</h3>
 
             <div class="mt-3 flex items-baseline gap-2">
-              <span class:list={['font-ft text-[2.8rem] font-bold leading-none', p.hero ? 'text-ama' : 'text-m600']}>{p.price}</span>
-              <span class:list={['text-[.82rem] font-bold', p.hero ? 'text-lav2' : 'text-ink2']}>{p.unit}</span>
+              <span class:list={['font-ft text-[length:var(--text-price-plan)] font-bold leading-none', p.hero ? 'text-ama' : 'text-m600']}>{p.price}</span>
+              <span class:list={['text-[.875rem] font-bold', p.hero ? 'text-lav2' : 'text-ink2']}>{p.unit}</span>
             </div>
 
-            <p class:list={['mt-3 text-[.9rem] leading-[1.6]', p.hero ? 'text-lav2' : 'text-ink2']}>{p.d}</p>
+            <p class:list={['mt-3 text-[1rem] leading-[1.6]', p.hero ? 'text-lav2' : 'text-ink2']}>{p.d}</p>
 
-            <ul class:list={['mt-4 flex-1 list-none space-y-2 text-[.9rem]', p.hero ? 'text-lav2' : 'text-ink2']}>
+            <ul class:list={['mt-4 flex-1 list-none space-y-2 text-[1rem]', p.hero ? 'text-lav2' : 'text-ink2']}>
               {p.i.map((li) => (
                 <li class="flex items-start gap-2">
-                  <span class:list={['mt-[2px] grid h-[18px] w-[18px] shrink-0 place-items-center rounded-full text-[.7rem] font-bold', p.hero ? 'bg-ama text-m800' : 'bg-[#e2f7ec] text-[#0c7a56]']}>✓</span>
+                  <span class:list={['mt-[2px] grid h-[18px] w-[18px] shrink-0 place-items-center rounded-full text-[.75rem] font-bold', p.hero ? 'bg-ama text-m800' : 'bg-[#e2f7ec] text-[#0c7a56]']}>✓</span>
                   <span>{li}</span>
                 </li>
               ))}
@@ -121,8 +121,8 @@ const planes = [
 
     <!-- Aclaración de garantía -->
     <div class="rv mx-auto mt-5 max-w-[900px] rounded-3xl border-[1.5px] border-ama bg-[#fdf6d9] p-5 text-center">
-      <b class="block font-ft text-[1.05rem] text-[#6b5200]">🛡️ ¿Cómo funciona la garantía?</b>
-      <p class="mx-auto mt-1.5 max-w-[70ch] text-[.9rem] leading-[1.6] text-[#6b5200]">
+      <b class="block font-ft text-[1.125rem] text-[#6b5200]">🛡️ ¿Cómo funciona la garantía?</b>
+      <p class="mx-auto mt-1.5 max-w-[70ch] text-[1rem] leading-[1.6] text-[#6b5200]">
         Al retirar dejas una garantía de <b>{GAR_SHORT} según el disfraz</b> (en efectivo o transferencia).
         <b>Si lo devuelves en las mismas condiciones, te la devolvemos completa</b> el día de la entrega.
         Solo se descuenta si el disfraz vuelve con roturas, manchas, accesorios faltantes o con retraso.

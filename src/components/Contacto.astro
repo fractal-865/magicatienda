@@ -28,7 +28,7 @@ const cards = [
             >
               <span class="inline-block animate-[floaty_5s_ease-in-out_infinite] text-[2rem]">{c.i}</span>
               <b class="my-2 block font-ft text-ink">{c.t}</b>
-              <small class="block leading-[1.5] text-ink2" set:html={c.s} />
+              <small class="block text-[.875rem] leading-[1.5] text-ink2" set:html={c.s} />
             </a>
           ) : (
             <div
@@ -37,7 +37,7 @@ const cards = [
             >
               <span class="inline-block animate-[floaty_5s_ease-in-out_infinite] text-[2rem]">{c.i}</span>
               <b class="my-2 block font-ft text-ink">{c.t}</b>
-              <small class="block leading-[1.5] text-ink2" set:html={c.s} />
+              <small class="block text-[.875rem] leading-[1.5] text-ink2" set:html={c.s} />
             </div>
           )
         ))
@@ -47,24 +47,24 @@ const cards = [
     <div id="socialsRow" class="rv my-[26px] flex flex-wrap justify-center gap-2.5">
       {
         CONFIG.redes.map((r) => (
-          <a href={r.u} target="_blank" rel="noopener" class="flex items-center gap-2 rounded-full border-[1.5px] border-line bg-white px-4 py-2.5 text-[.85rem] font-extrabold text-ink no-underline transition hover:border-ama hover:bg-ama hover:text-m800">
+          <a href={r.u} target="_blank" rel="noopener" class="flex items-center gap-2 rounded-full border-[1.5px] border-line bg-white px-4 py-2.5 text-[.875rem] font-extrabold text-ink no-underline transition hover:border-ama hover:bg-ama hover:text-m800">
             {r.i} {r.n} · <span class="text-m500">{CONFIG.handle}</span>
           </a>
         ))
       }
-      <a href={waLink('Hola!')} target="_blank" rel="noopener" class="flex items-center gap-2 rounded-full border-[1.5px] border-line bg-white px-4 py-2.5 text-[.85rem] font-extrabold text-ink no-underline transition hover:border-ama hover:bg-ama hover:text-m800">
+      <a href={waLink('Hola!')} target="_blank" rel="noopener" class="flex items-center gap-2 rounded-full border-[1.5px] border-line bg-white px-4 py-2.5 text-[.875rem] font-extrabold text-ink no-underline transition hover:border-ama hover:bg-ama hover:text-m800">
         💬 WhatsApp · {CONFIG.waDisplay}
       </a>
     </div>
 
     <form class="cform rv mx-auto mt-[26px] grid max-w-[640px] gap-3 rounded-[22px] border-2 border-line bg-white p-6 text-ink shadow-[0_8px_20px_rgba(90,42,156,.08)]" id="cForm">
       <b class="font-ft text-[1.1rem]">✍️ Escríbenos y te respondemos por WhatsApp</b>
-      <label for="cfNombre" class="text-[.8rem] font-extrabold text-ink2">Tu nombre</label>
-      <input id="cfNombre" class="w-full rounded-xl border-2 border-line bg-[#f9f6ff] px-3.5 py-3 font-fb text-[.95rem] text-ink outline-none focus:border-m400" placeholder="Ej: Camila Rojas" required />
-      <label for="cfCel" class="text-[.8rem] font-extrabold text-ink2">Tu celular</label>
-      <input id="cfCel" class="w-full rounded-xl border-2 border-line bg-[#f9f6ff] px-3.5 py-3 font-fb text-[.95rem] text-ink outline-none focus:border-m400" placeholder="Ej: +56 9 1234 5678" required />
-      <label for="cfMsg" class="text-[.8rem] font-extrabold text-ink2">Mensaje</label>
-      <textarea id="cfMsg" rows="3" class="w-full rounded-xl border-2 border-line bg-[#f9f6ff] px-3.5 py-3 font-fb text-[.95rem] text-ink outline-none focus:border-m400" placeholder="Cuéntanos: ¿qué fiesta se viene? 🎉"></textarea>
+      <label for="cfNombre" class="text-[.875rem] font-extrabold text-ink2">Tu nombre</label>
+      <input id="cfNombre" class="w-full rounded-xl border-2 border-line bg-[#f9f6ff] px-3.5 py-3 font-fb text-[1rem] text-ink outline-none focus:border-m400" placeholder="Ej: Camila Rojas" required />
+      <label for="cfCel" class="text-[.875rem] font-extrabold text-ink2">Tu celular</label>
+      <input id="cfCel" class="w-full rounded-xl border-2 border-line bg-[#f9f6ff] px-3.5 py-3 font-fb text-[1rem] text-ink outline-none focus:border-m400" placeholder="Ej: +56 9 1234 5678" required />
+      <label for="cfMsg" class="text-[.875rem] font-extrabold text-ink2">Mensaje</label>
+      <textarea id="cfMsg" rows="3" class="w-full rounded-xl border-2 border-line bg-[#f9f6ff] px-3.5 py-3 font-fb text-[1rem] text-ink outline-none focus:border-m400" placeholder="Cuéntanos: ¿qué fiesta se viene? 🎉"></textarea>
       <button class="btn btn-wsp btn-lg" type="submit">Enviar por WhatsApp 💬</button>
     </form>
   </div>
