@@ -35,7 +35,7 @@ export function cardHTML(c: Product, k: number, q = '') {
           <button type="button" class="info-dot tip cursor-help" data-tip="Valor según el disfraz. Cotiza por WhatsApp para conocer el precio exacto." aria-label="Sobre los precios">?</button>
         </span>
       </div>
-      <button class="addbtn w-full cursor-pointer rounded-xl border-0 bg-[linear-gradient(135deg,var(--color-m600),var(--color-m500))] px-2 py-2.5 font-ft text-[.875rem] font-bold text-white shadow-[0_4px_12px_rgba(90,42,156,.3)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_18px_rgba(90,42,156,.45)] active:scale-[.9]" data-act="add">🛒 Agregar a mi arriendo</button>
+      <button class="addbtn w-full cursor-pointer rounded-xl border-0 bg-[linear-gradient(135deg,var(--color-m600),var(--color-m500))] px-2 py-2.5 font-ft text-[.875rem] font-semibold text-white shadow-[0_4px_12px_rgba(90,42,156,.3)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_18px_rgba(90,42,156,.45)] active:scale-[.9]" data-act="add">Agendar arriendo</button>
     </div>
   </div>
 </article>`;
