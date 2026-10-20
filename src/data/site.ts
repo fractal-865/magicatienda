@@ -101,7 +101,7 @@ export const FECHAS = [
   { n: 'Fiestas Patrias', f: '18 sep', i: '🇨🇱', m: 8, d: 18, fr: '¡A cuequiar se ha dicho!', tem: 'epocas-e-historicos', c: '#FF5FA2' },
   { n: 'Halloween', f: '31 oct', i: '🎃', m: 9, d: 31, fr: 'Dulce o trato, versión adultos 👻', tem: 'halloween-y-terror', c: '#FF7A1A' },
   { n: 'Graduaciones', f: 'nov–dic', i: '🎓', m: 11, d: 10, fr: 'Licenciaturas y fiestas de egreso', tem: 'princesas-y-cuentos', c: '#7a4fd0' },
-  { n: 'Navidad', f: '25 dic', i: '🎅', m: 11, d: 25, fr: 'Cenas y fiestas de empresa', tem: 'princesas-y-cuentos', c: '#25D366' },
+  { n: 'Navidad', f: '25 dic', i: '🎅', m: 11, d: 25, fr: 'Cenas y fiestas de empresa', tem: 'princesas-y-cuentos', c: '#ff5fa2' },
   { n: 'Año Nuevo', f: '31 dic', i: '🎆', m: 11, d: 31, fr: 'Brilla más que la once 👀', tem: 'sexy', c: '#0fae9f' },
   { n: 'Fiestas de empresa', f: 'dic', i: '🏢', m: 11, d: 15, fr: 'El corvo más esperado del año', tem: 'profesiones', c: '#e8a200' },
 ];
@@ -121,7 +121,7 @@ export const FAQS: [string, string][] = [
   ['¿Puedo reservar con anticipación?', '¡Ojalá! La reserva se hace pagando el valor del arriendo y no es reembolsable: con ella te aseguramos el disfraz para tu fecha.'],
   ['¿Hacen ajustes de talla?', 'Sí, ajustes simples gratis en la tienda: basta, cintura, dobladillos.'],
   ['¿Se puede arrendar en grupo?', '¡Sí! Si son varios disfraces en una misma cotización lo coordinamos todo junto por WhatsApp, para que el grupo retire el mismo día y con las tallas resueltas.'],
-  ['¿Cómo pago la reserva o la garantía?', 'Reserva: valor del arriendo, coordinado al confirmar. Garantía: efectivo o transferencia/deposito (Cuenta RUT Banco Estado o Copec Pay, datos en "Condiciones de arriendo").'],
+  ['¿Cómo pago la reserva o la garantía?', 'Reserva: valor del arriendo, coordinado al confirmar. Garantía: efectivo o transferencia/depósito (Cuenta RUT Banco Estado o Copec Pay, datos en "Condiciones de arriendo").'],
 ];
 
 /* Accesorios que se cotizan junto al arriendo */

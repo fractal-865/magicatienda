@@ -19,11 +19,16 @@
   --color-rosa: #ff5fa2;
   --color-turq: #0fae9f;
   --color-mint: #2ee6d6;
+  /* Estrellas de testimonios: oro oscurecido para leerse sobre blanco (4,86:1).
+     El ámbar de marca se reserva para CTA, precios y garantía. */
+  --color-star: #926b00;
 
   /* Tinta */
   --color-ink: #2a1155;
   --color-ink2: #66539c;
-  --color-placeholder: #9a88c9;
+  /* Placeholder con 4,55:1 sobre el fondo de los buscadores (#f9f6ff): antes
+     #9a88c9 rendía 2,92:1 y no se leía. Sigue siendo lila, no tinta. */
+  --color-placeholder: #7a64b5;
 
   /* Superficies con paleta propia.
      El panel "Tu arriendo" y la barra de filtros pegada no usan el morado de
@@ -37,7 +42,9 @@
   --color-dw-scroll: #d8ccef;
   --color-dw-ink: #1f1235;
   --color-dw-ink2: #5d5478;
-  --color-dw-mute: #9a93ad;
+  /* "Desde" y "/ 3 días" son texto informativo: este tono da 4,8:1 sobre
+     --color-dw-field. El anterior (#9a93ad) rendía 2,63:1. */
+  --color-dw-mute: #6f677e;
   --color-dw-accent: #5b21b6;
   --color-dw-accent2: #6d28d9;
   --color-dw-accent-soft: #f0e6ff;
@@ -50,7 +57,9 @@
   --color-fb-line: #e6dcc8;
   --color-fb-line2: #e0d5be;
   --color-fb-ink: #38312a;
-  --color-fb-mute: #a89c88;
+  /* Placeholder de la barra pegada (pergamino): 4,94:1 sobre #f8f3e9.
+     Antes #a89c88 rendía 2,44:1. */
+  --color-fb-mute: #746852;
 
   /* Estados. El verde queda reservado para WhatsApp (es su color de marca):
      lo confirmado se dice en violeta y lo que pide atención, en ámbar.
@@ -827,14 +836,14 @@ footer {
   top: 50%;
   z-index: 3;
   translate: 0 -50%;
-  width: 42px;
-  height: 42px;
+  width: 38px;
+  height: 38px;
   place-items: center;
   border: 1.5px solid var(--color-line, #e6dcf7);
   border-radius: 999px;
   background: rgb(255 255 255 / 0.92);
   color: var(--color-m600);
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 800;
   line-height: 1;
   cursor: pointer;
@@ -859,12 +868,14 @@ footer {
   .promo-nav {
     display: grid;
   }
-  /* En pantallas chicas las flechas se posan sobre el borde del banner */
+  /* En pantallas chicas las flechas se posan sobre el borde del banner, por
+     fuera de la columna de texto: si entran 6px se comen la primera letra
+     de cada línea. */
   .promo-prev {
-    left: 6px;
+    left: -12px;
   }
   .promo-next {
-    right: 6px;
+    right: -12px;
   }
 }
 
@@ -1966,6 +1977,11 @@ nav [data-navsec].on::after {
   color: #fff;
   font-size: var(--text-micro);
   font-weight: 800;
+}
+/* El contador solo aparece con categorías activas. Sin esta regla, el
+   `display: inline-grid` de arriba gana sobre la utilidad `.hidden`. */
+.cat-pick-n.hidden {
+  display: none;
 }
 .cat-pick-btn.on .cat-pick-n {
   background: var(--color-m800);

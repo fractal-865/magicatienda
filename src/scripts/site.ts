@@ -59,14 +59,14 @@ function fmtDate(iso: string): string {
   if (isNaN(dt.getTime())) return '—';
   return `${DIAS[dt.getDay()]} ${dt.getDate()} de ${MESES[dt.getMonth()]}`;
 }
-/* Fecha compacta como en el panel: "Mié 21 de Octubre" */
+/* Fecha compacta como en el panel: "Mié 21 de octubre" */
 function fmtDateCap(iso: string): string {
   if (!iso) return '—';
   const dt = new Date(iso + 'T12:00:00');
   if (isNaN(dt.getTime())) return '—';
   const dia = DIAS[dt.getDay()].slice(0, 3);
   const mes = MESES[dt.getMonth()];
-  return `${dia.charAt(0).toUpperCase()}${dia.slice(1)} ${dt.getDate()} de ${mes.charAt(0).toUpperCase()}${mes.slice(1)}`;
+  return `${dia.charAt(0).toUpperCase()}${dia.slice(1)} ${dt.getDate()} de ${mes}`;
 }
 /* Fecha de hoy en formato YYYY-MM-DD (para precargar y bloquear días pasados) */
 function todayISO(d = new Date()): string {
@@ -1255,7 +1255,7 @@ function renderMini() {
       </section>
 
       <section class="rent-panel">
-        <label class="rent-label" for="rqNom"><span>Tu nombre completo <b>*</b></span><small>Para reservar disfraz</small></label>
+        <label class="rent-label" for="rqNom"><span>Tu nombre completo <b>*</b></span><small>Para tu solicitud</small></label>
         <input id="rqNom" class="rent-input" placeholder="Ej. Constanza Silva" autocomplete="name" required aria-required="true" aria-label="Nombre y apellido (obligatorio)" value="${esc(state.req.nombre)}">
         <div class="rent-period">
           <div class="period-head">
@@ -1279,7 +1279,7 @@ function renderMini() {
         <h3 class="sum-title">Resumen de valores</h3>
         <div class="sum-row"><span>Arriendo (${nd} ${nd === 1 ? 'disfraz' : 'disfraces'} × 3 días)</span><b><em class="desde">Desde</em> ${clp(desdeArriendo)}</b></div>
         <div class="sum-row"><span>Garantía en tienda</span><b><em class="desde">Desde</em> ${clp(desdeGarantia)}</b></div>
-        <div class="sum-note"><span class="sum-check">✓</span><p><b>Garantía 100% reembolsable</b> al devolver las prendas a tiempo y en óptimo estado.</p></div>
+        <div class="sum-note"><span class="sum-check">✓</span><p><b>Garantía 100% reintegrable</b> al devolver las prendas a tiempo y en óptimo estado.</p></div>
         <div class="sum-total"><div><span>Total a pagar al retirar</span><small>Arriendo + Garantía incluida</small></div><b><em class="desde">Desde</em> ${clp(desdeArriendo + desdeGarantia)}</b></div>
         <p class="sum-hint">Es una cotización aproximada: los valores se confirman y revisan por WhatsApp al reservar.</p>
       </section>
@@ -1446,7 +1446,7 @@ function sendWA() {
   // Validación mínima antes de abrir WhatsApp: solo el nombre (obligatorio)
   const r = state.req;
   const errs: [string, string][] = [];
-  if (!r.nombre.trim()) errs.push(['#rqNom', 'Falta tu nombre (ej: Camila)']);
+  if (!r.nombre.trim()) errs.push(['#rqNom', 'Falta tu nombre (ej: Constanza)']);
   ['#rqNom'].forEach((s) => $<HTMLInputElement>(s)?.classList.remove('border-[#c0392b]', 'campo-falta'));
   document.querySelectorAll('.req-err').forEach((e) => e.remove());
   if (errs.length) {
@@ -1496,9 +1496,11 @@ $('#grid')?.addEventListener('click', (e) => {
 });
 $('#grid')?.addEventListener('keydown', (e) => {
   const t = e.target as HTMLElement;
+  // Enter sobre la tarjeta hace lo mismo que el clic: abrir la ficha.
+  // Agregar al arriendo tiene su propio botón (y ahí sí se anuncia).
   if (e.key === 'Enter' && t.classList.contains('pcard')) {
-    const p = PRODUCTS.find((x) => x.id === Number(t.dataset.id));
-    if (p) addItem(p.id, 'd', p.tl[0], 1, t);
+    const link = t.querySelector('a') as HTMLAnchorElement | null;
+    if (link) window.location.href = link.href;
   }
 });
 

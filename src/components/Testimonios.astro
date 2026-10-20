@@ -11,9 +11,9 @@ import { TESTIS } from '../data/site';
       {
         TESTIS.map((t, k) => (
           <figure class="rv m-0 flex flex-col gap-2 rounded-2xl border-[1.5px] border-line bg-white p-5 shadow-[0_4px_12px_rgba(90,42,156,.06)]" style={`--d:${(k * 0.08).toFixed(2)}s`}>
-            <div class="text-[1rem] tracking-[.12em] text-ama" aria-label={`${t.s} de 5 estrellas`}>
+            <div class="text-[1rem] tracking-[.12em] text-star" role="img" aria-label={`${t.s} de 5 estrellas`}>
               {'★'.repeat(t.s)}
-              <span class="text-[#d9c9f7]">{'★'.repeat(5 - t.s)}</span>
+              <span>{'☆'.repeat(5 - t.s)}</span>
             </div>
             <blockquote class="m-0 text-[1rem] leading-relaxed text-ink">“{t.t}”</blockquote>
             <figcaption class="mt-auto flex items-center gap-2.5 pt-1">

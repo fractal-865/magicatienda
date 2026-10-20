@@ -202,6 +202,7 @@ Paleta de fiesta nocturna: fondos lavanda claros, escenarios morados profundos y
 - **Ámbar Fiesta** (`#ffd23f`): CTA primario, precios destacados, subrayado de script, badge de "Más popular", borde de garantía. Máximo ~10% de la pantalla: su escasez lo hace brillar.
 - **Rosa Chicle** (`#ff5fa2`): segundo acento (badges del carrito, borde inferior del script, urgencia, hover de chips activos).
 - **Turquesa** (`#0fae9f`) y **Menta** (`#2ee6d6`): acentos de categorías/degradados puntuales, uso mínimo.
+- **Oro legible** (`--color-star`, `#926b00`): estrellas de testimonios. Da 4,86:1 sobre blanco; el ámbar de marca no alcanza para texto pequeño.
 
 ### Tertiary
 - **Verde WhatsApp** (`#25D366`, degradado `#2ecb6e`→`#128f4a`): exclusivo de acciones de contacto a WhatsApp. Ningún otro elemento usa verde.
@@ -212,7 +213,7 @@ Paleta de fiesta nocturna: fondos lavanda claros, escenarios morados profundos y
 - **Neblina** (`#f6f1ff`): fondos de bloques internos (guía 3 días, chat).
 - **Tinta Berenjena** (`#2a1155`): todo el texto principal.
 - **Tinta Media** (`#66539c`): texto secundario. Cuidado: sobre `#f6f1ff` rinde ~4.7:1; no bajar su tamaño por debajo de ~13px en texto informativo.
-- **Placeholder** (`--color-placeholder`, `#9a88c9`): solo placeholders de buscador. Hoy rinde 3.1:1 (deuda de contraste).
+- **Placeholder** (`--color-placeholder`, `#7a64b5`): solo placeholders de buscador. Rinde 4,55:1 sobre `#f9f6ff`.
 
 ### Superficies especiales
 Dos superficies no usan el morado de marca y tienen su propia escala en `@theme`. No son excepciones sueltas: cada una se ajusta desde sus tokens, nunca con hex sueltos.
@@ -229,7 +230,7 @@ Dos superficies no usan el morado de marca y tienen su propia escala en `@theme`
 
 ### Deuda conocida (auditoría oct. 2026)
 - **Verde fuera de WhatsApp:** resuelto en `/impeccable colorize`. `.sum-check`/`.sum-note`, `.loadprog.completo`, `.copybtn.done`, `.dot-ok` de la ficha, los bullets de Tarifas y el badge del mega menú pasaron a violeta (`--color-ok*`); la cuenta regresiva de Fechas, el pulso de "elegir talla" y el aviso de la sección de tallas pasaron a ámbar (`--color-warn*`). Además se eliminó CSS muerto que aún cargaba verde (`.gchip`, `.req-pill.green`, `.datebox.destacar`).
-- **Contraste de placeholders:** `--color-placeholder` (`#9a88c9`) rinde 3.1:1 y `--color-fb-mute` (`#a89c88`) 2.9:1 sobre blanco; ambos bajo 4.5:1 (`/impeccable polish`).
+- **Contraste de placeholders:** resuelto en `/impeccable polish`. `--color-placeholder` pasó de `#9a88c9` (2,92:1) a `#7a64b5` (4,55:1 sobre `#f9f6ff`); `--color-fb-mute` de `#a89c88` (2,44:1) a `#746852` (4,94:1 sobre `#f8f3e9`); `--color-dw-mute` de `#9a93ad` (2,63:1) a `#6f677e` (4,80:1 sobre `#f4f1f9`).
 
 ## Typography
 
