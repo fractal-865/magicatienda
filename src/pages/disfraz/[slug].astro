@@ -848,73 +848,84 @@ const descParrafos = (() => {
       band.addEventListener('dragstart', (e) => e.preventDefault());
     })();
 
-    // Similares: avance automático de a una tarjeta, reversible en los
-    // extremos. El arrastre con mouse, el swipe táctil y el enganche de las
-    // tarjetas siguen igual: esto solo suma el movimiento automático.
+    // Similares: desplazamiento automático continuo. La banda se mueve a
+    // velocidad constante y cambia de sentido en los extremos, sin esperar
+    // entre tarjeta y tarjeta. El arrastre, el swipe y el botón de pausa
+    // siguen mandando cuando el usuario interviene.
     (function () {
       const band = document.querySelector('.sim-band');
-      const track = document.getElementById('simTrack');
       const pauseBtn = document.getElementById('simPause');
-      if (!band || !track || !pauseBtn) return;
+      if (!band || !pauseBtn) return;
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         pauseBtn.hidden = true;
         return;
       }
 
+      const VELOCIDAD = 30; // px por segundo
       let dir = 1;
-      let timer = 0;
+      let raf = 0;
+      let ultimo = 0;
       let reanudar = 0;
       let pausado = false;
       let manual = false;
-      let hover = false;
       let focused = false;
       let visible = true;
 
-      const limpiar = () => {
-        clearTimeout(timer);
-        timer = 0;
+      const activo = () =>
+        !pausado && !manual && !focused && visible && !document.hidden;
+
+      const detener = () => {
+        cancelAnimationFrame(raf);
+        raf = 0;
+        ultimo = 0;
       };
-      const programar = (ms = 3800) => {
-        limpiar();
-        if (pausado || manual || hover || focused || !visible || document.hidden) return;
-        timer = setTimeout(paso, ms);
-      };
-      const paso = () => {
-        timer = 0;
-        if (pausado || manual || hover || focused || !visible || document.hidden) return;
+
+      const mover = (ts = performance.now()) => {
+        raf = 0;
+        if (!activo()) return;
+        if (!ultimo) ultimo = ts;
+        // Al volver de otra pestaña no se acumula todo el tiempo ausente.
+        const dt = Math.min(ts - ultimo, 64) / 1000;
+        ultimo = ts;
         const max = band.scrollWidth - band.clientWidth;
         if (max > 2) {
-          const cards = track.querySelectorAll('.sim-card');
-          const primera = cards[0];
-          const segunda = cards[1];
-          const avance =
-            primera && segunda && segunda.offsetLeft > primera.offsetLeft
-              ? segunda.offsetLeft - primera.offsetLeft
-              : Math.max(180, Math.round(band.clientWidth * 0.6));
-          let destino = band.scrollLeft + dir * avance;
-          if (dir > 0 && destino >= max - 1) {
+          let destino = band.scrollLeft + dir * VELOCIDAD * dt;
+          if (destino >= max) {
             destino = max;
             dir = -1;
-          } else if (dir < 0 && destino <= 1) {
+          } else if (destino <= 0) {
             destino = 0;
             dir = 1;
           }
-          band.scrollTo({ left: destino, behavior: 'smooth' });
+          band.scrollLeft = destino;
         }
-        programar();
+        raf = requestAnimationFrame(mover);
       };
-      const parar = () => {
+
+      function arrancar() {
+        if (raf || !activo()) return;
+        // El enganche de tarjetas es para el arrastre manual; mientras la
+        // banda avanza sola hay que soltarlo o el navegador devuelve cada
+        // frame a la tarjeta más cercana. Se mantiene suelto durante las
+        // pausas para que el carrusel no salte al pasar el mouse.
+        band.classList.add('sim-auto');
+        ultimo = 0;
+        raf = requestAnimationFrame(mover);
+      }
+
+      function parar() {
         pausado = true;
         clearTimeout(reanudar);
-        limpiar();
-      };
-      const seguir = (ms = 1800) => {
+        detener();
+      }
+
+      function seguir(ms = 1800) {
         clearTimeout(reanudar);
         reanudar = setTimeout(() => {
           pausado = false;
-          programar(900);
+          arrancar();
         }, ms);
-      };
+      }
 
       pauseBtn.addEventListener('click', () => {
         manual = !manual;
@@ -927,22 +938,16 @@ const descParrafos = (() => {
             : 'Pausar el carrusel de disfraces similares',
         );
         if (manual) {
-          limpiar();
-          clearTimeout(reanudar);
+          parar();
         } else {
           pausado = false;
-          programar(800);
+          arrancar();
         }
       });
 
-      band.addEventListener('pointerenter', (e) => {
-        if (e.pointerType === 'mouse') hover = true;
-        parar();
-      });
-      band.addEventListener('pointerleave', (e) => {
-        if (e.pointerType === 'mouse') hover = false;
-        seguir();
-      });
+      // No se detiene al pasar el mouse: la idea es que se mueva siempre.
+      // Al presionar (arrastrar, tocar o hacer clic) sí se pausa para no
+      // pelear con el gesto del usuario, y vuelve solo unos segundos después.
       band.addEventListener('pointerdown', parar);
       band.addEventListener('pointerup', () => seguir());
       band.addEventListener('pointercancel', () => seguir());
@@ -963,24 +968,22 @@ const descParrafos = (() => {
         { passive: true },
       );
       document.addEventListener('visibilitychange', () => {
-        if (document.hidden) limpiar();
-        else if (!pausado && !manual) programar(1200);
+        if (document.hidden) detener();
+        else arrancar();
       });
-      window.addEventListener('resize', () => {
-        if (!pausado && !manual) programar(1200);
-      });
+      window.addEventListener('resize', arrancar);
 
       if ('IntersectionObserver' in window) {
         new IntersectionObserver(
           ([entry]) => {
             visible = entry.isIntersecting;
-            if (!visible) limpiar();
-            else if (!pausado && !manual) programar(1200);
+            if (!visible) detener();
+            else arrancar();
           },
           { rootMargin: '160px' },
         ).observe(band);
       }
-      programar(2200);
+      arrancar();
     })();
 
     // La columna de datos sigue el scroll en escritorio cuando alcanza a
@@ -1375,6 +1378,9 @@ const descParrafos = (() => {
   }
   .sim-band.dragging {
     cursor: grabbing;
+    scroll-snap-type: none;
+  }
+  .sim-band.sim-auto {
     scroll-snap-type: none;
   }
   .sim-track {
