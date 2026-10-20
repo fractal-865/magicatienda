@@ -1200,7 +1200,6 @@ function renderMini() {
     </span>
     <div class="cart-title">
       <div class="cart-title-row"><b>Tu solicitud</b><span class="cart-n">${n} ${n === 1 ? 'prenda' : 'prendas'}</span></div>
-      <p>Cotización inmediata para coordinar en tienda</p>
     </div>
     <button class="cart-close" data-act="close" aria-label="Cerrar panel">✕</button>
   </div>`;
