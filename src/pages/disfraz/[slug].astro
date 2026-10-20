@@ -783,15 +783,6 @@ const descParrafos = (() => {
     document.getElementById('fichaCtaBtn')?.addEventListener('click', () => {
       document.getElementById('addCartBtn')?.click();
     });
-    // La CTA aparece al empezar a bajar: así no tapa el título en el primer
-    // vistazo, pero acompaña todo el resto del recorrido.
-    (function () {
-      const cta = document.querySelector('.ficha-cta');
-      if (!cta) return;
-      const ver = () => cta.classList.toggle('visible', window.scrollY > 160);
-      ver();
-      window.addEventListener('scroll', ver, { passive: true });
-    })();
 
     // Similares: agregar al arriendo sin salir de la ficha.
     document.getElementById('simTrack')?.addEventListener('click', (e) => {
@@ -1412,7 +1403,8 @@ const descParrafos = (() => {
     }
   }
 
-  /* ── CTA fija de la ficha en el teléfono ── */
+  /* ── CTA fija de la ficha en el teléfono ──
+     Se muestra desde el primer momento y acompaña todo el recorrido. */
   .ficha-cta {
     display: none;
   }
@@ -1424,18 +1416,6 @@ const descParrafos = (() => {
       bottom: 1.25rem;
       left: 0.625rem;
       z-index: 83;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(10px);
-      transition:
-        opacity 0.22s ease,
-        transform 0.22s ease,
-        bottom 0.22s ease;
-    }
-    .ficha-cta.visible {
-      opacity: 1;
-      pointer-events: auto;
-      transform: none;
     }
     :global(body.drawer-lock) .ficha-cta {
       display: none;
