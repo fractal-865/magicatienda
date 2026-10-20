@@ -1,6 +1,7 @@
 ---
 import { CATS_ACTIVE, PUBLICOS, OCASIONES } from '../data/products';
 import { CONFIG, waLink, ir, sec as secEnlace } from '../data/site';
+import { SOCIAL_ICONS } from '../lib/social';
 import { Picture } from 'astro:assets';
 import logoImg from '../assets/img/logo.png';
 
@@ -120,8 +121,8 @@ const corto = (s: string) => CORTOS[s] ?? s;
     <div class="flex justify-center gap-2 text-[1.3rem]">
       {
         CONFIG.redes.map((r) => (
-          <a class="grid h-[42px] w-[42px] place-items-center rounded-full bg-[#f0eaff] text-[1.15rem] no-underline" href={r.u} target="_blank" rel="noopener" aria-label={r.n}>
-            {r.i}
+          <a class="grid h-[42px] w-[42px] place-items-center rounded-full bg-[#f0eaff] text-[1.15rem] text-m700 no-underline transition hover:-translate-y-0.5 hover:bg-m600 hover:text-white" href={r.u} target="_blank" rel="noopener" aria-label={r.n}>
+            <span set:html={SOCIAL_ICONS[r.n] ?? r.i} />
           </a>
         ))
       }
