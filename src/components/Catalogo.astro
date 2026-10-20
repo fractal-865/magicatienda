@@ -12,6 +12,10 @@ const esCat = modo === 'catalogo';
 
 const catCount = (id: string) => PRODUCTS.filter((p) => p.cats.includes(id)).length;
 const total = PRODUCTS.length;
+// El desplegable va de la categoría con más disfraces a la que tiene menos.
+const catsPorCantidad = [...CATS_ACTIVE]
+  .map((c) => ({ ...c, count: catCount(c.id) }))
+  .sort((a, b) => b.count - a.count);
 const urlCatalogo = ir('/catalogo/');
 ---
 
@@ -143,11 +147,11 @@ const urlCatalogo = ir('/catalogo/');
 
           <div id="filterGroups" class="cat-drop-list">
             {
-              CATS_ACTIVE.map((c) => (
+              catsPorCantidad.map((c) => (
                 <label class="cat-opt">
                   <input type="checkbox" data-g="tem" value={c.id} class="h-[17px] w-[17px] accent-m500" />
                   <span class="cat-opt-n">{c.i} {c.n}</span>
-                  <small class="cat-opt-c">{catCount(c.id)}</small>
+                  <small class="cat-opt-c">{c.count}</small>
                 </label>
               ))
             }
