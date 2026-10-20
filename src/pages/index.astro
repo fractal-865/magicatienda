@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getImage } from 'astro:assets';
-import promoGlobosImg from '../assets/img/promo-globos.png';
+import promoHalloweenGrupoImg from '../assets/img/promo-halloween-grupo.jpg';
 import Urgencia from '../components/Urgencia.astro';
 import Promos from '../components/Promos.astro';
 import Catalogo from '../components/Catalogo.astro';
@@ -19,10 +19,10 @@ import Faq from '../components/Faq.astro';
    mismas medidas y formato que produce el banner. Astro descarta las medidas
    mayores que la foto original y agrega su ancho real; se replica esa misma
    cuenta para que la pista apunte justo a los archivos que se van a usar. */
-const anchoBanner = promoGlobosImg.width;
+const anchoBanner = promoHalloweenGrupoImg.width;
 const anchosBanner = [...new Set([640, 960, 1280].filter((w) => w < anchoBanner).concat(anchoBanner))];
 const variantesBanner = await Promise.all(
-  anchosBanner.map((w) => getImage({ src: promoGlobosImg, width: w, format: 'avif' })),
+  anchosBanner.map((w) => getImage({ src: promoHalloweenGrupoImg, width: w, format: 'avif' })),
 );
 const precarga = {
   href: variantesBanner[0].src,

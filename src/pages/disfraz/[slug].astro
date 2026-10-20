@@ -267,50 +267,79 @@ const descParrafos = (() => {
       </div>
     </section>
 
-    <!-- Disfraces similares: carrusel continuo de borde a borde -->
+    <!-- Disfraces similares: carrusel arrastrable con el mouse y deslizable
+         con el dedo. Cada tarjeta muestra precio y acceso directo al arriendo. -->
     {similares.length > 0 && (
       <section id="similares" class="relative pb-14 pt-2">
-        <div class="mx-auto flex max-w-[1220px] items-center justify-between gap-4 px-4">
-          <div>
-            <h2 class="sec-sm rv">🎭 Disfraces similares</h2>
-            <p class="sec-sub rv">Otros disfraces que te pueden gustar</p>
-          </div>
-          <button
-            type="button"
-            id="simPause"
-            class="sim-pause"
-            aria-pressed="false"
-            aria-label="Pausar el carrusel de disfraces similares"
-          >
-            ⏸
-          </button>
+        <div class="mx-auto max-w-[1220px] px-4">
+          <h2 class="sec-sm rv">🎭 Disfraces similares</h2>
+          <p class="sec-sub rv">Otros disfraces que te pueden gustar</p>
         </div>
 
         <div class="sim-band mt-5">
           <div id="simTrack" class="sim-track">
-            {[similares, similares].map((set, copia) => (
-              <div class="sim-set" aria-hidden={copia ? 'true' : undefined} inert={copia ? true : undefined}>
-                {set.map((s) => {
-                  const sSlug = disfrazSlug(s);
-                  return (
-                    <a href={ir(`/disfraz/${sSlug}/`)} class="sim-card group block overflow-hidden rounded-2xl border-[1.5px] border-line bg-white shadow-sh transition hover:-translate-y-1 hover:shadow-sh2">
-                      <div class="relative aspect-[2/3] overflow-hidden bg-[#f0eaff]">
-                        <img src={s.img} srcset={thumbSrcset(s.img)} sizes="(max-width: 559px) 175px, 215px" data-full={s.img} onerror={ONERROR_MINI} alt={`${s.n} en arriendo en Punta Arenas`} class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" width="200" height="300" />
-                        <span class="absolute left-2 top-2 rounded-full bg-m600/90 px-2 py-0.5 text-[.75rem] font-extrabold text-white">#{String(s.id).padStart(3, '0')}</span>
-                      </div>
-                      <div class="p-3">
-                        <h3 class="text-[.9375rem] font-semibold leading-[1.3] text-ink line-clamp-2">{s.n}</h3>
-                        <span class="mt-1 block text-[.75rem] font-bold text-m500">{catById(s.t).i} {catById(s.t).n}</span>
-                      </div>
-                    </a>
-                  );
-                })}
-              </div>
-            ))}
+            {similares.map((s) => {
+              const sSlug = disfrazSlug(s);
+              const sCat = catById(s.t);
+              return (
+                <article
+                  class="sim-card group flex flex-col overflow-hidden rounded-2xl border-[1.5px] border-line bg-white shadow-sh transition hover:-translate-y-1 hover:shadow-sh2"
+                  data-id={s.id}
+                >
+                  <a href={ir(`/disfraz/${sSlug}/`)} class="block" draggable="false">
+                    <div class="relative aspect-[2/3] overflow-hidden bg-[#f0eaff]">
+                      <img
+                        src={s.img}
+                        srcset={thumbSrcset(s.img)}
+                        sizes="(max-width: 559px) 175px, 215px"
+                        data-full={s.img}
+                        onerror={ONERROR_MINI}
+                        alt={`${s.n} en arriendo en Punta Arenas`}
+                        class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
+                        decoding="async"
+                        width="200"
+                        height="300"
+                        draggable="false"
+                      />
+                      <span class="absolute left-2 top-2 rounded-full bg-m600/90 px-2 py-0.5 text-[.75rem] font-extrabold text-white">#{String(s.id).padStart(3, '0')}</span>
+                    </div>
+                    <div class="px-3 pt-3">
+                      <h3 class="text-[.9375rem] font-semibold leading-[1.3] text-ink line-clamp-2">{s.n}</h3>
+                      <span class="mt-1 block text-[.75rem] font-bold text-m500">{sCat.i} {sCat.n}</span>
+                    </div>
+                  </a>
+                  <div class="mt-auto px-3 pb-3 pt-2">
+                    <div class="mb-2 flex items-baseline gap-1.5">
+                      <small class="text-[.6875rem] font-bold uppercase tracking-[.02em] text-ink2">Desde</small>
+                      <b class="font-ft text-[1.1875rem] font-bold leading-none text-m600 tabular-nums">{clp(PRECIO_DESDE)}</b>
+                    </div>
+                    <button
+                      type="button"
+                      class="addbtn inline-flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl border-0 bg-[linear-gradient(135deg,var(--color-m600),var(--color-m500))] px-2 py-2 font-ft text-[.8125rem] font-semibold text-white shadow-[0_4px_12px_rgba(90,42,156,.3)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_18px_rgba(90,42,156,.45)] active:scale-[.9]"
+                      data-act="add"
+                      data-id={s.id}
+                      data-talla={s.tl[0]}
+                    >
+                      <svg class="h-[1rem] w-[1rem] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="17" rx="3"/><path d="M8 2.5v4M16 2.5v4M3 9.5h18"/><path d="M8 13.2h2.2M13.8 13.2H16M8 17.2h2.2M13.8 17.2H16"/></svg>
+                      <span class="cta-solo">Solo arriendo</span>
+                      <span class="cta-agendar">Agendar arriendo</span>
+                    </button>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
     )}
+
+    <!-- CTA fija en móvil: la conversión queda siempre a la vista -->
+    <div class="ficha-cta">
+      <button type="button" class="btn btn-mora btn-lg w-full shadow-sh2" id="fichaCtaBtn">
+        Arrendar este disfraz
+      </button>
+    </div>
   </main>
 
   <script is:inline set:html={`window.__DISFRACES__ = ${disfracesJSON};`} />
@@ -619,26 +648,83 @@ const descParrafos = (() => {
       }
     });
 
-    // Carrusel continuo de disfraces similares: pausa accesible
+    // La CTA fija de móvil usa el mismo flujo que el botón de la ficha:
+    // si falta la talla, lleva a elegirla; si ya está, agrega y abre el panel.
+    document.getElementById('fichaCtaBtn')?.addEventListener('click', () => {
+      document.getElementById('addCartBtn')?.click();
+    });
+    // La CTA aparece al empezar a bajar: así no tapa el título en el primer
+    // vistazo, pero acompaña todo el resto del recorrido.
     (function () {
+      const cta = document.querySelector('.ficha-cta');
+      if (!cta) return;
+      const ver = () => cta.classList.toggle('visible', window.scrollY > 160);
+      ver();
+      window.addEventListener('scroll', ver, { passive: true });
+    })();
+
+    // Similares: agregar al arriendo sin salir de la ficha.
+    document.getElementById('simTrack')?.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-act="add"]');
+      if (!btn) return;
+      const id = Number(btn.dataset.id);
+      if (!Number.isFinite(id)) return;
+      if (window.addItemToCart) window.addItemToCart(id, btn.dataset.talla || '');
+      if (window.openMiniCart) window.openMiniCart();
+    });
+
+    // Similares: arrastre con mouse. En táctil el swipe lo resuelve el
+    // desplazamiento nativo del riel; acá solo se suma el mouse.
+    (function () {
+      const band = document.querySelector('.sim-band');
       const track = document.getElementById('simTrack');
-      const btn = document.getElementById('simPause');
-      if (!track || !btn) return;
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        btn.hidden = true;
-        return;
-      }
-      btn.addEventListener('click', () => {
-        const pausado = track.classList.toggle('paused');
-        btn.setAttribute('aria-pressed', String(pausado));
-        btn.textContent = pausado ? '▶' : '⏸';
-        btn.setAttribute(
-          'aria-label',
-          pausado
-            ? 'Reanudar el carrusel de disfraces similares'
-            : 'Pausar el carrusel de disfraces similares',
-        );
+      if (!band || !track) return;
+      let down = false;
+      let moved = false;
+      let startX = 0;
+      let startLeft = 0;
+      band.addEventListener('pointerdown', (e) => {
+        if (e.pointerType !== 'mouse' || e.button !== 0) return;
+        down = true;
+        moved = false;
+        startX = e.clientX;
+        startLeft = band.scrollLeft;
+        band.classList.add('dragging');
+        try {
+          band.setPointerCapture(e.pointerId);
+        } catch {}
       });
+      band.addEventListener('pointermove', (e) => {
+        if (!down) return;
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > 4) moved = true;
+        if (moved) {
+          e.preventDefault();
+          band.scrollLeft = startLeft - dx;
+        }
+      });
+      const soltar = (e) => {
+        if (!down) return;
+        down = false;
+        band.classList.remove('dragging');
+        try {
+          band.releasePointerCapture(e.pointerId);
+        } catch {}
+      };
+      band.addEventListener('pointerup', soltar);
+      band.addEventListener('pointercancel', soltar);
+      // Un arrastre no debe terminar abriendo la ficha o agregando al carrito.
+      band.addEventListener(
+        'click',
+        (e) => {
+          if (!moved) return;
+          e.preventDefault();
+          e.stopPropagation();
+          moved = false;
+        },
+        true,
+      );
+      band.addEventListener('dragstart', (e) => e.preventDefault());
     })();
 
     // La columna de datos sigue el scroll en escritorio cuando alcanza a
@@ -889,8 +975,9 @@ const descParrafos = (() => {
     }
   }
 
-  /* ── Carrusel continuo de disfraces similares ── */
-  /* La ficha usa títulos a la izquierda; el botón de pausa va a la derecha. */
+  /* ── Carrusel de disfraces similares: control manual ── */
+  /* Se arrastra con el mouse y se desliza con el dedo. Sin animación
+     automática: la persona decide cuándo moverse. */
   #similares h2.sec-sm,
   #similares .sec-sub {
     text-align: left;
@@ -902,87 +989,77 @@ const descParrafos = (() => {
   #similares h2.sec-sm::after {
     margin-left: 0;
   }
-  .sim-pause {
-    display: grid;
-    flex: none;
-    place-items: center;
-    width: 38px;
-    height: 38px;
-    padding: 0;
-    border: 1.5px solid var(--color-line);
-    border-radius: 50%;
-    background: #fff;
-    color: var(--color-m600);
-    font-size: 0.95rem;
-    line-height: 1;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(74, 27, 150, 0.12);
-    transition: background 0.2s, color 0.2s, border-color 0.2s;
-  }
-  .sim-pause:hover,
-  .sim-pause[aria-pressed="true"] {
-    border-color: var(--color-m600);
-    background: var(--color-m600);
-    color: #fff;
-  }
   .sim-band {
     --sim-gap: 14px;
-    overflow: hidden;
+    overflow-x: auto;
     padding-block: 6px;
+    scroll-snap-type: x proximity;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    cursor: grab;
+    -webkit-overflow-scrolling: touch;
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
     mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
   }
+  .sim-band::-webkit-scrollbar {
+    display: none;
+  }
+  .sim-band.dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+  }
   .sim-track {
     display: flex;
-    width: max-content;
-    animation: sim-scroll 95s linear infinite;
-  }
-  .sim-track.paused,
-  .sim-band:hover .sim-track,
-  .sim-band:focus-within .sim-track {
-    animation-play-state: paused;
-  }
-  .sim-set {
-    display: flex;
     gap: var(--sim-gap);
+    width: max-content;
     padding-right: var(--sim-gap);
   }
   .sim-card {
     flex: none;
     width: 175px;
+    scroll-snap-align: start;
+    user-select: none;
   }
   @media (min-width: 560px) {
     .sim-card {
       width: 215px;
     }
   }
-  @keyframes sim-scroll {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
+  @media (prefers-reduced-motion: reduce) {
+    .sim-band {
+      scroll-behavior: auto;
     }
   }
-  @media (prefers-reduced-motion: reduce) {
-    .sim-track {
-      animation: none;
+
+  /* ── CTA fija de la ficha en el teléfono ── */
+  .ficha-cta {
+    display: none;
+  }
+  @media (max-width: 899px) {
+    .ficha-cta {
+      display: block;
+      position: fixed;
+      right: 5.375rem;
+      bottom: 1.25rem;
+      left: 0.625rem;
+      z-index: 83;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition:
+        opacity 0.22s ease,
+        transform 0.22s ease,
+        bottom 0.22s ease;
     }
-    .sim-band {
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: none;
+    .ficha-cta.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: none;
     }
-    .sim-band::-webkit-scrollbar {
-      display: none;
+    :global(body.con-sticky) .ficha-cta {
+      bottom: 5.25rem;
     }
-    .sim-set[aria-hidden="true"] {
-      display: none;
-    }
-    .sim-card {
-      scroll-snap-align: start;
-    }
-    .sim-pause {
+    :global(body.drawer-lock) .ficha-cta {
       display: none;
     }
   }

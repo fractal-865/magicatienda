@@ -35,7 +35,11 @@ const urlCatalogo = ir('/catalogo/');
           <div class="text-center"><span class="script rv">¡Elige y brilla!</span></div>
           <h2 class="sec rv">🎭 Elige tu disfraz en Punta Arenas</h2>
           <p class="sec-sub rv">
-            Arriendo solo para adultos · 3 días (retiro, uso y entrega) · Cotiza por WhatsApp en 1 minuto.
+            Tenemos <strong class="font-extrabold text-m600">{total} disfraces</strong> disponibles para tu
+            elección.
+            <span class="mt-1 block text-[.9375rem]">
+              Arriendo solo para adultos · 3 días (retiro, uso y entrega) · Cotiza por WhatsApp en 1 minuto.
+            </span>
           </p>
         </>
       )
@@ -63,9 +67,18 @@ const urlCatalogo = ir('/catalogo/');
                 ›
               </button>
             </div>
+            <button
+              id="ctPause"
+              class="ct-pause"
+              type="button"
+              aria-pressed="false"
+              aria-label="Pausar el carrusel de categorías"
+            >
+              ⏸
+            </button>
           </div>
           <div id="ctTrack" class="ct-track">
-            {CATS_ACTIVE.map((c, i) => (
+            {catsPorCantidad.map((c, i) => (
               <a
                 class="ct-card"
                 data-tem={c.id}
@@ -74,7 +87,7 @@ const urlCatalogo = ir('/catalogo/');
               >
                 <span class="ct-emoji" aria-hidden="true">{c.i}</span>
                 <span class="ct-nombre">{c.n}</span>
-                <span class="ct-cuenta">{catCount(c.id)} disfraces</span>
+                <span class="ct-cuenta">{c.count} disfraces</span>
               </a>
             ))}
           </div>

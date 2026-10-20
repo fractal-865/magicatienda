@@ -15,6 +15,24 @@ const waChat = waLink('¡Hola! Quiero cotizar el arriendo de disfraces para adul
 
 <!-- Flotante de WhatsApp -->
 <div id="wspZone" class="fixed bottom-5 right-3.5 z-[88] flex flex-col items-end gap-2.5">
+  <!-- En móvil y tablet el carrito vive acá, sobre WhatsApp, no en el header. -->
+  <button
+    id="cartFloat"
+    data-cart-open
+    type="button"
+    class="relative grid h-[54px] w-[54px] cursor-pointer place-items-center rounded-full border-[1.5px] border-m400 bg-white text-m700 shadow-[0_10px_26px_rgba(90,42,156,.28)] transition hover:-translate-y-0.5 hover:border-m600 hover:bg-[#faf7ff] min-[1024px]:hidden"
+    aria-label="Tu arriendo, 0 disfraces, ver solicitud"
+    aria-expanded="false"
+  >
+    <svg viewBox="0 0 24 24" class="h-[25px] w-[25px]" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M6.5 8.5h11l1.2 11.2a1.6 1.6 0 0 1-1.6 1.8H6.9a1.6 1.6 0 0 1-1.6-1.8L6.5 8.5Z" />
+      <path d="M9 8.5V7a3 3 0 0 1 6 0v1.5" />
+    </svg>
+    <span
+      class="cart-count absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-rosa px-1 text-[.75rem] font-extrabold text-white tabular-nums"
+      aria-hidden="true">0</span
+    >
+  </button>
   <button
     id="wspFloat"
     class="relative grid h-[54px] w-[54px] cursor-pointer place-items-center rounded-full border-0 bg-[linear-gradient(135deg,#2ecb6e,#128f4a)] text-white shadow-[0_10px_26px_rgba(37,211,102,.4)]"

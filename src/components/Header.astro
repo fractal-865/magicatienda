@@ -117,25 +117,26 @@ const corto = (s: string) => CORTOS[s] ?? s;
       <div class="flex items-center gap-2">
         <button
           id="burger"
-          class="grid h-11 w-11 cursor-pointer place-items-center rounded-2xl border-[1.5px] border-white/20 bg-white/10 text-white min-[1024px]:hidden transition hover:bg-white/20"
+          class="grid h-11 w-11 cursor-pointer place-items-center rounded-2xl border-[1.5px] border-white/80 bg-white text-m700 shadow-[0_4px_14px_rgba(0,0,0,.18)] min-[1024px]:hidden transition hover:-translate-y-0.5 hover:bg-[#f6f1ff] hover:shadow-[0_6px_18px_rgba(0,0,0,.22)]"
           aria-label="Abrir menú"
           aria-expanded="false"
         >
           <span></span><span></span><span></span>
         </button>
 
-        <div id="cartWrap" class="relative">
+        <div id="cartWrap" class="relative hidden min-[1024px]:block">
           <button
             id="cartBtn"
+            data-cart-open
             class="relative grid h-11 w-11 cursor-pointer place-items-center rounded-2xl border-[1.5px] border-white/20 bg-white/10 text-[1.2rem] text-white transition hover:bg-white/20"
-            aria-label="Tu arriendo, ver solicitud"
+            aria-label="Tu arriendo, 0 disfraces, ver solicitud"
             aria-expanded="false"
           >
             <span aria-hidden="true">🛒</span
             ><span
               id="cartCount"
               aria-hidden="true"
-              class="absolute -right-1.5 -top-1.5 grid h-5 min-w-5 place-items-center rounded-full bg-rosa px-1 text-[.75rem] font-extrabold text-white tabular-nums"
+              class="cart-count absolute -right-1.5 -top-1.5 grid h-5 min-w-5 place-items-center rounded-full bg-rosa px-1 text-[.75rem] font-extrabold text-white tabular-nums"
               >0</span
             >
           </button>

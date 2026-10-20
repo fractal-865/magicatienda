@@ -315,30 +315,6 @@
   }
 }
 
-/* ═══ Capas: el contenido queda sobre los doodles ═══ */
-#doodles {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-.doodle {
-  position: absolute;
-  color: #e6dbfb;
-  opacity: 0.5;
-}
-.doodle svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  animation: floaty 7s var(--d, 0s) ease-in-out infinite;
-}
-main,
-footer {
-  position: relative;
-  z-index: 1;
-}
 @media (max-width: 899px) {
   body {
     padding-bottom: 64px;
@@ -780,6 +756,20 @@ footer {
 }
 .addbtn.clicked {
   animation: addpop 0.45s ease;
+}
+
+/* En el teléfono la tarjeta dice "Solo arriendo"; en tablet y escritorio
+   mantiene "Agendar arriendo". */
+.cta-solo {
+  display: none;
+}
+@media (max-width: 767px) {
+  .cta-solo {
+    display: inline;
+  }
+  .cta-agendar {
+    display: none;
+  }
 }
 
 /* ═══ Datos de pago copiables ═══ */
@@ -2883,6 +2873,11 @@ body.drawer-lock {
   .cf-line::-webkit-scrollbar {
     display: none;
   }
+  /* Aire al final del riel: al llegar a las tallas, XXL no queda pegado al borde. */
+  .cf-line::after {
+    content: "";
+    flex: 0 0 7px;
+  }
   .qf-group {
     flex: none;
   }
@@ -3203,7 +3198,7 @@ body.drawer-lock {
   opacity: 1;
   transform: none;
 }
-#cartCount.pop {
+.cart-count.pop {
   animation: gum 0.45s;
 }
 .flydot {
@@ -3603,10 +3598,40 @@ html.js #grid[data-ssr] > .pcard:nth-child(n + 13) {
   font-weight: 600;
   color: var(--color-m600);
 }
+.cat-cards-head {
+  position: relative;
+}
 .ct-nav {
   display: flex;
   gap: 8px;
   margin-left: auto;
+}
+/* Pausa del carrusel automático: solo aparece en el teléfono, donde el riel
+   se mueve solo. En tablet y escritorio manda el arrastre y las flechas. */
+.ct-pause {
+  display: none;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0 0 2px;
+  cursor: pointer;
+  border: 1.5px solid var(--color-line);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--color-m600);
+  font-size: 0.85rem;
+  line-height: 1;
+  box-shadow: 0 4px 12px rgba(74, 27, 150, 0.12);
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+}
+.ct-pause:hover,
+.ct-pause[aria-pressed="true"] {
+  border-color: var(--color-m600);
+  background: var(--color-m600);
+  color: #fff;
 }
 .ct-arrow {
   display: grid;
@@ -3650,6 +3675,16 @@ html.js #grid[data-ssr] > .pcard:nth-child(n + 13) {
 }
 .ct-track::-webkit-scrollbar {
   display: none;
+}
+/* Mientras el riel se mueve solo no conviene el enganche: pelearía con el
+   avance continuo y con el arrastre. */
+.ct-track.ct-auto {
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+  cursor: grab;
+}
+.ct-track.ct-auto:active {
+  cursor: grabbing;
 }
 .ct-card {
   position: relative;
@@ -3765,9 +3800,17 @@ html.js #grid[data-ssr] > .pcard:nth-child(n + 13) {
 @media (max-width: 640px) {
   .cat-cards-head {
     justify-content: center;
+    padding-right: 42px;
   }
   .ct-nav {
     display: none;
+  }
+  .ct-pause {
+    display: grid;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
   }
   .ct-card {
     min-height: 108px;
@@ -3797,6 +3840,12 @@ html.js #grid[data-ssr] > .pcard:nth-child(n + 13) {
   }
   .ct-track {
     scroll-behavior: auto;
+  }
+  .ct-pause {
+    display: none;
+  }
+  .cat-cards-head {
+    padding-right: 0;
   }
 }
 

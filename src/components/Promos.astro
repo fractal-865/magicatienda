@@ -1,17 +1,11 @@
 ---
-import { waLink, GAR_SHORT, ir } from '../data/site';
+import { waLink, ir } from '../data/site';
 import { Picture, Image } from 'astro:assets';
-import promoGlobosImg from '../assets/img/promo-globos.png';
+/* Foto de grupo: Pexels, photo 18951602 (licencia Pexels, uso libre). */
+import promoHalloweenGrupoImg from '../assets/img/promo-halloween-grupo.jpg';
 import halloweenImg from '../assets/img/halloween-grupo.svg';
 
 const waPromo = waLink('¡Hola! Quiero cotizar el arriendo de disfraces para adultos en La Mágica Tienda.');
-
-const benefits = [
-  { i: '📅', t: 'Arriendo por 3 días', s: 'Retiro, uso y entrega' },
-  { i: '📏', t: 'Tallas S a XXL', s: 'Solo adultos' },
-  { i: '💬', t: 'Cotiza por WhatsApp', s: 'Respuesta en minutos' },
-  { i: '🛡️', t: 'Garantía clara', s: `${GAR_SHORT}, se devuelve` },
-];
 ---
 
 <section id="promos" class="relative px-4 py-[46px]">
@@ -22,10 +16,10 @@ const benefits = [
       <!-- Banner principal: primera pantalla con la promesa única (H1) -->
       <div class="promo-card rv relative flex min-h-[310px] flex-col justify-center gap-2.5 overflow-hidden rounded-3xl bg-[linear-gradient(120deg,#2B0D5E,#5A2A9C)] p-7 text-white shadow-sh2">
 <Picture
-          class="absolute inset-0 h-full w-full object-cover"
-          src={promoGlobosImg}
-          alt="Fiesta de adultos con globos y disfraces"
-          widths={[640, 960, 1280]}
+          class="absolute inset-0 h-full w-full object-cover object-[64%_center]"
+          src={promoHalloweenGrupoImg}
+          alt="Grupo de amigos disfrazados de Halloween con calabazas"
+          widths={[640, 960, 1280, 1600]}
           sizes="100vw"
           formats={['avif', 'webp']}
           loading="eager"
@@ -121,21 +115,6 @@ const benefits = [
       >
         ⏸
       </button>
-    </div>
-
-    <!-- Beneficios -->
-    <div class="mt-6 grid grid-cols-2 gap-3 py-2 min-[820px]:grid-cols-4">
-      {
-        benefits.map((b, k) => (
-          <div class="rv flex items-center gap-3 rounded-2xl border-[1.5px] border-line bg-white p-3.5 shadow-[0_4px_12px_rgba(90,42,156,.06)] transition hover:-translate-y-1 hover:border-m400 hover:shadow-sh" style={`--d:${(k * 0.1).toFixed(1)}s`}>
-            <span class="text-[1.7rem]">{b.i}</span>
-            <div>
-              <b class="block font-ft text-[1rem] text-ink">{b.t}</b>
-              <small class="text-[.875rem] text-ink2">{b.s}</small>
-            </div>
-          </div>
-        ))
-      }
     </div>
   </div>
 

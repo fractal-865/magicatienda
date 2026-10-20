@@ -117,6 +117,82 @@ const state = {
   lastAdd: null as null | { id: string; tipo: 'd' | 'a'; talla: string },
 };
 
+/* ── el arriendo sobrevive a la navegación ──
+   Antes, cambiar de página borraba la selección. Ahora se guarda en el
+   navegador y se restaura al cargar cualquier página. Solo se recuperan
+   prendas que sigan existiendo en el catálogo y tallas válidas. */
+const CART_KEY = 'lmt-arriendo-v1';
+
+function guardarArriendo() {
+  try {
+    localStorage.setItem(CART_KEY, JSON.stringify({ v: 1, cart: state.cart, req: state.req }));
+  } catch {
+    /* almacenamiento bloqueado: el arriendo sigue funcionando en memoria */
+  }
+}
+
+function cargarArriendo() {
+  try {
+    const raw = localStorage.getItem(CART_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw) as { cart?: unknown; req?: unknown };
+
+    if (Array.isArray(data.cart)) {
+      const limpio: CartItem[] = [];
+      for (const value of data.cart) {
+        if (!value || typeof value !== 'object') continue;
+        const it = value as Record<string, unknown>;
+        const item = byId(String(it.id ?? ''));
+        const tipo = it.tipo === 'a' ? 'a' : it.tipo === 'd' ? 'd' : null;
+        if (!item || !tipo) continue;
+        if (tipo === 'd' && !isProduct(item)) continue;
+        if (tipo === 'a' && isProduct(item)) continue;
+        const talla =
+          typeof it.talla === 'string' && it.talla
+            ? it.talla
+            : isProduct(item)
+              ? item.tl[0]
+              : 'único';
+        if (isProduct(item) && !item.tl.includes(talla)) continue;
+        const qty = Math.max(1, Math.min(20, Math.floor(Number(it.qty) || 1)));
+        limpio.push({ id: String(item.id), tipo, talla, qty });
+      }
+      // Une líneas repetidas (mismo disfraz y talla) que hayan quedado guardadas.
+      const unidos = new Map<string, CartItem>();
+      for (const i of limpio) {
+        const k = `${i.tipo}|${i.id}|${i.talla}`;
+        const prev = unidos.get(k);
+        if (prev) prev.qty = Math.min(20, prev.qty + i.qty);
+        else unidos.set(k, { ...i });
+      }
+      state.cart = [...unidos.values()];
+    }
+
+    const r = data.req as Partial<typeof state.req> | undefined;
+    if (r && typeof r === 'object') {
+      const hoy = firstRetiroISO();
+      const fechaOk =
+        typeof r.retiro === 'string' &&
+        /^\d{4}-\d{2}-\d{2}$/.test(r.retiro) &&
+        !isNaN(new Date(r.retiro + 'T12:00:00').getTime()) &&
+        r.retiro >= hoy &&
+        r.retiro <= maxISO(60) &&
+        !isSunday(r.retiro);
+      const retiro = fechaOk ? (r.retiro as string) : hoy;
+      state.req = {
+        nombre: typeof r.nombre === 'string' ? r.nombre.slice(0, 80) : '',
+        retiro,
+        uso: addDays(retiro, 1),
+        entrega: addDays(retiro, 2),
+      };
+    }
+  } catch {
+    /* JSON corrupto o almacenamiento bloqueado: se parte con el arriendo vacío */
+  }
+}
+
+cargarArriendo();
+
 /* ── toast ──
    opts.key reemplaza el aviso anterior del mismo tipo en vez de apilarlos
    (el usuario puede cambiar varios filtros seguidos); opts.cls permite un
@@ -244,37 +320,6 @@ addEventListener(
   () => $('#header')?.classList.toggle('scrolled', scrollY > 40),
   { passive: true },
 );
-
-/* doodles de fondo */
-(() => {
-  const L = $('#doodles');
-  if (!L) return;
-  const S = ['d-star', 'd-hat', 'd-mask', 'd-balloon', 'd-bow', 'd-bowler', 'd-star', 'd-balloon', 'd-mask', 'd-hat'];
-  S.forEach((s, i) => {
-    const d = document.createElement('div');
-    d.className = 'doodle';
-    const sz = 44 + ((i * 37) % 70);
-    d.style.cssText = `left:${(i * 23 + 5) % 92}%;top:${(i * 31 + 8) % 94}%;width:${sz}px;height:${sz}px;--d:${6 + (i % 5)}s`;
-    d.dataset.depth = (0.04 + (i % 4) * 0.03).toFixed(2);
-    d.innerHTML = `<svg><use href="#${s}"></use></svg>`;
-    L.append(d);
-  });
-  let tick = false;
-  addEventListener(
-    'scroll',
-    () => {
-      if (tick || reduced()) return;
-      tick = true;
-      requestAnimationFrame(() => {
-        $$('.doodle').forEach((d) => {
-          d.style.transform = `translateY(${-scrollY * parseFloat(d.dataset.depth || '0')}px)`;
-        });
-        tick = false;
-      });
-    },
-    { passive: true },
-  );
-})();
 
 /* ═══ CUENTA REGRESIVA ═══ */
 function nextDate(m: number, d: number) {
@@ -669,11 +714,13 @@ matchMedia(PANTALLA_CHICA).addEventListener('change', () => {
 });
 
 /* Carrusel de categorías: las flechas corren una pantalla y se apagan en los
-   extremos (en el celular no hay flechas: se arrastra con el dedo) */
+   extremos. En el teléfono no hay flechas: el riel avanza solo, despacio, y
+   se detiene en cuanto la persona lo toca, lo enfoca o elige pausa. */
 (() => {
   const track = $<HTMLElement>('#ctTrack');
+  if (!track) return;
   const nav = $$('#catCards .ct-arrow');
-  if (!track || !nav.length) return;
+  const pauseBtn = $('#ctPause') as HTMLButtonElement | null;
   const dirDe = (b: HTMLElement) => Number(b.dataset.ct ?? 1);
   nav.forEach((b) =>
     b.addEventListener('click', () => {
@@ -691,6 +738,110 @@ matchMedia(PANTALLA_CHICA).addEventListener('change', () => {
   track.addEventListener('scroll', marcarFlechas, { passive: true });
   window.addEventListener('resize', marcarFlechas);
   marcarFlechas();
+
+  /* Avance automático solo en teléfono. Es un movimiento corto y reversible:
+     al llegar a un extremo vuelve, en vez de saltar. */
+  const mq = matchMedia('(max-width: 640px)');
+  let raf = 0;
+  let dir = 1;
+  let ultimo = 0;
+  /* Posición propia en decimales: Chrome redondea scrollLeft a píxeles
+     enteros, así que sumar 0,4 px por cuadro desde scrollLeft no avanzaría. */
+  let pos = 0;
+  let pausado = false;
+  let manual = false;
+  let reanudar: ReturnType<typeof setTimeout> | undefined;
+  const puede = () => mq.matches && !reduced() && !manual;
+  const parar = () => {
+    pausado = true;
+    clearTimeout(reanudar);
+  };
+  const seguir = (ms = 2400) => {
+    clearTimeout(reanudar);
+    reanudar = setTimeout(() => {
+      pausado = false;
+      pos = track.scrollLeft;
+      ultimo = 0;
+    }, ms);
+  };
+  const tick = (t: number) => {
+    if (!puede()) {
+      raf = 0;
+      return;
+    }
+    if (!ultimo) ultimo = t;
+    const dt = Math.min(80, t - ultimo);
+    ultimo = t;
+    if (!pausado && !document.hidden) {
+      const max = track.scrollWidth - track.clientWidth;
+      if (max > 2) {
+        pos += dir * (dt / 1000) * 24;
+        if (pos >= max - 1) {
+          pos = max;
+          dir = -1;
+        } else if (pos <= 1) {
+          pos = 0;
+          dir = 1;
+        }
+        track.scrollLeft = pos;
+      }
+    }
+    raf = requestAnimationFrame(tick);
+  };
+  const arrancar = () => {
+    if (!raf && puede()) {
+      pos = track.scrollLeft;
+      ultimo = 0;
+      raf = requestAnimationFrame(tick);
+    }
+  };
+  const detener = () => {
+    if (raf) cancelAnimationFrame(raf);
+    raf = 0;
+  };
+  const aplicar = () => {
+    if (mq.matches && !reduced()) {
+      track.classList.add('ct-auto');
+      arrancar();
+    } else {
+      track.classList.remove('ct-auto');
+      detener();
+    }
+  };
+  pauseBtn?.addEventListener('click', () => {
+    manual = !manual;
+    pauseBtn.setAttribute('aria-pressed', String(manual));
+    pauseBtn.textContent = manual ? '▶' : '⏸';
+    pauseBtn.setAttribute(
+      'aria-label',
+      manual ? 'Reanudar el carrusel de categorías' : 'Pausar el carrusel de categorías',
+    );
+    if (manual) detener();
+    else {
+      pausado = false;
+      ultimo = 0;
+      arrancar();
+    }
+  });
+  mq.addEventListener('change', aplicar);
+  track.addEventListener('pointerenter', parar);
+  track.addEventListener('pointerleave', () => seguir());
+  track.addEventListener('pointerdown', parar);
+  track.addEventListener('pointerup', () => seguir());
+  track.addEventListener('pointercancel', () => seguir());
+  track.addEventListener('focusin', parar);
+  track.addEventListener('focusout', () => seguir());
+  track.addEventListener('wheel', () => {
+    parar();
+    seguir(3200);
+  }, { passive: true });
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      ultimo = 0;
+      arrancar();
+    }
+  });
+  aplicar();
 })();
 
 /* grupos de filtros (marcado estático) */
@@ -1144,6 +1295,7 @@ function setRetiro(v: string) {
   state.req.retiro = v;
   state.req.uso = addDays(v, 1);
   state.req.entrega = addDays(v, 2);
+  guardarArriendo();
 }
 
 function addItem(id: string | number, tipo: 'd' | 'a' = 'd', talla?: string, qty = 1, srcEl?: Element | null) {
@@ -1159,19 +1311,19 @@ function addItem(id: string | number, tipo: 'd' | 'a' = 'd', talla?: string, qty
 
 function afterCart(srcEl?: Element | null, abrir = false) {
   const n = cartQty();
-  const cc = $('#cartCount');
-  if (cc) {
+  const etiqueta = `Tu arriendo, ${n} ${n === 1 ? 'disfraz' : 'disfraces'}, ver solicitud`;
+  $$('.cart-count').forEach((cc) => {
     cc.textContent = String(n);
     cc.classList.remove('pop');
     void cc.offsetWidth;
     cc.classList.add('pop');
-  }
+  });
   // El globito va oculto a los lectores de pantalla; la cuenta se entrega en la
   // etiqueta del botón, así el nombre accesible calza con lo que se ve.
-  $('#cartBtn')?.setAttribute(
-    'aria-label',
-    `Tu arriendo, ${n} ${n === 1 ? 'disfraz' : 'disfraces'}, ver solicitud`,
-  );
+  // Hay dos entradas al panel: el botón del header (escritorio) y el flotante
+  // sobre WhatsApp (móvil y tablet). Ambos muestran la misma cuenta.
+  $$('[data-cart-open]').forEach((b) => b.setAttribute('aria-label', etiqueta));
+  guardarArriendo();
   if (srcEl && !reduced()) {
     fly(srcEl);
     Confetti.at(srcEl); // estallido visible al agregar
@@ -1186,7 +1338,9 @@ function afterCart(srcEl?: Element | null, abrir = false) {
 }
 
 function fly(el: Element) {
-  const cb = $('#cartBtn');
+  // En móvil el header no muestra el carrito: el destino es el flotante.
+  const cb =
+    $$<HTMLElement>('[data-cart-open]').find((b) => b.offsetParent !== null) ?? $('#cartBtn');
   if (!cb) return;
   const r1 = el.getBoundingClientRect();
   const r2 = cb.getBoundingClientRect();
@@ -1345,6 +1499,7 @@ function renderMini() {
   const nom = mc.querySelector<HTMLInputElement>('#rqNom');
   nom?.addEventListener('input', () => {
     state.req.nombre = nom.value;
+    guardarArriendo();
     if (nom.value.trim()) quitarFalta(nom);
   });
   const ret = mc.querySelector<HTMLInputElement>('#rqRet');
@@ -1391,26 +1546,38 @@ $('#miniCart')?.addEventListener('click', (e) => {
   } else if (act.dataset.act === 'wa') sendWA();
 });
 
-function openMini() {
+let cartTrigger: HTMLElement | null = null;
+function openMini(trigger?: HTMLElement) {
+  if (trigger) cartTrigger = trigger;
   const mc = $('#miniCart');
   mc?.classList.add('open');
   mc?.removeAttribute('inert');
   $('#cartBackdrop')?.classList.add('open');
   document.body.classList.add('drawer-lock');
+  $$('[data-cart-open]').forEach((b) => b.setAttribute('aria-expanded', 'true'));
   ($('#miniCart .cart-close') as HTMLButtonElement | null)?.focus();
 }
 function closeMini() {
   const mc = $('#miniCart');
-  mc?.classList.remove('open');
-  mc?.setAttribute('inert', '');
+  if (!mc?.classList.contains('open')) return;
+  mc.classList.remove('open');
+  mc.setAttribute('inert', '');
   $('#cartBackdrop')?.classList.remove('open');
   document.body.classList.remove('drawer-lock');
-  ($('#cartBtn') as HTMLButtonElement | null)?.focus();
+  $$('[data-cart-open]').forEach((b) => b.setAttribute('aria-expanded', 'false'));
+  const volver =
+    cartTrigger?.isConnected && cartTrigger.offsetParent !== null
+      ? cartTrigger
+      : $$<HTMLElement>('[data-cart-open]').find((b) => b.offsetParent !== null);
+  volver?.focus();
+  cartTrigger = null;
 }
 (() => {
-  $('#cartBtn')?.addEventListener('click', () => {
-    $('#miniCart')?.classList.contains('open') ? closeMini() : openMini();
-  });
+  $$('[data-cart-open]').forEach((b) =>
+    b.addEventListener('click', () => {
+      $('#miniCart')?.classList.contains('open') ? closeMini() : openMini(b);
+    }),
+  );
   $('#cartBackdrop')?.addEventListener('click', closeMini);
   addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeMini();
@@ -1422,6 +1589,8 @@ function renderSticky() {
   if (!sb) return;
   const visible = !!cartQty() && isMobile();
   sb.classList.toggle('show', visible);
+  // La ficha móvil sube su CTA fija para no quedar debajo de esta barra.
+  document.body.classList.toggle('con-sticky', visible);
   // El aviso flota por encima de la barra: si no, tapa justo la CTA de seguir.
   $('#toasts')?.classList.toggle('sobre-barra', visible);
   if (visible) {
@@ -1429,7 +1598,7 @@ function renderSticky() {
     if (st) st.textContent = `Tu arriendo (${cartQty()})`;
   }
 }
-$('#stickySend')?.addEventListener('click', () => openMini());
+$('#stickySend')?.addEventListener('click', () => openMini($('#stickySend') ?? undefined));
 
 /* Mensaje de WhatsApp: se arma solo, con lo que el cliente elige en la solicitud.
    Va sin emojis a propósito: los caracteres de 4 bytes UTF-8 (los emojis) se
@@ -1590,6 +1759,48 @@ document.addEventListener('keydown', (e) => {
   const hdr = $('#header');
   if (!bar) return;
   let pegada = false;
+
+  /* En el teléfono la segunda fila de filtros esconde las tallas a la derecha.
+     La primera vez que la barra se pega, el riel avanza un poco para mostrar
+     que ahí siguen XS–XXL y vuelve a su lugar. Se rinde ante el primer toque. */
+  let tallasMostradas = false;
+  const mostrarTallas = () => {
+    if (tallasMostradas) return;
+    if (!matchMedia('(max-width: 600px)').matches || reduced()) return;
+    const line = $('#catFilters .cf-line-2');
+    const talla = line?.querySelector<HTMLElement>('[data-g="tal"]');
+    if (!line || !talla) return;
+    if ($('#activeChips')?.classList.contains('has')) return;
+    if (line.scrollWidth <= line.clientWidth + 8) return;
+    tallasMostradas = true;
+    const r = line.getBoundingClientRect();
+    const t = talla.getBoundingClientRect();
+    const inicio = line.scrollLeft;
+    const destino = Math.max(
+      0,
+      Math.min(line.scrollWidth - line.clientWidth, inicio + t.left - r.left - 8),
+    );
+    let ida: ReturnType<typeof setTimeout> | undefined;
+    let vuelta: ReturnType<typeof setTimeout> | undefined;
+    const cancelar = () => {
+      clearTimeout(ida);
+      clearTimeout(vuelta);
+      line.removeEventListener('pointerdown', cancelar);
+      line.removeEventListener('wheel', cancelar);
+      line.removeEventListener('touchstart', cancelar);
+    };
+    line.addEventListener('pointerdown', cancelar);
+    line.addEventListener('wheel', cancelar, { passive: true });
+    line.addEventListener('touchstart', cancelar, { passive: true });
+    ida = setTimeout(() => {
+      line.scrollTo({ left: destino, behavior: 'smooth' });
+      vuelta = setTimeout(() => {
+        line.scrollTo({ left: inicio, behavior: 'smooth' });
+        cancelar();
+      }, 850);
+    }, 260);
+  };
+
   const ver = () => {
     // Pegada = la barra está clavada justo bajo el header (sin hueco). Si el
     // usuario sigue de largo, la barra se corre con la sección y deja de estarlo.
@@ -1598,10 +1809,14 @@ document.addEventListener('keydown', (e) => {
     if (v === pegada) return;
     pegada = v;
     bar.classList.toggle('pegada', v);
+    if (v) mostrarTallas();
   };
   ver();
   addEventListener('scroll', ver, { passive: true });
-  addEventListener('resize', ver);
+  addEventListener('resize', () => {
+    ver();
+    if (pegada) mostrarTallas();
+  });
 })();
 
 /* ═══ CATEGORÍAS: el listado se despliega dentro de la barra de filtros ═══ */
@@ -1976,8 +2191,8 @@ document.addEventListener('click', (e) => {
 /* ═══ ARRANQUE ═══ */
 hidratarDesdeURL();
 renderGrid();
-renderMini();
-renderSticky();
+// Restaura la cuenta y el panel con lo que quedó guardado al navegar.
+afterCart();
 
 // Si llegamos con un filtro puesto, baja suavemente al bloque de disfraces.
 if ((window as any).__scrollAGrid) {
