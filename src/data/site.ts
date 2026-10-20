@@ -109,7 +109,7 @@ export const FECHAS = [
 export const TESTIS = [
   { n: 'Carolina M.', r: 'Cumpleaños 30', t: 'Arrendé el disfraz de sirena para mis 30. Impecable, y la garantía me la devolvieron al tiro al devolverlo. 🙌', s: 5, e: '👩🏻' },
   { n: 'Vale & Nico', r: 'Grupo de amigos', t: 'Pedimos 8 disfraces para una fiesta temática y quedaron todos increíbles. Todo coordinado por WhatsApp en 2 minutos.', s: 5, e: '🧑‍🤝🧑' },
-  { n: 'Rodrigo P.', r: 'Fiesta de empresa', t: 'Arrendamos para la fiesta de la oficina y terminó todo el equipo disfrazado de los 80. Épico. 🕺', s: 4, e: '👨' },
+  { n: 'Rodrigo P.', r: 'Fiesta de empresa', t: 'Arrendamos para la fiesta de la oficina y terminó todo el equipo disfrazado de los 80. Épico. 🕺', s: 5, e: '👨' },
   { n: 'Paulina S.', r: 'Graduación', t: 'Arrendamos 12 trajes para la fiesta de egreso. Cero complicaciones con la reserva y la garantía.', s: 5, e: '👩🏽‍' },
 ];
 

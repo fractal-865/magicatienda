@@ -691,8 +691,8 @@ $<HTMLElement>('#catalogo')?.addEventListener('change', (e) => {
       return;
     }
 
-    // Público y talla: selección única.
-    if (g === 'pub' || g === 'tal') {
+    // Temática, público y talla: selección única.
+    if (g === 'tem' || g === 'pub' || g === 'tal') {
       s.clear();
       if (el.checked) s.add(el.value);
     } else {
@@ -1614,7 +1614,7 @@ document.addEventListener('keydown', (e) => {
     e.stopPropagation();
     setOpen(!drop.classList.contains('open'));
   });
-  // Se cierra al tocar fuera; al marcar una categoría queda abierto para sumar más
+  // Se cierra al tocar fuera; al marcar una categoría queda abierto para cambiarla
   document.addEventListener('click', (e) => {
     const t = e.target as Node;
     if (!drop.contains(t) && !btn.contains(t)) setOpen(false);
