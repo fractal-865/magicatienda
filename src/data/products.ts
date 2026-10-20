@@ -111,17 +111,23 @@ export const getDisfrazBySlug = (slugParam: string): Product | undefined => {
   return PRODUCTS.find((p) => p.id === id);
 };
 
-/** Devuelve hasta 6 disfraces similares (categorías compartidas, excluyendo el actual) */
+/** Devuelve hasta `max` disfraces similares (categorías compartidas) y, si
+ *  faltan, completa con el mismo público para que el carrusel no repita. */
 export const getSimilares = (p: Product, max = 6): Product[] => {
   const cats = new Set(p.cats);
-  return PRODUCTS
+  const same = PRODUCTS
     .filter((x) => x.id !== p.id && x.cats.some((c) => cats.has(c)))
     .sort((a, b) => {
       const aShared = a.cats.filter((c) => cats.has(c)).length;
       const bShared = b.cats.filter((c) => cats.has(c)).length;
       return bShared - aShared;
-    })
-    .slice(0, max);
+    });
+  if (same.length >= max) return same.slice(0, max);
+  const ids = new Set(same.map((x) => x.id));
+  const resto = PRODUCTS
+    .filter((x) => x.id !== p.id && !ids.has(x.id))
+    .sort((a, b) => Number(b.pub === p.pub) - Number(a.pub === p.pub) || a.id - b.id);
+  return [...same, ...resto].slice(0, max);
 };
 
 /* ── Tallas presentes en el catálogo ── */

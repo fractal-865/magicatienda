@@ -4,15 +4,15 @@ import { GAR_SHORT } from '../data/site';
 
 const steps = [
   { n: 1, i: '🎭', t: 'Elige tus disfraces', p: 'Busca, filtra y agrégalos a "Tu arriendo".' },
-  { n: 2, i: '💬', t: 'Cotiza y reserva por WhatsApp', p: 'Con la reserva (valor del arriendo) aseguramos tu disfraz para la fecha.' },
-  { n: 3, i: '🛡️', t: 'Retira y deja tu garantía', p: `${GAR_SHORT} según el disfraz, en efectivo o transferencia, el día del retiro.` },
-  { n: 4, i: '🎉', t: 'Usa, devuelve y recupera tu garantía', p: 'Si vuelve en las mismas condiciones, te la devolvemos completa.' },
+  { n: 2, i: '💬', t: 'Cotiza y reserva por WhatsApp', p: 'Con la reserva aseguramos tu disfraz para la fecha.' },
+  { n: 3, i: '🛡️', t: 'Retira y deja tu garantía', p: `${GAR_SHORT} según el disfraz, el día del retiro.` },
+  { n: 4, i: '🎉', t: 'Usa, devuelve y recupera', p: 'Si vuelve en las mismas condiciones, te devolvemos la garantía.' },
 ];
 
 const days = [
-  { i: '📦', t: 'Retiro', s: `Pagas la garantía (${GAR_SHORT}) en efectivo o transferencia` },
-  { i: '🎉', t: 'Uso', s: 'Tu fiesta, evento o celebración' },
-  { i: '↩️', t: 'Entrega', s: 'Devuelves el disfraz y recuperas tu garantía' },
+  { i: '📦', t: 'Retiro' },
+  { i: '🎉', t: 'Uso' },
+  { i: '↩️', t: 'Entrega' },
 ];
 
 const guiaTallas = ['XS', 'S', 'M', 'L', 'L-XL', 'XL', 'XXL'].map((k) => ({ t: k, r: TALLA_GUIA[k] }));
@@ -22,35 +22,44 @@ const guiaTallas = ['XS', 'S', 'M', 'L', 'L-XL', 'XL', 'XXL'].map((k) => ({ t: k
   <div class="mx-auto max-w-[1220px]">
     <div class="text-center"><span class="script rv">Sin misterios</span></div>
     <h2 class="sec-sm rv">🪄 ¿Cómo funciona el arriendo?</h2>
-    <p class="sec-sub rv">Cuatro pasos y listo para brillar.</p>
+    <p class="sec-sub rv">Cuatro pasos, tres días y todo claro antes de reservar.</p>
 
-    <!-- Pasos -->
-    <ol class="steps-wrap">
-      {
-        steps.map((s, k) => (
-          <li class="stepcard rv" style={`--d:${(k * 0.12).toFixed(2)}s`}>
-            <span class="step-n">{s.n}</span>
-            <span class="step-i" aria-hidden="true">{s.i}</span>
-            <b class="step-t">{s.t}</b>
-            <p class="step-p">{s.p}</p>
-          </li>
-        ))
-      }
-    </ol>
+    <!-- El recorrido completo en un solo panel: pasos + los 3 días -->
+    <div class="como-panel rv">
+      <ol class="como-flow">
+        {
+          steps.map((s) => (
+            <li class="flow-step">
+              <span class="flow-n" aria-hidden="true">{s.n}</span>
+              <span class="flow-i" aria-hidden="true">{s.i}</span>
+              <b class="flow-t">{s.t}</b>
+              <p class="flow-p">{s.p}</p>
+            </li>
+          ))
+        }
+      </ol>
 
-    <!-- Los 3 días del arriendo -->
-    <div class="como-days rv" aria-label="Los 3 días del arriendo">
-      <span class="days-track" aria-hidden="true"></span>
-      {
-        days.map((d, k) => (
-          <div class="daycard">
-            <span class="day-num">Día {k + 1}</span>
-            <span class="day-icon" aria-hidden="true">{d.i}</span>
-            <b class="day-t">{d.t}</b>
-            <small class="day-s">{d.s}</small>
-          </div>
-        ))
-      }
+      <div class="como-days" role="group" aria-label="Los 3 días del arriendo">
+        <div class="days-copy">
+          <b>Así se reparten los 3 días</b>
+          <small>Retiro, uso y entrega: el arriendo completo.</small>
+        </div>
+        <div class="days-row">
+          {
+            days.map((d, k) => (
+              <div class="daycard">
+                <span class="day-num">Día {k + 1}</span>
+                <span class="day-icon" aria-hidden="true">{d.i}</span>
+                <b class="day-t">{d.t}</b>
+              </div>
+            ))
+          }
+        </div>
+        <p class="days-note">
+          🛡️ La garantía de {GAR_SHORT} se deja al retirar y se recupera al devolver el disfraz
+          en las mismas condiciones.
+        </p>
+      </div>
     </div>
 
     <!-- Dos tarjetas informativas con contenido desplegable -->

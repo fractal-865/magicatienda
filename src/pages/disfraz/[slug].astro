@@ -25,7 +25,7 @@ export function getStaticPaths() {
 
 const { product: c } = Astro.props;
 const T = catById(c.t);
-const similares = getSimilares(c, 6);
+const similares = getSimilares(c, 18);
 const codigo = String(c.id).padStart(3, '0');
 const slug = disfrazSlug(c);
 const pageUrl = url(`/disfraz/${slug}/`);
@@ -267,34 +267,46 @@ const descParrafos = (() => {
       </div>
     </section>
 
-    <!-- Disfraces similares -->
+    <!-- Disfraces similares: carrusel continuo de borde a borde -->
     {similares.length > 0 && (
-      <section class="mx-auto max-w-[1220px] px-4 pb-12">
-        <h2 class="sec-sm rv">🎭 Disfraces similares</h2>
-        <p class="sec-sub rv">Otros disfraces que te pueden gustar</p>
-        <div class="relative">
-          <button type="button" id="simPrev" class="car-arrow car-arrow-l" aria-label="Ver disfraces anteriores" disabled>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      <section id="similares" class="relative pb-14 pt-2">
+        <div class="mx-auto flex max-w-[1220px] items-center justify-between gap-4 px-4">
+          <div>
+            <h2 class="sec-sm rv">🎭 Disfraces similares</h2>
+            <p class="sec-sub rv">Otros disfraces que te pueden gustar</p>
+          </div>
+          <button
+            type="button"
+            id="simPause"
+            class="sim-pause"
+            aria-pressed="false"
+            aria-label="Pausar el carrusel de disfraces similares"
+          >
+            ⏸
           </button>
-          <button type="button" id="simNext" class="car-arrow car-arrow-r" aria-label="Ver más disfraces">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
-          <div id="simTrack" class="flex gap-3 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
-            {similares.map((s) => {
-              const sSlug = disfrazSlug(s);
-              return (
-                <a href={ir(`/disfraz/${sSlug}/`)} class="group block w-[160px] shrink-0 snap-start overflow-hidden rounded-2xl border-[1.5px] border-line bg-white shadow-sh transition hover:-translate-y-1 hover:shadow-sh2 min-[560px]:w-[200px]">
-                  <div class="relative aspect-[2/3] overflow-hidden bg-[#f0eaff]">
-                    <img src={s.img} srcset={thumbSrcset(s.img)} sizes="(max-width: 559px) 160px, 200px" data-full={s.img} onerror={ONERROR_MINI} alt={`${s.n} en arriendo en Punta Arenas`} class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" width="200" height="300" />
-                    <span class="absolute left-2 top-2 rounded-full bg-m600/90 px-2 py-0.5 text-[.75rem] font-extrabold text-white">#{String(s.id).padStart(3, '0')}</span>
-                  </div>
-                  <div class="p-3">
-                    <h3 class="text-[1rem] font-semibold text-ink line-clamp-2">{s.n}</h3>
-                    <span class="mt-1 block text-[.75rem] font-bold text-m500">{catById(s.t).i} {catById(s.t).n}</span>
-                  </div>
-                </a>
-              );
-            })}
+        </div>
+
+        <div class="sim-band mt-5">
+          <div id="simTrack" class="sim-track">
+            {[similares, similares].map((set, copia) => (
+              <div class="sim-set" aria-hidden={copia ? 'true' : undefined} inert={copia ? true : undefined}>
+                {set.map((s) => {
+                  const sSlug = disfrazSlug(s);
+                  return (
+                    <a href={ir(`/disfraz/${sSlug}/`)} class="sim-card group block overflow-hidden rounded-2xl border-[1.5px] border-line bg-white shadow-sh transition hover:-translate-y-1 hover:shadow-sh2">
+                      <div class="relative aspect-[2/3] overflow-hidden bg-[#f0eaff]">
+                        <img src={s.img} srcset={thumbSrcset(s.img)} sizes="(max-width: 559px) 175px, 215px" data-full={s.img} onerror={ONERROR_MINI} alt={`${s.n} en arriendo en Punta Arenas`} class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" width="200" height="300" />
+                        <span class="absolute left-2 top-2 rounded-full bg-m600/90 px-2 py-0.5 text-[.75rem] font-extrabold text-white">#{String(s.id).padStart(3, '0')}</span>
+                      </div>
+                      <div class="p-3">
+                        <h3 class="text-[.9375rem] font-semibold leading-[1.3] text-ink line-clamp-2">{s.n}</h3>
+                        <span class="mt-1 block text-[.75rem] font-bold text-m500">{catById(s.t).i} {catById(s.t).n}</span>
+                      </div>
+                    </a>
+                  );
+                })}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -607,23 +619,26 @@ const descParrafos = (() => {
       }
     });
 
-    // Flechas del carrusel de disfraces similares
+    // Carrusel continuo de disfraces similares: pausa accesible
     (function () {
       const track = document.getElementById('simTrack');
-      const prev = document.getElementById('simPrev');
-      const next = document.getElementById('simNext');
-      if (!track || !prev || !next) return;
-      const paso = () => Math.max(200, Math.round(track.clientWidth * 0.8));
-      const sync = () => {
-        const max = track.scrollWidth - track.clientWidth - 1;
-        prev.disabled = track.scrollLeft <= 1;
-        next.disabled = track.scrollLeft >= max;
-      };
-      prev.addEventListener('click', () => track.scrollBy({ left: -paso(), behavior: 'smooth' }));
-      next.addEventListener('click', () => track.scrollBy({ left: paso(), behavior: 'smooth' }));
-      track.addEventListener('scroll', sync, { passive: true });
-      window.addEventListener('resize', sync);
-      sync();
+      const btn = document.getElementById('simPause');
+      if (!track || !btn) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        btn.hidden = true;
+        return;
+      }
+      btn.addEventListener('click', () => {
+        const pausado = track.classList.toggle('paused');
+        btn.setAttribute('aria-pressed', String(pausado));
+        btn.textContent = pausado ? '▶' : '⏸';
+        btn.setAttribute(
+          'aria-label',
+          pausado
+            ? 'Reanudar el carrusel de disfraces similares'
+            : 'Pausar el carrusel de disfraces similares',
+        );
+      });
     })();
 
     // La columna de datos sigue el scroll en escritorio cuando alcanza a
@@ -874,41 +889,101 @@ const descParrafos = (() => {
     }
   }
 
-  /* ── Flechas del carrusel de similares ── */
-  .car-arrow {
-    position: absolute;
-    top: 50%;
-    z-index: 5;
-    width: 40px;
-    height: 40px;
-    display: grid;
-    place-items: center;
-    border: 1.5px solid var(--color-line);
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.96);
-    color: var(--color-m600);
-    box-shadow: 0 6px 16px rgba(74, 27, 150, 0.18);
-    cursor: pointer;
-    transform: translateY(-50%);
-    transition: background 0.2s, color 0.2s, opacity 0.2s;
+  /* ── Carrusel continuo de disfraces similares ── */
+  /* La ficha usa títulos a la izquierda; el botón de pausa va a la derecha. */
+  #similares h2.sec-sm,
+  #similares .sec-sub {
+    text-align: left;
   }
-  .car-arrow:hover {
-    background: var(--color-m600);
+  #similares .sec-sub {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  #similares h2.sec-sm::after {
+    margin-left: 0;
+  }
+  .sim-pause {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 1.5px solid var(--color-line);
+    border-radius: 50%;
+    background: #fff;
+    color: var(--color-m600);
+    font-size: 0.95rem;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(74, 27, 150, 0.12);
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .sim-pause:hover,
+  .sim-pause[aria-pressed="true"] {
     border-color: var(--color-m600);
+    background: var(--color-m600);
     color: #fff;
   }
-  .car-arrow svg {
-    width: 20px;
-    height: 20px;
+  .sim-band {
+    --sim-gap: 14px;
+    overflow: hidden;
+    padding-block: 6px;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
   }
-  .car-arrow-l {
-    left: 4px;
+  .sim-track {
+    display: flex;
+    width: max-content;
+    animation: sim-scroll 95s linear infinite;
   }
-  .car-arrow-r {
-    right: 4px;
+  .sim-track.paused,
+  .sim-band:hover .sim-track,
+  .sim-band:focus-within .sim-track {
+    animation-play-state: paused;
   }
-  .car-arrow[disabled] {
-    opacity: 0;
-    pointer-events: none;
+  .sim-set {
+    display: flex;
+    gap: var(--sim-gap);
+    padding-right: var(--sim-gap);
+  }
+  .sim-card {
+    flex: none;
+    width: 175px;
+  }
+  @media (min-width: 560px) {
+    .sim-card {
+      width: 215px;
+    }
+  }
+  @keyframes sim-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sim-track {
+      animation: none;
+    }
+    .sim-band {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+    .sim-band::-webkit-scrollbar {
+      display: none;
+    }
+    .sim-set[aria-hidden="true"] {
+      display: none;
+    }
+    .sim-card {
+      scroll-snap-align: start;
+    }
+    .sim-pause {
+      display: none;
+    }
   }
 </style>

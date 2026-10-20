@@ -914,112 +914,186 @@ footer {
   }
 }
 
-/* ═══ Pasos "Cómo funciona" ═══ */
-.steps-wrap {
+/* ═══ "Cómo funciona": un solo recorrido ═══ */
+.como-panel {
+  max-width: 1040px;
+  margin: 28px auto 0;
+  padding: 26px 20px;
+  border: 1.5px solid var(--color-line);
+  border-radius: 28px;
+  background: linear-gradient(180deg, #fff 0%, #fbf8ff 100%);
+  box-shadow: 0 10px 30px rgba(90, 42, 156, 0.09);
+}
+@media (min-width: 900px) {
+  .como-panel {
+    padding: 34px 32px;
+  }
+}
+.como-flow {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 34px 18px;
+  gap: 22px;
   margin: 0;
   padding: 0;
   list-style: none;
-  counter-reset: paso;
 }
-/* Dos columnas parejas en tablet: con auto-fit quedaban tres pasos arriba y
-   el cuarto solo abajo. */
 @media (min-width: 560px) {
-  .steps-wrap {
+  .como-flow {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-@media (min-width: 1024px) {
-  .steps-wrap {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 26px 18px;
   }
 }
-.stepcard {
+@media (min-width: 1024px) {
+  .como-flow {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+  }
+  /* Hilo punteado que une los cuatro pasos */
+  .como-flow::before {
+    content: '';
+    position: absolute;
+    top: 17px;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: repeating-linear-gradient(90deg, var(--color-m400, #b89af0) 0 9px, transparent 9px 18px);
+    opacity: 0.65;
+  }
+}
+.flow-step {
   position: relative;
-  border-radius: 22px;
-  border: 1.5px solid var(--color-line);
-  background: linear-gradient(165deg, #fff, #faf7ff);
-  padding: 34px 18px 22px;
+  z-index: 1;
   text-align: center;
-  box-shadow: 0 6px 16px rgba(90, 42, 156, 0.07);
-  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
 }
-.stepcard:hover {
-  transform: translateY(-6px);
-  border-color: var(--color-m400, #b89af0);
-  box-shadow: 0 16px 30px rgba(90, 42, 156, 0.16);
-}
-.step-n {
-  position: absolute;
-  top: -17px;
-  left: 50%;
-  transform: translateX(-50%);
+.flow-n {
   display: grid;
   place-items: center;
   width: 36px;
   height: 36px;
+  margin: 0 auto 10px;
+  border: 3px solid #fff;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--color-m600), var(--color-rosa));
   color: #fff;
   font-family: var(--font-ft);
+  font-size: var(--text-small);
   font-weight: 800;
-  box-shadow: 0 6px 14px rgba(255, 95, 162, 0.35);
+  box-shadow: 0 5px 14px rgba(255, 95, 162, 0.32);
 }
-.step-i {
+.flow-i {
   display: grid;
   place-items: center;
-  width: 62px;
-  height: 62px;
-  margin: 4px auto 10px;
-  border-radius: 20px;
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 9px;
+  border-radius: 18px;
   background: linear-gradient(140deg, #f4eeff, #ffe6f2);
-  font-size: 2rem;
+  font-size: 1.7rem;
 }
-.step-t {
+.flow-t {
   display: block;
   font-family: var(--font-ft);
   font-size: var(--text-title);
   font-weight: 600;
-  line-height: 1.3;
+  line-height: 1.25;
   color: var(--color-ink);
 }
-.step-p {
-  margin-top: 7px;
-  font-size: var(--text-body);
-  color: var(--color-ink2);
+.flow-p {
+  margin-top: 6px;
+  font-size: var(--text-small);
   line-height: 1.55;
+  color: var(--color-ink2);
   text-wrap: pretty;
 }
+/* En el móvil el recorrido se lee como una línea de tiempo vertical */
+@media (max-width: 559px) {
+  .como-flow::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    bottom: 20px;
+    left: 17px;
+    width: 2px;
+    background: repeating-linear-gradient(180deg, var(--color-m400, #b89af0) 0 8px, transparent 8px 16px);
+    opacity: 0.55;
+  }
+  .flow-step {
+    display: grid;
+    grid-template-columns: 36px 52px 1fr;
+    grid-template-areas:
+      'n i t'
+      '. p p';
+    align-items: center;
+    gap: 3px 12px;
+    text-align: left;
+  }
+  .flow-n {
+    grid-area: n;
+    margin: 0;
+  }
+  .flow-i {
+    grid-area: i;
+    width: 52px;
+    height: 52px;
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  .flow-t {
+    grid-area: t;
+  }
+  .flow-p {
+    grid-area: p;
+    margin-top: 2px;
+  }
+}
 
-/* ── Línea de tiempo de los 3 días ── */
+/* ── Los 3 días, dentro del mismo panel ── */
 .como-days {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1.5px dashed var(--color-line);
+}
+.days-copy {
+  text-align: center;
+}
+.days-copy b {
+  display: block;
+  font-family: var(--font-ft);
+  font-size: var(--text-lead);
+  color: var(--color-ink);
+}
+.days-copy small {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--text-small);
+  color: var(--color-ink2);
+}
+.days-row {
   position: relative;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  margin: 34px auto 0;
-  max-width: 880px;
+  gap: 10px;
+  max-width: 640px;
+  margin: 16px auto 0;
 }
-.days-track {
+.days-row::before {
+  content: '';
   position: absolute;
-  top: 41px;
-  left: 10%;
-  right: 10%;
-  height: 3px;
-  border-radius: 3px;
-  background: repeating-linear-gradient(90deg, var(--color-m400, #b89af0) 0 10px, transparent 10px 20px);
-  opacity: 0.7;
+  top: 33px;
+  left: 14%;
+  right: 14%;
+  height: 2px;
+  background: repeating-linear-gradient(90deg, var(--color-m400, #b89af0) 0 8px, transparent 8px 16px);
+  opacity: 0.65;
 }
 .daycard {
   position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  padding: 0 6px;
   text-align: center;
 }
 .day-num {
@@ -1032,53 +1106,29 @@ footer {
 .day-icon {
   display: grid;
   place-items: center;
-  width: 62px;
-  height: 62px;
-  border-radius: 50%;
+  width: 54px;
+  height: 54px;
+  margin-top: 2px;
   border: 3px solid #fff;
+  border-radius: 50%;
   background: linear-gradient(140deg, #f7f2ff, #ffe9f4);
   box-shadow: 0 6px 16px rgba(90, 42, 156, 0.12);
-  font-size: 1.6rem;
+  font-size: 1.4rem;
 }
 .day-t {
-  margin-top: 8px;
+  margin-top: 6px;
   font-family: var(--font-ft);
-  font-size: var(--text-body);
+  font-size: var(--text-small);
   font-weight: 600;
   color: var(--color-ink);
 }
-.day-s {
+.days-note {
+  max-width: 66ch;
+  margin: 16px auto 0;
+  text-align: center;
   font-size: var(--text-small);
-  line-height: 1.45;
+  line-height: 1.6;
   color: var(--color-ink2);
-}
-@media (max-width: 560px) {
-  .como-days {
-    grid-template-columns: 1fr;
-    gap: 22px;
-  }
-  .days-track {
-    display: none;
-  }
-  .daycard {
-    flex-direction: row;
-    align-items: center;
-    gap: 12px;
-    text-align: left;
-    border-radius: 16px;
-    border: 1.5px dashed var(--color-m400, #b89af0);
-    background: #faf7ff;
-    padding: 10px 14px;
-  }
-  .day-icon {
-    flex: none;
-    width: 46px;
-    height: 46px;
-    font-size: 1.3rem;
-  }
-  .day-t {
-    margin-top: 0;
-  }
 }
 
 /* ═══ Barra de urgencia (próximo evento) ═══ */.urgencia {
@@ -3242,7 +3292,7 @@ body.drawer-lock {
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 18px;
   margin: 34px auto 0;
-  max-width: 900px;
+  max-width: 1040px;
 }
 .infocard {
   display: flex;

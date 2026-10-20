@@ -1,132 +1,83 @@
 ---
-/* Tarifas de arriendo + garantía reintegrable, con la info real del sitio */
-import { waLink, PRECIO_DESDE, GAR_SHORT } from '../data/site';
-import { clp } from '../data/products';
+/* Tarifas en un solo bloque: un rango, sin planes ni categorías de precio. */
+import { waLink, PRECIO_DESDE, GAR_SHORT, CONFIG, ir } from '../data/site';
+import { PRODUCTS, clp } from '../data/products';
 
-const waTarifas = waLink('¡Hola! Quiero cotizar el arriendo de disfraces para adultos en La Mágica Tienda.');
-
-const planes = [
-  {
-    tag: 'FIESTAS & CUMPLEAÑOS',
-    n: 'Arriendo Estándar',
-    price: `Desde ${clp(PRECIO_DESDE)}`,
-    unit: '/ 3 días',
-    d: 'Disfraces clásicos para fiestas de disfraces, Halloween, cumpleaños y temáticas de fin de semana.',
-    i: [
-      '🏹 Arriendo por 3 días (retiro, uso y entrega)',
-      '📏 Tallas S, M, L, XL y XXL',
-      '💬 Cotiza y reserva por WhatsApp en 1 minuto',
-      '🛡️ Garantía reintegrable de ' + GAR_SHORT,
-    ],
-    cta: 'Ver disfraces estándar',
-    href: '#catalogo',
-    hero: false,
-  },
-  {
-    tag: 'PREMIUM & GALAS',
-    n: 'Arriendo Premium',
-    price: 'Hasta $20.000',
-    unit: '/ 3 días',
-    d: 'Superhéroes, películas, anime y épocas: disfraces de alta confección, ideales para cosplay, teatro y eventos especiales.',
-    i: [
-      '⚔️ Diseños elaborados y acabados premium',
-      '✨ Categorías de películas, anime y superhéroes',
-      '💬 Asesoría personalizada por WhatsApp',
-      '🛡️ Garantía reintegrable de ' + GAR_SHORT,
-    ],
-    cta: 'Ver disfraces premium',
-    href: '#catalogo',
-    hero: true,
-  },
-  {
-    tag: 'GRUPOS & EVENTOS',
-    n: 'Cotiza tu Grupo',
-    price: 'A convenir',
-    unit: 'según el grupo',
-    d: 'Ideal para comparsas, eventos de empresas, kermeses y grupos de amigos que van disfrazados juntos.',
-    i: [
-      '👥 Varios disfraces en una misma cotización',
-      '📅 Reserva con anticipación para tu fecha',
-      '💬 Todo se coordina por WhatsApp',
-      '🛡️ Garantía por prenda, se devuelve al entregar',
-    ],
-    cta: 'Cotizar para mi grupo',
-    href: waTarifas,
-    hero: false,
-  },
-];
+const HASTA = Math.max(...PRODUCTS.map((p) => p.price));
+const waTarifas = waLink('¡Hola! Quiero cotizar el arriendo de un disfraz para adultos en La Mágica Tienda.');
+const waGrupo = waLink('¡Hola! Quiero cotizar varios disfraces para un grupo en La Mágica Tienda.');
 ---
-
 <section id="tarifas" class="relative px-4 py-[46px]">
   <div class="mx-auto max-w-[1220px]">
-    <div class="text-center"><span class="script rv">Sin letra chica</span></div>
-    <h2 class="sec rv">💰 Tarifas transparentes &amp; garantía reintegrable</h2>
+    <div class="text-center"><span class="script rv">Sin planes ni letra chica</span></div>
+    <h2 class="sec rv">💰 Arriendos desde {clp(PRECIO_DESDE)}</h2>
     <p class="sec-sub rv">
-      Conoce nuestros valores para arrendar disfraces de adultos. Todo claro desde el primer minuto.
+      Un solo rango para todos los disfraces: entre {clp(PRECIO_DESDE)} y {clp(HASTA)} por los 3 días,
+      según el modelo. El valor exacto te lo confirmamos por WhatsApp.
     </p>
 
-    <div class="grid gap-4 min-[900px]:grid-cols-3">
-      {
-        planes.map((p, k) => (
-          <div
-            class:list={[
-              'rv relative flex flex-col rounded-3xl border-[1.5px] p-6 shadow-sh',
-              p.hero
-                ? 'border-transparent bg-[linear-gradient(150deg,#2B0D5E,#5A2A9C)] text-white min-[900px]:-translate-y-3'
-                : 'border-line bg-white text-ink',
-            ]}
-            style={`--d:${(k * 0.1).toFixed(1)}s`}
-          >
-            {p.hero && (
-              <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-rosa px-3.5 py-1 text-[.75rem] font-extrabold uppercase tracking-[.06em] text-[#2b0d5e] shadow-sh">
-                Más popular
-              </span>
-            )}
-            <span class:list={['text-[.75rem] font-extrabold uppercase tracking-[.08em]', p.hero ? 'text-lav2' : 'text-m500']}>
-              {p.tag}
-            </span>
-            <h3 class:list={['mt-1 font-ft text-[length:var(--text-plan-title)] leading-none', p.hero ? 'text-white' : 'text-ink']}>{p.n}</h3>
+    <div class="rv mx-auto mt-7 max-w-[980px] overflow-hidden rounded-3xl border-[1.5px] border-line bg-white shadow-sh">
+      <div class="grid min-[820px]:grid-cols-[1.15fr_.85fr]">
+        <div class="p-6 min-[820px]:p-8">
+          <span class="text-[.75rem] font-extrabold uppercase tracking-[.08em] text-m500">Arriendo para adultos</span>
 
-            <div class="mt-3 flex items-baseline gap-2">
-              <span class:list={['font-ft text-[length:var(--text-price-plan)] font-bold leading-none', p.hero ? 'text-ama' : 'text-m600']}>{p.price}</span>
-              <span class:list={['text-[.875rem] font-bold', p.hero ? 'text-lav2' : 'text-ink2']}>{p.unit}</span>
-            </div>
+          <div class="mt-1.5 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+            <span class="text-[.875rem] font-bold text-ink2">Desde</span>
+            <b class="font-ft text-[length:var(--text-price-lg)] font-bold leading-none text-m600 tabular-nums">{clp(PRECIO_DESDE)}</b>
+            <span class="whitespace-nowrap"><span class="text-[.875rem] font-bold text-ink2">hasta</span> <b class="font-ft text-[length:var(--text-price)] font-bold leading-none text-m600 tabular-nums">{clp(HASTA)}</b> <span class="text-[.875rem] font-bold text-ink2">/ 3 días</span></span>
+          </div>
 
-            <p class:list={['mt-3 text-[1rem] leading-[1.6]', p.hero ? 'text-lav2' : 'text-ink2']}>{p.d}</p>
+          <p class="mt-3 text-[1rem] leading-[1.6] text-ink2">
+            Los clásicos parten en {clp(PRECIO_DESDE)} y los más elaborados llegan a {clp(HASTA)}.
+            Sin planes ni categorías de precio: pagás por el disfraz que elijas.
+          </p>
 
-            <ul class:list={['mt-4 flex-1 list-none space-y-2 text-[1rem]', p.hero ? 'text-lav2' : 'text-ink2']}>
-              {p.i.map((li) => (
-                <li class="flex items-start gap-2">
-                  <span class:list={['mt-[2px] grid h-[18px] w-[18px] shrink-0 place-items-center rounded-full text-[.75rem] font-bold', p.hero ? 'bg-ama text-m800' : 'bg-lav2 text-m600']}>✓</span>
-                  <span>{li}</span>
-                </li>
-              ))}
-            </ul>
+          <ul class="mt-4 list-none space-y-2 text-[1rem] text-ink2">
+            {[
+              '📅 Arriendo por 3 días (retiro, uso y entrega)',
+              '📏 Tallas S, M, L, XL y XXL',
+              '🧵 Ajustes simples gratis en la tienda',
+              '💬 Cotización y reserva por WhatsApp',
+            ].map((li) => (
+              <li class="flex items-start gap-2">
+                <span class="mt-[2px] grid h-[18px] w-[18px] shrink-0 place-items-center rounded-full bg-lav2 text-[.75rem] font-bold text-m600">✓</span>
+                <span>{li}</span>
+              </li>
+            ))}
+          </ul>
 
-            <a
-              class:list={[
-                'btn mt-5 w-full',
-                p.hero ? 'btn-ama' : 'btn-ghost',
-              ]}
-              href={p.href}
-              target={p.href.startsWith('http') ? '_blank' : undefined}
-              rel={p.href.startsWith('http') ? 'noopener' : undefined}
-            >
-              {p.cta}
+          <div class="mt-5 flex flex-wrap gap-2.5">
+            <a class="btn btn-ama" href={waTarifas} target="_blank" rel="noopener">💬 Cotizar por WhatsApp</a>
+            <a class="btn btn-ghost" href={ir('/catalogo/')}>Ver disfraces</a>
+          </div>
+        </div>
+
+        <aside class="border-t border-line bg-[#faf7ff] p-6 min-[820px]:border-l min-[820px]:border-t-0 min-[820px]:p-8">
+          <div>
+            <b class="font-ft text-[1.125rem]">🛡️ La garantía</b>
+            <p class="mt-1.5 text-[.9375rem] leading-[1.6] text-ink2">
+              Dejás <b class="text-ink">{GAR_SHORT}</b> según el disfraz. Te la devolvemos completa
+              al entregarlo en las mismas condiciones.
+            </p>
+          </div>
+          <div class="mt-5 border-t border-line pt-5">
+            <b class="font-ft text-[1.125rem]">👥 ¿Son varios?</b>
+            <p class="mt-1.5 text-[.9375rem] leading-[1.6] text-ink2">
+              Cotizamos el grupo completo en una sola conversación, con retiro el mismo día.
+            </p>
+            <a class="mt-3 inline-flex items-center gap-1.5 text-[.9375rem] font-extrabold text-m600 underline" href={waGrupo} target="_blank" rel="noopener">
+              Cotizar mi grupo →
             </a>
           </div>
-        ))
-      }
-    </div>
-
-    <!-- Aclaración de garantía -->
-    <div class="rv mx-auto mt-5 max-w-[900px] rounded-3xl border-[1.5px] border-ama bg-[#fdf6d9] p-5 text-center">
-      <b class="block font-ft text-[1.125rem] text-[#6b5200]">🛡️ ¿Cómo funciona la garantía?</b>
-      <p class="mx-auto mt-1.5 max-w-[70ch] text-[1rem] leading-[1.6] text-[#6b5200]">
-        Al retirar dejas una garantía de <b>{GAR_SHORT} según el disfraz</b> (en efectivo o transferencia).
-        <b>Si lo devuelves en las mismas condiciones, te la devolvemos completa</b> el día de la entrega.
-        Solo se descuenta si el disfraz vuelve con roturas, manchas, accesorios faltantes o con retraso.
-      </p>
+          <div class="mt-5 border-t border-line pt-5">
+            <b class="font-ft text-[1.125rem]">📍 Retiro en tienda</b>
+            <p class="mt-1.5 text-[.9375rem] leading-[1.6] text-ink2">
+              {CONFIG.dir.replace(', Región de Magallanes', '')}.<br />
+              Lunes a sábado, {CONFIG.horario[1][0]} a {CONFIG.horario[6][1]}.
+            </p>
+          </div>
+        </aside>
+      </div>
     </div>
   </div>
 </section>
