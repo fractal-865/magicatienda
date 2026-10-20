@@ -1,5 +1,5 @@
 ---
-import { waLink, GAR_SHORT } from '../data/site';
+import { waLink, GAR_SHORT, ir } from '../data/site';
 import { Picture, Image } from 'astro:assets';
 import promoGlobosImg from '../assets/img/promo-globos.png';
 import halloweenImg from '../assets/img/halloween-grupo.svg';
@@ -74,7 +74,7 @@ const benefits = [
         </h2>
         <div id="cdBanner" class="cdbox relative flex flex-wrap gap-2" aria-label="Cuenta regresiva a Halloween"></div>
         <div class="relative mt-1.5 flex flex-wrap gap-2.5">
-          <button class="btn btn-ama" id="halloCTA">Armar mi look 🧛</button>
+          <a class="btn btn-ama" id="halloCTA" href={ir('/catalogo/?tem=halloween-y-terror')}>Armar mi look 🧛</a>
         </div>
       </div>
 
