@@ -133,7 +133,7 @@ const descParrafos = (() => {
       <div class="grid gap-8 min-[900px]:grid-cols-2">
         <!-- Imagen con zoom -->
         <div class="foto-col relative">
-          <div class="foto-frame zoom-container overflow-hidden rounded-3xl border-2 border-line bg-white shadow-sh cursor-zoom-in" id="zoomContainer" style={`touch-action: pan-y; --foto:url('${c.img}')`}>
+          <div class="foto-frame zoom-container overflow-hidden rounded-3xl border-2 border-line bg-white shadow-sh cursor-zoom-in" id="zoomContainer" data-lightbox-label={`Ampliar foto de ${c.n}`} style={`touch-action: pan-y; --foto:url('${c.img}')`}>
 <img
               id="zoomImage"
               src={c.img}
@@ -152,7 +152,7 @@ const descParrafos = (() => {
           </span>
           <p class="mt-2 text-center text-[.75rem] text-ink2">
             <span class="min-[900px]:hidden">🔍 Pellizca para ampliar · doble toque para volver</span>
-            <span class="hidden min-[900px]:inline">🔍 Pasa el mouse para ampliar</span>
+            <span class="hidden min-[900px]:inline">🔍 Haz clic para ver la foto en grande</span>
           </p>
         </div>
 
@@ -353,6 +353,31 @@ const descParrafos = (() => {
     </div>
   </main>
 
+  <!-- Visor de foto ampliada (solo escritorio) -->
+  <div
+    class="foto-lightbox"
+    id="fotoLightbox"
+    role="dialog"
+    aria-modal="true"
+    aria-label={`Foto ampliada de ${c.n}`}
+    aria-hidden="true"
+  >
+    <button type="button" class="foto-lightbox-close" id="fotoLightboxClose" aria-label="Cerrar foto ampliada">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" />
+      </svg>
+    </button>
+    <img
+      id="fotoLightboxImg"
+      src={c.img}
+      alt={`${c.n} ampliada`}
+      width="600"
+      height="900"
+      decoding="async"
+      draggable="false"
+    />
+  </div>
+
   <script is:inline set:html={`window.__DISFRACES__ = ${disfracesJSON};`} />
 
   <script is:inline>
@@ -503,6 +528,100 @@ const descParrafos = (() => {
       box.addEventListener('touchcancel', soltar, { passive: true });
 
       pintar();
+    })();
+
+    // ═══ Visor de foto ampliada: solo escritorio ═══
+    // En móvil se mantiene el zoom táctil de arriba; este visor no se activa
+    // para no interferir con el pellizco ni con el doble toque.
+    (function () {
+      const box = document.getElementById('zoomContainer');
+      const visor = document.getElementById('fotoLightbox');
+      const cerrarBtn = document.getElementById('fotoLightboxClose');
+      if (!box || !visor || !cerrarBtn) return;
+
+      const escritorio = matchMedia('(min-width: 900px) and (hover: hover) and (pointer: fine)');
+      let abierto = false;
+      let focoPrevio = null;
+      let overflowPrevio = '';
+      let paddingPrevio = '';
+
+      function ajustarModo() {
+        if (escritorio.matches) {
+          box.tabIndex = 0;
+          box.setAttribute('role', 'button');
+          box.setAttribute('aria-haspopup', 'dialog');
+          box.setAttribute('aria-controls', 'fotoLightbox');
+          box.setAttribute('aria-label', box.dataset.lightboxLabel || 'Ver foto ampliada');
+        } else {
+          box.removeAttribute('tabindex');
+          box.removeAttribute('role');
+          box.removeAttribute('aria-haspopup');
+          box.removeAttribute('aria-controls');
+          box.removeAttribute('aria-label');
+          if (abierto) cerrar();
+        }
+      }
+
+      function abrir() {
+        if (!escritorio.matches || abierto) return;
+        abierto = true;
+        focoPrevio = document.activeElement;
+        overflowPrevio = document.body.style.overflow;
+        paddingPrevio = document.body.style.paddingRight;
+        const anchoBarra = window.innerWidth - document.documentElement.clientWidth;
+        if (anchoBarra > 0) {
+          const actual = parseFloat(getComputedStyle(document.body).paddingRight) || 0;
+          document.body.style.paddingRight = actual + anchoBarra + 'px';
+        }
+        document.body.style.overflow = 'hidden';
+        visor.classList.add('open');
+        visor.setAttribute('aria-hidden', 'false');
+        cerrarBtn.focus({ preventScroll: true });
+      }
+
+      function cerrar() {
+        if (!abierto) return;
+        abierto = false;
+        visor.classList.remove('open');
+        visor.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = overflowPrevio;
+        document.body.style.paddingRight = paddingPrevio;
+        if (focoPrevio && focoPrevio !== document.body && typeof focoPrevio.focus === 'function') {
+          focoPrevio.focus({ preventScroll: true });
+        } else {
+          box.focus({ preventScroll: true });
+        }
+      }
+
+      box.addEventListener('click', (e) => {
+        if (!escritorio.matches) return;
+        e.preventDefault();
+        abrir();
+      });
+      box.addEventListener('keydown', (e) => {
+        if (!escritorio.matches) return;
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          abrir();
+        }
+      });
+      cerrarBtn.addEventListener('click', cerrar);
+      visor.addEventListener('click', (e) => {
+        if (e.target === visor) cerrar();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (!abierto) return;
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          cerrar();
+        } else if (e.key === 'Tab') {
+          // El visor solo tiene un control: mantenemos el foco en la X.
+          e.preventDefault();
+          cerrarBtn.focus({ preventScroll: true });
+        }
+      });
+      escritorio.addEventListener('change', ajustarModo);
+      ajustarModo();
     })();
 
     // ── Copiar al portapapeles (con respaldo si la API no está disponible) ──
@@ -931,6 +1050,92 @@ const descParrafos = (() => {
     }
     .foto-frame img {
       position: relative;
+    }
+  }
+
+  /* ── Visor de foto ampliada (escritorio) ──
+     Se abre al hacer clic en la foto. En móvil queda desactivado: ahí manda
+     el pellizco y el doble toque. La X va fija con margen de seguridad para
+     que nunca quede cortada, ni siquiera en ventanas bajas. */
+  .foto-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding:
+      max(1rem, env(safe-area-inset-top))
+      max(1rem, env(safe-area-inset-right))
+      max(1rem, env(safe-area-inset-bottom))
+      max(1rem, env(safe-area-inset-left));
+    background: rgb(26 13 48 / 0.88);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    overscroll-behavior: contain;
+    cursor: zoom-out;
+  }
+  .foto-lightbox.open {
+    display: flex;
+    animation: fotoLightboxIn 0.18s ease-out;
+  }
+  .foto-lightbox img {
+    width: auto;
+    height: auto;
+    max-width: min(92vw, 70rem);
+    max-height: calc(100vh - 7rem);
+    max-height: calc(100dvh - 7rem);
+    object-fit: contain;
+    border-radius: 0.9rem;
+    background: #fff;
+    box-shadow: 0 24px 80px rgb(0 0 0 / 0.45);
+    cursor: default;
+  }
+  .foto-lightbox-close {
+    position: fixed;
+    top: max(1rem, env(safe-area-inset-top));
+    right: max(1rem, env(safe-area-inset-right));
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    padding: 0;
+    border: 1.5px solid rgb(255 255 255 / 0.55);
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.14);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+  }
+  .foto-lightbox-close:hover {
+    background: #fff;
+    color: var(--color-m700);
+    transform: scale(1.04);
+  }
+  .foto-lightbox-close:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+  }
+  .zoom-container:focus-visible {
+    outline: 3px solid var(--color-m600);
+    outline-offset: 4px;
+  }
+  @keyframes fotoLightboxIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @media (max-width: 899px) {
+    .foto-lightbox {
+      display: none !important;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .foto-lightbox.open {
+      animation: none;
+    }
+    .foto-lightbox-close {
+      transition: none;
     }
   }
 
