@@ -1449,7 +1449,7 @@ function renderMini() {
 
       <section class="sum-panel">
         <h3 class="sum-title">Resumen de valores</h3>
-        <div class="sum-row"><span>Arriendo (${nd} ${nd === 1 ? 'disfraz' : 'disfraces'} × 3 días)</span><b><em class="desde">Desde</em> ${clp(desdeArriendo)}</b></div>
+        <div class="sum-rent"><span>Arriendo (${nd} ${nd === 1 ? 'disfraz' : 'disfraces'} × 3 días)</span><b><em class="desde">Desde</em> ${clp(desdeArriendo)}</b></div>
         <div class="sum-row"><span>Garantía en tienda</span><b><em class="desde">Desde</em> ${clp(desdeGarantia)}</b></div>
         <div class="sum-note"><span class="sum-check">✓</span><p><b>Garantía 100% reintegrable</b> al devolver las prendas a tiempo y en óptimo estado.</p></div>
         <div class="sum-total"><div><span>Total a pagar al retirar</span><small>Arriendo + Garantía incluida</small></div><b><em class="desde">Desde</em> ${clp(desdeArriendo + desdeGarantia)}</b></div>
