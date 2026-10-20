@@ -765,8 +765,8 @@ footer {
   font-size: 0.72rem;
   line-height: 1;
   vertical-align: middle;
-  color: var(--color-ink2);
-  opacity: 0.55;
+  /* Gris-lila oscuro: el 0.55 de opacidad dejaba el botón en 2,6:1 */
+  color: #6b6480;
   transition: 0.2s;
 }
 .copybtn:hover {
@@ -2088,7 +2088,7 @@ body.drawer-lock {
   margin: 2px 0 0;
   font-size: 0.66rem;
   font-weight: 500;
-  color: #8b83a3;
+  color: var(--color-ink2);
 }
 .cart-head .cart-close {
   flex: none;
@@ -2154,7 +2154,7 @@ body.drawer-lock {
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #8b83a3;
+  color: var(--color-ink2);
 }
 .cart-sec-head span:last-child {
   font-size: 0.66rem;
@@ -2356,7 +2356,7 @@ body.drawer-lock {
 .rent-label small {
   font-size: 0.62rem;
   font-weight: 500;
-  color: #a39bb8;
+  color: var(--color-ink2);
 }
 .rent-input {
   width: 100%;
@@ -2435,7 +2435,7 @@ body.drawer-lock {
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #8b83a3;
+  color: var(--color-ink2);
 }
 .period-cell input {
   width: 100%;
@@ -2467,7 +2467,7 @@ body.drawer-lock {
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #a39bb8;
+  color: var(--color-ink2);
 }
 .sum-row {
   display: flex;
@@ -2531,7 +2531,7 @@ body.drawer-lock {
   display: block;
   margin-top: 1px;
   font-size: 0.6rem;
-  color: #a39bb8;
+  color: var(--color-ink2);
 }
 .sum-total > b {
   font-family: var(--font-ft);
@@ -2544,7 +2544,7 @@ body.drawer-lock {
   margin: 8px 0 0;
   font-size: 0.6rem;
   line-height: 1.35;
-  color: #a39bb8;
+  color: var(--color-ink2);
 }
 /* ── Pie fijo con WhatsApp ── */
 .cart-foot {
@@ -2580,7 +2580,7 @@ body.drawer-lock {
   padding-top: 7px;
   border-top: 1px solid #f3effa;
   font-size: 0.58rem;
-  color: #a39bb8;
+  color: var(--color-ink2);
 }
 .cart-notes i {
   font-style: normal;

@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { PRODUCTS, disfrazSlug, getSimilares, catById, displayTalla, TALLA_GUIA, thumbSrcset } from '../../data/products';
-import { waLink, url, ir, PRECIO_DESDE } from '../../data/site';
+import { PRODUCTS, disfrazSlug, getSimilares, catById, displayTalla, TALLA_GUIA, thumbSrcset, clp } from '../../data/products';
+import { waLink, url, ir, PRECIO_DESDE, GAR_SHORT } from '../../data/site';
 
 /* Los datos que usa el buscador de la cabecera. El slug viaja ya calculado:
    el navegador no vuelve a derivarlo (así no puede diferir del de la página). */
@@ -194,7 +194,6 @@ const descParrafos = (() => {
                   type="button"
                   class="talla-btn"
                   data-t={t}
-                  aria-label={`Talla ${displayTalla(t)}${TALLA_GUIA[t] ? ', estatura ' + TALLA_GUIA[t] : ''}`}
                 >
                   <span class="talla-nom">Talla {displayTalla(t)}</span>
                   <span class="talla-sub">{TALLA_GUIA[t] ? `Estatura ${TALLA_GUIA[t]}` : 'Estatura referencial'}</span>
@@ -209,7 +208,8 @@ const descParrafos = (() => {
               <div>
                 <span class="block text-[.7rem] font-extrabold uppercase tracking-[.08em] text-m500">Tarifa de arriendo</span>
                 <div class="flex items-baseline gap-2">
-                  <span class="font-ft text-[2.1rem] font-extrabold leading-none text-ink">$15.000</span>
+                  <small class="text-[.66rem] font-bold uppercase tracking-[.02em] text-ink2">Desde</small>
+                  <span class="font-ft text-[2.1rem] font-extrabold leading-none text-ink">{clp(PRECIO_DESDE)}</span>
                   <span class="text-[.8rem] font-semibold text-ink2">CLP / período completo</span>
                 </div>
               </div>
@@ -222,7 +222,7 @@ const descParrafos = (() => {
             <div class="space-y-2.5 py-3.5 text-[.8rem] text-ink2">
               <div class="flex items-center justify-between gap-3">
                 <span class="flex items-center gap-1.5 font-medium"><i class="dot dot-green"></i> Garantía reembolsable:</span>
-                <b class="text-ink">$15.000 o $20.000 (se reintegra al devolver)</b>
+                <b class="text-ink">{GAR_SHORT} (se reintegra al devolver)</b>
               </div>
               <div class="flex items-center justify-between gap-3">
                 <span class="flex items-center gap-1.5 font-medium"><i class="dot dot-mora"></i> Limpieza y desinfección:</span>

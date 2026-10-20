@@ -3,7 +3,7 @@
    Filtros + buscador + "Tu arriendo" (cotización) + modales
    ═══════════════════════════════════════════════════════════════ */
 import { PRODUCTS, CATS, PUBLICOS, OCASIONES, TALLAS, TALLA_GUIA, catById, clp, disfrazSlug, thumbSrcset, type Product } from '../data/products';
-import { GAR_SHORT, waLink, ACC, esTemporadaHalloween } from '../data/site';
+import { GAR_SHORT, PRECIO_DESDE, waLink, ACC, esTemporadaHalloween } from '../data/site';
 
 type Acc = { id: string; n: string; e: string };
 type Item = Product | Acc;
@@ -1133,24 +1133,10 @@ document.addEventListener('click', (e) => {
 const cartQty = () => state.cart.reduce((a, i) => a + i.qty, 0);
 const disfQty = () => state.cart.filter((i) => i.tipo === 'd').reduce((a, i) => a + i.qty, 0);
 
-/* Valores de referencia ("desde") mientras se cargan los precios definitivos
-   por disfraz. El arriendo parte en $15.000 y la garantía en $15.000. */
-const PRECIO_DESDE = 15000;
+/* Valores de referencia ("desde") de la cotización. El arriendo parte en
+   $15.000 —PRECIO_DESDE, definido una sola vez en src/data/site.ts, el mismo
+   valor que se declara en la ficha de cada disfraz— y la garantía en $15.000. */
 const GAR_DESDE = 15000;
-
-/* ── Cálculo de precios (arriendo + garantía) ── */
-function rentalSubtotal(): number {
-  return state.cart.reduce((a, i) => {
-    const it = byId(i.id);
-    return a + (it && isProduct(it) ? it.price * i.qty : 0);
-  }, 0);
-}
-function guaranteeTotal(): number {
-  return state.cart.reduce((a, i) => {
-    const it = byId(i.id);
-    return a + (it && isProduct(it) ? it.gar * i.qty : 0);
-  }, 0);
-}
 
 /* ── fechas: retiro seleccionable, uso/entrega automáticas (3 días) ── */
 function addDays(v: string, d: number): string {
@@ -1539,14 +1525,43 @@ $('#grid')?.addEventListener('keydown', (e) => {
   }
 });
 
-/* ═══ MODALES ═══ */
+/* ═══ MODALES ═══
+   Mismo trato que el cajón y el minicart: al abrir, el resto de la página queda
+   inerte y el foco entra al panel; al cerrar, el foco vuelve al disparador.
+   Sin esto, "Condiciones" prometía con aria-modal una contención que no existía. */
+const SIN_INERT = '#toasts, #confettiCanvas, script, style';
+let modalFoco: HTMLElement | null = null;
+let modalInerts: HTMLElement[] = [];
+
 function openModal(id: string) {
-  $('#' + id)?.classList.add('open');
+  const m = $('#' + id);
+  // Un mismo clic puede llegar por dos listeners (el del menú y el delegado del
+  // documento): la segunda llamada no debe volver a capturar el fondo, o al
+  // cerrar quedaría la página inerte.
+  if (!m || m.classList.contains('open')) return;
+  modalFoco = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+  modalInerts = [...document.body.children].filter(
+    (el): el is HTMLElement =>
+      el instanceof HTMLElement && el !== m && !el.matches(SIN_INERT) && !el.hasAttribute('inert'),
+  );
+  modalInerts.forEach((el) => el.setAttribute('inert', ''));
+  m.classList.add('open');
+  m.removeAttribute('inert');
   document.body.style.overflow = 'hidden';
+  const panel = m.querySelector<HTMLElement>('.mpanel');
+  const first = panel?.querySelector<HTMLElement>('button, [href], input, select, textarea');
+  (first ?? panel)?.focus();
 }
 function closeModal(id: string) {
-  $('#' + id)?.classList.remove('open');
+  const m = $('#' + id);
+  if (!m || !m.classList.contains('open')) return;
+  m.classList.remove('open');
+  m.setAttribute('inert', '');
+  modalInerts.forEach((el) => el.removeAttribute('inert'));
+  modalInerts = [];
   document.body.style.overflow = '';
+  if (modalFoco?.isConnected) modalFoco.focus();
+  modalFoco = null;
 }
 document.addEventListener('click', (e) => {
   const t = e.target as HTMLElement;
@@ -1559,9 +1574,12 @@ document.addEventListener('click', (e) => {
   }
 });
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    ['condModal'].forEach(closeModal);
-  }
+  if (e.key !== 'Escape') return;
+  if (!document.querySelector('.modal.open')) return;
+  // El modal es la capa de arriba: Escape lo cierra y no se lleva por delante
+  // al cajón, al menú móvil ni a la barra de categorías, que también oyen Escape.
+  e.stopImmediatePropagation();
+  ['condModal'].forEach(closeModal);
 });
 
 /* La barra del botón de cerrar lleva su propio borde cuando el panel ya se
