@@ -1,6 +1,7 @@
 ---
 import { CATS_ACTIVE, PUBLICOS, OCASIONES, PRODUCTS, thumbSrcset } from '../data/products';
 import { ir, sec as secEnlace } from '../data/site';
+import { ONERROR_MINI } from '../lib/card';
 import { Picture } from 'astro:assets';
 import logoImg from '../assets/img/logo.png';
 
@@ -239,7 +240,7 @@ const corto = (s: string) => CORTOS[s] ?? s;
         {
           destacados.map((c) => (
             <button data-qv={c.id} class="ms-card flex cursor-pointer items-center gap-2.5 whitespace-nowrap rounded-[14px] border-[1.5px] border-line bg-[#f7f2ff] px-3.5 py-2 pl-2 text-ink transition hover:-translate-y-0.5 hover:border-ama">
-              <img src={c.img} srcset={thumbSrcset(c.img)} sizes="44px" data-full={c.img} onerror="this.onerror=null;this.removeAttribute('srcset');this.src=this.dataset.full" alt="" class="h-11 w-11 rounded-[10px] bg-[#efe8ff] object-cover" loading="lazy" decoding="async" width="44" height="44" />
+              <img src={c.img} srcset={thumbSrcset(c.img)} sizes="44px" data-full={c.img} onerror={ONERROR_MINI} alt="" class="h-11 w-11 rounded-[10px] bg-[#efe8ff] object-cover" loading="lazy" decoding="async" width="44" height="44" />
               <span class="text-left text-[.875rem]">{c.n}<br /><b class="text-[.875rem] text-m600">Tallas {c.tl.join(' · ')}</b></span>
             </button>
           ))

@@ -6,9 +6,11 @@ import { TALLA_GUIA, catById, clp, disfrazSlug, thumbSrcset, type Product } from
 import { PRECIO_DESDE } from '../data/site';
 import { esc, hl } from './text';
 
-/* Si una miniatura faltara (por ejemplo, una foto nueva sin regenerar), este
-   respaldo la cambia por la imagen original en vez de mostrar la imagen rota. */
-export const ONERROR_MINI = "this.onerror=null;this.removeAttribute('srcset');this.src=this.dataset.full";
+/* Si una miniatura faltara (por ejemplo, una foto nueva sin regenerar) o la
+   red cortara la descarga, se reintenta una vez con la URL limpia y recién
+   después se cae a la imagen original, en vez de dejar el hueco roto. */
+export const ONERROR_MINI =
+  "this.removeAttribute('srcset');if(!this.dataset.r){this.dataset.r='1';this.src=this.dataset.full+'?r=1'}else{this.onerror=null;this.src=this.dataset.full}";
 
 export function cardHTML(c: Product, k: number, q = '') {
   const T = catById(c.t);

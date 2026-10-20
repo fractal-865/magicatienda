@@ -496,7 +496,13 @@ function cargarMas() {
   const L = filtered();
   const ini = state.page * paso();
   const nuevas = L.slice(ini, ini + paso());
-  if (!nuevas.length) return;
+  if (!nuevas.length) {
+    // Ya no queda nada: dejar el contador en "viste los N" y apagar el aviso
+    // de carga (si no, el estado se queda en "Cargando más disfraces…").
+    pintarInfo(L, L.length);
+    pintarBarra();
+    return;
+  }
   state.page += 1;
   g.insertAdjacentHTML('beforeend', nuevas.map((c, k) => cardHTML(c, ini + k, state.q)).join(''));
   encuadrarFotos();

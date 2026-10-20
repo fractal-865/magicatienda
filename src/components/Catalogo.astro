@@ -187,6 +187,18 @@ const urlCatalogo = ir('/catalogo/');
       {esCat && PRODUCTS.map((c, k) => <Fragment set:html={cardHTML(c, k)} />)}
     </div>
 
+    <script is:inline>
+      // Red de seguridad: si el JS de la página no llega a arrancar (módulo caído,
+      // red cortada, un 502 pasajero), el catálogo no puede quedarse en 12 de 156
+      // tarjetas. Pasado un margen se muestran todas, aunque sea sin filtros.
+      addEventListener('DOMContentLoaded', function () {
+        setTimeout(function () {
+          var g = document.getElementById('grid');
+          if (g && g.hasAttribute('data-ssr')) g.removeAttribute('data-ssr');
+        }, 3000);
+      });
+    </script>
+
     {
       esCat ? (
         /* Catálogo completo: al llegar al final se cargan más por tandas (el botón
