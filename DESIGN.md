@@ -255,11 +255,11 @@ La escala se organiza por rol, no por componente. Los tokens viven en `@theme` (
 
 ## Layout
 
-Contenedor único de `max-width: 1220px` centrado con `padding-inline: 16px`. Ritmo vertical fijo: secciones con `padding-block: 46px` (catálogo usa 30/46). Cada sección abre con `script` + `h2.sec` + `sec-sub` (centrados) y cierra con contenido en grilla.
+Contenedor único de `max-width: 1220px` centrado con `padding-inline: 16px`. Ritmo vertical: secciones con `padding-block: 46px` (catálogo usa 30/46). Las cuatro secciones de cierre —pagos, mapa, contacto y faq— usan `--space-section-tight` (32px) para leerse como un solo grupo. Cada sección abre con `script` + `h2.sec` + `sec-sub` (centrados) y cierra con contenido en grilla.
 
 Breakpoints observados (mix de Tailwind `min-*` y media queries en CSS):
-- **900px**: umbral principal móvil↔escritorio. Definido por el usuario como "móvil" todo lo inferior (bottom nav, panel de filtros como cajón, 2 columnas de grilla, sticky bar del carrito).
-- **899/900px** en `grid-cols-[304px_1fr]` del catálogo; **960px** contacto/mapa; **820px** beneficios; **760px** botón WhatsApp etiquetado; **600px** grilla 2 columnas y ajustes de urgencia; **560px** minicart fullscreen y "3 días" en columna.
+- **900px**: umbral principal móvil↔escritorio. Definido por el usuario como "móvil" todo lo inferior (bottom nav, panel de filtros como cajón, 2 columnas de grilla, sticky bar del carrito). También es el corte de `grid-cols-[304px_1fr]` del catálogo.
+- **1100px**: las seis tarjetas de "Fechas" pasan de carrusel con snap a una fila de seis columnas; **1024px** los pasos de "Cómo funciona" pasan a 4 columnas; **960px** mapa en dos columnas; **820px** beneficios; **760px** botón WhatsApp etiquetado; **600px** grilla 2 columnas y ajustes de urgencia; **560px** minicart fullscreen, pasos y contacto en 2 columnas; **370px** el precio de la tarjeta de producto baja a dos líneas; **360px** el CTA "Disfraces" del header queda solo con icono.
 - Grilla de productos: `repeat(auto-fill, minmax(215px,1fr))` en escritorio; forzada a 2 columnas fijas bajo 600px con `!important` (fotos 2:3 completas, sin recorte, `object-position: center top`).
 - Slider de banners promocionales con snap-x en móvil (`min-width: min(350px,84vw)`).
 - Zonas fijas: header sticky (z-60), barra de urgencia (z-55), filtros sticky del catálogo (z-40), bottom nav móvil (z-85), flotante WhatsApp (z-88), minicart (z-95), modales (z-110), toasts (z-120), confeti (z-130).

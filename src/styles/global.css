@@ -54,6 +54,19 @@
   /* Sombras */
   --shadow-sh: 0 10px 26px rgb(90 42 156 / 0.12);
   --shadow-sh2: 0 16px 40px rgb(90 42 156 / 0.18);
+
+  /* Ritmo vertical de las secciones. El sitio usa 46px entre bloques; las
+     cuatro secciones de cierre (pagos, mapa, contacto y faq) usan la versión
+     corta para leerse como un solo grupo. */
+  --space-section: 46px;
+  --space-section-tight: 32px;
+}
+
+/* ═══ Ritmo vertical ═══
+   Las secciones de cierre van más juntas entre sí que el resto para que el
+   final de la página se lea como un bloque y no como cuatro islas. */
+.sec-tight {
+  padding-block: var(--space-section-tight);
 }
 
 @layer base {
@@ -945,12 +958,25 @@ footer {
 /* ═══ Pasos "Cómo funciona" ═══ */
 .steps-wrap {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
-  gap: 26px 18px;
+  grid-template-columns: 1fr;
+  gap: 34px 18px;
   margin: 0;
   padding: 0;
   list-style: none;
   counter-reset: paso;
+}
+/* Dos columnas parejas en tablet: con auto-fit quedaban tres pasos arriba y
+   el cuarto solo abajo. */
+@media (min-width: 560px) {
+  .steps-wrap {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .steps-wrap {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 26px 18px;
+  }
 }
 .stepcard {
   position: relative;
@@ -1384,6 +1410,13 @@ mark {
   }
   .cta-disfraz .cta-ico {
     display: inline-flex;
+  }
+  /* En pantallas de 320px el texto del CTA empujaba la fila del header más allá
+     del ancho de la pantalla. Queda solo el emoji; el aria-label lo nombra. */
+  @media (max-width: 359px) {
+    .cta-disfraz .cta-label {
+      display: none;
+    }
   }
   /* CTA sobre el header oscuro: se invierte a morado sobre fondo claro para
      seguir leyéndose, con borde blanco suave. */
@@ -3017,6 +3050,30 @@ body.drawer-lock {
   background: repeating-linear-gradient(90deg, #d9c9f7 0 12px, transparent 12px 22px);
   z-index: 0;
 }
+/* Las tarjetas comparten alto (rail y grilla). El botón se ancla al pie para
+   que la fila de llamadas a la acción quede pareja aunque el texto de cada
+   fecha ocupe distinto número de líneas. */
+#fechasRow .fecha {
+  display: flex;
+  flex-direction: column;
+}
+#fechasRow .fecha > .btn {
+  margin-top: auto;
+}
+/* Con ancho suficiente las seis fechas entran en una sola fila y la línea
+   punteada se lee de punta a punta. Bajo 1100px sigue siendo un carrusel
+   con scroll y snap, donde las tarjetas conservan su ancho legible. */
+@media (min-width: 1100px) {
+  #fechasRow {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    overflow: visible;
+    padding-inline: 0;
+  }
+  #fechasRow .fecha {
+    min-width: 0;
+  }
+}
 
 /* ═══ Confeti de la tarjeta cumpleaños ═══ */
 .cb-conf i {
@@ -3705,6 +3762,16 @@ body.drawer-lock {
   to {
     opacity: 1;
     transform: none;
+  }
+}
+/* Bajo 370px el precio no cabe en la tarjeta de dos columnas: "Desde" y la
+   cifra bajan a líneas distintas en vez de quedar pegadas al borde. Desde
+   370px la fila vuelve a una sola línea. */
+@media (max-width: 369px) {
+  .pcard-price,
+  .pcard-price-line {
+    flex-wrap: wrap;
+    row-gap: 2px;
   }
 }
 @media (max-width: 1080px) {

@@ -423,8 +423,8 @@ function cardHTML(c: Product, k: number) {
     <a href="${disfrazUrl}" class="mb-1 min-h-[2.55rem] text-[1.0625rem] font-semibold leading-[1.25] text-ink hover:text-m600">${hl(c.n, state.q)}</a>
     <div class="mb-2.5 flex min-h-[1.6rem] flex-wrap gap-1">${c.tl.map((t) => `<span class="tip cursor-help rounded-[7px] bg-[#f0eaff] px-[7px] py-[3px] text-[.75rem] font-extrabold text-m600" data-tip="${esc(guia(t))}" tabindex="0">${esc(t)}</span>`).join('')}</div>
     <div class="mt-auto">
-      <div class="mb-2.5 flex items-baseline gap-2">
-        <span class="flex items-baseline gap-1.5">
+      <div class="pcard-price mb-2.5 flex items-baseline gap-2">
+        <span class="pcard-price-line flex items-baseline gap-1.5">
           <small class="text-[.75rem] font-bold uppercase tracking-[.02em] text-ink2">Desde</small>
           <b class="font-ft text-[1.375rem] font-bold leading-none text-m600 tabular-nums">$15.000</b>
           <button type="button" class="info-dot tip cursor-help" data-tip="Valor según el disfraz. Cotiza por WhatsApp para conocer el precio exacto." aria-label="Sobre los precios">?</button>
