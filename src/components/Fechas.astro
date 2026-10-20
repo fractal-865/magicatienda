@@ -30,7 +30,7 @@ const sorted = FECHAS.map((f) => ({ ...f, dt: nextDate(f.m, f.d) })).sort((a, b)
             <div class="text-[2.4rem]">{f.i}</div>
             <h3 class="mb-0.5 mt-1.5 text-[1rem] text-ink">{f.n}</h3>
             <div class="text-[.875rem] font-extrabold text-m600">{f.f}</div>
-            {k === 0 && <div class="fcd mt-1 mb-2 font-ft text-[.875rem] font-bold text-[#0c7a56]" data-m={f.m} data-d={f.d}></div>}
+            {k === 0 && <div class="fcd mt-1 mb-2 font-ft text-[.875rem] font-bold text-warn" data-m={f.m} data-d={f.d}></div>}
             <p class="mb-2.5 mt-1.5 min-h-[2.4em] text-[.875rem] text-ink2">{f.fr}</p>
             <button class="btn btn-ama btn-sm" data-tem={f.tem}>Ver disfraces para esta fecha</button>
           </div>

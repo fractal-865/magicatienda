@@ -221,12 +221,12 @@ const descParrafos = (() => {
 
             <div class="space-y-2.5 py-3.5 text-[.875rem] text-ink2">
               <div class="flex items-center justify-between gap-3">
-                <span class="flex items-center gap-1.5 font-medium"><i class="dot dot-green"></i> Garantía reembolsable:</span>
+                <span class="flex items-center gap-1.5 font-medium"><i class="dot dot-ok"></i> Garantía reembolsable:</span>
                 <b class="text-ink">{GAR_SHORT} (se reintegra al devolver)</b>
               </div>
               <div class="flex items-center justify-between gap-3">
                 <span class="flex items-center gap-1.5 font-medium"><i class="dot dot-mora"></i> Limpieza y desinfección:</span>
-                <b class="text-[#0c7a56]">¡Incluida sin costo adicional!</b>
+                <b class="text-ok">¡Incluida sin costo adicional!</b>
               </div>
             </div>
 
@@ -555,11 +555,27 @@ const descParrafos = (() => {
     let selectedTalla = '';
     const tallaSection = document.getElementById('tallasSection');
     const tallas = tallaSection?.querySelectorAll('.talla-btn');
+    // Aviso de "falta la talla": rojo al fallar, ámbar mientras siga pendiente.
+    let avisoTalla = 0;
+    const quitarAvisoTalla = () => {
+      window.clearTimeout(avisoTalla);
+      tallaSection?.classList.remove(
+        'ring-2',
+        'ring-[#c0392b]',
+        'ring-warn',
+        'ring-offset-2',
+        'rounded-xl',
+        'bg-[#fdecea]',
+        'bg-warn-soft',
+        'p-3',
+      );
+    };
     tallas?.forEach((t) => {
       t.addEventListener('click', function () {
         selectedTalla = this.dataset.t;
         tallas.forEach((x) => x.classList.remove('on'));
         this.classList.add('on');
+        quitarAvisoTalla();
       });
     });
     // Si solo hay una talla, seleccionarla automáticamente
@@ -575,9 +591,9 @@ const descParrafos = (() => {
         if (tallaSection) {
           tallaSection.classList.add('ring-2', 'ring-[#c0392b]', 'ring-offset-2', 'rounded-xl', 'bg-[#fdecea]', 'p-3');
           tallaSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          setTimeout(() => {
+          avisoTalla = window.setTimeout(() => {
             tallaSection.classList.remove('ring-[#c0392b]', 'bg-[#fdecea]');
-            tallaSection.classList.add('ring-[#0c7a56]', 'bg-[#e2f7ec]');
+            tallaSection.classList.add('ring-warn', 'bg-warn-soft');
           }, 1500);
         }
         return;
@@ -714,8 +730,8 @@ const descParrafos = (() => {
     border-radius: 999px;
     flex: none;
   }
-  .dot-green {
-    background: #22c55e;
+  .dot-ok {
+    background: var(--color-ok);
   }
   .dot-mora {
     background: #8b5cf6;
