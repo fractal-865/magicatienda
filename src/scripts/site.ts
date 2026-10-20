@@ -2,7 +2,7 @@
    La Mágica Tienda — interactividad del sitio
    Filtros + buscador + "Tu arriendo" (cotización) + modales
    ═══════════════════════════════════════════════════════════════ */
-import { PRODUCTS, CATS, PUBLICOS, OCASIONES, TALLAS, catById, clp, disfrazSlug, thumbSrcset, type Product } from '../data/products';
+import { PRODUCTS, CATS, CAT_ALIAS, PUBLICOS, OCASIONES, TALLAS, catById, clp, disfrazSlug, thumbSrcset, type Product } from '../data/products';
 import { GAR_SHORT, PRECIO_DESDE, waLink, ACC, esTemporadaHalloween } from '../data/site';
 import { cardHTML, ONERROR_MINI } from '../lib/card';
 import { esc, hl, norm } from '../lib/text';
@@ -336,13 +336,6 @@ function fallbackCopy(txt: string, cb: () => void) {
 }
 
 /* ═══ CATÁLOGO ═══ */
-/* "Halloween y terror" es una categoría de escaparate, no del JSON: los
-   disfraces vienen marcados como "halloween" o "terror" por separado. Se
-   expande acá para que el botón de la portada y los enlaces ?tem=… no queden
-   vacíos. */
-const TEM_ALIAS: Record<string, string[]> = { 'halloween-y-terror': ['halloween', 'terror'] };
-const temMatch = (c: Product, t: string) =>
-  c.cats.includes(t) || (TEM_ALIAS[t] ?? []).some((x) => c.cats.includes(x));
 
 function filtered(): Product[] {
   let L = PRODUCTS.filter((c) => {
@@ -351,7 +344,7 @@ function filtered(): Product[] {
       const h = hay(c);
       if (!toks.every((tk) => h.includes(tk))) return false;
     }
-    if (state.tem.size && ![...state.tem].some((t) => temMatch(c, t))) return false;
+    if (state.tem.size && ![...state.tem].some((t) => c.cats.includes(t))) return false;
     if (state.oca.size && ![...state.oca].some((o) => c.oc.includes(o))) return false;
     if (state.pub.size && !state.pub.has(c.pub)) return false;
     if (state.tal.size && ![...state.tal].some((t) => c.tl.includes(t))) return false;
@@ -564,7 +557,9 @@ function hidratarDesdeURL() {
           : TALLAS.includes(v);
   (['tem', 'oca', 'pub', 'tal'] as const).forEach((k) =>
     p.getAll(k).forEach((v) => {
-      if (valido(k, v)) state[k].add(v);
+      // Los enlaces viejos ?tem=halloween y ?tem=terror caen en la categoría unida.
+      const id = k === 'tem' ? (CAT_ALIAS[v] ?? v) : v;
+      if (valido(k, id)) state[k].add(id);
     }),
   );
   // Si venía una búsqueda escrita, el buscador se muestra desplegado (sin robar el foco)

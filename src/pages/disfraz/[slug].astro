@@ -164,7 +164,7 @@ const descParrafos = (() => {
               {c.cats.map((catId, i) => {
                 const cat = catById(catId);
                 return (
-                  <a href={ir(`/catalogo/?cat=${catId}`)} class={`pill-cat ${i % 2 === 0 ? 'pill-cat-main' : 'pill-cat-alt'}`}>
+                  <a href={ir(`/catalogo/?tem=${cat.id}`)} class={`pill-cat ${i % 2 === 0 ? 'pill-cat-main' : 'pill-cat-alt'}`}>
                     {cat.i} {cat.n}
                   </a>
                 );
