@@ -212,15 +212,23 @@ Paleta de fiesta nocturna: fondos lavanda claros, escenarios morados profundos y
 - **Neblina** (`#f6f1ff`): fondos de bloques internos (guía 3 días, chat).
 - **Tinta Berenjena** (`#2a1155`): todo el texto principal.
 - **Tinta Media** (`#66539c`): texto secundario. Cuidado: sobre `#f6f1ff` rinde ~4.7:1; no bajar su tamaño por debajo de ~13px en texto informativo.
+- **Placeholder** (`--color-placeholder`, `#9a88c9`): solo placeholders de buscador. Hoy rinde 3.1:1 (deuda de contraste).
+
+### Superficies especiales
+Dos superficies no usan el morado de marca y tienen su propia escala en `@theme`. No son excepciones sueltas: cada una se ajusta desde sus tokens, nunca con hex sueltos.
+- **Panel "Tu arriendo"** (`--color-dw-*`), violeta neutra: `dw-bg` fondo del panel y del cuerpo; `dw-line` / `dw-line2` bordes de tarjetas y controles; `dw-div` divisores internos; `dw-field` fondo de selects y contadores; `dw-ink` títulos, valores y cifras; `dw-ink2` texto secundario y de controles; `dw-mute` "Desde", unidades e iconos suaves; `dw-accent` precios y contadores; `dw-accent2` enlaces e iconos; `dw-accent-soft` fondos lilas; `dw-focus` borde de foco; `dw-scroll` scrollbar.
+- **Barra de filtros pegada** (`--color-fb-*`), pergamino: `fb-bg1..3` degradado de fondo; `fb-hover` hover de chips; `fb-line` / `fb-line2` bordes y separadores; `fb-ink` texto oscuro; `fb-mute` placeholder. Su sombra es `--shadow-fb`.
+- **Estados**: `--color-ok` (éxito), `ok-soft` / `ok-line` (fondos y bordes), `ok-ink` (texto sobre verde claro) y `--color-bad` (dato faltante o error). Hoy el verde de éxito contradice **The Green Means WhatsApp Rule**: `/impeccable colorize` solo tiene que cambiar estos cinco valores.
+- **Sombras**: `--shadow-dw` (tarjetas del panel) y `--shadow-fb` (barra pegada, tinte cálido a juego con el pergamino).
 
 ### Named Rules
 **The Amber Bulb Rule.** El ámbar es la luz del puesto: CTA primario, precio o garantía. Si una pantalla tiene más de 3 elementos ámbar, quitar uno.
 **The Green Means WhatsApp Rule.** Verde = "esto abre WhatsApp". No usar verde para éxito, links ni estados.
-**The Purple Shadow Rule.** Toda sombra se tiñe de morado (`rgba(90,42,156,·)` o `rgba(60,20,120,·)`). Sombra gris pura está prohibida.
+**The Purple Shadow Rule.** Toda sombra se tiñe de morado (`rgba(90,42,156,·)` o `rgba(60,20,120,·)`). Sombra gris pura está prohibida. La única excepción es `--shadow-fb`, teñida de cálido porque pertenece a la barra pergamino.
 
 ### Deuda conocida (auditoría oct. 2026)
-- **Verde fuera de WhatsApp:** hoy el verde también marca éxito o atención en `.gchip`, `.req-pill.green`, `.datebox.destacar`, `.sum-check`/`.sum-note`, `.loadprog.completo`, los bullets de Tarifas, el badge del mega menú, la cuenta regresiva de Fechas, `.dot-green` de la ficha y `.copybtn.done`. La regla sigue vigente: hay que llevarlos a ámbar o lila (`/impeccable colorize`).
-- **Dos paletas fuera del sistema:** el panel "Tu arriendo" usa su propia escala (`#1f1235`, `#5b21b6`, `#6d28d9`, `#f6f4fa`, `#e6dcfb`…) y la barra de filtros "pegada" usa una paleta pergamino (`#faf6ee`, `#e6dcc8`, `#38312a`, `#a89c88`) que no existe en este documento. Ambas deben plegarse a los tokens (`/impeccable extract`). Mientras tanto, el texto secundario del panel ya usa `--color-ink2` por contraste.
+- **Verde fuera de WhatsApp:** hoy el verde también marca éxito o atención en `.gchip`, `.req-pill.green`, `.datebox.destacar`, `.sum-check`/`.sum-note`, `.loadprog.completo`, los bullets de Tarifas, el badge del mega menú, la cuenta regresiva de Fechas, `.dot-green` de la ficha y `.copybtn.done`. La regla sigue vigente: hay que llevarlos a ámbar o lila (`/impeccable colorize`). Ya están detrás de `--color-ok*`: el cambio es de cinco valores, no de treinta reglas.
+- **Contraste de placeholders:** `--color-placeholder` (`#9a88c9`) rinde 3.1:1 y `--color-fb-mute` (`#a89c88`) 2.9:1 sobre blanco; ambos bajo 4.5:1 (`/impeccable polish`).
 
 ## Typography
 
@@ -278,6 +286,8 @@ Sistema híbrido: superficies planas con borde lila, elevadas solo por estado (h
 - **card inline** (`0 8px 20px rgba(90,42,156,.08)`): tarjetas de producto en reposo.
 - **hover lift** (`0 16px 30px rgba(90,42,156,.16)` + `translateY(-5…-6px)`): hover de tarjetas y pasos.
 - **header scrolled** (`0 6px 24px rgb(90 42 156 / .12)`): solo tras 40px de scroll.
+- **dw — panel** (`--shadow-dw`, `0 3px 10px rgb(74 27 150 / .05)`): tarjetas y paneles del drawer "Tu arriendo".
+- **fb — barra pegada** (`--shadow-fb`, `0 10px 26px rgb(120 96 60 / .14)`): tinte cálido, a juego con el pergamino; es la única sombra no morada y no debe reutilizarse fuera de esa barra.
 
 ### Named Rules
 **The Flat-By-Default Rule.** En reposo, tarjetas con borde `#e8dff8` y sombra tenue; la sombra profunda es respuesta a interacción, no estado base.
