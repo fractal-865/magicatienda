@@ -1,15 +1,16 @@
 ---
 import { TALLA_GUIA } from '../data/products';
+import { GAR_SHORT } from '../data/site';
 
 const steps = [
   { n: 1, i: '🎭', t: 'Elige tus disfraces', p: 'Busca, filtra y agrégalos a "Tu arriendo".' },
   { n: 2, i: '💬', t: 'Cotiza y reserva por WhatsApp', p: 'Con la reserva (valor del arriendo) aseguramos tu disfraz para la fecha.' },
-  { n: 3, i: '🛡️', t: 'Retira y deja tu garantía', p: '$15.000 o $20.000 según el disfraz, en efectivo o transferencia, el día del retiro.' },
+  { n: 3, i: '🛡️', t: 'Retira y deja tu garantía', p: `${GAR_SHORT} según el disfraz, en efectivo o transferencia, el día del retiro.` },
   { n: 4, i: '🎉', t: 'Usa, devuelve y recupera tu garantía', p: 'Si vuelve en las mismas condiciones, te la devolvemos completa.' },
 ];
 
 const days = [
-  { i: '📦', t: 'Retiro', s: 'Pagas la garantía ($15.000 o $20.000) en efectivo o transferencia' },
+  { i: '📦', t: 'Retiro', s: `Pagas la garantía (${GAR_SHORT}) en efectivo o transferencia` },
   { i: '🎉', t: 'Uso', s: 'Tu fiesta, evento o celebración' },
   { i: '↩️', t: 'Entrega', s: 'Devuelves el disfraz y recuperas tu garantía' },
 ];
@@ -76,7 +77,7 @@ const guiaTallas = ['XS', 'S', 'M', 'L', 'L-XL', 'XL', 'XXL'].map((k) => ({ t: k
         <p class="info-s">Reserva, garantía y devolución, en pocas palabras.</p>
         <div class="info-body" id="infoCond">
           <p><b>Reserva.</b> El valor del arriendo asegura tu disfraz para la fecha seleccionada. Es el monto que se paga por adelantado y no es reembolsable.</p>
-          <p><b>Garantía.</b> $15.000 o $20.000 según el disfraz. Se paga el día del retiro, en efectivo o transferencia, y se devuelve completa al entregar en las mismas condiciones.</p>
+          <p><b>Garantía.</b> {GAR_SHORT} según el disfraz. Se paga el día del retiro, en efectivo o transferencia, y se devuelve completa al entregar en las mismas condiciones.</p>
           <p><b>A tiempo.</b> El arriendo es de 3 días: retiro, uso y entrega. Si te atrasas, los días de más se descuentan de la garantía.</p>
           <p><b>Estado.</b> Si el disfraz vuelve con daños o manchas, se descuenta de la garantía según el arreglo correspondiente.</p>
         </div>

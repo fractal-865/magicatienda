@@ -1,6 +1,7 @@
 ---
 /* Tarifas de arriendo + garantía reintegrable, con la info real del sitio */
-import { waLink } from '../data/site';
+import { waLink, PRECIO_DESDE, GAR_SHORT } from '../data/site';
+import { clp } from '../data/products';
 
 const waTarifas = waLink('¡Hola! Quiero cotizar el arriendo de disfraces para adultos en La Mágica Tienda.');
 
@@ -8,14 +9,14 @@ const planes = [
   {
     tag: 'FIESTAS & CUMPLEAÑOS',
     n: 'Arriendo Estándar',
-    price: 'Desde $15.000',
+    price: `Desde ${clp(PRECIO_DESDE)}`,
     unit: '/ 3 días',
     d: 'Disfraces clásicos para fiestas de disfraces, Halloween, cumpleaños y temáticas de fin de semana.',
     i: [
       '🏹 Arriendo por 3 días (retiro, uso y entrega)',
       '📏 Tallas S, M, L, XL y XXL',
       '💬 Cotiza y reserva por WhatsApp en 1 minuto',
-      '🛡️ Garantía reintegrable de $15.000 o $20.000',
+      '🛡️ Garantía reintegrable de ' + GAR_SHORT,
     ],
     cta: 'Ver disfraces estándar',
     href: '#catalogo',
@@ -31,7 +32,7 @@ const planes = [
       '⚔️ Diseños elaborados y acabados premium',
       '✨ Categorías de películas, anime y superhéroes',
       '💬 Asesoría personalizada por WhatsApp',
-      '🛡️ Garantía reintegrable de $15.000 o $20.000',
+      '🛡️ Garantía reintegrable de ' + GAR_SHORT,
     ],
     cta: 'Ver disfraces premium',
     href: '#catalogo',
@@ -122,7 +123,7 @@ const planes = [
     <div class="rv mx-auto mt-5 max-w-[900px] rounded-3xl border-[1.5px] border-ama bg-[#fdf6d9] p-5 text-center">
       <b class="block font-ft text-[1.05rem] text-[#6b5200]">🛡️ ¿Cómo funciona la garantía?</b>
       <p class="mx-auto mt-1.5 max-w-[70ch] text-[.9rem] leading-[1.6] text-[#6b5200]">
-        Al retirar dejas una garantía de <b>$15.000 o $20.000 según el disfraz</b> (en efectivo o transferencia).
+        Al retirar dejas una garantía de <b>{GAR_SHORT} según el disfraz</b> (en efectivo o transferencia).
         <b>Si lo devuelves en las mismas condiciones, te la devolvemos completa</b> el día de la entrega.
         Solo se descuenta si el disfraz vuelve con roturas, manchas, accesorios faltantes o con retraso.
       </p>

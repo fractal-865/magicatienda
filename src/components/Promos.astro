@@ -1,5 +1,5 @@
 ---
-import { waLink } from '../data/site';
+import { waLink, GAR_SHORT } from '../data/site';
 import { Picture, Image } from 'astro:assets';
 import promoGlobosImg from '../assets/img/promo-globos.png';
 import halloweenImg from '../assets/img/halloween-grupo.svg';
@@ -10,7 +10,7 @@ const benefits = [
   { i: '📅', t: 'Arriendo por 3 días', s: 'Retiro, uso y entrega' },
   { i: '📏', t: 'Tallas S a XXL', s: 'Solo adultos' },
   { i: '💬', t: 'Cotiza por WhatsApp', s: 'Respuesta en minutos' },
-  { i: '🛡️', t: 'Garantía clara', s: '$15.000 o $20.000, se devuelve' },
+  { i: '🛡️', t: 'Garantía clara', s: `${GAR_SHORT}, se devuelve` },
 ];
 ---
 
@@ -111,6 +111,16 @@ const benefits = [
       >
         ›
       </button>
+      <!-- Pausa del cambio automático (WCAG 2.2.2). Solo se ve donde rota. -->
+      <button
+        type="button"
+        class="promo-pause"
+        id="promoPause"
+        aria-label="Pausar el cambio automático de banners"
+        aria-pressed="false"
+      >
+        ⏸
+      </button>
     </div>
 
     <!-- Beneficios -->
@@ -137,6 +147,7 @@ const benefits = [
     const track = document.getElementById('promoTrack');
     const btnPrev = document.getElementById('promoPrev');
     const btnNext = document.getElementById('promoNext');
+    const btnPause = document.getElementById('promoPause');
     if (track) {
       const movido = matchMedia('(max-width: 899px)');
       // Este script va en su propio módulo: no alcanza el `reduced()` de site.ts.
@@ -144,6 +155,16 @@ const benefits = [
       const cards = () => [...track.querySelectorAll<HTMLElement>('.promo-card')];
       let i = 0;
       let timer: number | undefined;
+      let pausado = false;
+
+      /* El botón de pausa es el control que pide WCAG 2.2.2: el carrusel no
+         puede avanzar solo para siempre sin una forma de detenerlo. */
+      const pintarPausa = () => {
+        if (!btnPause) return;
+        btnPause.setAttribute('aria-pressed', String(pausado));
+        btnPause.setAttribute('aria-label', pausado ? 'Reanudar el cambio automático de banners' : 'Pausar el cambio automático de banners');
+        btnPause.textContent = pausado ? '▶' : '⏸';
+      };
 
       /* Centra la tarjeta n en la tira. Antes esto usaba siempre la primera
          tarjeta, así que el avance se quedaba quieto en el banner 1. */
@@ -186,7 +207,7 @@ const benefits = [
       };
       const girar = () => {
         parar();
-        if (!movido.matches || sinMovimiento) return;
+        if (pausado || !movido.matches || sinMovimiento) return;
         timer = window.setInterval(() => irA(i + 1), 5000);
       };
 
@@ -199,6 +220,13 @@ const benefits = [
 
       btnPrev?.addEventListener('click', () => tocar(-1));
       btnNext?.addEventListener('click', () => tocar(1));
+      btnPause?.addEventListener('click', () => {
+        pausado = !pausado;
+        pintarPausa();
+        if (pausado) parar();
+        else girar();
+      });
+      pintarPausa();
 
       girar();
       movido.addEventListener('change', girar);

@@ -861,6 +861,41 @@ footer {
   }
 }
 
+/* ── Pausa del carrusel (móvil/tablet) ──
+   Va centrada bajo la tira, en el aire que queda antes de los beneficios, para
+   no tapar texto ni botones del banner. */
+.promo-pause {
+  display: none;
+  position: absolute;
+  left: 50%;
+  bottom: -15px;
+  translate: -50% 0;
+  z-index: 4;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  padding: 0;
+  border: 1.5px solid var(--color-line, #e6dcf7);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.94);
+  color: var(--color-m600, #5a2a9c);
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgb(90 42 156 / 0.16);
+  transition: 0.2s;
+}
+.promo-pause:hover,
+.promo-pause[aria-pressed="true"] {
+  background: var(--color-m600, #5a2a9c);
+  color: #fff;
+}
+@media (max-width: 899px) {
+  .promo-pause {
+    display: grid;
+  }
+}
+
 /* ═══ Pasos "Cómo funciona" ═══ */
 .steps-wrap {
   display: grid;
@@ -2994,6 +3029,10 @@ body.drawer-lock {
   opacity: 0;
   transform: translateY(14px);
   transition: 0.3s;
+}
+/* Con la barra de arriendo visible (móvil), el aviso sube para no tapar la CTA */
+#toasts.sobre-barra {
+  bottom: 5.75rem;
 }
 .toast.on {
   opacity: 1;

@@ -87,7 +87,7 @@ export const PRECIO_DESDE = 15000;
 
 export const GAR_SHORT = '$15.000 o $20.000';
 export const GAR =
-  'Garantía de $15.000 o $20.000 según el disfraz. Se paga el día del retiro, en efectivo o transferencia, y se devuelve al entregar el disfraz en las mismas condiciones.';
+  `Garantía de ${GAR_SHORT} según el disfraz. Se paga el día del retiro, en efectivo o transferencia, y se devuelve al entregar el disfraz en las mismas condiciones.`;
 
 /* Enlaces de WhatsApp: se usa api.whatsapp.com/send en vez del atajo wa.me.
    wa.me no abre WhatsApp: redirige al servidor, y en ese salto los caracteres

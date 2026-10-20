@@ -22,7 +22,7 @@ Arriendo de disfraces para adultos en Punta Arenas. El sitio existe para convert
 
 ## Positioning
 
-Mecanismo que un competidor no puede copiar de la noche a la mañana: **arriendo por 3 días (retiro, uso y entrega) con garantía reintegrable de $13.000 a $20.000 según el disfraz** — se paga el día del retiro y se devuelve completa si el disfraz vuelve en las mismas condiciones — sobre un **catálogo real de 51 disfraces con fotos propias** y cotización coordinada en minutos por WhatsApp, incluyendo grupos y ajustes de talla gratis en tienda.
+Mecanismo que un competidor no puede copiar de la noche a la mañana: **arriendo por 3 días (retiro, uso y entrega) con garantía reintegrable de $15.000 o $20.000 según el disfraz** — se paga el día del retiro y se devuelve completa si el disfraz vuelve en las mismas condiciones — sobre un **catálogo real de 156 disfraces con fotos propias** y cotización coordinada en minutos por WhatsApp, incluyendo grupos y ajustes de talla gratis en tienda.
 
 ## Operating Context
 
@@ -36,7 +36,7 @@ Mecanismo que un competidor no puede copiar de la noche a la mañana: **arriendo
 ## Capabilities and Constraints
 
 - Catálogo de 51 disfraces reales (fuente: `disfraces.json`): título, descripción, tallas (XS–XXL o "sin especificar"), categoría, público (mujer/hombre/unisex), foto AVIF propia en `public/img` (53 archivos, ~3,8 MB).
-- Tarifa por categoría: $13.000 (sexy, profesiones) a $20.000 (superhéroes) por 3 días. Garantía derivada: $13.000 / $16.000 / $20.000. **No cambiar estos valores: son datos factuales del negocio.**
+- Tarifa por categoría (tabla interna, `PRICE_BY_CAT` en `src/data/products.ts`): $13.000 (sexy, profesiones) a $20.000 (superhéroes) por 3 días; garantía derivada $15.000 si la tarifa es ≤$17.000 y $20.000 si es mayor. **Lo que se publica** es el valor de referencia "Desde $15.000" (`PRECIO_DESDE` en `src/data/site.ts`) y la garantía "$15.000 o $20.000" (`GAR_SHORT`): decisión del dueño (oct. 2026) de comunicar ese piso. Cualquier cambio de monto se confirma con la dueña antes de tocar datos o textos.
 - Búsqueda en vivo con sugerencias, filtros por categoría/público/talla/celebración, paginación de 24 en 24, orden aleatorio fijo por visita.
 - Carrito de cotización ("Tu arriendo") con totales (arriendo + garantía), fechas automáticas retiro/entrega y envío por WhatsApp con mensaje armado. Persiste solo en memoria (se pierde al recargar — supuesto: aceptado hoy).
 - Ficha rápida de cada disfraz con selección obligatoria de talla y zoom de imagen.

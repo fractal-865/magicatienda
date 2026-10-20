@@ -370,7 +370,7 @@ function rent3HTML() {
 }
 
 function gnoticeHTML() {
-  return `<div class="my-2.5 flex items-start gap-2 rounded-[14px] border-[1.5px] border-ama bg-[#fdf6d9] p-2.5 text-[.82rem] text-[#6b5200]">🛡️ <span><b>Garantía de $15.000 o $20.000 según el disfraz.</b> Se paga el día del retiro, en efectivo o transferencia, y se devuelve al entregar el disfraz en las mismas condiciones. <button class="glink cursor-pointer whitespace-nowrap border-0 bg-transparent p-0 text-[.82rem] font-extrabold text-m600 underline" data-opencond>Ver condiciones de garantía</button></span></div>`;
+  return `<div class="my-2.5 flex items-start gap-2 rounded-[14px] border-[1.5px] border-ama bg-[#fdf6d9] p-2.5 text-[.82rem] text-[#6b5200]">🛡️ <span><b>Garantía de ${GAR_SHORT} según el disfraz.</b> Se paga el día del retiro, en efectivo o transferencia, y se devuelve al entregar el disfraz en las mismas condiciones. <button class="glink cursor-pointer whitespace-nowrap border-0 bg-transparent p-0 text-[.82rem] font-extrabold text-m600 underline" data-opencond>Ver condiciones de garantía</button></span></div>`;
 }
 
 /* ── Encuadre de las fotos ──
@@ -1428,11 +1428,14 @@ function closeMini() {
 function renderSticky() {
   const sb = $('#stickyBar');
   if (!sb) return;
-  if (cartQty() && isMobile()) {
-    sb.classList.add('show');
+  const visible = !!cartQty() && isMobile();
+  sb.classList.toggle('show', visible);
+  // El aviso flota por encima de la barra: si no, tapa justo la CTA de seguir.
+  $('#toasts')?.classList.toggle('sobre-barra', visible);
+  if (visible) {
     const st = $('#stickyTxt');
     if (st) st.textContent = `Tu arriendo (${cartQty()})`;
-  } else sb.classList.remove('show');
+  }
 }
 $('#stickySend')?.addEventListener('click', () => openMini());
 
@@ -1892,6 +1895,8 @@ document.addEventListener('click', (e) => {
   if (!item) return;
   const open = item.classList.toggle('open');
   b.setAttribute('aria-expanded', String(open));
+  // La respuesta cerrada no debe quedar en el árbol de accesibilidad.
+  item.querySelector('.ab')?.toggleAttribute('inert', !open);
 });
 
 /* ═══ FLOTANTES DE CONTACTO ═══ */

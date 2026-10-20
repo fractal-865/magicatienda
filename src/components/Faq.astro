@@ -7,12 +7,13 @@ import { FAQS } from '../data/site';
     <h2 class="sec-sm rv">❓ Preguntas frecuentes</h2>
     <div class="acc rv mx-auto mt-[26px] max-w-[760px]" id="faqList">
       {
-        FAQS.map(([q, a]) => (
+        FAQS.map(([q, a], k) => (
           <div class="acc-item mb-2.5 overflow-hidden rounded-[14px] border-[1.5px] border-line bg-white text-ink">
-            <button class="flex w-full items-center justify-between gap-2.5 bg-transparent px-[18px] py-4 text-left font-ft text-[1rem] font-semibold" aria-expanded="false">
+            <button class="flex w-full items-center justify-between gap-2.5 bg-transparent px-[18px] py-4 text-left font-ft text-[1rem] font-semibold" aria-expanded="false" aria-controls={`faq-a-${k}`}>
               {q} <span class="ic text-[1.2rem] text-m500 transition">＋</span>
             </button>
-            <div class="ab">
+            {/* inert: cerrada no existe para lectores de pantalla (sí se anima al abrir) */}
+            <div class="ab" id={`faq-a-${k}`} inert>
               <div class="ab-in px-[18px] pb-4 text-[.92rem] text-ink2">{a}</div>
             </div>
           </div>

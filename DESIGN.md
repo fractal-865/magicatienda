@@ -153,6 +153,10 @@ Paleta de fiesta nocturna: fondos lavanda claros, escenarios morados profundos y
 **The Green Means WhatsApp Rule.** Verde = "esto abre WhatsApp". No usar verde para éxito, links ni estados.
 **The Purple Shadow Rule.** Toda sombra se tiñe de morado (`rgba(90,42,156,·)` o `rgba(60,20,120,·)`). Sombra gris pura está prohibida.
 
+### Deuda conocida (auditoría oct. 2026)
+- **Verde fuera de WhatsApp:** hoy el verde también marca éxito o atención en `.gchip`, `.req-pill.green`, `.datebox.destacar`, `.sum-check`/`.sum-note`, `.loadprog.completo`, los bullets de Tarifas, el badge del mega menú, la cuenta regresiva de Fechas, `.dot-green` de la ficha y `.copybtn.done`. La regla sigue vigente: hay que llevarlos a ámbar o lila (`/impeccable colorize`).
+- **Dos paletas fuera del sistema:** el panel "Tu arriendo" usa su propia escala (`#1f1235`, `#5b21b6`, `#6d28d9`, `#f6f4fa`, `#e6dcfb`…) y la barra de filtros "pegada" usa una paleta pergamino (`#faf6ee`, `#e6dcc8`, `#38312a`, `#a89c88`) que no existe en este documento. Ambas deben plegarse a los tokens (`/impeccable extract`). Mientras tanto, el texto secundario del panel ya usa `--color-ink2` por contraste.
+
 ## Typography
 
 **Display Font:** Fredoka (500/600/700) con fallback `system-ui, sans-serif`.
@@ -231,7 +235,7 @@ Lenguaje de esquinas redondeadas amable y consistente: 10px (inputs pequeños, c
 - **Disabled/readonly:** fondo `#f4f1fb`, texto tinta-media (fecha de entrega automática).
 
 ### Navigation
-- **Header sticky** blanco/80 con blur; logo emoji 🎭 en cuadrado degradado morado→rosa; nav Fredoka 0.92rem con estado `.on` (lavanda + punto rosa vía scrollspy); mega menú desplegable por hover/teclado con 4 columnas y tarjeta "Cómo llegar".
+- **Header sticky** **oscuro** en todos los tamaños: degradado `120deg #1a0f2e → #2b1a44` con texto blanco y logo blanco. Al pasar 40px de scroll cambia a blanco casi opaco (`#ffffffee`) con blur y sombra morada, y el texto pasa a tinta. Logo emoji 🎭 en cuadrado degradado morado→rosa; nav Fredoka 0.92rem con estado `.on` (lavanda + punto rosa vía scrollspy); mega menú desplegable por hover/teclado con 4 columnas y tarjeta "Cómo llegar".
 - **Móvil:** burger que abre drawer full-screen blanco con acordeones `details`; bottom nav de 5 ítems (emoji + label 0.62rem); barra sticky del arriendo sobre el bottom nav.
 
 ### Signature Components
@@ -247,7 +251,7 @@ Lenguaje de esquinas redondeadas amable y consistente: 10px (inputs pequeños, c
 - **Do** mantener los CTA de conversión en ámbar (primario) o verde WhatsApp (contacto directo), con copy en verbos: "Cotizar por WhatsApp", "Arrendar disfraz", "Ver disfraces".
 - **Do** usar emojis como iconografía (patrón establecido en todo el sitio) y respetar `aria-hidden` cuando son decorativos.
 - **Do** redondear todo lo que se toca: botones pill, tarjetas ≥18px, inputs 12px.
-- **Do** escribir precios en formato chileno (`$13.000`) vía `clp()` y garantía siempre como rango "$13.000–$20.000".
+- **Do** escribir precios en formato chileno (`$15.000`) vía `clp()`; el valor de referencia es siempre "Desde $15.000" (`PRECIO_DESDE`) y la garantía se escribe "$15.000 o $20.000" (`GAR_SHORT`). Ningún monto se escribe a mano en un componente.
 - **Do** usar sombras moradas y estado hover con lift para comunicar interactividad.
 
 ### Don't:
