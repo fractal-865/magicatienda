@@ -38,7 +38,6 @@ const irADisfraz = (id: string | number) => {
   const p = PRODUCTS.find((x) => x.id === Number(id));
   if (p) location.href = `/disfraz/${disfrazSlug(p)}/`;
 };
-const pubLabel = (id: string) => PUBLICOS.find((p) => p.id === id)?.n ?? id;
 const hay = (c: Product) =>
   norm(
     [String(c.id), c.n, c.cats.map((x) => catById(x).n).join(' '), c.pub, c.tl.join(' '), c.oc.join(' ')].join(' '),
@@ -118,22 +117,46 @@ const state = {
   lastAdd: null as null | { id: string; tipo: 'd' | 'a'; talla: string },
 };
 
-/* ── toast ── */
-function toast(m: string, ms = 2800) {
+/* ── toast ──
+   opts.key reemplaza el aviso anterior del mismo tipo en vez de apilarlos
+   (el usuario puede cambiar varios filtros seguidos); opts.cls permite un
+   diseño más discreto, como el aviso de resultados del catálogo. */
+const toastClaves = new Map<string, HTMLElement>();
+function toast(m: string, ms = 2800, opts: { key?: string; cls?: string } = {}) {
   const box = $('#toasts');
   if (!box) return;
+  if (opts.key) {
+    toastClaves.get(opts.key)?.remove();
+    toastClaves.delete(opts.key);
+  }
   const t = document.createElement('div');
-  t.className = 'toast rounded-[14px] border-2 border-m400 bg-white px-[18px] py-3 text-center text-[1rem] font-extrabold text-ink shadow-sh2 max-w-[92vw]';
+  t.className =
+    opts.cls ??
+    'toast rounded-[14px] border-2 border-m400 bg-white px-[18px] py-3 text-center text-[1rem] font-extrabold text-ink shadow-sh2 max-w-[92vw]';
   t.innerHTML = m;
   box.append(t);
+  if (opts.key) toastClaves.set(opts.key, t);
   // rAF pinta el estado inicial antes de la transición; el setTimeout garantiza
   // que se muestre aunque rAF esté pausado (pestaña en segundo plano).
   requestAnimationFrame(() => t.classList.add('on'));
   setTimeout(() => t.classList.add('on'), 60);
   setTimeout(() => {
     t.classList.remove('on');
-    setTimeout(() => t.remove(), 350);
+    setTimeout(() => {
+      t.remove();
+      if (opts.key && toastClaves.get(opts.key) === t) toastClaves.delete(opts.key);
+    }, 350);
   }, ms);
+}
+
+/* Aviso flotante al cambiar un filtro: dice cuántos disfraces quedaron.
+   Es corto, no bloquea clics y se reemplaza si se filtra otra vez. */
+function avisarResultados(n: number) {
+  const msg =
+    n === 0
+      ? '🔎 No encontramos disfraces con esos filtros'
+      : `✨ Encontramos <b>${n}</b> ${n === 1 ? 'disfraz' : 'disfraces'}`;
+  toast(msg, 1900, { key: 'resultados', cls: 'toast toast-filtro' });
 }
 
 /* ── confeti ── */
@@ -465,7 +488,7 @@ function marcarTarjetas() {
 
 const VACIO_HTML = `<div class="col-span-full rounded-[20px] border-[1.5px] border-line bg-white p-10 text-center"><div class="text-[3rem]">🔮</div><b class="font-ft">Mmm… no encontramos eso</b><p class="mt-1.5 text-ink2">Prueba con <b>payaso</b>, <b>terror</b> o <b>Halloween</b> ✨</p></div>`;
 
-function renderGrid(reset = true) {
+function renderGrid(reset = true, avisar = false) {
   if (reset) state.page = 1;
   const g = $('#grid');
   if (!g) return;
@@ -478,6 +501,7 @@ function renderGrid(reset = true) {
   encuadrarFotos();
   pintarInfo(L, mostrados);
   pintarBarra();
+  if (avisar) avisarResultados(L.length);
 }
 
 /* ── Cargar más ──
@@ -602,30 +626,26 @@ function hidratarDesdeURL() {
 function renderChips() {
   const box = $('#activeChips');
   if (!box) return;
-  const chips: [string, string, string][] = [];
-  state.tem.forEach((v) => chips.push(['tem', v, `${catById(v).i} ${catById(v).n}`]));
-  state.oca.forEach((v) => chips.push(['oca', v, OCASIONES.find((o) => o.id === v)?.n ?? v]));
-  state.pub.forEach((v) => chips.push(['pub', v, pubLabel(v)]));
-  state.tal.forEach((v) => chips.push(['tal', v, 'Talla ' + v]));
-  if (state.exFecha) chips.push(['exFecha', '1', '📅 ' + state.exFecha]);
-  if (state.q) chips.push(['q', '1', '“' + state.q + '”']);
+  // Público y talla ya tienen sus propios chips encendidos en la barra; acá
+  // solo se nombra la categoría, que es la única que no se ve en otro lado.
+  const chips: [string, string][] = [];
+  state.tem.forEach((v) => chips.push([v, `${catById(v).i} ${catById(v).n}`]));
   box.classList.toggle('has', chips.length > 0);
   box.innerHTML = chips
     .map(
-      (c) =>
-        `<button class="chip" data-k="${c[0]}" data-v="${esc(c[1])}">${esc(c[2])} <b aria-label="Quitar filtro">✕</b></button>`,
+      ([v, label]) =>
+        `<button type="button" class="chip" data-k="tem" data-v="${esc(v)}">${esc(label)} <b aria-label="Quitar filtro">✕</b></button>`,
     )
     .join('');
 }
 
 $('#activeChips')?.addEventListener('click', (e) => {
   const b = (e.target as HTMLElement).closest('.chip') as HTMLButtonElement | null;
-  if (!b) return;
-  const { k, v } = b.dataset;
-  if (k === 'q') state.q = '';
-  else if (k === 'exFecha') state.exFecha = ''; else if (k && v && ['tem', 'oca', 'pub', 'tal'].includes(k)) state[k as 'tem'].delete(v);
+  if (!b?.dataset.v || b.dataset.k !== 'tem') return;
+  state.tem.delete(b.dataset.v);
   syncFilterUI();
-  renderGrid();
+  renderGrid(true, true);
+  scrollToResults();
 });
 
 /* Tarjetas de categorías del catálogo: filtran por esa temática.
@@ -695,7 +715,7 @@ $<HTMLElement>('#catalogo')?.addEventListener('change', (e) => {
     }
   }
   syncFilterUI();
-  renderGrid();
+  renderGrid(true, true);
   scrollToResults();
 });
 $<HTMLElement>('#catalogo')?.addEventListener('click', (e) => {
@@ -717,7 +737,7 @@ $<HTMLElement>('#catalogo')?.addEventListener('click', (e) => {
   s.clear();
   if (!wasOn) s.add(v);
   syncFilterUI();
-  renderGrid();
+  renderGrid(true, true);
   scrollToResults();
 });
 
@@ -752,7 +772,7 @@ function clearAllFilters() {
   const inp = $<HTMLInputElement>('#catSearch');
   if (inp) inp.value = '';
   syncFilterUI();
-  renderGrid();
+  renderGrid(true, true);
 }
 $('#clearFilters')?.addEventListener('click', clearAllFilters);
 $('#catClear')?.addEventListener('click', clearAllFilters);
@@ -964,7 +984,7 @@ function applyFilter(o: { q?: string; tem?: string; pub?: string; oca?: string }
   if (o.oca) state.oca.add(o.oca);
   if (o.pub) state.pub.add(o.pub);
   syncFilterUI();
-  renderGrid();
+  renderGrid(true, true);
   if (enCatalogo) scrollToResults();
   else scrollToCat();
   closeAll();

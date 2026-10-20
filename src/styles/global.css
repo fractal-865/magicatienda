@@ -354,13 +354,29 @@ footer {
   background: #e0245e;
   color: #fff;
 }
+/* Categoría activa: pill blanca con borde rosa y una X en un círculo rosa.
+   Se mantiene legible sobre la barra blanca y sobre el fondo crema pegajoso. */
 #activeChips .chip {
-  background: var(--color-rosa);
+  gap: 7px;
   border-color: var(--color-rosa);
-  color: #fff;
+  background: #fff3f9;
+  color: var(--color-m700);
+  font-weight: 800;
 }
 #activeChips .chip:hover {
-  background: #ff4b93;
+  border-color: var(--color-rosa);
+  background: #ffe4f1;
+}
+#activeChips .chip b {
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-rosa);
+  color: var(--color-m800);
+  font-size: 0.72rem;
+  line-height: 1;
 }
 
 /* ═══ Prendas del arriendo (mini-carrito / solicitud) ═══ */
@@ -3160,6 +3176,24 @@ body.drawer-lock {
   opacity: 0;
   transform: translateY(14px);
   transition: 0.3s;
+}
+/* Aviso de resultados: pill discreta que no tapa la barra ni bloquea clics */
+.toast-filtro {
+  max-width: 92vw;
+  padding: 8px 16px;
+  border: 1.5px solid var(--color-m400);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.97);
+  color: var(--color-m700);
+  font-size: var(--text-small);
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+  box-shadow: 0 10px 28px -14px rgb(43 13 94 / 0.45);
+}
+.toast-filtro b {
+  color: var(--color-m600);
+  font-weight: 800;
 }
 /* Con la barra de arriendo visible (móvil), el aviso sube para no tapar la CTA */
 #toasts.sobre-barra {

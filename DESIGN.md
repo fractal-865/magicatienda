@@ -310,7 +310,10 @@ Lenguaje de esquinas redondeadas amable y consistente: 10px (inputs pequeños, c
 
 ### Chips
 - **Filtro:** pill, blanco, borde 1.5px `#e8dff8`, Nunito 700 0.875rem; hover lavanda+lila; activo ámbar sobre texto violeta. Barra rápida (`qf-chips`) los usa a 0.75rem/800.
-- **Activo del carrito de filtros (`#activeChips`):** fondo rosa chicle, texto blanco, ✕ con `aria-label`.
+- **Activo del carrito de filtros (`#activeChips`):** fondo rosa suave `#fff3f9`, borde rosa chicle, texto violeta y ✕ en un círculo rosa. Nombra la categoría activa y la quita con un clic.
+
+### Feedback
+- **Aviso de resultados:** pill flotante blanco con borde lila (`toast-filtro`) que dice “Encontramos N disfraces” al cambiar un filtro. Se reemplaza si se vuelve a filtrar, se va solo a los ~2 s, no bloquea clics y se anuncia por `role="status"`.
 
 ### Cards / Containers
 - **Tarjeta de producto (`pcard`):** 20px radius, borde lila, foto aspect 2:3 sobre degradado de categoría, categoría en label uppercase, título Fredoka con `min-height` antisalto, chips de talla con tooltip de estatura, precio Fredoka 1.375rem en morado con cifras tabulares y botón de arriendo degradado morado. Hover: lift 5px + sombra sh2.

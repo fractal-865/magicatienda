@@ -116,6 +116,10 @@ const urlCatalogo = ir('/catalogo/');
           <!-- Fila 2: filtros activos + público + talla. El celular nunca pasa de 2 filas:
                los filtros activos entran aquí, al principio de la fila. -->
           <div class="cf-line cf-line-2">
+            <!-- Categoría activa: un pill con su nombre y una X para quitarla.
+                 En escritorio ocupa su propia fila; en móvil va al inicio de la 2ª. -->
+            <div id="activeChips" class="active-chips" role="group" aria-label="Filtros activos"></div>
+
             <div class="qf-group">
               <div class="qf-chips">
                 {PUBLICOS.map((p) => <button class="chip fchip" data-g="pub" data-v={p.id}>{p.i} {p.n}</button>)}
