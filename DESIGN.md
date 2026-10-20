@@ -243,7 +243,7 @@ Dos superficies no usan el morado de marca y tienen su propia escala en `@theme`
 ### Hierarchy
 La escala se organiza por rol, no por componente. Los tokens viven en `@theme` (`--text-display`, `--text-display-compact`, `--text-section`, `--text-section-sm`, `--text-headline`, `--text-plan-title`, `--text-subhead`, `--text-banner-display`, `--text-title`, `--text-lead`, `--text-body`, `--text-small`, `--text-micro`, `--text-price`, `--text-price-lg`, `--text-price-plan`, `--text-script-lg`, `--text-script-sm`); cualquier tamaño nuevo se agrega ahí.
 
-- **Display** (Fredoka 700, `clamp(1.75rem,3.2vw,2.5rem)`, lh 1.15): h1 de página y hero del catálogo. Siempre el titular más grande de su pantalla.
+- **Display** (Fredoka 700, `clamp(1.75rem,3.2vw,2.5rem)`, lh 1.15): h1 de página. Siempre el titular más grande de su pantalla.
 - **Display compact** (Fredoka 700, `clamp(1.6rem,2.8vw,2.15rem)`): h1 del home y titulares de banners, para que el hero no compita con el resto de la página.
 - **Section** (Fredoka 700, `clamp(1.5rem,3vw,2rem)`): `h2.sec`, con subrayado arcoíris de 92×6px; `h2.sec-sm` usa `clamp(1.25rem,2.4vw,1.6rem)`. En móvil queda un paso bajo el h1 del hero.
 - **Headline** (Fredoka 700, `clamp(2rem,2.6vw,2.4rem)`): h1 de la ficha; `--text-price-lg` (`clamp(1.75rem,4vw,2rem)`) para el precio de la ficha y el total de la solicitud; `--text-price-plan` (`clamp(2.2rem,4vw,2.8rem)`) para el precio de los planes. Solo para nombres de producto y cifras.

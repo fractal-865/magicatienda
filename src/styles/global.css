@@ -3523,51 +3523,8 @@ body.drawer-lock {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   PÁGINA DEL CATÁLOGO · cabecera a todo el ancho y carrusel de categorías
+   PÁGINA DEL CATÁLOGO · resultados servidos por el build y carrusel de categorías
    ═══════════════════════════════════════════════════════════════════════ */
-
-/* Cabecera: se sale del contenedor de 1220px para ocupar todo el ancho de la
-   pantalla, sin borde, sin esquinas y sin sombra (no es una tarjeta). */
-.cat-hero {
-  margin: 0 -1rem;
-  padding: 20px 1rem 30px;
-  text-align: center;
-  background: linear-gradient(180deg, #f6f0ff 0%, rgba(246, 240, 255, 0) 100%);
-  animation: catIn 0.5s backwards;
-}
-.cat-hero-script {
-  font-size: var(--text-script-lg);
-}
-.cat-hero-t {
-  max-width: 980px;
-  margin: 10px auto 0;
-  font-family: var(--font-ft);
-  font-size: var(--text-display);
-  font-weight: 700;
-  line-height: 1.12;
-  color: var(--color-ink);
-  text-wrap: balance;
-}
-.cat-hero-t::after {
-  content: "";
-  display: block;
-  width: 104px;
-  height: 6px;
-  margin: 14px auto 0;
-  border-radius: 99px;
-  background: linear-gradient(90deg, var(--color-ama), var(--color-rosa), var(--color-m400));
-}
-.cat-hero-sub {
-  max-width: 62ch;
-  margin: 16px auto 0;
-  font-size: var(--text-body);
-  line-height: 1.55;
-  color: var(--color-ink2);
-  text-wrap: pretty;
-}
-.cat-hero-sub b {
-  color: var(--color-m600);
-}
 
 /* ── Catálogo servido por el build ──
    El HTML trae las 156 tarjetas; antes de que el JS tome el control solo se
@@ -3576,37 +3533,20 @@ body.drawer-lock {
 html.js #grid[data-ssr] > .pcard:nth-child(n + 13) {
   display: none;
 }
-.cat-hero-datos {
+/* Contador "Mostrando N de M disfraces", pegado a la grilla */
+.cat-results {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  margin: 18px 0 0;
-  padding: 0;
-  list-style: none;
-  font-size: var(--text-small);
-  font-weight: 700;
-  color: var(--color-m600);
-}
-.cat-hero-datos li {
-  padding: 6px 13px;
-  border: 1.5px solid var(--color-line);
-  border-radius: 999px;
-  background: #fff;
-  box-shadow: 0 8px 16px -12px rgba(43, 13, 94, 0.55);
-}
-/* Contador "Mostrando N de 131 disfraces", centrado */
-.cat-cuenta-wrap {
-  display: flex;
-  justify-content: center;
-  margin: 14px 0 0;
+  justify-content: flex-start;
+  margin: 0 0 14px;
 }
 .cat-cuenta {
+  max-width: 100%;
   padding: 5px 14px;
   border-radius: 999px;
   background: #f3edff;
   font-size: var(--text-small);
   font-weight: 800;
+  line-height: 1.35;
   color: var(--color-m600);
 }
 .cat-cuenta:empty {
@@ -3615,7 +3555,7 @@ html.js #grid[data-ssr] > .pcard:nth-child(n + 13) {
 
 /* ── Carrusel de las categorías principales ── */
 .cat-cards {
-  margin: 20px 0 24px;
+  margin: 0 0 24px;
 }
 .cat-cards-head {
   display: flex;
@@ -3789,16 +3729,6 @@ html.js #grid[data-ssr] > .pcard:nth-child(n + 13) {
   }
 }
 @media (max-width: 640px) {
-  .cat-hero {
-    padding: 18px 1rem 24px;
-  }
-  .cat-hero-script {
-    font-size: var(--text-script-sm);
-  }
-  .cat-hero-datos {
-    gap: 6px;
-    font-size: var(--text-small);
-  }
   .cat-cards-head {
     justify-content: center;
   }
@@ -3822,7 +3752,6 @@ html.js #grid[data-ssr] > .pcard:nth-child(n + 13) {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .cat-hero,
   .ct-card {
     animation: none;
   }

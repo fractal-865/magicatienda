@@ -20,22 +20,9 @@ const urlCatalogo = ir('/catalogo/');
   data-modo={esCat ? 'catalogo' : undefined}
   class="relative px-4 pb-[46px] pt-[30px]"
 >
-  {
-    esCat && (
-      /* Cabecera: ocupa todo el ancho de la página (se sale del contenedor de
-         1220px) y no es una tarjeta: sin borde, esquinas ni sombra. */
-      <div class="cat-hero">
-        <div class="mx-auto max-w-[1220px]">
-          <span class="script cat-hero-script">¡Elige y brilla!</span>
-          <h1 class="cat-hero-t">🎭 {SEO_CAT.h1}</h1>
-          <p class="cat-hero-sub">
-            <b>{total} disfraces</b> para arrendar en Punta Arenas&nbsp;· tallas S a XXL&nbsp;· por 3 días (retiro, uso y entrega).
-          </p>
-
-        </div>
-      </div>
-    )
-  }
+  <!-- El H1 sigue en el HTML para SEO y lectores de pantalla, pero la página
+       ahora abre directo con las categorías y el catálogo. -->
+  {esCat && <h1 class="sr-only">🎭 {SEO_CAT.h1}</h1>}
 
   <div class="mx-auto max-w-[1220px]">
     {
@@ -51,11 +38,7 @@ const urlCatalogo = ir('/catalogo/');
     }
 
     {
-      esCat ? (
-        <div class="cat-cuenta-wrap">
-          <span id="countLabel" class="cat-cuenta" aria-live="polite">{esCat ? `${total} disfraces para arrendar` : ''}</span>
-        </div>
-      ) : (
+      !esCat && (
         <div class="rv mb-4 flex flex-wrap items-center gap-2.5">
           <span id="countLabel" class="ml-auto text-[.875rem] font-bold text-ink2" aria-live="polite"></span>
         </div>
@@ -67,7 +50,7 @@ const urlCatalogo = ir('/catalogo/');
         /* Carrusel de las categorías principales: al tocar una se filtra el catálogo */
         <div id="catCards" class="cat-cards">
           <div class="cat-cards-head">
-            <p class="cat-cards-t">Explora por tipo de disfraz 🎭</p>
+            <h2 class="cat-cards-t">Explora por tipo de disfraz 🎭</h2>
             <div class="ct-nav">
               <button class="ct-arrow" data-ct="-1" type="button" aria-label="Categorías anteriores">
                 ‹
@@ -176,8 +159,13 @@ const urlCatalogo = ir('/catalogo/');
   </div>
 
   <div class="mx-auto max-w-[1220px]">
-    <!-- Encabezado de la grilla: da nombre a los resultados y mantiene el orden
-         de encabezados de la página (h1 del hero → h2 → h3 del pie). -->
+    <!-- Encabezado de la grilla: el contador vive pegado a los resultados y
+         el h2 mantiene el orden de encabezados (h1 → h2 → h3 del pie). -->
+    {esCat && (
+      <div class="cat-results">
+        <span id="countLabel" class="cat-cuenta" aria-live="polite">{total} disfraces para arrendar</span>
+      </div>
+    )}
     {esCat && <h2 class="sr-only">Disfraces disponibles para arrendar</h2>}
 
     <!-- En /catalogo/ las 156 tarjetas salen en el HTML (los buscadores ven los

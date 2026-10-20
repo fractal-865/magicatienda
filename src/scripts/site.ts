@@ -925,7 +925,10 @@ function scrollToResults() {
   // La barra queda pegada justo bajo el header: hay que saltar header + barra
   const bar = $('#fbar')?.offsetHeight ?? $('#catFilters')?.offsetHeight ?? 0;
   const off = hdr + bar + 6;
-  const y = Math.max(0, window.scrollY + grid.getBoundingClientRect().top - off);
+  // El contador de resultados vive justo encima de la grilla: al filtrar se
+  // muestra junto con las primeras tarjetas, no escondido bajo la barra fija.
+  const target = document.querySelector('.cat-results') ?? grid;
+  const y = Math.max(0, window.scrollY + target.getBoundingClientRect().top - off);
   // Si la distancia es grande, salto instantáneo (el scroll suave de lejos es lento y se "pierde")
   const lejos = Math.abs(y - window.scrollY) > 1200;
   window.scrollTo({ top: y, behavior: reduced() || lejos ? 'auto' : 'smooth' });
