@@ -24,7 +24,6 @@ const debounce = <T extends unknown[]>(f: (...a: T) => void, t: number) => {
   };
 };
 const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
-const isMobile = () => matchMedia('(max-width:899px)').matches;
 
 /* ── En qué página estamos ──
    La portada y /catalogo/ comparten todo el script. El layout marca el body
@@ -1332,7 +1331,6 @@ function afterCart(srcEl?: Element | null, abrir = false) {
     srcEl.classList.add('clicked');
   }
   renderMini();
-  renderSticky();
   // El único panel lateral se abre siempre al agregar un disfraz.
   if (abrir) openMini();
 }
@@ -1583,22 +1581,6 @@ function closeMini() {
     if (e.key === 'Escape') closeMini();
   });
 })();
-
-function renderSticky() {
-  const sb = $('#stickyBar');
-  if (!sb) return;
-  const visible = !!cartQty() && isMobile();
-  sb.classList.toggle('show', visible);
-  // La ficha móvil sube su CTA fija para no quedar debajo de esta barra.
-  document.body.classList.toggle('con-sticky', visible);
-  // El aviso flota por encima de la barra: si no, tapa justo la CTA de seguir.
-  $('#toasts')?.classList.toggle('sobre-barra', visible);
-  if (visible) {
-    const st = $('#stickyTxt');
-    if (st) st.textContent = `Tu arriendo (${cartQty()})`;
-  }
-}
-$('#stickySend')?.addEventListener('click', () => openMini($('#stickySend') ?? undefined));
 
 /* Mensaje de WhatsApp: se arma solo, con lo que el cliente elige en la solicitud.
    Va sin emojis a propósito: los caracteres de 4 bytes UTF-8 (los emojis) se

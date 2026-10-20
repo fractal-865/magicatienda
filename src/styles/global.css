@@ -2794,13 +2794,6 @@ body.drawer-lock {
   display: block;
   animation: mup 0.3s;
 }
-#stickyBar {
-  display: none;
-}
-#stickyBar.show {
-  display: flex;
-  animation: mup 0.3s;
-}
 /* ── Indicador de avance del catálogo ──
    Con carga automática y 156 disfraces, sin esto la lista parece infinita.
    Es deliberadamente discreto: una barrita delgada y una línea de texto. */
@@ -3187,8 +3180,7 @@ body.drawer-lock {
 .mpanel .mclose {
   box-shadow: 0 3px 10px rgb(90 42 156 / 0.22);
 }
-#wspChat.open,
-#stickyBar.show {
+#wspChat.open {
   animation: mup 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .mega.open {
@@ -3216,10 +3208,6 @@ body.drawer-lock {
 .toast-filtro b {
   color: var(--color-m600);
   font-weight: 800;
-}
-/* Con la barra de arriendo visible (móvil), el aviso sube para no tapar la CTA */
-#toasts.sobre-barra {
-  bottom: 5.75rem;
 }
 .toast.on {
   opacity: 1;
