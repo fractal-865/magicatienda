@@ -3572,6 +3572,14 @@ body.drawer-lock {
 .cat-hero-sub b {
   color: var(--color-m600);
 }
+
+/* ── Catálogo servido por el build ──
+   El HTML trae las 156 tarjetas; antes de que el JS tome el control solo se
+   muestran las 12 primeras (la tanda móvil) para que no aparezca de golpe una
+   pared de tarjetas. Sin JS —o sea, para un buscador— se ven todas. */
+html.js #grid[data-ssr] > .pcard:nth-child(n + 13) {
+  display: none;
+}
 .cat-hero-datos {
   display: flex;
   flex-wrap: wrap;

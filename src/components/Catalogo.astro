@@ -1,6 +1,7 @@
 ---
 import { CATS_ACTIVE, PUBLICOS, TALLAS, PRODUCTS, TALLA_GUIA } from '../data/products';
 import { ir, SEO_CAT } from '../data/site';
+import { cardHTML } from '../lib/card';
 
 /* Dos modos del mismo componente:
    · portada  → escaparate de la portada: 26 disfraces + enlace al catálogo completo.
@@ -52,7 +53,7 @@ const urlCatalogo = ir('/catalogo/');
     {
       esCat ? (
         <div class="cat-cuenta-wrap">
-          <span id="countLabel" class="cat-cuenta" aria-live="polite" />
+          <span id="countLabel" class="cat-cuenta" aria-live="polite">{esCat ? `${total} disfraces para arrendar` : ''}</span>
         </div>
       ) : (
         <div class="rv mb-4 flex flex-wrap items-center gap-2.5">
@@ -175,7 +176,16 @@ const urlCatalogo = ir('/catalogo/');
   </div>
 
   <div class="mx-auto max-w-[1220px]">
-    <div id="grid" class="grid grid-cols-[repeat(auto-fill,minmax(215px,1fr))] gap-4"></div>
+    <!-- Encabezado de la grilla: da nombre a los resultados y mantiene el orden
+         de encabezados de la página (h1 del hero → h2 → h3 del pie). -->
+    {esCat && <h2 class="sr-only">Disfraces disponibles para arrendar</h2>}
+
+    <!-- En /catalogo/ las 156 tarjetas salen en el HTML (los buscadores ven los
+         enlaces desde el primer byte). El navegador toma el control en cuanto
+         arranca: filtra, reordena y deja solo la primera tanda. -->
+    <div id="grid" class="grid grid-cols-[repeat(auto-fill,minmax(215px,1fr))] gap-4" data-ssr={esCat ? '' : undefined}>
+      {esCat && PRODUCTS.map((c, k) => <Fragment set:html={cardHTML(c, k)} />)}
+    </div>
 
     {
       esCat ? (

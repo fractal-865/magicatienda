@@ -2,8 +2,10 @@
    La Mágica Tienda — interactividad del sitio
    Filtros + buscador + "Tu arriendo" (cotización) + modales
    ═══════════════════════════════════════════════════════════════ */
-import { PRODUCTS, CATS, PUBLICOS, OCASIONES, TALLAS, TALLA_GUIA, catById, clp, disfrazSlug, thumbSrcset, type Product } from '../data/products';
+import { PRODUCTS, CATS, PUBLICOS, OCASIONES, TALLAS, catById, clp, disfrazSlug, thumbSrcset, type Product } from '../data/products';
 import { GAR_SHORT, PRECIO_DESDE, waLink, ACC, esTemporadaHalloween } from '../data/site';
+import { cardHTML, ONERROR_MINI } from '../lib/card';
+import { esc, hl, norm } from '../lib/text';
 
 type Acc = { id: string; n: string; e: string };
 type Item = Product | Acc;
@@ -14,9 +16,6 @@ const isProduct = (i: Item): i is Product => 'tl' in i;
 /* ── utilidades ── */
 const $ = <T extends HTMLElement = HTMLElement>(s: string) => document.querySelector(s) as T | null;
 const $$ = <T extends HTMLElement = HTMLElement>(s: string, root: ParentNode = document) => [...root.querySelectorAll(s)] as T[];
-const norm = (s: string) =>
-  String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-const esc = (s: string) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const debounce = <T extends unknown[]>(f: (...a: T) => void, t: number) => {
   let h: ReturnType<typeof setTimeout>;
   return (...a: T) => {
@@ -337,6 +336,14 @@ function fallbackCopy(txt: string, cb: () => void) {
 }
 
 /* ═══ CATÁLOGO ═══ */
+/* "Halloween y terror" es una categoría de escaparate, no del JSON: los
+   disfraces vienen marcados como "halloween" o "terror" por separado. Se
+   expande acá para que el botón de la portada y los enlaces ?tem=… no queden
+   vacíos. */
+const TEM_ALIAS: Record<string, string[]> = { 'halloween-y-terror': ['halloween', 'terror'] };
+const temMatch = (c: Product, t: string) =>
+  c.cats.includes(t) || (TEM_ALIAS[t] ?? []).some((x) => c.cats.includes(x));
+
 function filtered(): Product[] {
   let L = PRODUCTS.filter((c) => {
     if (state.q) {
@@ -344,7 +351,7 @@ function filtered(): Product[] {
       const h = hay(c);
       if (!toks.every((tk) => h.includes(tk))) return false;
     }
-    if (state.tem.size && ![...state.tem].some((t) => c.cats.includes(t))) return false;
+    if (state.tem.size && ![...state.tem].some((t) => temMatch(c, t))) return false;
     if (state.oca.size && ![...state.oca].some((o) => c.oc.includes(o))) return false;
     if (state.pub.size && !state.pub.has(c.pub)) return false;
     if (state.tal.size && ![...state.tal].some((t) => c.tl.includes(t))) return false;
@@ -353,13 +360,6 @@ function filtered(): Product[] {
   // Orden aleatorio (fijo por visita) para que siempre se vea algo distinto
   L.sort((a, b) => (RANDOM_ORDER.get(a.id) ?? 0) - (RANDOM_ORDER.get(b.id) ?? 0));
   return L;
-}
-
-function hl(name: string, q: string) {
-  if (!q) return esc(name);
-  const i = norm(name).indexOf(norm(q));
-  if (i < 0) return esc(name);
-  return esc(name.slice(0, i)) + '<mark>' + esc(name.slice(i, i + q.length)) + '</mark>' + esc(name.slice(i + q.length));
 }
 
 function rent3HTML() {
@@ -402,39 +402,6 @@ document.addEventListener(
   },
   true,
 );
-
-/* Si una miniatura faltara (por ejemplo, una foto nueva sin regenerar), este
-   respaldo la cambia por la imagen original en vez de mostrar la imagen rota. */
-const ONERROR_MINI = "this.onerror=null;this.removeAttribute('srcset');this.src=this.dataset.full";
-
-function cardHTML(c: Product, k: number) {
-  const T = catById(c.t);
-  const guia = (t: string) => TALLA_GUIA[t] ? TALLA_GUIA[t] : 'Sin referencia de estatura';
-  const disfrazUrl = `/disfraz/${disfrazSlug(c)}/`;
-  return `<article class="pcard relative flex cursor-pointer flex-col rounded-[20px] border-[1.5px] border-line bg-white shadow-[0_8px_20px_rgba(90,42,156,.08)] transition duration-300 hover:-translate-y-[5px] hover:shadow-sh2" data-id="${c.id}" style="--d:${Math.min(k * 0.05, 0.4)}s" tabindex="0" aria-label="${esc(c.n)}, disfraz para adultos en arriendo">
-  <div class="pimg relative aspect-[2/3] shrink-0 overflow-hidden" style="background:linear-gradient(135deg,${T.g[0]},${T.g[1]})">
-    <a href="${disfrazUrl}" class="absolute inset-0 z-[1]" aria-label="Ver ${esc(c.n)}">
-      <img src="${c.img}" srcset="${thumbSrcset(c.img)}" sizes="(max-width: 600px) calc(50vw - 22px), 300px" data-full="${c.img}" onerror="${ONERROR_MINI}" alt="${esc(c.n)} para arriendo en Punta Arenas" loading="lazy" decoding="async" width="400" height="600" class="absolute inset-0 h-full w-full object-contain object-center transition duration-500">
-    </a>
-    <span class="absolute left-2 top-2 z-[2] rounded-full bg-m600/90 px-2 py-0.5 text-[.75rem] font-extrabold text-white shadow-sh"> #${String(c.id).padStart(3, '0')}</span>
-  </div>
-  <div class="flex flex-1 flex-col p-3.5 pb-4">
-    <span class="block text-[.75rem] font-extrabold uppercase tracking-[.05em] text-m500">${T.i} ${T.n}</span>
-    <a href="${disfrazUrl}" class="mb-1 min-h-[2.55rem] text-[1.0625rem] font-semibold leading-[1.25] text-ink hover:text-m600">${hl(c.n, state.q)}</a>
-    <div class="mb-2.5 flex min-h-[1.6rem] flex-wrap gap-1">${c.tl.map((t) => `<span class="tip cursor-help rounded-[7px] bg-[#f0eaff] px-[7px] py-[3px] text-[.75rem] font-extrabold text-m600" data-tip="${esc(guia(t))}" tabindex="0">${esc(t)}</span>`).join('')}</div>
-    <div class="mt-auto">
-      <div class="pcard-price mb-2.5 flex items-baseline gap-2">
-        <span class="pcard-price-line flex items-baseline gap-1.5">
-          <small class="text-[.75rem] font-bold uppercase tracking-[.02em] text-ink2">Desde</small>
-          <b class="font-ft text-[1.375rem] font-bold leading-none text-m600 tabular-nums">$15.000</b>
-          <button type="button" class="info-dot tip cursor-help" data-tip="Valor según el disfraz. Cotiza por WhatsApp para conocer el precio exacto." aria-label="Sobre los precios">?</button>
-        </span>
-      </div>
-      <button class="addbtn w-full cursor-pointer rounded-xl border-0 bg-[linear-gradient(135deg,var(--color-m600),var(--color-m500))] px-2 py-2.5 font-ft text-[.875rem] font-bold text-white shadow-[0_4px_12px_rgba(90,42,156,.3)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_18px_rgba(90,42,156,.45)] active:scale-[.9]" data-act="add">🛒 Agregar a mi arriendo</button>
-    </div>
-  </div>
-</article>`;
-}
 
 /* Contador, botón de "cargar más" y filtros activos: lo comparten el render
    completo y la carga por tandas. */
@@ -509,9 +476,11 @@ function renderGrid(reset = true) {
   if (reset) state.page = 1;
   const g = $('#grid');
   if (!g) return;
+  // La grilla puede venir del build (data-ssr): desde aquí la manda el navegador.
+  g.removeAttribute('data-ssr');
   const L = filtered();
   const mostrados = Math.min(L.length, state.page * paso());
-  g.innerHTML = L.length ? L.slice(0, mostrados).map((c, k) => cardHTML(c, k)).join('') : VACIO_HTML;
+  g.innerHTML = L.length ? L.slice(0, mostrados).map((c, k) => cardHTML(c, k, state.q)).join('') : VACIO_HTML;
 
   encuadrarFotos();
   pintarInfo(L, mostrados);
@@ -529,7 +498,7 @@ function cargarMas() {
   const nuevas = L.slice(ini, ini + paso());
   if (!nuevas.length) return;
   state.page += 1;
-  g.insertAdjacentHTML('beforeend', nuevas.map((c, k) => cardHTML(c, ini + k)).join(''));
+  g.insertAdjacentHTML('beforeend', nuevas.map((c, k) => cardHTML(c, ini + k, state.q)).join(''));
   encuadrarFotos();
   pintarInfo(L, ini + nuevas.length);
   pintarBarra();
